@@ -1,0 +1,7 @@
+{
+  "name": "Amon DeFi",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
