@@ -1,0 +1,149 @@
+@import 'media';
+@import 'theme';
+
+ion-grid {
+  height: 100%;
+}
+
+ion-row {
+
+  &.row-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    .welcome {
+
+      img.logo {
+        width: 100%;
+        display: block;
+        margin: 0 auto;
+        max-width: 180px;
+      }
+
+      .subtitle {
+        text-align: center;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.2;
+        color: #000;
+        margin: 12px auto 45px;
+        opacity: 0.8;
+
+        @include isDarkTheme {
+          color: #fff;
+        }
+
+        @media (max-width: 320px) {
+          margin-bottom: 20px;
+        }
+      }
+    }
+  }
+}
+
+ion-card {
+  background: transparent;
+  max-width: 100%;
+  box-shadow: none;
+  margin: 0;
+  display: -webkit-box;
+  display: flex;
+  flex-wrap: inherit;
+  flex-flow: column;
+  align-items: center;
+
+  ion-card-header {
+    ion-label {
+      color: #000;
+      @include isDarkTheme {
+        color: white;
+      }
+    }
+  }
+
+  ion-card-content {
+    max-width: 275px;
+    width: 100%;
+    padding: 0;
+
+    img.country-flag {
+      width: 38px;
+      height: 38px;
+    }
+
+    ion-label {
+      color: black;
+      margin-left: 15px;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+
+      @include isDarkTheme {
+        color: white;
+      }
+    }
+
+    ion-item {
+      cursor: pointer;
+      padding: 4px;
+      max-width: 150px;
+      margin: 0 auto;
+      --background: transparent;
+
+      &.selected {
+        --background: white;
+        --border-radius: 10px;
+
+        ion-label {
+          color: #000;
+        }
+      }
+
+      ion-label {
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+ion-toolbar {
+  --ion-toolbar-background: transparent;
+  --background: transparent;
+  --border-width: 0px;
+  --border-style: none;
+  --padding-start: 15px;
+  --padding-end: 15px;
+
+  @include isDarkTheme {
+    --ion-toolbar-background: transparent;
+    --background: transparent;
+  }
+
+  ion-button {
+    font-size: 14px;
+    --color: #000;
+    --color-activated: #000;
+    --color-focused: #000;
+    --ion-toolbar-background: #000;
+    --background: transparent;
+    --background-activated: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+    --box-shadow: none;
+    text-transform: inherit;
+
+    @include isDarkTheme {
+      --color: #fff;
+      --color-activated: #fff;
+      --color-focused: #fff;
+      --ion-toolbar-background: #fff;
+    }
+
+    ion-icon {
+      margin-left: 3px;
+    }
+  }
+}

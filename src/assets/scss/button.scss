@@ -1,0 +1,456 @@
+@import 'media';
+@import 'theme';
+
+ion-button {
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+}
+
+.btn-white, .btn-black, .btn-action, .btn-transparent {
+  --border-radius: 7px;
+  --padding-start: 18px;
+  --padding-end: 18px;
+  --border-width: 3px;
+  --border-style: solid;
+  text-transform: capitalize;
+  font-size: 18px;
+  --box-shadow: none;
+
+  @include mobile-xs {
+    font-size: 18px;
+  }
+}
+
+.btn-black {
+  --border-color: #000;
+  --background: #000;
+  --background-focused: #000;
+  --background-hover: #000;
+  --background-activated: #000;
+  --color: #fff;
+  --color-activated: #fff;
+  --color-focused: #fff;
+  --color-hover: #fff;
+
+  i {
+    color: #fff;
+  }
+
+  @include isDarkThemeRoot {
+    --border-color: #fff;
+    --background: #0B2448;
+    --background-focused: #0B2448;
+    --background-hover: #0B2448;
+    --background-activated: #0B2448;
+  }
+}
+
+.btn-white {
+  --border-color: #fff;
+  --background: #fff;
+  --background-focused: #fff;
+  --background-hover: #fff;
+  --background-activated: #fff;
+  --color: #000;
+  --color-activated: #000;
+  --color-focused: #000;
+  --color-hover: #000;
+
+  &.outline {
+    --border-color: #000;
+
+    @include isDarkThemeRoot {
+      --border-color: #fff;
+    }
+  }
+
+  i {
+    color: #000;
+  }
+
+  @include isDarkThemeRoot {
+    --color: #252525;
+    --color-activated: #252525;
+    --color-focused: #252525;
+    --color-hover: #252525;
+
+    i {
+      color: #252525;
+    }
+  }
+}
+
+.btn-action {
+  --border-color: #0B2448;
+  --background: #0B2448;
+  --background-focused: #0B2448;
+  --background-hover: #0B2448;
+  --background-activated: #0B2448;
+  --color: #fff;
+  --color-activated: #fff;
+  --color-focused: #fff;
+  --color-hover: #fff;
+
+  &.outline {
+    --border-color: #0B2448;
+
+    @include isDarkThemeRoot {
+      --background: transparent;
+      --background-focused: transparent;
+      --background-hover: transparent;
+      --background-activated: transparent;
+      --border-color: #575757;
+      --color: #afafaf;
+      --color-activated: #afafaf;
+      --color-focused: #afafaf;
+      --color-hover: #afafaf;
+    }
+  }
+
+  i {
+    color: #fff;
+  }
+
+  @include isDarkThemeRoot {
+    --border-color: #fff;
+    --background: #fff;
+    --background-focused: #fff;
+    --background-hover: #fff;
+    --background-activated: #fff;
+    --color: #252525;
+    --color-activated: #252525;
+    --color-focused: #252525;
+    --color-hover: #252525;
+
+    i {
+      color: #252525;
+    }
+  }
+
+}
+
+.btn-transparent {
+  --border-color: transparent;
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --color: #000;
+  --color-activated: #000;
+  --color-focused: #000;
+  --color-hover: #000;
+
+  @include isDarkThemeRoot {
+    --border-color: transparent;
+    --background: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+    --background-activated: transparent;
+    --color: #fff;
+    --color-activated: #fff;
+    --color-focused: #fff;
+    --color-hover: #fff;
+  }
+}
+
+.btn-link {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+  height: 24px;
+  --color: #0B2448;
+  --color-activated: #0B2448;
+  --color-focused: #0B2448;
+  --color-hover: #0B2448;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: inherit;
+
+  @include mobile-xs {
+    font-size: 14px;
+  }
+
+  i {
+    filter: brightness(0.3);
+    color: #0B2448;
+  }
+
+  @include isDarkThemeRoot {
+    --color: #fff;
+    --color-activated: #fff;
+    --color-focused: #fff;
+    --color-hover: #fff;
+
+    i {
+      color: #fff;
+    }
+  }
+}
+
+.btn-more {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+  --color: #000;
+  --color-activated: #000;
+  --color-focused: #000;
+  --color-hover: #000;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0;
+  margin: 0;
+
+  @include isDarkThemeRoot {
+    --color: #fff;
+    --color-activated: #fff;
+    --color-focused: #fff;
+    --color-hover: #fff;
+  }
+}
+
+.btn-transparent {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --box-shadow: none;
+
+  @include isDarkThemeRoot {
+    --background: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+    --background-activated: transparent;
+    --box-shadow: none;
+  }
+}
+
+.btn-sqaure {
+  --box-shadow: none;
+  --padding-start: 24px;
+  --padding-end: 24px;
+  --border-style: solid;
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  --color: #0B2448;
+  --color-activated: #0B2448;
+  --color-focused: #0B2448;
+  text-transform: initial;
+  font-size: 20px;
+  box-shadow: none;
+  --border-width: 0;
+  --border-radius: 3px;
+  --padding-bottom: 10px;
+  --padding-top: 10px;
+  height: auto;
+
+  @include mobile-xs {
+    --padding-start: 18px;
+    --padding-end: 18px;
+    font-size: 18px;
+  }
+
+  i {
+    color: #fff;
+  }
+
+  @include mobile-sm {
+    --padding-start: 18px;
+    --padding-end: 18px;
+    font-size: 18px;
+  }
+
+  @include isDarkThemeRoot {
+    --color: #252525;
+    --color-activated: #252525;
+    --color-focused: #252525;
+    --border-color: transparent;
+
+    i {
+      color: #ececec;
+    }
+  }
+}
+
+ion-button.btn-bt {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+  width: 70px;
+  height: 45px;
+  text-align: center;
+  margin: 12% auto;
+  line-height: 50px;
+  font-size: 32px;
+  --box-shadow: none;
+  --border-radius: 50%;
+  --border-width: 0px;
+  --border-style: none;
+  --border-color: transparent;
+  --color: #000;
+
+  @include mobile-xs {
+    width: 65px;
+    height: 65px;
+    font-size: 18px;
+  }
+
+  @include mobile-sm {
+    width: 55px;
+    height: 55px;
+    font-size: 18px;
+  }
+
+  @media (min-width: 768px) {
+    margin: 7% auto;
+  }
+
+  i {
+    color: #fff;
+  }
+
+  @include isDarkThemeRoot {
+    --background: transparent;
+    --background-focused: transparent;
+    --background-hover: transparent;
+    --background-activated: transparent;
+    --border-color: transparent;
+    --color: #fff;
+    --color-activated: #fff;
+    --color-focused: #fff;
+
+    i {
+      color: #fff;
+    }
+  }
+
+  &.no-border {
+    --border-width: 0;
+    --border-style: none;
+  }
+
+  &.icon-btn {
+    --padding-start: 0;
+    --padding-end: 0;
+  }
+}
+
+ion-checkbox {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-radius: 4px;
+  border-color: transparent;
+  --height: 25px;
+  --width: 25px;
+  --checkmark-color: #4CAF50;
+  --background-checked: #4CAF50;
+  --border-color: transparent;
+  --border-color-checked: #4CAF50;
+  --ion-item-background: #d2d2d2;
+  --ion-item-background-activated: #d2d2d2;
+  --ion-item-background-focused: #d2d2d2;
+  --ion-item-background-hover: #d2d2d2;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+
+  @include isDarkThemeRoot {
+    --checkmark-color: #4CAF50;
+    --background-checked: #4CAF50;
+    --border-color: transparent;
+    --border-color-checked: #4CAF50;
+    --ion-item-background: #5e6163;
+    --ion-item-background-activated: #5e6163;
+    --ion-item-background-focused: #5e6163;
+    --ion-item-background-hover: #5e6163;
+  }
+}
+
+ion-toggle.toggle {
+  --background: #eeeaea;
+  --background-checked: rgb(95 214 40 / 50%);
+  --handle-background: #fff;
+  --handle-background-checked: #4CAF50;
+
+  @include isDarkThemeRoot {
+    --background: rgba(255, 255, 255, 0.3);
+    --background-checked: rgb(95 214 40 / 50%);
+    --handle-background: rgba(255, 255, 255, 0.6);
+    --handle-background-checked: #4CAF50;
+  }
+}
+
+.btn-toolbar-end {
+  padding-right: 12px;
+}
+
+.btn-toolbar-start {
+  padding-left: 12px;
+}
+
+.wallet-type {
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+ion-segment {
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12);
+  border-radius: 30px;
+
+  @include isDarkThemeRoot {
+    box-shadow: rgb(255 255 255 / 10%) 0 0 0 40px inset;
+    background: transparent;
+  }
+}
+
+ion-segment-button {
+  border-color: #024494;
+  color: #000;
+  --color: #000;
+  --color-hover: #000;
+  --color-checked: #000;
+  --ion-toolbar-segment-color: #000;
+  letter-spacing: 1px;
+  --padding-top: 2px;
+  border-radius: 30px;
+
+  @include isDarkThemeRoot {
+    border-color: #3c3f41;
+    color: #eaeaea;
+    --color: #eaeaea;
+    --color-hover: #eaeaea;
+    --color-checked: #eaeaea;
+    --ion-toolbar-segment-color: #eaeaea;
+  }
+
+  &.segment-button-checked {
+    color: #fff;
+    --color: #fff;
+    --color-hover: #fff;
+    --color-checked: #fff;
+    --ion-toolbar-segment-color: #fff;
+    --ion-background-color: #024494;
+
+    @include isDarkThemeRoot {
+      color: #252525;
+      --color: #252525;
+      --color-hover: #252525;
+      --color-checked: #252525;
+      --ion-toolbar-segment-color: #252525;
+      --ion-background-color: #fff;
+    }
+  }
+
+  @include mobile-xs {
+    font-size: 14px;
+  }
+}
+

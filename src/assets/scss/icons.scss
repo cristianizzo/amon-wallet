@@ -1,0 +1,279 @@
+@import 'media';
+@import 'theme';
+
+.icon-sign-up {
+  margin-right: 3px;
+  background-image: url('/assets/img/icons/signup.svg');
+  width: 32px;
+  height: 32px;
+  background-size: 17px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin-left: -18px;
+
+  @include isDarkThemeRoot {
+    filter: invert(5%);
+  }
+}
+
+.icon-forgot {
+  background-image: url('/assets/img/icons/forgot.svg');
+  margin-right: -7px;
+  width: 53px;
+  height: 32px;
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin-left: -16px;
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.icon-sign-in {
+  margin-right: 3px;
+  background-image: url('/assets/img/icons/signin.svg');
+  width: 32px;
+  height: 32px;
+  background-size: 18px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin-left: -18px;
+
+  @include isDarkThemeRoot {
+    filter: invert(5%);
+  }
+}
+
+.icon-receive {
+  background-image: url('/assets/img/icons/receive.svg');
+  width: 53px;
+  height: 32px;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin: -16px;
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.icon-send {
+  background-image: url('/assets/img/icons/send.svg');
+  width: 53px;
+  height: 32px;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin: -16px;
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.icon-move-in {
+  background-image: url('/assets/img/icons/move-in.svg');
+  width: 53px;
+  height: 32px;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin: -16px;
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.icon-move-out {
+  background-image: url('/assets/img/icons/move-out.svg');
+  width: 53px;
+  height: 32px;
+  background-size: 30px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  display: inline-block;
+  top: 4px;
+  margin: -16px;
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--name {
+  background-image: url('/assets/img/icons/form/form-name.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 15px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--address {
+  background-image: url('/assets/img/icons/form/form-address.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--tel {
+  background-image: url('/assets/img/icons/form/form-phone.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--date {
+  background-image: url('/assets/img/icons/form/form-date.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--many {
+  background-image: url('/assets/img/icons/form/form-many.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--mail {
+  background-image: url('/assets/img/icons/form/form-mail.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--pass {
+  background-image: url('/assets/img/icons/form/form-pass.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 17px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--country {
+  background-image: url('/assets/img/icons/form/form-country.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.form-input--currency {
+  background-image: url('/assets/img/icons/form/form-currency.svg');
+  width: 32px;
+  height: 30px;
+  background-size: 20px;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  margin-left: -5px;
+  margin-right: 12px;
+  filter: opacity(0.5);
+
+  @include isDarkThemeRoot {
+    filter: invert(0.5);
+  }
+}
+
+.maintenance-icon {
+  background-image: url('/assets/img/icons/warning.svg');
+  background-repeat: no-repeat;
+  background-size: 12px;
+  position: absolute;
+  left: 20px;
+  top: 36px;
+  width: 12px;
+  height: 12px;
+  display: block;
+  border: 0;
+  box-shadow: none;
+
+  @include mobile-sm {
+    top: 31px;
+  }
+}

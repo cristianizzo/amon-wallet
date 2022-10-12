@@ -24,3 +24,13 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+//Theming
+@import "assets/scss/fonts";
+@import "assets/scss/icons";
+@import "assets/scss/theme";
+@import "src/assets/scss/media";
+@import "src/assets/scss/style";
+@import "src/assets/scss/qpass";
+@import "src/assets/scss/button";
+@import "src/assets/scss/spinner";

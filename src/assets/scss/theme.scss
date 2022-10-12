@@ -1,0 +1,33 @@
+@mixin isDarkTheme {
+
+  html[data-theme="dark"],
+  html[data-theme="dark"] &,
+  :host-context([data-theme="dark"]) & {
+    @content;
+  }
+
+}
+
+@mixin isDarkThemeRoot {
+
+  html[data-theme="dark"] & {
+    @content;
+  }
+
+}
+
+@mixin isDarkTheme1 {
+
+  html[data-theme="dark"] {
+    @content;
+  }
+
+}
+
+@mixin isDarkTheme2 {
+
+  :host-context([data-theme="dark"]) & {
+    @content;
+  }
+
+}

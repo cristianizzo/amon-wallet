@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'defi.amon.tech',
   appName: 'Amon DeFi',
   webDir: 'www',
   bundledWebRuntime: false

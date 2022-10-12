@@ -1,0 +1,37 @@
+@mixin ipad {
+  @media screen and (device-aspect-ratio: 3/4) {
+    @content;
+  }
+}
+
+//iPhone 7 - 8 - 9 - 11 plus:
+@mixin mobile-lg {
+  @media screen and (device-aspect-ratio: 16/9) {
+    @content;
+  }
+}
+
+//iPhone 6/6s - 7/7s - 8/8s:
+@mixin mobile-md {
+  @media screen and (device-aspect-ratio: 375/667) {
+    @content;
+  }
+}
+
+//iPhone 5 - 5c - 5s:
+@mixin mobile-sm {
+  @media screen and (device-aspect-ratio: 40/71) {
+    @content;
+  }
+
+  @media screen and (device-height: 640px) and (-webkit-device-pixel-ratio: 2) {
+    @content;
+  }
+}
+
+//iPhone 4:
+@mixin mobile-xs {
+  @media screen and (device-aspect-ratio: 2/3), (max-width: 320px), (max-height: 640px) {
+    @content;
+  }
+}

@@ -57,9 +57,13 @@ import './zone-flags';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+import 'zone.js/dist/zone'; // Included with Angular CLI.
+import * as buffer from 'buffer';
 
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+(window as any).global = window;
+
+(window as any).Buffer = buffer.Buffer;

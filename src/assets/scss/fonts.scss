@@ -1,0 +1,27 @@
+@import 'media';
+
+// Gotham
+@font-face {
+  font-family: 'Gotham';
+  src: url("../fonts/GothamPro.ttf") format("truetype"), url("../fonts/GothamPro.woff") format("woff"), url('../fonts/GothamPro.eot') format("eot");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url("../fonts/GothamPro-Medium.ttf") format("truetype"), url("../fonts/GothamPro-Medium.woff") format("woff"), url('../fonts/GothamPro.eot') format("eot");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url("../fonts/GothamPro-Bold.ttf") format("truetype"), url("../fonts/GothamPro-Bold.woff") format("woff"), url('../fonts/GothamPro-Bold.eot') format("eot");
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-family: 'Gotham';
+  src: url("../fonts/GothamPro-Light.ttf") format("truetype"), url("../fonts/GothamPro-Light.woff") format("woff"), url('../fonts/GothamPro-Light.eot') format("eot");
+  font-style: normal;
+  font-weight: 300;
+}

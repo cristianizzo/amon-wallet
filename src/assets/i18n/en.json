@@ -1,0 +1,49 @@
+{
+  "APP": {
+    "title": "Multiple Chain One Wallet",
+    "slogan": "Define Your Freedom"
+  },
+  "BUTTON": {
+    "NEXT": "next",
+    "COPY": "copy",
+    "CONTINUE": "continue",
+    "CREATE_WALLET": "Create a new wallet",
+    "RESTORE_WALLET": "Restore existing wallet"
+  },
+  "PLACEHOLDER": {
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password"
+  },
+  "LANGUAGE": {
+    "IT": "Italian",
+    "EN": "English",
+    "ES": "Spanish",
+    "PT": "Portuguese",
+    "FR": "French"
+  },
+  "PAGE": {
+    "CREATE_WALLET": {
+      "LANGUAGE": {
+        "TITLE": "decentralized crypto wallet",
+        "SELECT_LANG": "Select Language"
+      },
+      "WELCOME": {
+        "TITLE": "multiple chain in one wallet"
+      },
+      "PICK_PASSWORD": {
+        "TITLE_STEP_1": "Pick a password",
+        "SUBTITLE_STEP_1": "This will be used to unlock your wallet",
+        "TITLE_STEP_2": "Confirm your password",
+        "SUBTITLE_STEP_2": "Amon is non-custodial. We cannot restore or reset your password",
+        "PASSWORD_INFO": "Best passwords are long and contain letters, numbers and special characters"
+      },
+      "RECOVER_PHRASE": {
+        "TITLE_STEP_1": "Secret recovery phrase",
+        "SUBTITLE_STEP_1": "This is the recovery phase for your wallet. You and you only you have access to it. It can be used to restore your wallet",
+        "SUBTITLE_2_STEP_1": "Best practices for your recovery phrase are to write it down on paper and store it somewhere secure",
+        "TITLE_STEP_2": "Confirm your secret phrase",
+        "SUBTITLE_STEP_2": "Please select correct words based on their numbers"
+      }
+    }
+  }
+}

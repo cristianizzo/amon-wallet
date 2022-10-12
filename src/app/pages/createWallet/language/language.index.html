@@ -1,0 +1,43 @@
+<ion-content class="ion-no-padding">
+  <ion-grid class="ion-no-padding">
+    <ion-row class="row-container">
+      <ion-col>
+        <div class="welcome">
+          <div class="intro">
+            <img class="logo" [src]="'assets/img/logo-white.svg'"/>
+            <p class="subtitle">
+              {{'PAGE.CREATE_WALLET.LANGUAGE.TITLE' | translate}}
+            </p>
+          </div>
+          <ion-card class="languages">
+            <ion-card-header>
+              <ion-label>{{'PAGE.CREATE_WALLET.LANGUAGE.SELECT_LANG' | translate}}</ion-label>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list>
+                <ion-item lines="none"
+                  *ngFor="let language of languages"
+                  [ngClass]="{'selected': language?.selected }"
+                  (click)="onSelectedLanguage(language)">
+
+                  <img [src]="language.flag" class="country-flag"/>
+                  <ion-label [innerHTML]="language.label | translate"></ion-label>
+
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<ion-footer class="no-border">
+  <ion-toolbar>
+    <ion-button slot="end" (click)="go()" [disabled]="!selectedLanguage">
+      {{'BUTTON.CONTINUE' | translate}}
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
