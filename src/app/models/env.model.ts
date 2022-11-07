@@ -5,6 +5,7 @@ export interface EnvModel {
   production: boolean;
   version?: string;
   versionCode?: string;
+  defaultWalletName?: string;
   defaultLanguage?: string;
   defaultCurrency?: string;
   network?: string;
@@ -13,4 +14,5 @@ export interface EnvModel {
   termsWalletVersion?: string;
   blockchainHighFee?: number;
   languages?: any;
+  coinGeckoUri?: any;
 }

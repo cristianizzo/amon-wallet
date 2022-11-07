@@ -12,7 +12,9 @@ const getConfigObject = (sourceConfig) => ({
   theme: configParser(sourceConfig, 'string', 'NG_APP_THEME', 'light'),
   sentry: configParser(sourceConfig, 'string', 'NG_APP_SENTRY_DSN', null),
   termsWalletVersion: configParser(sourceConfig, 'string', 'NG_APP_TERMS_WALLET_VERSION', '1.1.0'),
-  languages: configParser(sourceConfig, 'array', 'NG_APP_LANGUAGES', ['en']),
+  languages: configParser(sourceConfig, 'array', 'NG_APP_LANGUAGES', ['en', 'it']),
+  defaultWalletName: configParser(sourceConfig, 'string', 'NG_APP_DEFAULT_WALLET_NAME', 'EVM Account 1'),
+  coinGeckoUri: configParser(sourceConfig, 'string', 'NG_APP_COINGECKO_URI', 'https://api.coingecko.com/api/v3/'),
 });
 
 export default {getConfigObject};

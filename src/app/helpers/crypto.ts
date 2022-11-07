@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { EncryptedData } from '@app/models';
-import { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto';
+import { EncryptedDataModel } from '@app/models';
+import crypto, { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto';
 import { scrypt } from 'ethereum-cryptography/scrypt';
 import { keccak256, stripHexPrefix } from 'web3-utils';
 import { utils } from 'ethers';
@@ -11,6 +11,15 @@ export class CryptoHelper {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   private CIPHER_ALGORYTHM = 'aes-128-ctr';
 
+  public hash(str, algo = 'sha256') {
+    const hash = crypto.createHash(algo);
+
+    hash.update(str);
+    const hex = hash.digest('hex');
+
+    return hex;
+  };
+
   public bufferToHex = (buf: Buffer | Uint8Array, nozerox = false): string =>
     nozerox ? Buffer.from(buf).toString('hex') : `0x${Buffer.from(buf).toString('hex')}`;
 
@@ -20,7 +29,7 @@ export class CryptoHelper {
   public runCipherBuffer = (cipher: Cipher | Decipher, data: Buffer): Buffer =>
     Buffer.concat([cipher.update(data), cipher.final()]);
 
-  public async encrypt(msg: string, password: string): Promise<EncryptedData> {
+  public async encrypt(msg: string, password: string): Promise<EncryptedDataModel> {
 
     const entropyMsg = this.hexToBuffer(utils.mnemonicToEntropy(msg));
 
@@ -66,7 +75,7 @@ export class CryptoHelper {
     };
   }
 
-  public async decrypt(encryptedData: EncryptedData, password: string): Promise<string> {
+  public async decrypt(encryptedData: EncryptedDataModel, password: string): Promise<string> {
 
     const sparams = {
       cipher: this.CIPHER_ALGORYTHM,
@@ -94,7 +103,7 @@ export class CryptoHelper {
     const mac = keccak256(this.bufferToHex(Buffer.concat([Buffer.from(derivedKey.slice(16, 32)), sparams.ciphertext])));
 
     if (mac !== sparams.mac) {
-      throw new Error('error different mac');
+      throw new Error('wrongPassword');
     }
 
     const decipher = createDecipheriv(sparams.cipher, derivedKey.slice(0, 16), sparams.iv);

@@ -8,6 +8,7 @@ import localeIt from '@angular/common/locales/it';
 import localeFr from '@angular/common/locales/fr';
 import localeEs from '@angular/common/locales/es';
 import localePt from '@angular/common/locales/pt';
+import { from, Observable } from 'rxjs';
 
 @Injectable()
 
@@ -20,24 +21,34 @@ export class LanguageService {
     private utilsHelper: UtilsHelper,
     private translate: TranslateService,
   ) {
-
     registerLocaleData(localeIt, 'it');
     registerLocaleData(localeEs, 'es');
     registerLocaleData(localeFr, 'fr');
     registerLocaleData(localePt, 'pt');
   }
 
-  public init() {
-    const language = this.getLanguage();
-    this.translate.setDefaultLang(language);
-    this.language = language;
+  public initLanguages(): Observable<any> {
+
+    return from(this.utilsHelper.async(async () => {
+
+      const language = this.getLanguage();
+      this.setDefaultLang(language);
+
+      return this.getLanguages();
+    }));
   }
 
+  public setDefaultLang(lang: string) {
+    this.translate.setDefaultLang(lang);
+    this.language = lang;
+  };
+
   public getLanguages(): LanguageModel[] {
+    const defaultLang = this.getLanguage();
     return environment.languages.map((lang: string) => ({
       lang,
       flag: this.utilsHelper.getLanguagePath(lang.toUpperCase()),
-      selected: false,
+      selected: defaultLang === lang,
       label: `LANGUAGE.${lang.toUpperCase()}`
     }));
   }

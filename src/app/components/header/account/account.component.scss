@@ -1,0 +1,30 @@
+@import 'media';
+
+ion-button {
+  background-color: #e5e5e5;
+  border-radius: 7px;
+  padding: 0px 0px;
+  margin: 0;
+  height: 44px;
+
+  ion-label {
+    color: #000;
+
+    .name {
+      font-size: 16px;
+    }
+
+    .address {
+      font-size: 14px;
+      color: #777;
+      margin-top: 3px;
+    }
+  }
+
+  ion-icon {
+    color: #505050;
+    margin-left: 18px;
+    font-size: 20px;
+  }
+}
+

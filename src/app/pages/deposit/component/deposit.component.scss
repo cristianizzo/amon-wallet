@@ -1,0 +1,394 @@
+@import 'media';
+@import 'theme';
+
+:host {
+  text-align: center;
+}
+
+ion-toolbar {
+  background: #fff;
+  --background: transparent;
+  --border-color: transparent;
+
+  @include isDarkTheme {
+    background: transparent;
+  }
+}
+
+ion-title {
+  color: #fff;
+
+  @include isDarkTheme {
+    color: #fff;
+  }
+}
+
+app-slide-wallets {
+
+  @include isDarkTheme {
+    background-color: transparent;
+  }
+}
+
+.wallet-type {
+  position: relative;
+}
+
+ion-grid {
+  background-color: #fff;
+
+  @include isDarkTheme {
+    background-color: transparent;
+  }
+
+}
+
+ion-row.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 122px;
+
+  @include mobile-sm {
+    height: 100px;
+  }
+
+  @include mobile-xs {
+    height: 100px;
+  }
+
+  ion-label {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+    margin-top: 12px;
+    margin-bottom: 7px;
+    font-family: "Gotham", sans-serif;
+    font-weight: 500;
+
+    @include mobile-sm {
+      font-size: 16px;
+    }
+
+    @include mobile-xs {
+      font-size: 14px;
+    }
+  }
+
+  app-slide-wallets {
+
+    @include isDarkTheme {
+      background-color: transparent;
+    }
+  }
+}
+
+ion-row.body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.walletDetails {
+  background-color: #fff;
+  margin: 20px 0 0 0;
+  text-align: center;
+  width: 100%;
+  border-radius: 0;
+  height: 100%;
+  padding: 0 12px;
+
+  @include isDarkTheme {
+    background-color: transparent;
+  }
+
+  @include mobile-xs {
+    margin: 0;
+  }
+
+  app-qrcode {
+    margin: 0 0 20px 0;
+    display: block;
+
+    ::ng-deep .qrcode {
+      //width: 120px;
+      margin: 0 auto;
+    }
+  }
+
+  .label-address {
+    color: #333;
+    font-size: 13px;
+    line-height: 17px;
+    margin-bottom: 10px;
+    position: relative;
+    font-family: "Gotham", sans-serif;
+    font-weight: 500;
+
+    @include isDarkTheme {
+      color: #a2a2a2;
+    }
+  }
+
+  .box-item {
+    margin-bottom: 14px;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 14px;
+
+    @include mobile-xs {
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+    }
+
+    @media (max-width: 340px) {
+      padding-bottom: 0;
+    }
+
+    @media (max-height: 670px) and (min-width: 341px) {
+      padding-bottom: 7px;
+      margin-bottom: 7px;
+    }
+
+    @include isDarkTheme {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .label-address {
+      color: #888888;
+      font-size: 14px;
+      line-height: 17px;
+      margin-bottom: 0;
+      text-align: left;
+      font-family: "Gotham", sans-serif;
+      font-weight: 400;
+
+      @include mobile-xs {
+        font-size: 13px;
+      }
+
+      @include isDarkTheme {
+        color: #a2a2a2;
+      }
+    }
+
+    .box-address {
+      background-color: #fff;
+
+      @include isDarkTheme {
+        background-color: transparent;
+        color: #fff;
+      }
+
+      ion-button {
+        margin: 0;
+        font-size: 14px;
+        color: #888888;
+      }
+    }
+
+    p.address {
+      font-size: 16px;
+      max-width: calc(100% - 55px);
+      text-align: left;
+      margin: 0;
+      font-weight: 500;
+      line-height: 18px;
+      font-family: 'Helvetica Neue', sans-serif;
+
+      @include mobile-md {
+        font-size: 14px;
+      }
+
+      @include mobile-xs {
+        font-size: 14px;
+      }
+
+      @include isDarkTheme {
+        color: #fff;
+      }
+
+      &.space-chars {
+        letter-spacing: 1.4px;
+      }
+    }
+  }
+
+  .alert-testnet {
+    max-width: 240px;
+    margin: 0 auto;
+    background: #941B0F;
+    color: #eee;
+    padding: 7px;
+    font-size: 12px;
+    border-radius: 3px;
+    line-height: 1.4;
+    text-align: center;
+    font-weight: 500;
+    min-width: 100%;
+
+    @include mobile-xs {
+      font-size: 10px;
+    }
+
+    @include isDarkTheme {
+      background: #ff4f3d;
+      color: #eee;
+    }
+
+  }
+}
+
+.maintenanceBox {
+  width: 100%;
+  margin: 25px 0;
+  padding: 20px;
+  font-size: 18px;
+  text-align: center;
+  color: #0FD6D3;
+  line-height: 22px;
+
+  @include isDarkTheme {
+    color: #a2a2a2;
+  }
+}
+
+.fiat_amount {
+  color: #0065E0;
+
+  @include isDarkTheme {
+    color: #fff;
+  }
+}
+
+.box-item {
+
+  &.info-text {
+    border-bottom: 0 !important;
+    margin-bottom: 20px;
+
+    .label-address {
+      color: #C50000 !important;
+      font-weight: 400 !important;
+      white-space: pre-wrap;
+    }
+  }
+
+  ion-buttons {
+
+    @include isDarkTheme {
+      color: #888;
+    }
+
+    ion-button {
+      --color: #0065E0;
+      --color-activated: #0065E0;
+      --color-focused: #0065E0;
+
+      @include isDarkTheme {
+        --color: #fff;
+        --color-activated: #fff;
+        --color-focused: #fff;
+      }
+    }
+  }
+
+}
+
+.wallet-buttons {
+  max-width: 510px;
+  margin: 0 auto;
+
+  justify-content: space-evenly;
+}
+
+.btn-box {
+  margin: 10px 20px;
+  text-align: center;
+
+  @include mobile-xs {
+    margin: 10px 12px;
+  }
+
+  .text {
+    color: #000;
+    font-size: 12px;
+    text-align: center;
+    margin: 10px 0 0 0;
+
+    @include isDarkTheme {
+      color: #fff;
+    }
+
+    @include mobile-xs {
+      font-size: 10px;
+    }
+  }
+
+  ion-button.btn-wallet {
+    --background: #024494;
+    --background-focused: #024494;
+    --background-activated: #024494;
+    --background-hover: #024494;
+    --box-shadow: none;
+    --border-radius: 50%;
+    opacity: 1;
+    width: 50px;
+    height: 50px;
+
+    @include isDarkTheme {
+      --background: #fff;
+      --background-focused: #fff;
+      --background-activated: #fff;
+      --background-hover: #fff;
+      --color: #252525;
+      --color-activated: #252525;
+      --color-focused: #252525;
+    }
+
+    ion-icon {
+      position: absolute;
+      font-size: 50px;
+      text-align: center;
+
+      @include mobile-xs {
+        font-size: 44px;
+      }
+    }
+
+    &.button-disabled {
+      opacity: 0.7;
+    }
+  }
+
+}
+
+.btn-action {
+  text-transform: initial;
+}
+
+
+.receive-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  ion-icon {
+    margin-left: 12px;
+    font-size: 30px;
+    cursor: pointer;
+
+    @media (max-width: 340px) {
+      font-size: 25px;
+    }
+  }
+}
+
+app-wallet-chains {
+  ::ng-deep ion-item.dropdown-item {
+    margin-bottom: 20px !important;
+  }
+}
+
+.chains-list {
+  margin-bottom: 30px;
+}

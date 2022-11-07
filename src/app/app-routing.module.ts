@@ -4,11 +4,19 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('@pages/createWallet/createWallet.module').then(m => m.CreateWalletModule)
+    loadChildren: () => import('@pages/start/start.module').then(m => m.StartModule)
   },
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('@pages/create-wallet/createWallet.module').then(m => m.CreateWalletModule)
+  },
+  {
+    path: 'import-wallet',
+    loadChildren: () => import('@pages/import-wallet/importWallet.module').then(m => m.ImportWalletModule)
+  },
+  {
+    path: '',
+    loadChildren: () => import('@pages/tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
     path: '**',

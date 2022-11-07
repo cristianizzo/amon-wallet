@@ -15,7 +15,7 @@ export class FilterPipe implements PipeTransform {
    * @param searchKeys array of search path in item ['coin.code', 'coin.name']
    * @returns filtered items
    */
-  transform(items: any[], searchText: string, searchKeys: any[]): any[] {
+  transform(items: any[], searchText: string, searchKeys?: any[]): any[] {
     if (!items) {
       return [];
     }

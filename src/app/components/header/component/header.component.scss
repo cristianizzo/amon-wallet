@@ -1,0 +1,22 @@
+@import 'media';
+
+ion-toolbar {
+  text-align: center;
+}
+
+ion-button.btn-transparent.back-button {
+  --background: transparent;
+  --background-focused: transparent;
+  --background-activated: transparent;
+  --background-hover: transparent;
+  --box-shadow:none;
+  opacity: 1;
+  position: relative;
+  min-width: 60px;
+
+  ion-icon {
+    font-size: 24px;
+    position: absolute;
+    left: 0;
+  }
+}

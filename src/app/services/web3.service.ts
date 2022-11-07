@@ -1,45 +1,60 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
-import { providers, utils, Wallet } from 'ethers';
+import * as web3 from 'ethers';
 import { ProviderModel } from '@models/provider.model';
 import { WalletModel } from '@app/models';
-import { LocalForageService } from './localforage.service';
-import { CryptoHelper } from '@app/helpers/crypto';
 
 @Injectable()
 
 export class Web3Services {
 
+  private web3 = web3;
   private provider: any;
 
   constructor(
     public utilsHelper: UtilsHelper,
-    private localForageService: LocalForageService,
-    private cryptoHelper: CryptoHelper,
   ) {
   }
 
-  public connectProvider(config: ProviderModel) {
-    this.provider = new providers.StaticJsonRpcProvider(
-      config.rpc,
-      {
-        chainId: config.chainId,
-        name: config.name,
-      }
-    );
-    console.log('connected provider', this.provider);
+  public async connectProvider(config: ProviderModel): Promise<{ blockNumber: number }> {
+    try {
+      this.provider = new this.web3.providers.JsonRpcProvider(
+        config.rpc,
+        {
+          chainId: config.chainId,
+          name: config.name,
+        }
+      );
+
+      const blockNumber = await this.getBlockNumber();
+
+      return {
+        blockNumber
+      };
+
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
   }
 
-  public createWalletFromMnemonic(name: string): WalletModel {
+  public async getBlockNumber(): Promise<number> {
+    return this.provider.getBlockNumber();
+  }
 
-    const {mnemonic} = this.generateMnemonic();
+  public getWallet({name, mnemonic = null, main = false, derivationPath = `m/44'/60'/0'/0/0`}): WalletModel {
 
-    const basePath = `m/44'/60'/0'/0/0`;
-    const wallet = Wallet.fromMnemonic(mnemonic, basePath);
+    if (!mnemonic) {
+      const generateMnemonic = this.generateMnemonic();
+      mnemonic = generateMnemonic.mnemonic;
+    }
+
+    const wallet = this.web3.Wallet.fromMnemonic(mnemonic, derivationPath);
 
     return {
+      main,
       name,
-      basePath,
+      basePath: derivationPath,
       address: wallet.address,
       phrase: wallet.mnemonic.phrase,
       privateKey: wallet.privateKey,
@@ -49,37 +64,25 @@ export class Web3Services {
     };
   }
 
+  public async getBalance(address: string): Promise<string> {
+    const balance = await this.provider.getBalance(address);
+    return this.web3.utils.formatEther(balance);
+  }
+
+  public formatEther(balance: string): string {
+    try {
+      return this.web3.utils.formatEther(balance);
+    } catch (_) {
+      return '0';
+    }
+  }
+
   private generateMnemonic() {
-    const mnemonic = utils.entropyToMnemonic(utils.randomBytes(32));
+    const mnemonic = this.web3.utils.entropyToMnemonic(this.web3.utils.randomBytes(32));
 
     return {
       mnemonic
     };
   }
 
-  // private async storeEncryptedVault(address: string, type: string, encryptData: any) {
-  //
-  //   const storage = await this.localForageService.getItem('encryptedVaults');
-  //
-  //   if (storage[address]) {
-  //     //existing store
-  //     console.error('already exist');
-  //   }
-  //
-  //   // address: "0xbfbfee9d7cdadc8a7de9150e18ddfa4e6a7411e4"
-  //   // basePath: "m/44'/60'/0'/0"
-  //   // isHardware: false
-  //   // name: "EVM Account 1"
-  //   // pathIndex: 0
-  //   // publicKey: "0xf5d87d253173a401cb2bfe7dea98d5291cfe7cbe486caca37a0871f74b5791e5dfc507a8925e772617322cad3ee37b99c07ea2d5add21548cb5a72f083e9099b"
-  //   // signerType: "secp256k1"
-  //   // walletType: "mnemonic"
-  //
-  //   storage[address] = {}
-  //   // ciphertext: this.bufferToHex(ciphertext),
-  //   //   salt: this.bufferToHex(sparams.salt),
-  //   //   iv: this.bufferToHex(sparams.iv),
-  //   //   version: 1,
-  //   //   mac,
-  // }
 }

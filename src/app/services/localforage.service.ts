@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  // CachedItem,
-  NgForage,
-  // NgForageCache
-} from 'ngforage';
+import { NgForage, } from 'ngforage';
 
 @Injectable()
 export class LocalForageService {
@@ -14,7 +10,7 @@ export class LocalForageService {
   ) {
   }
 
-  public async getItem<T = any>(key: string): Promise<T> {
+  public async getItem<T = any>(key: string): Promise<T | any> {
     return this.ngf.getItem<T>(key);
   }
 

@@ -1,0 +1,13 @@
+<ion-tabs (ionTabsDidChange)="switched($event)">
+
+  <ion-tab-bar slot="bottom" [hidden]="hiddenTabs">
+    <ion-tab-button [class.page.id]="true" [tab]="page.id"
+                    *ngFor="let page of menu">
+      <div class="menu-icon" [class.isActive]="isActive(page.id)">
+        <ion-icon [name]=" isActive(page.id) ? page.icon + '-fill' : page.icon"></ion-icon>
+      </div>
+      <ion-label>{{page.title}}</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+</ion-tabs>

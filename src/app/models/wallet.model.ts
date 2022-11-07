@@ -1,3 +1,6 @@
+import { EncryptedDataModel } from '@models/encryptedData.model';
+import { TokenModel } from './token.model';
+
 export enum WalletType {
   mnemonic = 'mnemonic',
   privkey = 'privkey',
@@ -9,13 +12,19 @@ enum SignerType {
   secp256k1 = 'secp256k1', // ethereum
 }
 
-export class WalletModel {
+export interface WalletModel {
+  main?: boolean;
+  connected?: boolean;
   name: string;
   address: string;
-  phrase: string;
-  basePath: string;
-  privateKey: string;
+  balance?: string;
+  tokens?: TokenModel[];
+  phrase?: string;
+  basePath?: string;
+  privateKey?: string;
   walletType: string | WalletType;
   signerType: string | SignerType;
   isHardware: boolean;
+  encrypted?: EncryptedDataModel;
 }
+

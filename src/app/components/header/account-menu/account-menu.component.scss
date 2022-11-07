@@ -1,0 +1,62 @@
+@import 'media';
+@import 'theme';
+
+ion-toolbar {
+  background: #fff;
+
+  @include isDarkTheme {
+    background: #352c2c;
+  }
+}
+
+ion-header {
+  background: #fff;
+
+  @include isDarkTheme {
+    background: #352c2c;
+  }
+
+  ion-searchbar {
+    //--background: #fff;
+    //--color: #000;
+    //--box-shadow: none;
+
+    @include isDarkTheme {
+      //--background: #352c2c;
+      //--color: #fff;
+    }
+  }
+}
+
+ion-content {
+  ion-list {
+    padding: 0;
+
+    ion-item {
+      border-bottom: 0;
+      margin-bottom: 7px;
+      --padding-end: 7px;
+      --padding-start: 12px;
+      --padding-bottom: 12px;
+      --padding-top: 7px;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin: 0;
+    }
+
+    p {
+      margin: 6px 0 0 0;
+      color: #aa9595;
+      font-size: 14px;
+    }
+  }
+}
+
+ion-footer {
+  ion-list {
+    padding: 0;
+    background: #352c2c;
+  }
+}

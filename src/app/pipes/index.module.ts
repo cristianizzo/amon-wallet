@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
-import { OrderBy } from '@pipes/orderBy';
-import { DateFormatPipe } from '@pipes/dateFormat';
+import { OrderByPipe } from '@pipes/orderBy.pipe';
+import { DateFormatPipe } from '@pipes/dateFormat.pipe';
 import { LocaleDatePipe } from '@pipes/localeDate.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
 
@@ -10,16 +10,16 @@ import { FilterPipe } from '@pipes/filter.pipe';
     CommonModule
   ],
   declarations: [
-    OrderBy,
+    OrderByPipe,
     DateFormatPipe,
     LocaleDatePipe,
-    FilterPipe
+    FilterPipe,
   ],
   exports: [
-    OrderBy,
+    OrderByPipe,
     DateFormatPipe,
     LocaleDatePipe,
-    FilterPipe
+    FilterPipe,
   ],
   providers: [
     DecimalPipe,

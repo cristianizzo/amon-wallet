@@ -110,9 +110,17 @@ ion-header {
     &.default {
       min-height: 44px;
       border-bottom: 0;
+
+      ion-label {
+        opacity: 1;
+      }
     }
   }
 }
+
+//.header-collapse-condense-inactive:not(.header-collapse-condense) ion-toolbar.in-toolbar ion-title, .header-collapse-condense-inactive:not(.header-collapse-condense) ion-toolbar.in-toolbar ion-buttons.buttons-collapse {
+//  opacity: 1 !important;
+//}
 
 ion-grid {
   background-color: transparent;
@@ -1034,4 +1042,8 @@ ion-picker {
       width: 50%;
     }
   }
+}
+
+.alert-input.sc-ion-alert-md {
+  color: #000;
 }

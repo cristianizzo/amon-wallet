@@ -1,0 +1,71 @@
+@import 'media';
+@import 'theme';
+
+ion-tab-bar {
+
+  @include isDarkTheme {
+    --ion-tab-bar-background: transparent;
+    --background-focused: transparent;
+    --border: 1px solid rgba(255,255,255,0.3);
+  }
+
+  ion-tab-button {
+
+    .menu-icon {
+      width: 30px;
+      font-size: 18px;
+
+      @include isDarkTheme {
+        filter: grayscale(1) brightness(0.7);
+      }
+
+      &.isActive {
+        @include isDarkTheme {
+          filter: brightness(10) opacity(0.9);
+        }
+      }
+
+      ion-icon {
+      }
+    }
+
+    &.card {
+      ion-icon {
+        font-size: 20px;
+      }
+    }
+
+    ion-label {
+      text-transform: lowercase;
+      color: #0B2448;
+      opacity: 0.8;
+      position: absolute;
+      bottom: 3px;
+
+      @include isDarkTheme {
+        opacity: 1;
+        color: #fff;
+      }
+    }
+
+    &.tab-selected {
+
+      ion-label {
+        opacity: 1;
+
+        @include isDarkTheme {
+          color: #fff;
+        }
+      }
+
+      ion-icon {
+
+        @include isDarkTheme {
+          filter: grayscale(1);
+        }
+      }
+    }
+
+  }
+
+}

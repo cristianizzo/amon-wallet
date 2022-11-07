@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CopyClipboardDirective } from '@directives/copyClipboard';
+import { CopyClipboardDirective } from '@directives/copyClipboard.directive';
+import { HideHeaderDirective } from '@directives/hideHeader.directive';
 
 @NgModule({
   imports: [
@@ -8,9 +9,11 @@ import { CopyClipboardDirective } from '@directives/copyClipboard';
   ],
   declarations: [
     CopyClipboardDirective,
+    HideHeaderDirective,
   ],
   exports: [
     CopyClipboardDirective,
+    HideHeaderDirective,
   ],
 })
 

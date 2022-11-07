@@ -1,0 +1,29 @@
+<ion-content class="ion-no-padding">
+  <ion-grid class="ion-no-padding">
+    <ion-row class="row-container">
+      <ion-col>
+        <div class="welcome">
+          <div class="intro">
+            <img [src]="selectedTheme === 'dark' ? 'assets/img/logo-white.svg' : 'assets/img/logo-black.svg'" class="logo"/>
+            <p class="subtitle">
+              {{'PAGE.START.WELCOME.TITLE' | translate}}
+            </p>
+          </div>
+          <div class="actions">
+            <ion-button id="btn-create-wallet" class="btn-white outline" routerDirection="forward" routerLink="/pick-password" size="large">
+              <div class="text">
+                {{'BUTTON.CREATE_WALLET' | translate}}
+              </div>
+            </ion-button>
+
+            <ion-button id="btn-restore-wallet" class="btn-transparent"  (click)="askRestoreWallet()" size="large">
+              <div class="text">
+                {{'BUTTON.RESTORE_WALLET' | translate}}
+              </div>
+            </ion-button>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

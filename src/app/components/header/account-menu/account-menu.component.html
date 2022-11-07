@@ -1,0 +1,49 @@
+<ion-header class="no-border" [translucent]="true">
+  <ion-toolbar class="default">
+    <ion-buttons slot="start">
+      <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
+    </ion-buttons>
+    </ion-toolbar>
+  <ion-toolbar class="default">
+    <ion-searchbar animated="true" autocorrect="off" [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
+                   [debounce]="250"
+                   [(ngModel)]="searchInputText">
+    </ion-searchbar>
+  </ion-toolbar>
+
+</ion-header>
+
+<ion-content class="account-menu" [fullscreen]="true">
+  <ion-list class="user-wallets">
+    <ion-item [mode]="'ios'"
+              *ngFor="let w of wallets | appFilter: searchInputText: ['name', 'address']">
+      <ion-icon *ngIf="w.connected" name="checkmark-circle-outline"></ion-icon>
+      <ion-text>
+        <h2>{{w.name}}</h2>
+        <p>{{parseAddress(w.address)}}</p>
+      </ion-text>
+      <div slot="end">
+        <div class="balance">{{w.balance | number: '1.0-8'}} {{provider?.symbol}}</div>
+      </div>
+      <ion-button (click)="openMenu($event, w)" class="btn-dot" slot="end">
+        <ion-icon name="ellipsis-vertical"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-list class="account-settings">
+    <ion-item button [mode]="'ios'" (click)="addNewWallet()">
+      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.ADD_WALLET' | translate"></ion-label>
+      <div slot="end"></div>
+    </ion-item>
+    <ion-item button [mode]="'ios'" (click)="importWallet()">
+      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.IMPORT_WALLET' | translate"></ion-label>
+      <div slot="end"></div>
+    </ion-item>
+    <ion-item button [mode]="'ios'" (click)="true">
+      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.ADD_HARDWARE_WALLET' | translate"></ion-label>
+      <div slot="end"></div>
+    </ion-item>
+  </ion-list>
+</ion-footer>

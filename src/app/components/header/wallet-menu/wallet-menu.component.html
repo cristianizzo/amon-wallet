@@ -1,0 +1,18 @@
+<ion-list>
+  <ion-item *ngIf="!wallet.connected" (click)="close('connect')" button detail="false">
+    <ion-icon name="navigate-outline"></ion-icon>
+    Connect
+  </ion-item>
+  <ion-item (click)="close('rename')" button detail="false">
+    <ion-icon name="create-outline"></ion-icon>
+    Rename
+  </ion-item>
+  <ion-item (click)="close('copy')" button detail="false">
+    <ion-icon name="copy-outline"></ion-icon>
+    Copy Address
+  </ion-item>
+  <ion-item *ngIf="!wallet.connected && !wallet.main" (click)="close('delete')" button detail="false">
+    <ion-icon name="trash-outline"></ion-icon>
+    Elimina
+  </ion-item>
+</ion-list>

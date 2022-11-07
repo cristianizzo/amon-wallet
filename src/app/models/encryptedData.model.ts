@@ -1,4 +1,4 @@
-export class EncryptedData {
+export interface EncryptedDataModel {
   ciphertext: string;
   salt: string;
   iv: string;

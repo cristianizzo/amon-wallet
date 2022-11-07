@@ -1,4 +1,4 @@
-export class LanguageModel {
+export interface LanguageModel {
   lang: string;
   flag: string;
   selected?: boolean;

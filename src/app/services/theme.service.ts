@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { environment } from '@env/environment';
 import { UtilsHelper } from '@helpers/utils';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 
 declare const window: any;
 declare const document: any;
@@ -19,10 +19,12 @@ export class ThemeService {
     this.theme = this.theme$.asObservable();
   }
 
-  public init(): void {
-
-    const theme = this.getTheme();
-    this._setTheme(theme);
+  public init(): Observable<any> {
+    return from(this.utilsHelper.async(async () => {
+      const theme = this.getTheme();
+      this._setTheme(theme);
+      return theme;
+    }));
   }
 
   public getTheme(): string {

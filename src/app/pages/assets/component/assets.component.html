@@ -1,0 +1,37 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-item class="list-item totalBalance qpass-flex animated fadeIn" lines="none">
+    <div class="endSide">
+      <div class="totalSum">{{'DASHBOARD.wallets.total' | translate}}</div>
+      <span class="currency">{{provider?.symbol}}</span>
+      <span [innerHTML]="wallet?.balance || '0'" class="price plus"></span>
+    </div>
+  </ion-item>
+
+  <ion-grid>
+    <ion-col>
+      <ion-button routerLink="/auth/deposit" routerDirection="back">
+        <ion-icon [name]="getIcon('wallet-receive')"></ion-icon>
+        <ion-label>Deposit</ion-label>
+      </ion-button>
+
+      <ion-button routerLink="/auth/withdraw" routerDirection="forward">
+        <ion-icon [name]="getIcon('wallet-send')"></ion-icon>
+        <ion-label>Send</ion-label>
+      </ion-button>
+
+      <ion-button>
+        <ion-icon [name]="getIcon('wallet-exchange')"></ion-icon>
+        <ion-label>Swap</ion-label>
+      </ion-button>
+    </ion-col>
+  </ion-grid>
+
+  <ion-button>
+    <ion-label>Import Token</ion-label>
+  </ion-button>
+
+  <app-explore-container name="Tab 1 page"></app-explore-container>
+</ion-content>

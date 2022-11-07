@@ -1,0 +1,145 @@
+@import 'media';
+@import 'theme';
+
+ion-grid {
+  height: calc(100% + 2px);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+ion-row.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subtitle {
+  text-align: center;
+  font-weight: 600;
+  margin: 0 auto;
+}
+
+.description {
+  text-align: center;
+  font-weight: 400;
+  margin: 14px auto;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 0 18px;
+}
+
+p.security-info {
+  font-size: 14px;
+  background-color: #e2e2e2;
+  padding: 8px 8px;
+  border-radius: 7px;
+  color: #000;
+  margin: 18px 12px 0px 12px;
+
+  @include isDarkTheme {
+    color: #b4b4b4;
+    background-color: #2e2e2e;
+  }
+}
+
+ion-chip {
+  border-radius: 7px;
+}
+
+.phraseId {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  min-width: 16px;
+  font-size: 14px;
+  color: #000;
+
+  @include isDarkTheme {
+    color: #b3b3b3;
+  }
+}
+
+ion-footer {
+  ion-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    --background: #e2e2e2;
+
+    @include isDarkTheme {
+      --background: #1f1d1d;
+    }
+  }
+}
+
+.password-info {
+  margin-top: 18px;
+  font-size: 14px;
+  line-height: 19px;
+}
+
+.btn-actions {
+  ion-col {
+    text-align: center;
+  }
+}
+
+ion-list.list-container {
+  padding: 18px 12px;
+
+  ion-item-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 7px;
+
+    ion-chip {
+      background: #cdbebe;
+      --color: #000;
+
+      @include isDarkTheme {
+        background: #fff;
+        --color: #000;
+      }
+    }
+
+  }
+
+  &.phrases {
+    display: block;
+
+    ion-item-group {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 28px;
+      text-align: center;
+
+      ion-label.select {
+        margin-bottom: 12px;
+        color: #b3b3b3;
+      }
+
+      ion-chip {
+        font-size: 15px;
+
+        &.error {
+          background: #ff2a2a;
+          --color: #fff;
+        }
+
+        &.success {
+          background: #0c2346;
+          --color: #fff;
+
+          @include isDarkTheme {
+            background: #fff;
+            --color: #000;
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-button.btn-action {
+}

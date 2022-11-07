@@ -28,6 +28,7 @@ ion-button {
   --background-focused: #000;
   --background-hover: #000;
   --background-activated: #000;
+  color: #fff;
   --color: #fff;
   --color-activated: #fff;
   --color-focused: #fff;
@@ -52,6 +53,7 @@ ion-button {
   --background-focused: #fff;
   --background-hover: #fff;
   --background-activated: #fff;
+  color: #000;
   --color: #000;
   --color-activated: #000;
   --color-focused: #000;
@@ -87,6 +89,7 @@ ion-button {
   --background-focused: #0B2448;
   --background-hover: #0B2448;
   --background-activated: #0B2448;
+  color: #fff;
   --color: #fff;
   --color-activated: #fff;
   --color-focused: #fff;
@@ -101,6 +104,7 @@ ion-button {
       --background-hover: transparent;
       --background-activated: transparent;
       --border-color: #575757;
+      color: #afafaf;
       --color: #afafaf;
       --color-activated: #afafaf;
       --color-focused: #afafaf;
@@ -118,6 +122,7 @@ ion-button {
     --background-focused: #fff;
     --background-hover: #fff;
     --background-activated: #fff;
+    color: #252525;
     --color: #252525;
     --color-activated: #252525;
     --color-focused: #252525;
@@ -136,6 +141,7 @@ ion-button {
   --background-focused: transparent;
   --background-hover: transparent;
   --background-activated: transparent;
+  color: #000;
   --color: #000;
   --color-activated: #000;
   --color-focused: #000;
@@ -147,6 +153,7 @@ ion-button {
     --background-focused: transparent;
     --background-hover: transparent;
     --background-activated: transparent;
+    color: #fff;
     --color: #fff;
     --color-activated: #fff;
     --color-focused: #fff;
@@ -161,6 +168,7 @@ ion-button {
   --background-activated: transparent;
   --box-shadow: none;
   height: 24px;
+  color: #0B2448;
   --color: #0B2448;
   --color-activated: #0B2448;
   --color-focused: #0B2448;
@@ -179,6 +187,7 @@ ion-button {
   }
 
   @include isDarkThemeRoot {
+    color: #fff;
     --color: #fff;
     --color-activated: #fff;
     --color-focused: #fff;
@@ -196,6 +205,7 @@ ion-button {
   --background-hover: transparent;
   --background-activated: transparent;
   --box-shadow: none;
+  color: #000;
   --color: #000;
   --color-activated: #000;
   --color-focused: #000;
@@ -206,6 +216,7 @@ ion-button {
   margin: 0;
 
   @include isDarkThemeRoot {
+    color: #fff;
     --color: #fff;
     --color-activated: #fff;
     --color-focused: #fff;
@@ -454,3 +465,22 @@ ion-segment-button {
   }
 }
 
+.btn-dot {
+  --color: #000;
+  --background: transparent;
+  --background-focused: transparent;
+  --background-hover: transparent;
+  --background-activated: transparent;
+
+  @include isDarkThemeRoot {
+    --color: #fff;
+  }
+
+  ion-icon {
+    --color: #000;
+
+    @include isDarkThemeRoot {
+      --color: #fff;
+    }
+  }
+}

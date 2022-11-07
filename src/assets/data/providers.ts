@@ -1,14 +1,22 @@
-// eslint-disable-next-line @typescript-eslint/naming-convention
+/* eslint-disable @typescript-eslint/naming-convention */
 export const ProvidersJson = [
   {
-    name: 'Ethereum Mainnet',
-    rpc: 'https://mainnet.infura.io/v3/',
+    id: 1,
+    name: 'Ethereum',
+    rpc: 'https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7',
+    // rpc: 'https://mainnet.infura.io/v3/',
     chainId: 1,
     symbol: 'ETH',
     explorer: 'https://etherscan.io/',
-    default: true
+    default: true,
+    // name: 'Binance Smart Chain',
+    // rpc: 'https://bsc-dataseed1.ninicoin.io',
+    // chainId: 56,
+    // symbol: 'BNB',
+    // explorer: 'https://bscscan.com/',
   },
   {
+    id: 2,
     name: 'Ethereum Goerli',
     rpc: 'https://goerli.infura.io/v3/',
     chainId: 5,
@@ -17,7 +25,8 @@ export const ProvidersJson = [
     default: false
   },
   {
-    name: 'Binance Smart Chain Mainnet',
+    id: 3,
+    name: 'Binance Smart Chain',
     rpc: 'https://bsc-dataseed1.ninicoin.io',
     chainId: 56,
     symbol: 'BNB',
@@ -25,6 +34,7 @@ export const ProvidersJson = [
     default: false
   },
   {
+    id: 4,
     name: 'Polygon Mainnet',
     rpc: 'https://polygon-rpc.com/',
     chainId: 137,
@@ -33,6 +43,7 @@ export const ProvidersJson = [
     default: false
   },
   {
+    id: 5,
     name: 'Avax C-Chain Mainnet',
     rpc: 'https://api.avax.network/ext/bc/C/rpc',
     chainId: 137,
@@ -41,6 +52,7 @@ export const ProvidersJson = [
     default: false
   },
   {
+    id: 6,
     name: 'Fantom Mainnet',
     rpc: 'https://rpc.ftm.tools/',
     chainId: 250,
