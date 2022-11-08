@@ -9,4 +9,3 @@ export * from '@models/error.model';
 export * from '@models/errorValidator.model';
 export * from '@models/menu.model';
 export * from '@models/token.model';
-export * from '@models/coinGecko.model';
