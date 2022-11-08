@@ -191,12 +191,12 @@ export class UtilsHelper {
    *
    * This generate an URI string to be used in links or QR-code
    *
-   * @param {Object} params
-   * @param {string} params.address
-   * @param {?string} params.coinCode [ETH]
-   * @param {?string} params.amount Amount requested, optional
+   * @param params
+   * @param params.address
+   * @param params.coinCode [ETH]
+   * @param params.amount Amount requested, optional
    *
-   * @return {string} URI as text
+   * @return URI as text
    */
   public qrCodeStringify({ address, amount = 0 }) {
     const prefix = 'ethereum';

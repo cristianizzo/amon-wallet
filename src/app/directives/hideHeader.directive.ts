@@ -19,16 +19,6 @@ export class HideHeaderDirective implements OnInit {
 
   constructor(private renderer: Renderer2, private domCtrl: DomController) {}
 
-  ngOnInit(): void {
-    this.domCtrl.read(() => {
-      setTimeout(() => {
-        this.init = true;
-        this.toolbar = this.toolbar.el;
-        this.toolbarHeight = this.toolbar.clientHeight;
-      }, 0);
-    });
-  }
-
   @HostListener('ionScroll', ['$event']) onContentScroll(event) {
     if (!this.init) {
       return;
@@ -56,6 +46,16 @@ export class HideHeaderDirective implements OnInit {
           this.renderer.setStyle(this.toolbar, 'opacity', 0);
         }
       }
+    });
+  }
+
+  ngOnInit(): void {
+    this.domCtrl.read(() => {
+      setTimeout(() => {
+        this.init = true;
+        this.toolbar = this.toolbar.el;
+        this.toolbarHeight = this.toolbar.clientHeight;
+      }, 0);
     });
   }
 }

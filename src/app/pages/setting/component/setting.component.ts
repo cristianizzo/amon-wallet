@@ -79,6 +79,7 @@ export class SettingComponent {
     //
     // const buttons = [
     //   {
+    // eslint-disable-next-line max-len
     //     text: (this.selectedTheme === 'dark') ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel) : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
     //     role: (this.selectedTheme === 'dark') ? 'light' : 'dark',
     //     handler: () => {
