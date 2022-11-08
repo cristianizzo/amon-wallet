@@ -3,9 +3,8 @@ import * as _ from 'lodash';
 
 @Pipe({
   name: 'appFilter',
-  pure: false
+  pure: false,
 })
-
 export class FilterPipe implements PipeTransform {
   /**
    * Transform
@@ -24,6 +23,10 @@ export class FilterPipe implements PipeTransform {
     }
 
     searchText = searchText.toLocaleLowerCase();
-    return items.filter((item: any) => searchKeys.some(key => _.get(item, key.split('.')).toLocaleLowerCase().includes(searchText)));
+    return items.filter((item: any) =>
+      searchKeys.some((key) =>
+        _.get(item, key.split('.')).toLocaleLowerCase().includes(searchText)
+      )
+    );
   }
 }

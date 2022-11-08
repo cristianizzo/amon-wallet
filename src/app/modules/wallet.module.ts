@@ -11,36 +11,38 @@ declare const navigator: any;
 
 @Injectable()
 export class WalletModule {
-
   constructor(
     private walletService: WalletService,
     private errorService: ErrorService,
     private toastService: ToastService,
     private alertController: AlertController,
     private web3Services: Web3Services,
-    private utilsHelper: UtilsHelper,
-  ) {
-  }
+    private utilsHelper: UtilsHelper
+  ) {}
 
   public async createWalletFromMnemonic(name: string) {
     const dbWallets = await this.walletService.getWalletsFromStorage();
-    return this.web3Services.getWallet({name, main: !this.utilsHelper.arrayHasValue(dbWallets)});
+    return this.web3Services.getWallet({
+      name,
+      main: !this.utilsHelper.arrayHasValue(dbWallets),
+    });
   }
 
   public async importWalletFromMnemonic(name: string, mnemonic): Promise<any> {
-
     try {
       const dbWallets = await this.walletService.getWalletsFromStorage();
-      return this.web3Services.getWallet({name, mnemonic, main: !this.utilsHelper.arrayHasValue(dbWallets)});
+      return this.web3Services.getWallet({
+        name,
+        mnemonic,
+        main: !this.utilsHelper.arrayHasValue(dbWallets),
+      });
     } catch (_) {
       return false;
     }
   }
 
   public async askWalletName(): Promise<string> {
-
     return new Promise(async (resolve) => {
-
       const buttons = [
         {
           role: 'cancel',
@@ -49,7 +51,7 @@ export class WalletModule {
         },
         {
           text: 'Confirm',
-          handler: data => resolve(data.accountName),
+          handler: (data) => resolve(data.accountName),
         },
       ];
 
@@ -64,25 +66,24 @@ export class WalletModule {
             min: 3,
             attributes: {
               autocomplete: 'off',
-            }
+            },
           },
         ],
       });
 
       await alert.present();
-
     });
   }
 
-  public async askWalletSecret(opts?: { canCancel?: boolean }): Promise<string> {
-
+  public async askWalletSecret(opts?: {
+    canCancel?: boolean;
+  }): Promise<string> {
     return new Promise(async (resolve) => {
-
       const buttons = [
         {
           text: 'Confirm',
-          handler: data => resolve(data.secret),
-        }
+          handler: (data) => resolve(data.secret),
+        },
       ];
 
       if (opts && opts.canCancel) {
@@ -100,31 +101,34 @@ export class WalletModule {
             name: 'secret',
             placeholder: 'Password',
             type: 'password',
-            min: 4
+            min: 4,
           },
         ],
       });
 
       await alert.present();
-
     });
   }
 
   public async verifyMainWalletSecret(secret: string): Promise<boolean> {
-
     if (!secret) {
       return false;
     }
 
     const dbWallets = await this.walletService.getWalletsFromStorage();
-    const existingWallet = this.utilsHelper.arrayHasValue(dbWallets) ? dbWallets.find(w => w.main) : null;
+    const existingWallet = this.utilsHelper.arrayHasValue(dbWallets)
+      ? dbWallets.find((w) => w.main)
+      : null;
 
     if (!existingWallet) {
       return true;
     }
 
     try {
-      await this.walletService.decryptWallet({wallet: existingWallet, secret});
+      await this.walletService.decryptWallet({
+        wallet: existingWallet,
+        secret,
+      });
       return true;
     } catch (error) {
       return false;

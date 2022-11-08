@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { Location } from '@angular/common';
 import { ThemeSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
@@ -7,11 +14,9 @@ import { StateModel } from '@models/state.model';
 @Component({
   selector: 'app-back-button',
   templateUrl: './back-button.component.html',
-  styleUrls: ['./back-button.component.scss']
+  styleUrls: ['./back-button.component.scss'],
 })
-
 export class BackButtonComponent implements OnChanges {
-
   @Input() bg: string;
   @Input() delegate: boolean;
   @Output() clicked: EventEmitter<any> = new EventEmitter<any>();
@@ -19,10 +24,11 @@ export class BackButtonComponent implements OnChanges {
 
   constructor(
     private readonly store: Store<StateModel>,
-    private location: Location,
+    private location: Location
   ) {
-    this.store.select(ThemeSelector.getTheme)
-      .subscribe((theme) => this.selectedTheme = theme);
+    this.store
+      .select(ThemeSelector.getTheme)
+      .subscribe((theme) => (this.selectedTheme = theme));
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -38,14 +44,10 @@ export class BackButtonComponent implements OnChanges {
    * goBack Function
    */
   goBack() {
-
     if (this.delegate) {
-
       this.clicked.emit();
-
     } else {
       this.location.back();
     }
   }
-
 }

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class TempStorageService {
-
   private _data;
 
   get data() {
@@ -12,5 +11,4 @@ export class TempStorageService {
   set data(item: any) {
     this._data = item;
   }
-
 }

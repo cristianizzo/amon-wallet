@@ -7,20 +7,28 @@ const initialState: WalletModel[] = [];
 
 export const walletReducer = createReducer(
   initialState,
-  on(WalletActions.updateStateWallets, (_: WalletModel[] = initialState, {wallets}) => ([
-    ...wallets
-  ])),
+  on(
+    WalletActions.updateStateWallets,
+    (_: WalletModel[] = initialState, { wallets }) => [...wallets]
+  ),
   // on(WalletActions.deleteWallet, (state: WalletModel[] = initialState, {address}) =>
   //   state.filter(w => w.address !== address)
   // ),
-  on(WalletActions.switchDefaultWallet, (state: WalletModel[] = initialState, {address}) => {
+  on(
+    WalletActions.switchDefaultWallet,
+    (state: WalletModel[] = initialState, { address }) => {
+      const updatedState = state.map((w) =>
+        Object.assign({}, w, {
+          connected: w.address === address,
+        })
+      );
 
-    const updatedState = state.map(w => Object.assign({}, w, {
-      connected: w.address === address
-    }));
-
-    return updatedState;
-  }),
+      return updatedState;
+    }
+  )
 );
 
-export const reducer = (state: WalletModel[] | undefined, action: Action): any => walletReducer(state, action);
+export const reducer = (
+  state: WalletModel[] | undefined,
+  action: Action
+): any => walletReducer(state, action);

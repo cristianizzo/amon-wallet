@@ -1,11 +1,13 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
-
-  <ion-item class="list-item totalBalance qpass-flex animated fadeIn" lines="none">
+  <ion-item
+    class="list-item totalBalance qpass-flex animated fadeIn"
+    lines="none"
+  >
     <div class="endSide">
-      <div class="totalSum">{{'DASHBOARD.wallets.total' | translate}}</div>
-      <span class="currency">{{provider?.symbol}}</span>
+      <div class="totalSum">{{ 'DASHBOARD.wallets.total' | translate }}</div>
+      <span class="currency">{{ provider?.symbol }}</span>
       <span [innerHTML]="wallet?.balance || '0'" class="price plus"></span>
     </div>
   </ion-item>
@@ -22,7 +24,7 @@
         <ion-label>Send</ion-label>
       </ion-button>
 
-      <ion-button>
+      <ion-button routerLink="/auth/exchange" routerDirection="forward">
         <ion-icon [name]="getIcon('wallet-exchange')"></ion-icon>
         <ion-label>Swap</ion-label>
       </ion-button>

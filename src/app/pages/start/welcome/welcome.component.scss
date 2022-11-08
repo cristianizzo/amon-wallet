@@ -6,7 +6,6 @@ ion-grid {
 }
 
 ion-row {
-
   &.row-container {
     display: flex;
     align-items: center;
@@ -14,7 +13,6 @@ ion-row {
     height: 100%;
 
     .welcome {
-
       img.logo {
         width: 100%;
         display: block;
@@ -67,7 +65,6 @@ ion-row {
           }
         }
       }
-
     }
   }
 }

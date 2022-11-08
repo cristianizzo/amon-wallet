@@ -4,7 +4,7 @@ import Decimal from 'decimal.js';
 const configParser = (configSource = process.env, type, key, defaultValue) => {
   const val = configSource[key];
 
-  const def = (v) => defaultValue === undefined ? v : defaultValue;
+  const def = (v) => (defaultValue === undefined ? v : defaultValue);
 
   switch (type) {
     case 'string': {
@@ -34,4 +34,4 @@ const configParser = (configSource = process.env, type, key, defaultValue) => {
   }
 };
 
-export {configParser};
+export { configParser };

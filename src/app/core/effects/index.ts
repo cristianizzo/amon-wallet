@@ -9,4 +9,3 @@ export const effects = [
   WalletEffects,
   ThemeEffects,
 ];
-

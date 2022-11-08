@@ -23,16 +23,14 @@ import { NgAmonPipesModule } from '@pipes/index.module';
     HeaderComponent,
     AccountComponent,
     AccountMenuComponent,
-    WalletMenuComponent
+    WalletMenuComponent,
   ],
   entryComponents: [],
   declarations: [
     HeaderComponent,
     AccountComponent,
     AccountMenuComponent,
-    WalletMenuComponent
-  ]
+    WalletMenuComponent,
+  ],
 })
-
-export class HeaderModule {
-}
+export class HeaderModule {}

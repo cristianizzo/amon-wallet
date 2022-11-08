@@ -7,63 +7,57 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
-
   <ion-item lines="none" class="titlePage">
     <div class="centerSide receive-title">
-      <strong>{{ 'WALLET.title.receive' | translate }}</strong>
+      <strong>{{ 'PAGE.DEPOSIT.TITLE' | translate }}</strong>
     </div>
   </ion-item>
 
   <ion-grid class="ion-no-padding">
-
-    <ion-row class="header">
-    </ion-row>
-
     <div class="sub-content">
       <ion-row class="body">
-
-
         <div class="walletDetails">
-
           <ng-container *ngIf="qrCode && wallet?.address">
-            <div class="label-address" [innerHTML]="'WALLET.form.qrCode' | translate"></div>
-            <app-qrcode [qrcElementType]="'url'" [qrcValue]="qrCode"></app-qrcode>
+            <app-qrcode
+              [qrcElementType]="'url'"
+              [qrcValue]="qrCode"
+            ></app-qrcode>
 
             <div class="box-item">
-              <div class="label-address" [innerHTML]="'WALLET.address' | translate"></div>
-              <div class="box-address qpass-flex between-xs middle-xs" (click)="copyAddress(wallet)">
+              <div
+                class="label-address"
+                [innerHTML]="'PAGE.DEPOSIT.ADDRESS' | translate"
+              ></div>
+              <div
+                class="box-address qpass-flex between-xs middle-xs"
+                (click)="copyAddress(wallet)"
+              >
                 <p class="address">
-                  {{wallet?.address}}
+                  {{ wallet?.address }}
                 </p>
-                <ion-button class="btn-link">
-                  <ion-icon name="copy-outline"></ion-icon>
-                </ion-button>
               </div>
             </div>
 
-            <div class="box-item info-text"
-                 *ngIf="wallet?.address">
-              <div class="label-address" [innerHTML]="'INFO.networkDeposit' | translate"></div>
+            <div class="box-item info-text" *ngIf="wallet?.address">
+              <div
+                class="label-address"
+                [innerHTML]="'PAGE.DEPOSIT.INFO' | translate"
+              ></div>
             </div>
           </ng-container>
-
         </div>
-
       </ion-row>
     </div>
-
   </ion-grid>
-
 </ion-content>
 <ion-footer>
   <div class="wallet-buttons qpass-flex center-xs animated fadeIn delay-1s">
-
     <!-- share-->
     <div class="btn-box" *ngIf="wallet">
       <ion-button class="btn-wallet white" (click)="shareAddress()">
         <ion-icon [name]="getIcon('wallet-share')"></ion-icon>
       </ion-button>
-      <div class="text" [innerHTML]="'BUTTON.share' | translate"></div>
+      <div class="text" [innerHTML]="'BUTTON.SHARE' | translate"></div>
     </div>
 
     <!-- copy-->
@@ -71,7 +65,7 @@
       <ion-button class="btn-wallet white" (click)="copyAddress(wallet)">
         <ion-icon [name]="getIcon('wallet-copy')"></ion-icon>
       </ion-button>
-      <div class="text" [innerHTML]="'BUTTON.copyAll' | translate"></div>
+      <div class="text" [innerHTML]="'BUTTON.COPY' | translate"></div>
     </div>
   </div>
 </ion-footer>

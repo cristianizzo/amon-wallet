@@ -18,11 +18,7 @@ import { BackButtonModule } from '@components/back-button/back-button.module';
     TranslateModule.forChild(),
     BackButtonModule,
   ],
-  declarations: [
-    LanguageComponent,
-    WelcomeComponent,
-  ],
-  providers: []
+  declarations: [LanguageComponent, WelcomeComponent],
+  providers: [],
 })
-export class StartModule {
-}
+export class StartModule {}

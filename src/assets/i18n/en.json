@@ -6,6 +6,7 @@
   "BUTTON": {
     "NEXT": "next",
     "COPY": "copy",
+    "SHARE": "share",
     "CONTINUE": "continue",
     "CREATE_WALLET": "Create a new wallet",
     "RESTORE_WALLET": "Restore existing wallet",
@@ -62,6 +63,11 @@
         "TITLE_STEP_2": "Confirm your secret phrase",
         "SUBTITLE_STEP_2": "Please select correct words based on their numbers"
       }
+    },
+    "DEPOSIT": {
+      "TITLE": "Deposit",
+      "ADDRESS": "address",
+      "INFO": ""
     },
     "SETTING": {
       "TITLE": "Settings",

@@ -9,11 +9,9 @@ import { AccountMenuComponent } from '@components/header/account-menu/account-me
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss']
+  styleUrls: ['./account.component.scss'],
 })
-
 export class AccountComponent {
-
   public wallet: WalletModel;
   public wallets: WalletModel[];
 
@@ -21,7 +19,9 @@ export class AccountComponent {
     private modalCtrl: ModalController,
     private store: Store<StateModel>
   ) {
-    this.store.select(WalletSelector.getWallet).subscribe(wallet => this.wallet = wallet);
+    this.store
+      .select(WalletSelector.getWallet)
+      .subscribe((wallet) => (this.wallet = wallet));
   }
 
   public async openAccount() {
@@ -45,7 +45,5 @@ export class AccountComponent {
   /**
    * goBack Function
    */
-  goBack() {
-  }
-
+  goBack() {}
 }

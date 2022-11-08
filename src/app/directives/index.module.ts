@@ -4,18 +4,8 @@ import { CopyClipboardDirective } from '@directives/copyClipboard.directive';
 import { HideHeaderDirective } from '@directives/hideHeader.directive';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    CopyClipboardDirective,
-    HideHeaderDirective,
-  ],
-  exports: [
-    CopyClipboardDirective,
-    HideHeaderDirective,
-  ],
+  imports: [CommonModule],
+  declarations: [CopyClipboardDirective, HideHeaderDirective],
+  exports: [CopyClipboardDirective, HideHeaderDirective],
 })
-
-export class NgAmonDirectivesModule {
-}
+export class NgAmonDirectivesModule {}

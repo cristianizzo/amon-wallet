@@ -7,7 +7,6 @@ import { Observable, throwError } from 'rxjs';
 
 @Injectable()
 export class ErrorService {
-
   // eslint-disable-next-line @typescript-eslint/naming-convention
   private ERRORS = {
     walletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',
@@ -41,8 +40,7 @@ export class ErrorService {
   constructor(
     private utilsHelper: UtilsHelper,
     public langService: LanguageService
-  ) {
-  }
+  ) {}
 
   /**
    * Handle Error function
@@ -55,7 +53,6 @@ export class ErrorService {
    * Parse Error function
    */
   public parseError(error: ErrorModel | any): any {
-
     if (error.message && this.ERRORS[error.message]) {
       return this.langService.getTranslate(this.ERRORS[error.message]);
     } else {
@@ -64,28 +61,29 @@ export class ErrorService {
   }
 
   public matchErrorCode(error: ErrorModel | any, code: string): boolean {
-
     if (error && !error.code && error.error) {
       error = error.error;
     }
 
     return error && error.code && error.code === code;
-
   }
 
   /**
    * Get Error function
    */
   public getError(errorCode: string, args?: string): any {
-
     if (args) {
       return `${this.langService.getTranslate(
-        (errorCode && this.ERRORS[errorCode] ? this.ERRORS[errorCode] : this.ERRORS.unknownError)
+        errorCode && this.ERRORS[errorCode]
+          ? this.ERRORS[errorCode]
+          : this.ERRORS.unknownError
       )} ${args}`;
     }
 
     return `${this.langService.getTranslate(
-      (errorCode && this.ERRORS[errorCode] ? this.ERRORS[errorCode] : this.ERRORS.unknownError)
+      errorCode && this.ERRORS[errorCode]
+        ? this.ERRORS[errorCode]
+        : this.ERRORS.unknownError
     )}`;
   }
 
@@ -93,18 +91,21 @@ export class ErrorService {
    * Get Error Form function
    */
   public getErrorForm(validator: ErrorValidatorModel) {
-
     // eslint-disable-next-line prefer-const
-    let {validatorName, validatorValue, validatorField} = validator;
+    let { validatorName, validatorValue, validatorField } = validator;
 
-    if (validatorField && this.utilsHelper.stringHasValue(this.utilsHelper.regex[validatorField])) {
+    if (
+      validatorField &&
+      this.utilsHelper.stringHasValue(this.utilsHelper.regex[validatorField])
+    ) {
       validatorName = 'pattern';
-      validatorValue = {requiredPattern: this.utilsHelper.regex[validatorField]};
+      validatorValue = {
+        requiredPattern: this.utilsHelper.regex[validatorField],
+      };
     }
 
     const patternError = (pattern: string) => {
       switch (pattern) {
-
         case this.utilsHelper.regex.password:
           return this.getError('regexPassword');
 
@@ -132,18 +133,23 @@ export class ErrorService {
       newPasswordDifferentFromOld: this.getError('newPasswordDifferentFromOld'),
       doesMatchPassword: this.getError('doesMatchPassword'),
       required: this.getError('required'),
-      minlength: (validatorValue) ? 'Must be at least ' + validatorValue.requiredLength + ' characters' : 'too short',
+      minlength: validatorValue
+        ? 'Must be at least ' + validatorValue.requiredLength + ' characters'
+        : 'too short',
       address: this.getError('regexAddress'),
       insufficientBalance: this.getError('insufficientBalance'),
       minAmount: `${this.getError('minAmount')} ${validatorValue || ''}`,
       maxAmount: `${this.getError('maxAmount')} ${validatorValue || ''}`,
       amount: this.getError('regexAmount'),
-      decimals: `${this.getError('wrongDecimals')} ${(validatorValue) ? ` ${validatorValue}` : ''}`,
+      decimals: `${this.getError('wrongDecimals')} ${
+        validatorValue ? ` ${validatorValue}` : ''
+      }`,
       empty: '',
-      pattern: patternError((validatorValue) ? validatorValue.requiredPattern : null)
+      pattern: patternError(
+        validatorValue ? validatorValue.requiredPattern : null
+      ),
     };
 
     return config[validatorName];
-
   }
 }

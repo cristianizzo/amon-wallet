@@ -7,18 +7,17 @@ const routes: Routes = [
   {
     path: 'recovery-phrase',
     component: RecoveryPhraseComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: '',
     redirectTo: '/import-wallet/recovery-phrase',
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ImportWalletRoutingModule {
-}
+export class ImportWalletRoutingModule {}

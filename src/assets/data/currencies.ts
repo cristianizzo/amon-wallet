@@ -3,221 +3,221 @@ export const CurrenciesJson = [
   {
     symbol: 'EUR',
     name: 'Euro',
-    native: '€'
+    native: '€',
   },
   {
     symbol: 'USD',
     name: 'US Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'GBP',
     name: 'Pound Sterling',
-    native: '£'
+    native: '£',
   },
   {
     symbol: 'AUD',
     name: 'Australian Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'JPY',
     name: 'Yen',
-    native: '￥'
+    native: '￥',
   },
   {
     symbol: 'CNY',
     name: 'Yuan',
-    native: 'CN¥'
+    native: 'CN¥',
   },
   {
     symbol: 'CAD',
     name: 'Canadian Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'GIP',
     name: 'Gibraltar Pound',
-    native: '£'
+    native: '£',
   },
   {
     symbol: 'HKD',
     name: 'Hong Kong Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'CLP',
     name: 'Chilean Peso',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'COP',
     name: 'Colombian Peso',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'CRC',
     name: 'Costa Rican Colon',
-    native: '₡'
+    native: '₡',
   },
   {
     symbol: 'JMD',
     name: 'Jamaican Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'KRW',
     name: 'Won',
-    native: '₩'
+    native: '₩',
   },
   {
     symbol: 'MXN',
     name: 'Mexican Peso',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'MAD',
     name: 'Moroccan Dirham',
-    native: 'د.م.‏'
+    native: 'د.م.‏',
   },
   {
     symbol: 'PYG',
     name: 'Guarani',
-    native: '₲'
+    native: '₲',
   },
   {
     symbol: 'PEN',
     name: 'Sol',
-    native: 'S/'
+    native: 'S/',
   },
   {
     symbol: 'PHP',
     name: 'Philippine Peso',
-    native: '₱'
+    native: '₱',
   },
   {
     symbol: 'NZD',
     name: 'New Zealand Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'PLN',
     name: 'Zloty',
-    native: 'zł'
+    native: 'zł',
   },
   {
     symbol: 'QAR',
     name: 'Qatari Rial',
-    native: 'ر.ق.‏'
+    native: 'ر.ق.‏',
   },
   {
     symbol: 'RUB',
     name: 'Russian Ruble',
-    native: '₽'
+    native: '₽',
   },
   {
     symbol: 'MYR',
     name: 'Malaysian ringgit',
-    native: 'RM'
+    native: 'RM',
   },
   {
     symbol: 'SAR',
     name: 'Saudi Riyal',
-    native: 'ر.س.‏'
+    native: 'ر.س.‏',
   },
   {
     symbol: 'SGD',
     name: 'Singapore Dollar',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'CHF',
     name: 'Swiss Franc',
-    native: 'CHf'
+    native: 'CHf',
   },
   {
     symbol: 'UYU',
     name: 'Peso Uruguayo',
-    native: '$'
+    native: '$',
   },
   {
     symbol: 'ILS',
     name: 'Israeli Shekel',
-    native: '₪'
+    native: '₪',
   },
   {
     symbol: 'ZAR',
     name: 'South African Rand',
-    native: 'R'
+    native: 'R',
   },
   {
     symbol: 'NOK',
     name: 'Norwegian krone',
-    native: 'RM'
+    native: 'RM',
   },
   {
     symbol: 'TRY',
     name: 'Turkish lira',
-    native: '₺'
+    native: '₺',
   },
   {
     symbol: 'BGN',
     name: 'Bulgarian lev',
-    native: 'Лв'
+    native: 'Лв',
   },
   {
     symbol: 'THB',
     name: 'Thai baht',
-    native: '฿'
+    native: '฿',
   },
   {
     symbol: 'HRK',
     name: 'Croatian kuna',
-    native: 'kn'
+    native: 'kn',
   },
   {
     symbol: 'BRL',
     name: 'Brazilian real',
-    native: 'R$'
+    native: 'R$',
   },
   {
     symbol: 'INR',
     name: 'Indian rupee',
-    native: '₹'
+    native: '₹',
   },
   {
     symbol: 'IDR',
     name: 'Indonesian rupiah',
-    native: 'Rp'
+    native: 'Rp',
   },
   {
     symbol: 'SEK',
     name: 'Swedish krona',
-    native: 'kr'
+    native: 'kr',
   },
   {
     symbol: 'RON',
     name: 'Romanian leu',
-    native: 'lei'
+    native: 'lei',
   },
   {
     symbol: 'CZK',
     name: 'Czech koruna',
-    native: 'Kč'
+    native: 'Kč',
   },
   {
     symbol: 'HUF',
     name: 'Hungarian Forint',
-    native: 'Ft'
+    native: 'Ft',
   },
   {
     symbol: 'DKK',
     name: 'Danish krone',
-    native: 'Kr'
+    native: 'Kr',
   },
   {
     symbol: 'ISK',
     name: 'Icelandic króna',
-    native: 'kr'
-  }
+    native: 'kr',
+  },
 ];

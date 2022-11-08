@@ -15,7 +15,9 @@ Cypress.Commands.overwrite('clearLocalStorage', () => {
   window.localStorage.clear();
 });
 
-Cypress.Commands.add('setLocalStorage', (key: string, value: string) => window.localStorage.setItem(key, value));
+Cypress.Commands.add('setLocalStorage', (key: string, value: string) =>
+  window.localStorage.setItem(key, value)
+);
 
 Cypress.Commands.overwrite('clearLocalStorage', () => {
   window.localStorage.clear();
@@ -35,10 +37,21 @@ Cypress.Commands.overwrite('clearLocalStorage', () => {
 //   // });
 // }));
 
-Cypress.Commands.add('readClipboard', () => cy.window().then((window) => window.navigator.clipboard.readText().then((text) => text)));
+Cypress.Commands.add('readClipboard', () =>
+  cy
+    .window()
+    .then((window) =>
+      window.navigator.clipboard.readText().then((text) => text)
+    )
+);
 
 // Cypress.Commands.add('clickButton', (item: string) => new Cypress.Promise((resolve) => {
 //   cy.get(item).click().then(() => resolve(true));
 // }));
 
-Cypress.Commands.add('clickButton', (buttonLabel: string) => cy.get(buttonLabel).click().then(() => true));
+Cypress.Commands.add('clickButton', (buttonLabel: string) =>
+  cy
+    .get(buttonLabel)
+    .click()
+    .then(() => true)
+);

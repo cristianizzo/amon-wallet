@@ -4,9 +4,7 @@ import { TestBed, waitForAsync } from '@angular/core/testing';
 import { AmonComponent } from './app.component';
 
 describe('AmonComponent', () => {
-
   beforeEach(waitForAsync(() => {
-
     TestBed.configureTestingModule({
       declarations: [AmonComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -19,5 +17,4 @@ describe('AmonComponent', () => {
     expect(app).toBeTruthy();
   });
   // TODO: add more tests!
-
 });

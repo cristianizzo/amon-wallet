@@ -3,7 +3,9 @@
     <ion-buttons slot="start">
       <app-back-button></app-back-button>
     </ion-buttons>
-    <ion-title [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate"></ion-title>
+    <ion-title
+      [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate"
+    ></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,32 +13,47 @@
   <ion-grid class="ion-no-padding">
     <ion-row class="header">
       <div>
-        <h1 [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate" class="subtitle"></h1>
-        <p [innerHTML]="'COMP.RECOVERY_PHRASE.DESCRIPTION' | translate" class="description"></p>
+        <h1
+          [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate"
+          class="subtitle"
+        ></h1>
+        <p
+          [innerHTML]="'COMP.RECOVERY_PHRASE.DESCRIPTION' | translate"
+          class="description"
+        ></p>
       </div>
     </ion-row>
 
-    <form (keydown.enter)="(!formObj.invalid) ? submit() : null" [formGroup]="formObj" autocomplete="off">
+    <form
+      (keydown.enter)="!formObj.invalid ? submit() : null"
+      [formGroup]="formObj"
+      autocomplete="off"
+    >
       <ion-list class="form-item">
         <ion-item-group>
           <ion-item lines="none">
-            <ion-textarea [placeholder]="'COMP.RECOVERY_PHRASE.PLACEHOLDER.SEED_PHRASE' | translate"
-                          formControlName="seedPhrase" rows="5"></ion-textarea>
+            <ion-textarea
+              [placeholder]="
+                'COMP.RECOVERY_PHRASE.PLACEHOLDER.SEED_PHRASE' | translate
+              "
+              formControlName="seedPhrase"
+              rows="5"
+            ></ion-textarea>
           </ion-item>
         </ion-item-group>
       </ion-list>
 
       <ion-row class="btn-actions">
         <ion-col>
-          <ion-button (click)="(!formObj.invalid) ? submit() : null"
-                      [disabled]="formObj.invalid"
-                      class="btn-action">
-            {{'BUTTON.CONTINUE' | translate}}
+          <ion-button
+            (click)="!formObj.invalid ? submit() : null"
+            [disabled]="formObj.invalid"
+            class="btn-action"
+          >
+            {{ 'BUTTON.CONTINUE' | translate }}
           </ion-button>
         </ion-col>
       </ion-row>
     </form>
   </ion-grid>
-
 </ion-content>
-

@@ -9,59 +9,60 @@ import { ToastService } from '@app/services/toast.service';
 
 @Injectable()
 export class WalletEffects {
-
   initWallets$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.initWallets),
       mergeMap(() => this.walletService.initWallets()),
       switchMap((w) =>
-        this.walletService.fetchBalances(w)
-          .pipe(
-            map((wallets) => WalletActions.updateStateWallets(wallets)),
-          )
+        this.walletService
+          .fetchBalances(w)
+          .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
       ),
-      catchError(error => of(WalletActions.walletError(error))),
+      catchError((error) => of(WalletActions.walletError(error)))
     )
   );
 
   addWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.addWallet),
-      mergeMap(({wallet, secret}) =>
-        this.walletService.addWallet({wallet, secret})
+      mergeMap(({ wallet, secret }) =>
+        this.walletService.addWallet({ wallet, secret })
       ),
       switchMap((w) =>
-        this.walletService.fetchBalances(w)
+        this.walletService
+          .fetchBalances(w)
           .pipe(
-            map((wallets: any) => WalletActions.updateStateWallets(wallets)),
+            map((wallets: any) => WalletActions.updateStateWallets(wallets))
           )
       ),
-      catchError(error => of(WalletActions.walletError(error))),
-    ),
+      catchError((error) => of(WalletActions.walletError(error)))
+    )
   );
 
   renameWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.renameWallet),
-      mergeMap(({address, name}) =>
-        this.walletService.renameWallet({address, name})
+      mergeMap(({ address, name }) =>
+        this.walletService.renameWallet({ address, name })
       ),
       switchMap((w) =>
-        this.walletService.fetchBalances(w)
-          .pipe(
-            map((wallets) => WalletActions.updateStateWallets(wallets)),
-          )
+        this.walletService
+          .fetchBalances(w)
+          .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
       ),
-      catchError(error => of(WalletActions.walletError(error))),
-    ),
+      catchError((error) => of(WalletActions.walletError(error)))
+    )
   );
 
-  error$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(WalletActions.walletError),
-      map(({error}) => {
-        this.toastService.responseError(this.errorService.parseError(error));
-      })), {dispatch: false}
+  error$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(WalletActions.walletError),
+        map(({ error }) => {
+          this.toastService.responseError(this.errorService.parseError(error));
+        })
+      ),
+    { dispatch: false }
   );
 
   constructor(
@@ -69,6 +70,5 @@ export class WalletEffects {
     private walletService: WalletService,
     private errorService: ErrorService,
     private toastService: ToastService
-  ) {
-  }
+  ) {}
 }

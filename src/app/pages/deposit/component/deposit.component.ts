@@ -12,15 +12,15 @@ import { WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 
-const logContent = (data) => Object.assign({service: 'app:wallet:receive'}, data);
+const logContent = (data) =>
+  Object.assign({ service: 'app:wallet:receive' }, data);
 
 @Component({
   selector: 'app-deposit',
   templateUrl: 'deposit.component.html',
-  styleUrls: ['deposit.component.scss']
+  styleUrls: ['deposit.component.scss'],
 })
 export class DepositComponent {
-
   public config = environment;
   public wallet: WalletModel;
   public qrCode: string;
@@ -34,23 +34,20 @@ export class DepositComponent {
     private themeService: ThemeService,
     public toastService: ToastService,
     public errorService: ErrorService,
-    private walletModule: WalletModule,
+    private walletModule: WalletModule
   ) {
-    this.themeService.theme.subscribe(theme => this.selectedTheme = theme);
-    this.store.select(WalletSelector.getWallet).subscribe(wallet => {
+    this.themeService.theme.subscribe((theme) => (this.selectedTheme = theme));
+    this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
       this.wallet = wallet;
-      if(wallet) {
+      if (wallet) {
         this.getQrCode();
       }
     });
   }
 
-  ionViewWillEnter(): void {
-  }
+  ionViewWillEnter(): void {}
 
-  ionViewDidLeave(): void {
-  }
-
+  ionViewDidLeave(): void {}
 
   /**
    * Get QrCode function
@@ -58,9 +55,8 @@ export class DepositComponent {
   getQrCode() {
     try {
       this.qrCode = this.utilsHelper.qrCodeStringify({
-        address: this.wallet.address
+        address: this.wallet.address,
       });
-
     } catch (error) {
       // logger.warn(logContent(Object.assign({}, {
       //   info: 'Error get QrCode',
@@ -80,7 +76,6 @@ export class DepositComponent {
    * getCoinIcon function
    */
   getIcon(icon: string): string {
-
     if (this.selectedTheme === 'dark') {
       return `${icon}-dark`;
     }
@@ -91,6 +86,5 @@ export class DepositComponent {
   /**
    * set price Function
    */
-  async shareAddress() {
-  }
+  async shareAddress() {}
 }

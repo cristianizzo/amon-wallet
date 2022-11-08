@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NgForage, } from 'ngforage';
+import { NgForage } from 'ngforage';
 
 @Injectable()
 export class LocalForageService {
-
   constructor(
-    private readonly ngf: NgForage,
-    // private readonly cache: NgForageCache,
-  ) {
-  }
+    private readonly ngf: NgForage // private readonly cache: NgForageCache,
+  ) {}
 
   public async getItem<T = any>(key: string): Promise<T | any> {
     return this.ngf.getItem<T>(key);

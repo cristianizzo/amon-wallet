@@ -9,36 +9,36 @@ const defaultDateFormat = 'dd MMM YYYY';
 @Pipe({
   name: 'appLocaleDate',
 })
-
 export class LocaleDatePipe implements PipeTransform {
+  constructor(private translateService: TranslateService) {}
 
-  constructor(
-    private translateService: TranslateService
-  ) {
-  }
-
-  public transform(value: any, pattern: string = defaultDateFormat): Observable<string> {
-
-    if (!value || value && !moment(value).isValid()) {
+  public transform(
+    value: any,
+    pattern: string = defaultDateFormat
+  ): Observable<string> {
+    if (!value || (value && !moment(value).isValid())) {
       return;
     }
 
-    return new Observable<string>(observer => {
-
+    return new Observable<string>((observer) => {
       observer.next(this.getDatePipe().transform(value, pattern));
 
-      this.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-        observer.next(this.getDatePipe(langChangeEvent.lang).transform(value, pattern));
-      });
+      this.translateService.onLangChange.subscribe(
+        (langChangeEvent: LangChangeEvent) => {
+          observer.next(
+            this.getDatePipe(langChangeEvent.lang).transform(value, pattern)
+          );
+        }
+      );
     });
   }
 
   private getDatePipe(_?: string): DatePipe {
-
-    const lang = (window.localStorage && window.localStorage.lang) ?
-      window.localStorage.lang : this.translateService.currentLang;
+    const lang =
+      window.localStorage && window.localStorage.lang
+        ? window.localStorage.lang
+        : this.translateService.currentLang;
 
     return new DatePipe(lang || this.translateService.getDefaultLang());
   }
-
 }

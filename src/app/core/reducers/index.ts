@@ -6,12 +6,7 @@ import * as LanguageReducer from '@app/core/reducers/language';
 import * as ThemeReducer from '@app/core/reducers/theme';
 import { LanguageModel, ProviderModel, WalletModel } from '@app/models';
 
-export {
-  WalletReducer,
-  ProviderReducer,
-  LanguageReducer,
-  ThemeReducer,
-};
+export { WalletReducer, ProviderReducer, LanguageReducer, ThemeReducer };
 
 export interface State {
   wallets: WalletModel[];
@@ -27,4 +22,6 @@ export const reducers: ActionReducerMap<State> = {
   theme: ThemeReducer.reducer,
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<State>[] = !environment.production
+  ? []
+  : [];

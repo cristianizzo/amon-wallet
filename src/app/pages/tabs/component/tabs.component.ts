@@ -7,27 +7,23 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.component.html',
-  styleUrls: ['tabs.component.scss']
+  styleUrls: ['tabs.component.scss'],
 })
 export class TabsComponent {
-
   public menu: MenuModel[];
   public selectedTab: string;
   public hiddenTabs: boolean;
-  public pathHidden = [
-    '/auth/setting',
-  ];
+  public pathHidden = ['/auth/setting', '/auth/deposit'];
 
-  constructor(
-    private utilsHelper: UtilsHelper,
-    public router: Router,
-  ) {
+  constructor(private utilsHelper: UtilsHelper, public router: Router) {
     this.menu = this.utilsHelper.menuJson;
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-    ).subscribe((_: NavigationEnd) => {
-      this.hiddenTabs = this.pathHidden.some(r => this.router.routerState.snapshot.url.indexOf(r) >= 0);
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((_: NavigationEnd) => {
+        this.hiddenTabs = this.pathHidden.some(
+          (r) => this.router.routerState.snapshot.url.indexOf(r) >= 0
+        );
+      });
   }
 
   /**
@@ -46,6 +42,6 @@ export class TabsComponent {
    * isActive function
    */
   isActive(tab: string) {
-    return (this.selectedTab === tab);
+    return this.selectedTab === tab;
   }
 }

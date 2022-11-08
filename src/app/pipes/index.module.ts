@@ -6,26 +6,9 @@ import { LocaleDatePipe } from '@pipes/localeDate.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: [
-    OrderByPipe,
-    DateFormatPipe,
-    LocaleDatePipe,
-    FilterPipe,
-  ],
-  exports: [
-    OrderByPipe,
-    DateFormatPipe,
-    LocaleDatePipe,
-    FilterPipe,
-  ],
-  providers: [
-    DecimalPipe,
-    DatePipe
-  ],
+  imports: [CommonModule],
+  declarations: [OrderByPipe, DateFormatPipe, LocaleDatePipe, FilterPipe],
+  exports: [OrderByPipe, DateFormatPipe, LocaleDatePipe, FilterPipe],
+  providers: [DecimalPipe, DatePipe],
 })
-
-export class NgAmonPipesModule {
-}
+export class NgAmonPipesModule {}

@@ -8,18 +8,16 @@ export const providerActionTypes = {
   providerError: type('[Provider] provider error'),
 };
 
-export const initProviders = createAction(
-  providerActionTypes.initProviders,
-);
+export const initProviders = createAction(providerActionTypes.initProviders);
 
 export const updateStateProviders = createAction(
   providerActionTypes.updateStateProviders,
-  (providers: ProviderModel[]) => ({providers})
+  (providers: ProviderModel[]) => ({ providers })
 );
 
 export const providerError = createAction(
   providerActionTypes.providerError,
-  (error: any) => ({error})
+  (error: any) => ({ error })
 );
 
 // export const addProvider = createAction(
@@ -36,4 +34,3 @@ export const providerError = createAction(
 //   '[Provider] delete provider',
 //   (provider: ProviderModel) => ({provider})
 // );
-

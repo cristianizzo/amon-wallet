@@ -1,19 +1,22 @@
-import { Directive, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+} from '@angular/core';
 
 declare const window: any;
 
 @Directive({
-  selector: '[appCopyClipboard]'
+  selector: '[appCopyClipboard]',
 })
-
 export class CopyClipboardDirective {
-
   @Input() payload: string;
   @Output() copied: EventEmitter<string> = new EventEmitter<string>();
 
   @HostListener('click', ['$event'])
   public onClick(event: MouseEvent): void {
-
     event.preventDefault();
     if (!this.payload) {
       return;

@@ -18,7 +18,6 @@ import { HeaderModule } from '@components/header/header.module';
     TranslateModule,
     HeaderModule,
   ],
-  declarations: [AssetsComponent]
+  declarations: [AssetsComponent],
 })
-export class AssetsModule {
-}
+export class AssetsModule {}

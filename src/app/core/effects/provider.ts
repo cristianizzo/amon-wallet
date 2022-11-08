@@ -9,26 +9,29 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 
 @Injectable()
 export class ProviderEffects {
-
   initProviders$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProviderActions.initProviders),
       switchMap((_) =>
-        this.providerService.initProviders()
+        this.providerService
+          .initProviders()
           .pipe(
-            map((providers) => ProviderActions.updateStateProviders(providers)),
+            map((providers) => ProviderActions.updateStateProviders(providers))
           )
       ),
       catchError((error) => of(ProviderActions.providerError(error)))
     )
   );
 
-  error$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ProviderActions.providerError),
-      map(({error}) => {
-        this.toastService.responseError(this.errorService.parseError(error));
-      })), {dispatch: false}
+  error$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProviderActions.providerError),
+        map(({ error }) => {
+          this.toastService.responseError(this.errorService.parseError(error));
+        })
+      ),
+    { dispatch: false }
   );
 
   // switchProvider$ = createEffect(() =>
@@ -46,7 +49,6 @@ export class ProviderEffects {
     private actions$: Actions,
     private providerService: ProviderService,
     private toastService: ToastService,
-    private errorService: ErrorService,
-  ) {
-  }
+    private errorService: ErrorService
+  ) {}
 }

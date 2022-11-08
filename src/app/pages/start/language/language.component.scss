@@ -6,7 +6,6 @@ ion-grid {
 }
 
 ion-row {
-
   &.row-container {
     display: flex;
     align-items: center;
@@ -14,7 +13,6 @@ ion-row {
     height: 100%;
 
     .welcome {
-
       img.logo {
         width: 100%;
         display: block;
@@ -93,7 +91,7 @@ ion-card {
       --background: transparent;
 
       &.selected {
-        --background: #0B2448;
+        --background: #0b2448;
         --border-radius: 10px;
 
         @include isDarkTheme {

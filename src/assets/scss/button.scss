@@ -7,7 +7,10 @@ ion-button {
   -moz-transition: 0.3s;
 }
 
-.btn-white, .btn-black, .btn-action, .btn-transparent {
+.btn-white,
+.btn-black,
+.btn-action,
+.btn-transparent {
   --border-radius: 7px;
   --padding-start: 18px;
   --padding-end: 18px;
@@ -40,10 +43,10 @@ ion-button {
 
   @include isDarkThemeRoot {
     --border-color: #fff;
-    --background: #0B2448;
-    --background-focused: #0B2448;
-    --background-hover: #0B2448;
-    --background-activated: #0B2448;
+    --background: #0b2448;
+    --background-focused: #0b2448;
+    --background-hover: #0b2448;
+    --background-activated: #0b2448;
   }
 }
 
@@ -84,11 +87,11 @@ ion-button {
 }
 
 .btn-action {
-  --border-color: #0B2448;
-  --background: #0B2448;
-  --background-focused: #0B2448;
-  --background-hover: #0B2448;
-  --background-activated: #0B2448;
+  --border-color: #0b2448;
+  --background: #0b2448;
+  --background-focused: #0b2448;
+  --background-hover: #0b2448;
+  --background-activated: #0b2448;
   color: #fff;
   --color: #fff;
   --color-activated: #fff;
@@ -96,7 +99,7 @@ ion-button {
   --color-hover: #fff;
 
   &.outline {
-    --border-color: #0B2448;
+    --border-color: #0b2448;
 
     @include isDarkThemeRoot {
       --background: transparent;
@@ -132,7 +135,6 @@ ion-button {
       color: #252525;
     }
   }
-
 }
 
 .btn-transparent {
@@ -168,11 +170,11 @@ ion-button {
   --background-activated: transparent;
   --box-shadow: none;
   height: 24px;
-  color: #0B2448;
-  --color: #0B2448;
-  --color-activated: #0B2448;
-  --color-focused: #0B2448;
-  --color-hover: #0B2448;
+  color: #0b2448;
+  --color: #0b2448;
+  --color-activated: #0b2448;
+  --color-focused: #0b2448;
+  --color-hover: #0b2448;
   font-size: 16px;
   text-decoration: none;
   text-transform: inherit;
@@ -183,7 +185,7 @@ ion-button {
 
   i {
     filter: brightness(0.3);
-    color: #0B2448;
+    color: #0b2448;
   }
 
   @include isDarkThemeRoot {
@@ -249,9 +251,9 @@ ion-button {
   --background-focused: transparent;
   --background-hover: transparent;
   --background-activated: transparent;
-  --color: #0B2448;
-  --color-activated: #0B2448;
-  --color-focused: #0B2448;
+  --color: #0b2448;
+  --color-activated: #0b2448;
+  --color-focused: #0b2448;
   text-transform: initial;
   font-size: 20px;
   box-shadow: none;
@@ -360,10 +362,10 @@ ion-checkbox {
   border-color: transparent;
   --height: 25px;
   --width: 25px;
-  --checkmark-color: #4CAF50;
-  --background-checked: #4CAF50;
+  --checkmark-color: #4caf50;
+  --background-checked: #4caf50;
   --border-color: transparent;
-  --border-color-checked: #4CAF50;
+  --border-color-checked: #4caf50;
   --ion-item-background: #d2d2d2;
   --ion-item-background-activated: #d2d2d2;
   --ion-item-background-focused: #d2d2d2;
@@ -373,10 +375,10 @@ ion-checkbox {
   -moz-transition: 0.3s;
 
   @include isDarkThemeRoot {
-    --checkmark-color: #4CAF50;
-    --background-checked: #4CAF50;
+    --checkmark-color: #4caf50;
+    --background-checked: #4caf50;
     --border-color: transparent;
-    --border-color-checked: #4CAF50;
+    --border-color-checked: #4caf50;
     --ion-item-background: #5e6163;
     --ion-item-background-activated: #5e6163;
     --ion-item-background-focused: #5e6163;
@@ -388,13 +390,13 @@ ion-toggle.toggle {
   --background: #eeeaea;
   --background-checked: rgb(95 214 40 / 50%);
   --handle-background: #fff;
-  --handle-background-checked: #4CAF50;
+  --handle-background-checked: #4caf50;
 
   @include isDarkThemeRoot {
     --background: rgba(255, 255, 255, 0.3);
     --background-checked: rgb(95 214 40 / 50%);
     --handle-background: rgba(255, 255, 255, 0.6);
-    --handle-background-checked: #4CAF50;
+    --handle-background-checked: #4caf50;
   }
 }
 
