@@ -5,35 +5,28 @@ import { ProviderModel } from '@models/provider.model';
 import { WalletModel } from '@app/models';
 
 @Injectable()
-
 export class Web3Services {
-
   private web3 = web3;
   private provider: any;
 
-  constructor(
-    public utilsHelper: UtilsHelper,
-  ) {
-  }
+  constructor(public utilsHelper: UtilsHelper) {}
 
-  public async connectProvider(config: ProviderModel): Promise<{ blockNumber: number }> {
+  public async connectProvider(
+    config: ProviderModel
+  ): Promise<{ blockNumber: number }> {
     try {
-      this.provider = new this.web3.providers.JsonRpcProvider(
-        config.rpc,
-        {
-          chainId: config.chainId,
-          name: config.name,
-        }
-      );
+      this.provider = new this.web3.providers.JsonRpcProvider(config.rpc, {
+        chainId: config.chainId,
+        name: config.name,
+      });
 
       const blockNumber = await this.getBlockNumber();
 
       return {
-        blockNumber
+        blockNumber,
       };
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw error;
     }
   }
@@ -42,8 +35,12 @@ export class Web3Services {
     return this.provider.getBlockNumber();
   }
 
-  public getWallet({name, mnemonic = null, main = false, derivationPath = `m/44'/60'/0'/0/0`}): WalletModel {
-
+  public getWallet({
+    name,
+    mnemonic = null,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
     if (!mnemonic) {
       const generateMnemonic = this.generateMnemonic();
       mnemonic = generateMnemonic.mnemonic;
@@ -78,11 +75,12 @@ export class Web3Services {
   }
 
   private generateMnemonic() {
-    const mnemonic = this.web3.utils.entropyToMnemonic(this.web3.utils.randomBytes(32));
+    const mnemonic = this.web3.utils.entropyToMnemonic(
+      this.web3.utils.randomBytes(32)
+    );
 
     return {
-      mnemonic
+      mnemonic,
     };
   }
-
 }

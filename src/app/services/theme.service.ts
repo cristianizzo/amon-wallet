@@ -9,26 +9,24 @@ declare const document: any;
 
 @Injectable()
 export class ThemeService {
-
   public theme: Observable<string>;
   private theme$ = new BehaviorSubject<string>(null);
 
-  constructor(
-    private utilsHelper: UtilsHelper
-  ) {
+  constructor(private utilsHelper: UtilsHelper) {
     this.theme = this.theme$.asObservable();
   }
 
   public init(): Observable<any> {
-    return from(this.utilsHelper.async(async () => {
-      const theme = this.getTheme();
-      this._setTheme(theme);
-      return theme;
-    }));
+    return from(
+      this.utilsHelper.async(async () => {
+        const theme = this.getTheme();
+        this._setTheme(theme);
+        return theme;
+      })
+    );
   }
 
   public getTheme(): string {
-
     const theme = window.localStorage.theme;
 
     if (this.utilsHelper.notNull(theme)) {
@@ -36,7 +34,6 @@ export class ThemeService {
     }
 
     if (window.matchMedia) {
-
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
       if (prefersDark) {
@@ -50,7 +47,6 @@ export class ThemeService {
   }
 
   public saveTheme(theme: string = environment.theme): string {
-
     window.localStorage.theme = theme;
     this._setTheme(theme);
     return theme;

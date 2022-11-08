@@ -1,5 +1,10 @@
 <ion-list>
-  <ion-item *ngIf="!wallet.connected" (click)="close('connect')" button detail="false">
+  <ion-item
+    *ngIf="!wallet.connected"
+    (click)="close('connect')"
+    button
+    detail="false"
+  >
     <ion-icon name="navigate-outline"></ion-icon>
     Connect
   </ion-item>
@@ -11,7 +16,12 @@
     <ion-icon name="copy-outline"></ion-icon>
     Copy Address
   </ion-item>
-  <ion-item *ngIf="!wallet.connected && !wallet.main" (click)="close('delete')" button detail="false">
+  <ion-item
+    *ngIf="!wallet.connected && !wallet.main"
+    (click)="close('delete')"
+    button
+    detail="false"
+  >
     <ion-icon name="trash-outline"></ion-icon>
     Elimina
   </ion-item>

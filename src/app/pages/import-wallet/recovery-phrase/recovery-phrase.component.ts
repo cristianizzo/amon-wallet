@@ -2,7 +2,12 @@ import { environment } from '@env/environment';
 import { Component } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { UtilsHelper } from '@helpers/utils';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormValidationHelper } from '@helpers/validation-form';
 import { WalletModule } from '@app/modules/index.module';
 import { Store } from '@ngrx/store';
@@ -16,16 +21,15 @@ import { ToastService } from '@services/toast.service';
 import { LanguageService } from '@services/languages.service';
 // import logger from '@app/app.logger';
 
-const logContent = (data) => Object.assign({service: 'import-wallet:recovery-phrase'}, data);
+const logContent = (data) =>
+  Object.assign({ service: 'import-wallet:recovery-phrase' }, data);
 
 @Component({
   selector: 'app-recovery-phrase',
   templateUrl: './recovery-phrase.component.html',
-  styleUrls: ['./recovery-phrase.component.scss']
+  styleUrls: ['./recovery-phrase.component.scss'],
 })
-
 export class RecoveryPhraseComponent {
-
   public selectedTheme: string;
   public formObj: FormGroup;
   public wallets: WalletModel[];
@@ -40,13 +44,15 @@ export class RecoveryPhraseComponent {
     private walletModule: WalletModule,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
-    private langService: LanguageService,
+    private langService: LanguageService
   ) {
     this.initForm();
   }
 
   ionViewWillEnter(): void {
-    this.store.select(WalletSelector.getWallets).subscribe(wallets => this.wallets = wallets);
+    this.store
+      .select(WalletSelector.getWallets)
+      .subscribe((wallets) => (this.wallets = wallets));
   }
 
   ionViewDidLeave(): void {
@@ -55,12 +61,16 @@ export class RecoveryPhraseComponent {
 
   async importWallet(): Promise<any> {
     try {
-      const walletName = this.tempStorageService.data ? this.tempStorageService.data.walletName : environment.defaultWalletName;
+      const walletName = this.tempStorageService.data
+        ? this.tempStorageService.data.walletName
+        : environment.defaultWalletName;
       const rawForm = this.formObj.getRawValue();
 
-      const newWallet = await this.walletModule.importWalletFromMnemonic(walletName, rawForm.seedPhrase);
+      const newWallet = await this.walletModule.importWalletFromMnemonic(
+        walletName,
+        rawForm.seedPhrase
+      );
       return newWallet;
-
     } catch (_) {
       return false;
     }
@@ -70,26 +80,35 @@ export class RecoveryPhraseComponent {
    * submit function
    */
   public async submit() {
-
     const newWallet = await this.importWallet();
 
     if (!newWallet) {
-      this.toastService.responseError(this.langService.getTranslate('ERRORS.SEED_PHRASE'));
+      this.toastService.responseError(
+        this.langService.getTranslate('ERRORS.SEED_PHRASE')
+      );
       return;
     }
 
-    const existingWallet = await this.walletModule.walletAlreadyExists(newWallet.address);
+    const existingWallet = await this.walletModule.walletAlreadyExists(
+      newWallet.address
+    );
 
     if (existingWallet) {
-      this.toastService.responseError(this.langService.getTranslate('ERRORS.WALLET_ALREADY_EXISTS'));
+      this.toastService.responseError(
+        this.langService.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
+      );
       return;
     }
 
     const secret = await this.walletModule.askWalletSecret();
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(secret);
+    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+      secret
+    );
 
     if (!secret || !isValidSecret) {
-      this.toastService.responseError(this.langService.getTranslate('ERRORS.INVALID_SECRET'));
+      this.toastService.responseError(
+        this.langService.getTranslate('ERRORS.INVALID_SECRET')
+      );
       return;
     }
 
@@ -97,13 +116,15 @@ export class RecoveryPhraseComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    const loader = await this.loadingController.create(this.utilsHelper.loaderOption());
+    const loader = await this.loadingController.create(
+      this.utilsHelper.loaderOption()
+    );
     await loader.present();
 
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
-    this.store.select(WalletSelector.getWallet).subscribe(myWallet => {
+    this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
       loader.dismiss();
       if (myWallet) {
         this.router.navigate(['/auth/assets']);
@@ -116,9 +137,13 @@ export class RecoveryPhraseComponent {
    */
   private initForm() {
     this.formObj = this.formBuilder.group({
-      seedPhrase: new FormControl('', Validators.compose([
-        Validators.required, this.formValidationHelper.mnemonic.bind(this),
-      ])),
+      seedPhrase: new FormControl(
+        '',
+        Validators.compose([
+          Validators.required,
+          this.formValidationHelper.mnemonic.bind(this),
+        ])
+      ),
     });
   }
 }

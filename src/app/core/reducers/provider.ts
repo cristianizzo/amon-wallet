@@ -7,9 +7,13 @@ const initialState: ProviderModel[] = [];
 
 export const providerReducer = createReducer(
   initialState,
-  on(ProviderActions.updateStateProviders, (state: ProviderModel[] = initialState, {providers}) => ([
-    ...state, ...providers
-  ])),
+  on(
+    ProviderActions.updateStateProviders,
+    (state: ProviderModel[] = initialState, { providers }) => [
+      ...state,
+      ...providers,
+    ]
+  )
   // on(ProviderActions.addProvider, (state: ProviderModel[] = initialState, {provider}) => ([
   //   ...state, provider // increase provider id
   // ])),
@@ -23,4 +27,7 @@ export const providerReducer = createReducer(
   // ),
 );
 
-export const reducer = (state: ProviderModel[] | undefined, action: Action): any => providerReducer(state, action);
+export const reducer = (
+  state: ProviderModel[] | undefined,
+  action: Action
+): any => providerReducer(state, action);

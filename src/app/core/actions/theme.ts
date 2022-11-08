@@ -8,16 +8,14 @@ export const languageActionTypes = {
   getTheme: type('[Theme] get theme'),
 };
 
-export const initTheme = createAction(
-  languageActionTypes.initTheme
-);
+export const initTheme = createAction(languageActionTypes.initTheme);
 
 export const updateStateTheme = createAction(
   languageActionTypes.updateStateTheme,
-  (theme: string) => ({theme})
+  (theme: string) => ({ theme })
 );
 
 export const switchTheme = createAction(
   languageActionTypes.switchTheme,
-  (theme: string) => ({theme})
+  (theme: string) => ({ theme })
 );

@@ -8,18 +8,17 @@ const routes: Routes = [
   {
     path: 'pick-password',
     component: PickPasswordComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'seed-phrase',
     component: SeedPhraseComponent,
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class CreateWalletRoutingModule {
-}
+export class CreateWalletRoutingModule {}

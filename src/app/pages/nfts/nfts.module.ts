@@ -14,7 +14,6 @@ import { NftsRoutingModule } from '@pages/nfts/nfts.routing';
     ExploreContainerComponentModule,
     NftsRoutingModule,
   ],
-  declarations: [NftsComponent]
+  declarations: [NftsComponent],
 })
-export class NftsPageModule {
-}
+export class NftsPageModule {}

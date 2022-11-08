@@ -10,7 +10,10 @@ import { StateModel } from '@models/state.model';
 import { WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { WalletModule } from '@app/modules/index.module';
-import { LanguageService, TempStorageService } from '@app/services/index.module';
+import {
+  LanguageService,
+  TempStorageService,
+} from '@app/services/index.module';
 import { Location } from '@angular/common';
 
 @Component({
@@ -19,14 +22,16 @@ import { Location } from '@angular/common';
   styleUrls: ['seedPhrase.component.scss'],
 })
 export class SeedPhraseComponent {
-
   public step: number;
   public password: string;
   public phrases: string[];
   public payloadClipboard: string;
   public wallet: WalletModel;
   public regexPasswordValidation: any = this.utilsHelper.regex.password;
-  public verifyPhrases: { index: number; items: { name: string; valid: boolean; answer: boolean }[] }[];
+  public verifyPhrases: {
+    index: number;
+    items: { name: string; valid: boolean; answer: boolean }[];
+  }[];
 
   constructor(
     private readonly store: Store<StateModel>,
@@ -44,36 +49,48 @@ export class SeedPhraseComponent {
   }
 
   async ionViewWillEnter() {
-    const walletName = this.tempStorageService.data ? this.tempStorageService.data.walletName : environment.defaultWalletName;
+    const walletName = this.tempStorageService.data
+      ? this.tempStorageService.data.walletName
+      : environment.defaultWalletName;
     this.wallet = await this.walletModule.createWalletFromMnemonic(walletName);
     this.phrases = this.wallet.phrase.split(' ');
-    this.verifyPhrases = this.utilsHelper.phraseItems(this.phrases.slice(0, 9))
+    this.verifyPhrases = this.utilsHelper
+      .phraseItems(this.phrases.slice(0, 9))
       .sort((a, b) => a.index - b.index);
-    this.payloadClipboard = this.phrases
-      .reduce((acc, phrase, index) => acc += `#${index + 1} ${phrase} \n`, '');
+    this.payloadClipboard = this.phrases.reduce(
+      (acc, phrase, index) => (acc += `#${index + 1} ${phrase} \n`),
+      ''
+    );
   }
 
   /**
    * submit function
    */
   public async submit() {
-
-    const secret = this.tempStorageService.data.secret || await this.walletModule.askWalletSecret();
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(secret);
+    const secret =
+      this.tempStorageService.data.secret ||
+      (await this.walletModule.askWalletSecret());
+    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+      secret
+    );
 
     if (!secret || !isValidSecret) {
-      this.toastService.responseError(this.langService.getTranslate('ERRORS.INVALID_SECRET'));
+      this.toastService.responseError(
+        this.langService.getTranslate('ERRORS.INVALID_SECRET')
+      );
       return false;
     }
 
-    const loader = await this.loadingController.create(this.utilsHelper.loaderOption());
+    const loader = await this.loadingController.create(
+      this.utilsHelper.loaderOption()
+    );
     await loader.present();
 
     this.store.dispatch(WalletActions.addWallet(this.wallet, secret));
 
     await this.utilsHelper.wait(3000);
 
-    this.store.select(WalletSelector.getWallet).subscribe(wallet => {
+    this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
       if (wallet) {
         loader.dismiss();
         this.tempStorageService.data = null;
@@ -103,7 +120,6 @@ export class SeedPhraseComponent {
    * selectAnswer function
    */
   public selectAnswer(phrase: any, item: any) {
-
     for (const i of phrase.items) {
       i.answer = false;
 

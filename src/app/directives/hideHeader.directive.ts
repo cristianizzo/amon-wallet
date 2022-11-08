@@ -1,36 +1,25 @@
-import {Directive, HostListener, Input, OnInit, Renderer2} from '@angular/core';
-import {DomController} from '@ionic/angular';
+import {
+  Directive,
+  HostListener,
+  Input,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
+import { DomController } from '@ionic/angular';
 
 @Directive({
-  selector: '[appHideHeader]'
+  selector: '[appHideHeader]',
 })
 export class HideHeaderDirective implements OnInit {
-
   @Input('appHideHeader') toolbar: any;
   @Input() noOpacity: boolean;
 
   private toolbarHeight: number;
   private init: boolean;
 
-  constructor(
-    private renderer: Renderer2,
-    private domCtrl: DomController,
-  ) {
-  }
-
-  ngOnInit(): void {
-    this.domCtrl.read(() => {
-      setTimeout(() => {
-        this.init = true;
-        this.toolbar = this.toolbar.el;
-        this.toolbarHeight = this.toolbar.clientHeight;
-      }, 0);
-    });
-
-  }
+  constructor(private renderer: Renderer2, private domCtrl: DomController) {}
 
   @HostListener('ionScroll', ['$event']) onContentScroll(event) {
-
     if (!this.init) {
       return;
     }
@@ -43,15 +32,13 @@ export class HideHeaderDirective implements OnInit {
       newPosition = -this.toolbarHeight;
     }
 
-    const newOpacity = 1 - (newPosition / -this.toolbarHeight);
+    const newOpacity = 1 - newPosition / -this.toolbarHeight;
 
     this.domCtrl.write(() => {
       this.renderer.setStyle(this.toolbar, 'top', `${newPosition}px`);
 
       if (!this.noOpacity) {
-
         this.renderer.setStyle(this.toolbar, 'opacity', newOpacity);
-
       } else {
         if (newPosition > -0.4) {
           this.renderer.setStyle(this.toolbar, 'opacity', 1);
@@ -60,6 +47,15 @@ export class HideHeaderDirective implements OnInit {
         }
       }
     });
+  }
 
+  ngOnInit(): void {
+    this.domCtrl.read(() => {
+      setTimeout(() => {
+        this.init = true;
+        this.toolbar = this.toolbar.el;
+        this.toolbarHeight = this.toolbar.clientHeight;
+      }, 0);
+    });
   }
 }

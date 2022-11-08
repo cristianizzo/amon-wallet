@@ -15,23 +15,20 @@ ion-toolbar {
   }
 }
 
-ion-title {
-  color: #fff;
+.receive-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  @include isDarkTheme {
-    color: #fff;
+  ion-icon {
+    margin-left: 12px;
+    font-size: 30px;
+    cursor: pointer;
+
+    @media (max-width: 340px) {
+      font-size: 25px;
+    }
   }
-}
-
-app-slide-wallets {
-
-  @include isDarkTheme {
-    background-color: transparent;
-  }
-}
-
-.wallet-type {
-  position: relative;
 }
 
 ion-grid {
@@ -39,47 +36,6 @@ ion-grid {
 
   @include isDarkTheme {
     background-color: transparent;
-  }
-
-}
-
-ion-row.header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 122px;
-
-  @include mobile-sm {
-    height: 100px;
-  }
-
-  @include mobile-xs {
-    height: 100px;
-  }
-
-  ion-label {
-    text-align: center;
-    font-size: 18px;
-    color: #333;
-    margin-top: 12px;
-    margin-bottom: 7px;
-    font-family: "Gotham", sans-serif;
-    font-weight: 500;
-
-    @include mobile-sm {
-      font-size: 16px;
-    }
-
-    @include mobile-xs {
-      font-size: 14px;
-    }
-  }
-
-  app-slide-wallets {
-
-    @include isDarkTheme {
-      background-color: transparent;
-    }
   }
 }
 
@@ -116,23 +72,9 @@ ion-row.body {
     }
   }
 
-  .label-address {
-    color: #333;
-    font-size: 13px;
-    line-height: 17px;
-    margin-bottom: 10px;
-    position: relative;
-    font-family: "Gotham", sans-serif;
-    font-weight: 500;
-
-    @include isDarkTheme {
-      color: #a2a2a2;
-    }
-  }
-
   .box-item {
     margin-bottom: 14px;
-    border-bottom: 1px solid #ecf0f1;
+    border-bottom: 0;
     padding-bottom: 14px;
 
     @include mobile-xs {
@@ -154,13 +96,13 @@ ion-row.body {
     }
 
     .label-address {
-      color: #888888;
+      color: #343434;
       font-size: 14px;
       line-height: 17px;
-      margin-bottom: 0;
-      text-align: left;
-      font-family: "Gotham", sans-serif;
+      text-align: center;
+      font-family: 'Gotham', sans-serif;
       font-weight: 400;
+      margin-bottom: 5px;
 
       @include mobile-xs {
         font-size: 13px;
@@ -187,13 +129,13 @@ ion-row.body {
     }
 
     p.address {
-      font-size: 16px;
-      max-width: calc(100% - 55px);
-      text-align: left;
+      font-size: 15px;
+      text-align: center;
       margin: 0;
       font-weight: 500;
       line-height: 18px;
       font-family: 'Helvetica Neue', sans-serif;
+      width: 100%;
 
       @include mobile-md {
         font-size: 14px;
@@ -216,7 +158,7 @@ ion-row.body {
   .alert-testnet {
     max-width: 240px;
     margin: 0 auto;
-    background: #941B0F;
+    background: #941b0f;
     color: #eee;
     padding: 7px;
     font-size: 12px;
@@ -234,7 +176,6 @@ ion-row.body {
       background: #ff4f3d;
       color: #eee;
     }
-
   }
 }
 
@@ -244,7 +185,7 @@ ion-row.body {
   padding: 20px;
   font-size: 18px;
   text-align: center;
-  color: #0FD6D3;
+  color: #0fd6d3;
   line-height: 22px;
 
   @include isDarkTheme {
@@ -253,7 +194,7 @@ ion-row.body {
 }
 
 .fiat_amount {
-  color: #0065E0;
+  color: #0065e0;
 
   @include isDarkTheme {
     color: #fff;
@@ -261,28 +202,26 @@ ion-row.body {
 }
 
 .box-item {
-
   &.info-text {
     border-bottom: 0 !important;
     margin-bottom: 20px;
 
     .label-address {
-      color: #C50000 !important;
+      color: #c50000 !important;
       font-weight: 400 !important;
       white-space: pre-wrap;
     }
   }
 
   ion-buttons {
-
     @include isDarkTheme {
       color: #888;
     }
 
     ion-button {
-      --color: #0065E0;
-      --color-activated: #0065E0;
-      --color-focused: #0065E0;
+      --color: #0065e0;
+      --color-activated: #0065e0;
+      --color-focused: #0065e0;
 
       @include isDarkTheme {
         --color: #fff;
@@ -291,7 +230,6 @@ ion-row.body {
       }
     }
   }
-
 }
 
 .wallet-buttons {
@@ -359,36 +297,8 @@ ion-row.body {
       opacity: 0.7;
     }
   }
-
 }
 
 .btn-action {
   text-transform: initial;
-}
-
-
-.receive-title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  ion-icon {
-    margin-left: 12px;
-    font-size: 30px;
-    cursor: pointer;
-
-    @media (max-width: 340px) {
-      font-size: 25px;
-    }
-  }
-}
-
-app-wallet-chains {
-  ::ng-deep ion-item.dropdown-item {
-    margin-bottom: 20px !important;
-  }
-}
-
-.chains-list {
-  margin-bottom: 30px;
 }

@@ -31,7 +31,9 @@
 
 //iPhone 4:
 @mixin mobile-xs {
-  @media screen and (device-aspect-ratio: 2/3), (max-width: 320px), (max-height: 640px) {
+  @media screen and (device-aspect-ratio: 2/3),
+    (max-width: 320px),
+    (max-height: 640px) {
     @content;
   }
 }

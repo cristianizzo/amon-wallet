@@ -1,7 +1,6 @@
 import '../support/commands';
 
 describe('Start App', () => {
-
   beforeEach(() => {
     cy.visit('/');
   });

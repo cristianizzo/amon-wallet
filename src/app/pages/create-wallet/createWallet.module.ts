@@ -24,11 +24,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     NgAmonPipesModule,
     NgAmonDirectivesModule,
   ],
-  declarations: [
-    PickPasswordComponent,
-    SeedPhraseComponent,
-  ],
-  providers: []
+  declarations: [PickPasswordComponent, SeedPhraseComponent],
+  providers: [],
 })
-export class CreateWalletModule {
-}
+export class CreateWalletModule {}

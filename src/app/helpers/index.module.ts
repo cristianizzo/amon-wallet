@@ -5,21 +5,9 @@ import { CryptoHelper } from '@helpers/crypto';
 import { FormValidationHelper } from '@helpers/validation-form';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  declarations: [
-    FormValidationHelper,
-  ],
-  providers: [
-    FormValidationHelper,
-    UtilsHelper,
-    CryptoHelper,
-  ],
-  exports: [
-    FormValidationHelper
-  ]
+  imports: [CommonModule],
+  declarations: [FormValidationHelper],
+  providers: [FormValidationHelper, UtilsHelper, CryptoHelper],
+  exports: [FormValidationHelper],
 })
-
-export class NgAmonHelpersModule {
-}
+export class NgAmonHelpersModule {}

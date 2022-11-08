@@ -3,7 +3,6 @@ import '../support/commands';
 import { UtilsHelper } from '@app/helpers/utils';
 
 describe('Create Wallet', () => {
-
   beforeEach(() => {
     cy.setLocalStorage('langSelected', '1');
     cy.setLocalStorage('language', 'en');
@@ -61,7 +60,6 @@ describe('Create Wallet', () => {
     //     console.log(1, items);
     //   });
 
-
     // const a = await promisify(cy
     //   .get('.verifyPhrases')
     //   .then($el => $el)
@@ -86,7 +84,6 @@ describe('Create Wallet', () => {
     //     // cy.wrap(items).click().then(() => {});
     //
     //   });
-
 
     // console.log(cy.get('.verifyPhrases');
     // cy.get('.verifyPhrases')
@@ -188,7 +185,5 @@ describe('Create Wallet', () => {
     // cy.url().should("include", urlText)
     // });
     // console.log(cy.get('.cy-valid').children().)
-
   });
-
 });

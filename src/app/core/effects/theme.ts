@@ -6,29 +6,25 @@ import { ThemeService } from '@services/theme.service';
 
 @Injectable()
 export class ThemeEffects {
-
   initLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ThemeActions.initTheme),
       switchMap((_) =>
-        this.themeService.init()
-          .pipe(
-            map((theme) => ThemeActions.updateStateTheme(theme)),
-          )
-      ))
+        this.themeService
+          .init()
+          .pipe(map((theme) => ThemeActions.updateStateTheme(theme)))
+      )
+    )
   );
 
-  switchLanguage$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ThemeActions.switchTheme),
-      switchMap(async (action) =>
-        this.themeService.saveTheme(action.theme))
-    ), {dispatch: false}
+  switchLanguage$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ThemeActions.switchTheme),
+        switchMap(async (action) => this.themeService.saveTheme(action.theme))
+      ),
+    { dispatch: false }
   );
 
-  constructor(
-    private actions$: Actions,
-    private themeService: ThemeService,
-  ) {
-  }
+  constructor(private actions$: Actions, private themeService: ThemeService) {}
 }

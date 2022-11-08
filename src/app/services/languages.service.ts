@@ -11,15 +11,13 @@ import localePt from '@angular/common/locales/pt';
 import { from, Observable } from 'rxjs';
 
 @Injectable()
-
 export class LanguageService {
-
   public language: string;
   public languages: string[] = [...environment.languages];
 
   constructor(
     private utilsHelper: UtilsHelper,
-    private translate: TranslateService,
+    private translate: TranslateService
   ) {
     registerLocaleData(localeIt, 'it');
     registerLocaleData(localeEs, 'es');
@@ -28,20 +26,20 @@ export class LanguageService {
   }
 
   public initLanguages(): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const language = this.getLanguage();
+        this.setDefaultLang(language);
 
-    return from(this.utilsHelper.async(async () => {
-
-      const language = this.getLanguage();
-      this.setDefaultLang(language);
-
-      return this.getLanguages();
-    }));
+        return this.getLanguages();
+      })
+    );
   }
 
   public setDefaultLang(lang: string) {
     this.translate.setDefaultLang(lang);
     this.language = lang;
-  };
+  }
 
   public getLanguages(): LanguageModel[] {
     const defaultLang = this.getLanguage();
@@ -49,12 +47,11 @@ export class LanguageService {
       lang,
       flag: this.utilsHelper.getLanguagePath(lang.toUpperCase()),
       selected: defaultLang === lang,
-      label: `LANGUAGE.${lang.toUpperCase()}`
+      label: `LANGUAGE.${lang.toUpperCase()}`,
     }));
   }
 
   public getLanguage(): string {
-
     let language = environment.defaultLanguage;
 
     if (window.localStorage && window.localStorage.language) {
@@ -63,7 +60,7 @@ export class LanguageService {
       language = window.localStorage.language;
     }
 
-    const supportedLang = this.languages.find(w => w === language);
+    const supportedLang = this.languages.find((w) => w === language);
 
     return supportedLang ? supportedLang : environment.defaultLanguage;
   }
@@ -82,7 +79,6 @@ export class LanguageService {
   }
 
   public getTranslate(key: string, params?: any) {
-
     if (params) {
       return this.translate.instant(key, params);
     }
@@ -91,7 +87,6 @@ export class LanguageService {
   }
 
   private _save(language: string) {
-
     if (!language || language === 'undefined' || language === null) {
       return;
     }
@@ -106,5 +101,4 @@ export class LanguageService {
 
     return language;
   }
-
 }

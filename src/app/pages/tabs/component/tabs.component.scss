@@ -2,15 +2,13 @@
 @import 'theme';
 
 ion-tab-bar {
-
   @include isDarkTheme {
     --ion-tab-bar-background: transparent;
     --background-focused: transparent;
-    --border: 1px solid rgba(255,255,255,0.3);
+    --border: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   ion-tab-button {
-
     .menu-icon {
       width: 30px;
       font-size: 18px;
@@ -37,7 +35,7 @@ ion-tab-bar {
 
     ion-label {
       text-transform: lowercase;
-      color: #0B2448;
+      color: #0b2448;
       opacity: 0.8;
       position: absolute;
       bottom: 3px;
@@ -49,7 +47,6 @@ ion-tab-bar {
     }
 
     &.tab-selected {
-
       ion-label {
         opacity: 1;
 
@@ -59,13 +56,10 @@ ion-tab-bar {
       }
 
       ion-icon {
-
         @include isDarkTheme {
           filter: grayscale(1);
         }
       }
     }
-
   }
-
 }

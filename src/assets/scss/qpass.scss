@@ -27,7 +27,6 @@
 /* QPASS GRID*/
 
 :root {
-
   /*  --lg-viewport: min-width: 80em;  1280px
     --md-viewport: min-width: 64em;  1024px
     --sm-viewport: min-width: 48em;  768px */
@@ -124,11 +123,11 @@
   margin-bottom: 20px;
 }
 
-.qpass-flex > .space-box:nth-child(1n+1) {
+.qpass-flex > .space-box:nth-child(1n + 1) {
   padding-right: 10px;
 }
 
-.qpass-flex > .space-box:nth-child(2n+2) {
+.qpass-flex > .space-box:nth-child(2n + 2) {
   padding-left: 10px;
 }
 
@@ -708,7 +707,6 @@
 }
 
 @media (min-width: 781px) {
-
   .col-sm,
   .col-sm-1,
   .col-sm-2,
@@ -951,7 +949,6 @@
 }
 
 @media (min-width: 1025px) {
-
   .col-md,
   .col-md-1,
   .col-md-2,
@@ -1194,7 +1191,6 @@
 }
 
 @media (min-width: 1281px) {
-
   .col-lg,
   .col-lg-1,
   .col-lg-2,

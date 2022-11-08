@@ -16,7 +16,7 @@ export const ProvidersJson = [
     chainId: 5,
     symbol: 'ETH',
     explorer: 'https://goerli.etherscan.io',
-    default: false
+    default: false,
   },
   {
     id: 3,
@@ -25,7 +25,7 @@ export const ProvidersJson = [
     chainId: 56,
     symbol: 'BNB',
     explorer: 'https://bscscan.com/',
-    default: false
+    default: false,
   },
   {
     id: 4,
@@ -34,7 +34,7 @@ export const ProvidersJson = [
     chainId: 137,
     symbol: 'MATIC',
     explorer: 'https://polygonscan.com/',
-    default: false
+    default: false,
   },
   {
     id: 5,
@@ -43,7 +43,7 @@ export const ProvidersJson = [
     chainId: 137,
     symbol: 'AVAX',
     explorer: 'https://cchain.explorer.avax.network/',
-    default: false
+    default: false,
   },
   {
     id: 6,
@@ -52,6 +52,6 @@ export const ProvidersJson = [
     chainId: 250,
     symbol: 'FTM',
     explorer: 'https://ftmscan.com/',
-    default: false
-  }
+    default: false,
+  },
 ];

@@ -18,9 +18,8 @@ import { QrCodeModule } from '@components/qrcode/qrcode.component.module';
     BackButtonModule,
     NgAmonDirectivesModule,
     TranslateModule,
-    QrCodeModule
+    QrCodeModule,
   ],
-  declarations: [DepositComponent]
+  declarations: [DepositComponent],
 })
-export class DepositModule {
-}
+export class DepositModule {}

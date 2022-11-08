@@ -4,7 +4,7 @@ const config: CapacitorConfig = {
   appId: 'defi.amon.tech',
   appName: 'Amon DeFi',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
 };
 
 export default config;

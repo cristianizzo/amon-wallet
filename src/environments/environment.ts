@@ -1,5 +1,5 @@
 import commonConfig from './common';
-import {EnvModel} from '@app/models';
+import { EnvModel } from '@app/models';
 
 // @ts-ignore
 const config: EnvModel = commonConfig.getConfigObject(process.env);

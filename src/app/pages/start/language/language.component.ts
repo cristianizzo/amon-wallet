@@ -13,7 +13,6 @@ import { ThemeSelector } from '@app/core/selectors';
   styleUrls: ['language.component.scss'],
 })
 export class LanguageComponent {
-
   public selectedTheme: string;
   public languages: LanguageModel[];
   public selectedLanguage: LanguageModel | undefined;
@@ -22,16 +21,19 @@ export class LanguageComponent {
     private readonly store: Store<StateModel>,
     private navController: NavController
   ) {
-    this.store.select(ThemeSelector.getTheme)
-      .subscribe((theme) => this.selectedTheme = theme);
+    this.store
+      .select(ThemeSelector.getTheme)
+      .subscribe((theme) => (this.selectedTheme = theme));
   }
 
   ionViewWillEnter(): void {
-    this.store.select(LanguageSelector.getLanguages)
-      .subscribe(languages => this.languages = languages);
+    this.store
+      .select(LanguageSelector.getLanguages)
+      .subscribe((languages) => (this.languages = languages));
 
-    this.store.select(LanguageSelector.getLanguage)
-      .subscribe(language => this.selectedLanguage = language);
+    this.store
+      .select(LanguageSelector.getLanguage)
+      .subscribe((language) => (this.selectedLanguage = language));
   }
 
   onSelectedLanguage(language: LanguageModel): void {

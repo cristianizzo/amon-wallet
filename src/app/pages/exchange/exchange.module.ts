@@ -13,9 +13,8 @@ import { ExchangeRoutingModule } from './exchange.routing';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    ExchangeRoutingModule
+    ExchangeRoutingModule,
   ],
-  declarations: [ExchangeComponent]
+  declarations: [ExchangeComponent],
 })
-export class ExchangeModule {
-}
+export class ExchangeModule {}

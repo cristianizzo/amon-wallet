@@ -1,15 +1,13 @@
 import { Component } from '@angular/core';
 import { WalletModel } from '@app/models';
-import {NavParams, PopoverController} from '@ionic/angular';
+import { NavParams, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-wallet-menu',
   templateUrl: './wallet-menu.component.html',
-  styleUrls: ['./wallet-menu.component.scss']
+  styleUrls: ['./wallet-menu.component.scss'],
 })
-
 export class WalletMenuComponent {
-
   public wallet: WalletModel;
 
   constructor(
@@ -20,6 +18,6 @@ export class WalletMenuComponent {
   }
 
   close(action: string) {
-    this.popoverController.dismiss({action, wallet: this.wallet});
+    this.popoverController.dismiss({ action, wallet: this.wallet });
   }
 }

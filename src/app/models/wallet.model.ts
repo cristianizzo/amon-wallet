@@ -27,4 +27,3 @@ export interface WalletModel {
   isHardware: boolean;
   encrypted?: EncryptedDataModel;
 }
-

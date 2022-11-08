@@ -25,7 +25,7 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; // width and height o
 
   &:before,
   &:after {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     border-width: 2px;
@@ -35,7 +35,6 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; // width and height o
 }
 
 .spinner.spinner-main {
-
   @keyframes rotate-animation {
     0% {
       transform: rotate(0deg);
@@ -81,8 +80,7 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; // width and height o
   }
 }
 
-@-webkit-keyframes rotating /* Safari and Chrome */
-{
+@-webkit-keyframes rotating /* Safari and Chrome */ {
   from {
     -webkit-transform: rotate(0deg);
     -o-transform: rotate(0deg);

@@ -6,12 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: NftsComponent,
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class NftsRoutingModule {
-}
+export class NftsRoutingModule {}

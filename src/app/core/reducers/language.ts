@@ -7,14 +7,25 @@ const initialState: LanguageModel[] = [];
 
 export const languageReducer = createReducer(
   initialState,
-  on(LanguageActions.updateStateLanguages, (state: LanguageModel[] = initialState, {languages}) => ([
-    ...state, ...languages
-  ])),
-  on(LanguageActions.switchLanguage, (state: LanguageModel[] = initialState, {language}) =>
-    state.map(p => Object.assign({}, p, {
-      selected: p.lang === language.lang
-    }))
+  on(
+    LanguageActions.updateStateLanguages,
+    (state: LanguageModel[] = initialState, { languages }) => [
+      ...state,
+      ...languages,
+    ]
   ),
+  on(
+    LanguageActions.switchLanguage,
+    (state: LanguageModel[] = initialState, { language }) =>
+      state.map((p) =>
+        Object.assign({}, p, {
+          selected: p.lang === language.lang,
+        })
+      )
+  )
 );
 
-export const reducer = (state: LanguageModel[] | undefined, action: Action): any => languageReducer(state, action);
+export const reducer = (
+  state: LanguageModel[] | undefined,
+  action: Action
+): any => languageReducer(state, action);

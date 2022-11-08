@@ -12,16 +12,17 @@ import { Router } from '@angular/router';
   styleUrls: ['welcome.component.scss'],
 })
 export class WelcomeComponent {
-
   public selectedTheme: string;
 
   constructor(
     private readonly store: Store<StateModel>,
     private langService: LanguageService,
     private actionSheetController: ActionSheetController,
-    private router: Router,
+    private router: Router
   ) {
-    this.store.select(ThemeSelector.getTheme).subscribe((theme) => this.selectedTheme = theme);
+    this.store
+      .select(ThemeSelector.getTheme)
+      .subscribe((theme) => (this.selectedTheme = theme));
   }
 
   /**
@@ -51,9 +52,8 @@ export class WelcomeComponent {
         text: this.langService.getTranslate('BUTTON.CANCEL'),
         icon: 'close',
         role: 'cancel',
-        handler: () => {
-        }
-      }
+        handler: () => {},
+      },
     ];
 
     const actionSheet = await this.actionSheetController.create({
@@ -62,6 +62,5 @@ export class WelcomeComponent {
     });
 
     await actionSheet.present();
-
   }
 }

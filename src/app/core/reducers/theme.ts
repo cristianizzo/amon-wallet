@@ -8,8 +8,12 @@ const initialState: string = environment.theme;
 
 export const themeReducer = createReducer(
   initialState,
-  on(ThemeActions.updateStateTheme, (_: string = initialState, {theme}) => theme),
-  on(ThemeActions.switchTheme, (_: string = initialState, {theme}) => theme),
+  on(
+    ThemeActions.updateStateTheme,
+    (_: string = initialState, { theme }) => theme
+  ),
+  on(ThemeActions.switchTheme, (_: string = initialState, { theme }) => theme)
 );
 
-export const reducer = (state: string | undefined, action: Action): any => themeReducer(state, action);
+export const reducer = (state: string | undefined, action: Action): any =>
+  themeReducer(state, action);

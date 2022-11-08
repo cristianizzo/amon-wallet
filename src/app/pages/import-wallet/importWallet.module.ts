@@ -21,10 +21,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     NgAmonPipesModule,
     NgAmonDirectivesModule,
   ],
-  declarations: [
-    RecoveryPhraseComponent,
-  ],
-  providers: []
+  declarations: [RecoveryPhraseComponent],
+  providers: [],
 })
-export class ImportWalletModule {
-}
+export class ImportWalletModule {}

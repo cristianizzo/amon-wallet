@@ -3,10 +3,4 @@ import * as LanguageActions from '@app/core/actions/language';
 import * as WalletActions from '@app/core/actions/wallet';
 import * as ThemeActions from '@app/core/actions/theme';
 
-export {
-  ProviderActions,
-  LanguageActions,
-  WalletActions,
-  ThemeActions,
-};
-
+export { ProviderActions, LanguageActions, WalletActions, ThemeActions };

@@ -11,33 +11,31 @@ export const walletActionTypes = {
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
 };
 
-export const initWallets = createAction(
-  walletActionTypes.initWallets,
-);
+export const initWallets = createAction(walletActionTypes.initWallets);
 
 export const addWallet = createAction(
   walletActionTypes.addWallet,
-  (wallet: WalletModel, secret: string) => ({wallet, secret})
+  (wallet: WalletModel, secret: string) => ({ wallet, secret })
 );
 
 export const walletError = createAction(
   walletActionTypes.walletError,
-  (error: any) => ({error})
+  (error: any) => ({ error })
 );
 
 export const updateStateWallets = createAction(
   walletActionTypes.updateStateWallets,
-  (wallets: WalletModel[]) => ({wallets})
+  (wallets: WalletModel[]) => ({ wallets })
 );
 
 export const switchDefaultWallet = createAction(
   '[Wallet] switch wallet connected',
-  (address: string) => ({address})
+  (address: string) => ({ address })
 );
 
 export const renameWallet = createAction(
   '[Wallet] rename wallet',
-  (address: string, name: string) => ({address, name})
+  (address: string, name: string) => ({ address, name })
 );
 
 // export const deleteWallet = createAction(

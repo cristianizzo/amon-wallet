@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
-import { CurrencyModel, MenuModel, ProviderModel, WalletModel } from '@app/models';
+import {
+  CurrencyModel,
+  MenuModel,
+  ProviderModel,
+  WalletModel,
+} from '@app/models';
 import { CurrenciesJson, MenuJson, ProvidersJson } from '@assets/data';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
 
 @Injectable()
 export class UtilsHelper {
-
   public regex = {
-    amount: '^[0-9\.]*$',
+    amount: '^[0-9.]*$',
     password: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
-    passwordStrong: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[?.,=-£$%^*!@#$&*~]).{8,}$',
+    passwordStrong:
+      '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[?.,=-£$%^*!@#$&*~]).{8,}$',
     address: '^[a-zA-Z0-9 ]*$',
     // eslint-disable-next-line id-blacklist
     number: '^[0-9]*$', // only numbers
@@ -25,76 +30,76 @@ export class UtilsHelper {
   public noop: () => 0;
 
   public async wait(ms: number): Promise<any> {
-
-    return new Promise(res => setTimeout(res, ms));
+    return new Promise((res) => setTimeout(res, ms));
   }
 
   public notNull(value: any): boolean {
-
-    return (value && value !== undefined && value !== null);
+    return value && value !== undefined && value !== null;
   }
 
   public splitArrayIntoChunks(array: any, perChunk: number): any[] {
     return array.reduce((all, one, i) => {
       const ch = Math.floor(i / perChunk);
-      all[ch] = [].concat((all[ch] || []), one);
+      all[ch] = [].concat(all[ch] || [], one);
       return all;
     }, []);
   }
 
-  public phraseItems(phrases): { index: number; items: { name: string; valid: boolean, answer: boolean }[] }[] {
-
+  public phraseItems(phrases): {
+    index: number;
+    items: { name: string; valid: boolean; answer: boolean }[];
+  }[] {
     return chunk(shuffle(phrases), 3).reduce((acc, _chunk) => {
       const randWord = sample(_chunk) || '';
       acc.push({
         index: phrases.findIndex((p) => p === randWord),
-        items: _chunk.map((ck) => ({name: ck, valid: ck === randWord, answer: false})),
+        items: _chunk.map((ck) => ({
+          name: ck,
+          valid: ck === randWord,
+          answer: false,
+        })),
       });
       return acc;
     }, []);
   }
 
   public stringHasValue(value: string): boolean {
-
     if (!value) {
       return false;
     }
 
     try {
-      return value && Object.prototype.toString.call(value) === '[object String]' && value.length > 0;
+      return (
+        value &&
+        Object.prototype.toString.call(value) === '[object String]' &&
+        value.length > 0
+      );
     } catch (error) {
       return false;
     }
   }
 
   public objectHasValue(value: any): boolean {
-
     try {
-
       return value && value === Object(value) && Object.keys(value).length > 0;
-
     } catch (e) {
       return false;
     }
   }
 
   public arrayHasValue(array: any): boolean {
-
     if (!array) {
       return false;
     }
 
     try {
-
       return array && Array.isArray(array) && array.length > 0;
-
     } catch (e) {
       return false;
     }
   }
 
   public isObject(value: any): boolean {
-
     try {
       return value === Object(value);
     } catch (_) {
@@ -111,23 +116,24 @@ export class UtilsHelper {
   }
 
   public loaderOption(duration?: null): any {
-
     return {
       message: '<ion-img src="/assets/img/loader.svg"></ion-img>',
       cssClass: 'amn-loader',
       translucent: true,
       showBackdrop: false,
       spinner: null,
-      duration
+      duration,
     };
   }
 
   public sortWallets(state: WalletModel[]): WalletModel[] {
     if (state && state.length > 0) {
-      return Object.assign([], state).sort((a, b) => Number(b.connected) - Number(a.connected));
+      return Object.assign([], state).sort(
+        (a, b) => Number(b.connected) - Number(a.connected)
+      );
     }
     return state;
-  };
+  }
 
   public async async(fun) {
     try {
@@ -139,7 +145,6 @@ export class UtilsHelper {
   }
 
   public cryptoPrecision(value?: string, decimal?: number): string {
-
     if (!decimal && decimal !== 0) {
       decimal = 8;
     }
@@ -156,23 +161,18 @@ export class UtilsHelper {
     const op = value.split('.');
 
     if (op[1] && op[1].length < decimal) {
-
-      const diff = (decimal - op[1].length);
+      const diff = decimal - op[1].length;
 
       new Array(diff).fill(0).forEach(() => {
         op[1] += '0';
       });
 
       return this._parseBalance(op);
-
     } else if (op[1] && op[1].length > decimal) {
-
       op[1] = op[1].slice(0, -decimal);
 
       return this._parseBalance(op);
-
     } else if (op[0] && !op[1]) {
-
       let digits = '';
 
       new Array(decimal).fill(0).forEach(() => {
@@ -182,27 +182,23 @@ export class UtilsHelper {
       op.push(digits);
 
       return this._parseBalance(op);
-
     } else {
-
       return value;
     }
-
   }
 
   /**
    *
    * This generate an URI string to be used in links or QR-code
    *
-   * @param {Object} params
-   * @param {string} params.address
-   * @param {?string} params.coinCode [ETH]
-   * @param {?string} params.amount Amount requested, optional
+   * @param params
+   * @param params.address
+   * @param params.coinCode [ETH]
+   * @param params.amount Amount requested, optional
    *
-   * @return {string} URI as text
+   * @return URI as text
    */
-  public qrCodeStringify({address, amount = 0}) {
-
+  public qrCodeStringify({ address, amount = 0 }) {
     const prefix = 'ethereum';
     let uri = `${prefix}:`;
     uri += address;
@@ -222,7 +218,6 @@ export class UtilsHelper {
   }
 
   private _parseBalance(value) {
-
     if (this.stringHasValue(value[1])) {
       return value.join().replace(',', '.');
     } else {
@@ -230,4 +225,3 @@ export class UtilsHelper {
     }
   }
 }
-

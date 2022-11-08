@@ -8,18 +8,17 @@ const routes: Routes = [
   {
     path: '',
     component: LanguageComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
   {
     path: 'welcome',
     component: WelcomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class StartRoutingModule {
-}
+export class StartRoutingModule {}

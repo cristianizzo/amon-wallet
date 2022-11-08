@@ -20,9 +20,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@app/core/effects';
 
 @NgModule({
-  declarations: [
-    AmonComponent
-  ],
+  declarations: [AmonComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -39,19 +37,19 @@ import { effects } from '@app/core/effects';
   providers: [
     AppConfig,
     AuthGuard,
-    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     {
       provide: DEFAULT_CONFIG,
       useValue: {
         name: 'amon',
-        driver: [ // defaults to indexedDB -> webSQL -> localStorage
+        driver: [
+          // defaults to indexedDB -> webSQL -> localStorage
           Driver.INDEXED_DB,
-          Driver.LOCAL_STORAGE
-        ]
-      } as NgForageOptions
-    }
+          Driver.LOCAL_STORAGE,
+        ],
+      } as NgForageOptions,
+    },
   ],
   bootstrap: [AmonComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

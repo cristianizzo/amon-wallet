@@ -8,15 +8,11 @@ import { AppConfig } from './app.config';
   styleUrls: ['app.component.scss'],
 })
 export class AmonComponent {
-  constructor(
-    private platform: Platform,
-    private appConfig: AppConfig,
-  ) {
+  constructor(private platform: Platform, private appConfig: AppConfig) {
     this.initializeApp();
   }
 
   private initializeApp() {
-
     this.platform.ready().then(async () => {
       this.appConfig.loadConfiguration();
 

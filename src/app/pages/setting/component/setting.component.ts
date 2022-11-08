@@ -8,15 +8,14 @@ import { LanguageService } from '@services/languages.service';
 import * as packageJson from '../../../../../package.json';
 
 // @ts-ignore
-const logContent = (data) => Object.assign({service: 'setting'}, data);
+const logContent = (data) => Object.assign({ service: 'setting' }, data);
 
 @Component({
   selector: 'app-setting',
   templateUrl: 'setting.component.html',
-  styleUrls: ['setting.component.scss']
+  styleUrls: ['setting.component.scss'],
 })
 export class SettingComponent {
-
   public selectedLang: string;
   public selectedTheme: string;
   public isLocal: boolean;
@@ -27,7 +26,7 @@ export class SettingComponent {
   constructor(
     private langService: LanguageService,
     private utilsHelper: UtilsHelper,
-    private router: Router,
+    private router: Router
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -35,15 +34,11 @@ export class SettingComponent {
     this.isLocal = environment.env === 'local';
   }
 
-  ionViewWillEnter(): void {
-  }
+  ionViewWillEnter(): void {}
 
-  ionViewDidLeave(): void {
-  }
+  ionViewDidLeave(): void {}
 
-  public askChangeCurrency() {
-
-  }
+  public askChangeCurrency() {}
 
   public askChangeLanguage() {
     // const buttons = [];
@@ -84,6 +79,7 @@ export class SettingComponent {
     //
     // const buttons = [
     //   {
+    // eslint-disable-next-line max-len
     //     text: (this.selectedTheme === 'dark') ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel) : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
     //     role: (this.selectedTheme === 'dark') ? 'light' : 'dark',
     //     handler: () => {
@@ -110,22 +106,20 @@ export class SettingComponent {
     // await actionSheet.present();
   }
 
-  public askChangeSecret() {
-
-  }
+  public askChangeSecret() {}
 
   /**
    * goToWebsite Function
    */
   async goToWebsite() {
-    await Browser.open({url: 'https://amon.tech'});
+    await Browser.open({ url: 'https://amon.tech' });
   }
 
   /**
    * goToWebsite Function
    */
   async goToWebsiteNews() {
-    await Browser.open({url: 'https://amon.tech/blog/amon-news'});
+    await Browser.open({ url: 'https://amon.tech/blog/amon-news' });
   }
 
   public getThemeTranslation() {

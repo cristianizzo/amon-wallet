@@ -10,21 +10,19 @@ export const languageActionTypes = {
   getLanguage: type('[Language] get language'),
 };
 
-export const initLanguage = createAction(
-  languageActionTypes.initLanguage
-);
+export const initLanguage = createAction(languageActionTypes.initLanguage);
 
 export const updateStateLanguages = createAction(
   languageActionTypes.updateStateLanguages,
-  (languages: LanguageModel[]) => ({languages})
+  (languages: LanguageModel[]) => ({ languages })
 );
 
 export const languageError = createAction(
   languageActionTypes.languageError,
-  (error: any) => ({error})
+  (error: any) => ({ error })
 );
 
 export const switchLanguage = createAction(
   languageActionTypes.switchLanguage,
-  (language: LanguageModel) => ({language})
+  (language: LanguageModel) => ({ language })
 );

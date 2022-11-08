@@ -10,27 +10,27 @@
  */
 
 /* Core CSS required for Ionic components to work properly */
-@import "~@ionic/angular/css/core.css";
+@import '~@ionic/angular/css/core.css';
 
 /* Basic CSS for apps built with Ionic */
-@import "~@ionic/angular/css/normalize.css";
-@import "~@ionic/angular/css/structure.css";
-@import "~@ionic/angular/css/typography.css";
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
 @import '~@ionic/angular/css/display.css';
 
 /* Optional CSS utils that can be commented out */
-@import "~@ionic/angular/css/padding.css";
-@import "~@ionic/angular/css/float-elements.css";
-@import "~@ionic/angular/css/text-alignment.css";
-@import "~@ionic/angular/css/text-transformation.css";
-@import "~@ionic/angular/css/flex-utils.css";
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
 
 //Theming
-@import "assets/scss/fonts";
-@import "assets/scss/icons";
-@import "assets/scss/theme";
-@import "src/assets/scss/media";
-@import "src/assets/scss/style";
-@import "src/assets/scss/qpass";
-@import "src/assets/scss/button";
-@import "src/assets/scss/spinner";
+@import 'assets/scss/fonts';
+@import 'assets/scss/icons';
+@import 'assets/scss/theme';
+@import 'src/assets/scss/media';
+@import 'src/assets/scss/style';
+@import 'src/assets/scss/qpass';
+@import 'src/assets/scss/button';
+@import 'src/assets/scss/spinner';

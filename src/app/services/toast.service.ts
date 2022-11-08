@@ -3,14 +3,9 @@ import { ToastController } from '@ionic/angular';
 
 @Injectable()
 export class ToastService {
-
-  constructor(
-    private toastController: ToastController,
-  ) {
-  }
+  constructor(private toastController: ToastController) {}
 
   public responseError(message: string) {
-
     this.showMessage({
       message,
       position: 'bottom',
@@ -19,7 +14,6 @@ export class ToastService {
   }
 
   public responseSuccess(message: string) {
-
     this.showMessage({
       message,
       position: 'top',
@@ -28,17 +22,18 @@ export class ToastService {
   }
 
   public async showMessage({
-                             header,
-                             message,
-                             position,
-                             cssClass,
-                             buttons,
-                             duration = 3000,
-                             keyboardClose = true,
-                             disableCancel = false,
-                           }: any) {
-
-    const mergeButtons = (disableCancel) ? buttons : [...[{text: 'X', role: 'cancel'}], ...buttons || []];
+    header,
+    message,
+    position,
+    cssClass,
+    buttons,
+    duration = 3000,
+    keyboardClose = true,
+    disableCancel = false,
+  }: any) {
+    const mergeButtons = disableCancel
+      ? buttons
+      : [...[{ text: 'X', role: 'cancel' }], ...(buttons || [])];
 
     const toastOption = {
       header,
@@ -47,7 +42,7 @@ export class ToastService {
       cssClass,
       duration,
       buttons: mergeButtons,
-      keyboardClose
+      keyboardClose,
     };
 
     const toast = await this.toastController.create(toastOption);
@@ -56,4 +51,3 @@ export class ToastService {
     return toast;
   }
 }
-

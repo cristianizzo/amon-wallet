@@ -17,11 +17,9 @@ import { WalletActions } from '@app/core/actions';
 @Component({
   selector: 'app-account-menu',
   templateUrl: './account-menu.component.html',
-  styleUrls: ['./account-menu.component.scss']
+  styleUrls: ['./account-menu.component.scss'],
 })
-
 export class AccountMenuComponent {
-
   public provider: ProviderModel;
   public wallet: WalletModel;
   public wallets: WalletModel[];
@@ -36,20 +34,24 @@ export class AccountMenuComponent {
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController,
+    private popoverController: PopoverController
   ) {
-    this.store.select(ProviderSelector.getProvider).subscribe(provider => this.provider = provider);
-    this.store.select(WalletSelector.getWallet).subscribe(wallet => this.wallet = wallet);
-    this.store.select(WalletSelector.getWallets).subscribe(wallets => this.wallets = wallets);
+    this.store
+      .select(ProviderSelector.getProvider)
+      .subscribe((provider) => (this.provider = provider));
+    this.store
+      .select(WalletSelector.getWallet)
+      .subscribe((wallet) => (this.wallet = wallet));
+    this.store
+      .select(WalletSelector.getWallets)
+      .subscribe((wallets) => (this.wallets = wallets));
   }
 
   /**
    * addNewWallet Function
    */
   public async addNewWallet() {
-
     try {
-
       const walletName = await this.walletModule.askWalletName();
 
       if (!walletName) {
@@ -64,7 +66,6 @@ export class AccountMenuComponent {
 
       await this.close();
       await this.router.navigate(['/seed-phrase']);
-
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
@@ -75,7 +76,6 @@ export class AccountMenuComponent {
    */
   public async importWallet() {
     try {
-
       const walletName = await this.walletModule.askWalletName();
 
       if (!walletName) {
@@ -90,7 +90,6 @@ export class AccountMenuComponent {
 
       await this.close();
       await this.router.navigate(['/import-wallet/recovery-phrase']);
-
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
@@ -115,14 +114,14 @@ export class AccountMenuComponent {
       side: 'bottom',
       alignment: 'end',
       componentProps: {
-        wallet
+        wallet,
       },
-      translucent: false
+      translucent: false,
     });
 
     await popover.present();
 
-    const {data} = await popover.onDidDismiss();
+    const { data } = await popover.onDidDismiss();
 
     if (data) {
       this.switchAction(data);
@@ -146,7 +145,7 @@ export class AccountMenuComponent {
   /**
    * Switch Action Function
    */
-  private switchAction({action, wallet}) {
+  private switchAction({ action, wallet }) {
     switch (action) {
       case 'connect':
         this.switchWallet(wallet);
@@ -177,7 +176,6 @@ export class AccountMenuComponent {
    */
   private async renameWallet(wallet: WalletModel) {
     try {
-
       const walletName = await this.walletModule.askWalletName();
 
       if (!walletName) {
@@ -186,8 +184,9 @@ export class AccountMenuComponent {
 
       assert(walletName && walletName.length >= 3, 'walletName');
 
-      this.store.dispatch(WalletActions.renameWallet(wallet.address, walletName));
-
+      this.store.dispatch(
+        WalletActions.renameWallet(wallet.address, walletName)
+      );
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }

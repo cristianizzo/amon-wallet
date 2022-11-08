@@ -1,13 +1,18 @@
 import { Injectable } from '@angular/core';
 import { EncryptedDataModel } from '@app/models';
-import crypto, { Cipher, createCipheriv, createDecipheriv, Decipher, randomBytes } from 'crypto';
+import crypto, {
+  Cipher,
+  createCipheriv,
+  createDecipheriv,
+  Decipher,
+  randomBytes,
+} from 'crypto';
 import { scrypt } from 'ethereum-cryptography/scrypt';
 import { keccak256, stripHexPrefix } from 'web3-utils';
 import { utils } from 'ethers';
 
 @Injectable()
 export class CryptoHelper {
-
   // eslint-disable-next-line @typescript-eslint/naming-convention
   private CIPHER_ALGORYTHM = 'aes-128-ctr';
 
@@ -18,19 +23,28 @@ export class CryptoHelper {
     const hex = hash.digest('hex');
 
     return hex;
-  };
+  }
 
   public bufferToHex = (buf: Buffer | Uint8Array, nozerox = false): string =>
-    nozerox ? Buffer.from(buf).toString('hex') : `0x${Buffer.from(buf).toString('hex')}`;
+    nozerox
+      ? Buffer.from(buf).toString('hex')
+      : `0x${Buffer.from(buf).toString('hex')}`;
 
   public hexToBuffer = (hex: string): Buffer =>
-    Buffer.from(stripHexPrefix(hex).length % 2 === 1 ? `0${stripHexPrefix(hex)}` : stripHexPrefix(hex), 'hex');
+    Buffer.from(
+      stripHexPrefix(hex).length % 2 === 1
+        ? `0${stripHexPrefix(hex)}`
+        : stripHexPrefix(hex),
+      'hex'
+    );
 
   public runCipherBuffer = (cipher: Cipher | Decipher, data: Buffer): Buffer =>
     Buffer.concat([cipher.update(data), cipher.final()]);
 
-  public async encrypt(msg: string, password: string): Promise<EncryptedDataModel> {
-
+  public async encrypt(
+    msg: string,
+    password: string
+  ): Promise<EncryptedDataModel> {
     const entropyMsg = this.hexToBuffer(utils.mnemonicToEntropy(msg));
 
     const sparams = {
@@ -53,7 +67,11 @@ export class CryptoHelper {
       sparams.dklen
     );
 
-    const cipher = createCipheriv(sparams.cipher, derivedKey.slice(0, 16), sparams.iv);
+    const cipher = createCipheriv(
+      sparams.cipher,
+      derivedKey.slice(0, 16),
+      sparams.iv
+    );
 
     const ciphertext = this.runCipherBuffer(cipher, entropyMsg);
 
@@ -75,8 +93,10 @@ export class CryptoHelper {
     };
   }
 
-  public async decrypt(encryptedData: EncryptedDataModel, password: string): Promise<string> {
-
+  public async decrypt(
+    encryptedData: EncryptedDataModel,
+    password: string
+  ): Promise<string> {
     const sparams = {
       cipher: this.CIPHER_ALGORYTHM,
       kdf: 'scrypt',
@@ -100,13 +120,24 @@ export class CryptoHelper {
       sparams.dklen
     );
 
-    const mac = keccak256(this.bufferToHex(Buffer.concat([Buffer.from(derivedKey.slice(16, 32)), sparams.ciphertext])));
+    const mac = keccak256(
+      this.bufferToHex(
+        Buffer.concat([
+          Buffer.from(derivedKey.slice(16, 32)),
+          sparams.ciphertext,
+        ])
+      )
+    );
 
     if (mac !== sparams.mac) {
       throw new Error('wrongPassword');
     }
 
-    const decipher = createDecipheriv(sparams.cipher, derivedKey.slice(0, 16), sparams.iv);
+    const decipher = createDecipheriv(
+      sparams.cipher,
+      derivedKey.slice(0, 16),
+      sparams.iv
+    );
     const decryptedEntropy = this.runCipherBuffer(decipher, sparams.ciphertext);
     return utils.entropyToMnemonic(decryptedEntropy);
   }

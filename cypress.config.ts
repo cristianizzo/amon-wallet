@@ -4,12 +4,12 @@ export default defineConfig({
   projectId: '57hur3',
 
   env: {
-    password: 'DMQ!ypz.jyu4fah@enb'
+    password: 'DMQ!ypz.jyu4fah@enb',
   },
 
   e2e: {
     baseUrl: 'http://localhost:4200',
-    supportFile: false
+    supportFile: false,
   },
 
   component: {
@@ -17,7 +17,6 @@ export default defineConfig({
       framework: 'angular',
       bundler: 'webpack',
     },
-    specPattern: '**/*.cy.ts'
-  }
+    specPattern: '**/*.cy.ts',
+  },
 });
-

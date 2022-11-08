@@ -34,22 +34,20 @@ export {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (http: HttpClient) => new TranslateHttpLoader(http, 'assets/i18n/', '.json'),
-        deps: [HttpClient]
-      }
+        useFactory: (http: HttpClient) =>
+          new TranslateHttpLoader(http, 'assets/i18n/', '.json'),
+        deps: [HttpClient],
+      },
     }),
   ],
-  exports: [
-    TranslateModule
-  ],
+  exports: [TranslateModule],
   providers: [],
   declarations: [],
 })
-
 export class NgAmonServicesModule {
-
-  public static forRoot(environment: EnvModel): ModuleWithProviders<NgAmonServicesModule> {
-
+  public static forRoot(
+    environment: EnvModel
+  ): ModuleWithProviders<NgAmonServicesModule> {
     return {
       ngModule: NgAmonServicesModule,
       providers: [
@@ -63,8 +61,8 @@ export class NgAmonServicesModule {
         WalletService,
         ThemeService,
         LocalForageService,
-        {provide: EnvService, useValue: environment}
-      ]
+        { provide: EnvService, useValue: environment },
+      ],
     };
   }
 }

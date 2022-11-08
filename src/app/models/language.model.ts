@@ -4,4 +4,3 @@ export interface LanguageModel {
   selected?: boolean;
   label: string;
 }
-
