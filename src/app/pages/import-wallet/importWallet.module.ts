@@ -5,6 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImportWalletRoutingModule } from '@pages/import-wallet/importWallet.routing';
 import { RecoveryPhraseComponent } from '@pages/import-wallet/recovery-phrase/recovery-phrase.component';
+import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey.component';
+
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
@@ -21,7 +23,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     NgAmonPipesModule,
     NgAmonDirectivesModule,
   ],
-  declarations: [RecoveryPhraseComponent],
+  declarations: [RecoveryPhraseComponent, PrivateKeyComponent],
   providers: [],
 })
 export class ImportWalletModule {}

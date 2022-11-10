@@ -43,9 +43,12 @@ export class CryptoHelper {
 
   public async encrypt(
     msg: string,
-    password: string
+    password: string,
+    withMnemonic = true
   ): Promise<EncryptedDataModel> {
-    const entropyMsg = this.hexToBuffer(utils.mnemonicToEntropy(msg));
+    const entropyMsg = withMnemonic
+      ? this.hexToBuffer(utils.mnemonicToEntropy(msg))
+      : Buffer.from(msg, 'utf-8');
 
     const sparams = {
       cipher: this.CIPHER_ALGORYTHM,
@@ -95,7 +98,8 @@ export class CryptoHelper {
 
   public async decrypt(
     encryptedData: EncryptedDataModel,
-    password: string
+    password: string,
+    withMnemonic = true
   ): Promise<string> {
     const sparams = {
       cipher: this.CIPHER_ALGORYTHM,
@@ -138,7 +142,11 @@ export class CryptoHelper {
       derivedKey.slice(0, 16),
       sparams.iv
     );
+
     const decryptedEntropy = this.runCipherBuffer(decipher, sparams.ciphertext);
-    return utils.entropyToMnemonic(decryptedEntropy);
+
+    return withMnemonic
+      ? utils.entropyToMnemonic(decryptedEntropy)
+      : decryptedEntropy.toString('utf-8');
   }
 }
