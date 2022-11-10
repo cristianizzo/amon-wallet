@@ -2,12 +2,14 @@
   <ion-progress-bar type="indeterminate"></ion-progress-bar>
   <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
-      <ion-button class="btn-transparent back-button white"></ion-button>
-      <!--      <app-back-button [delegate]="true" (clicked)="goBack()"></app-back-button>-->
+      <ion-button
+        class="btn-transparent back-button white"
+        (click)="goToProviders()"
+      >
+        <ion-icon name="git-network-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
-    <ion-title>
-      <app-account></app-account>
-    </ion-title>
+    <ion-title> </ion-title>
     <ion-buttons slot="end">
       <ion-button
         class="btn-transparent back-button white"

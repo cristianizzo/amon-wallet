@@ -1,29 +1,44 @@
 @import 'media';
 
-ion-button {
-  background-color: #e5e5e5;
-  border-radius: 7px;
-  padding: 0px 0px;
-  margin: 0;
-  height: 44px;
+.user-account {
+  position: relative;
+  text-align: center;
 
-  ion-label {
-    color: #000;
+  ion-button.btn-transparent {
+    background-color: #e5e5e5;
+    border-radius: 25px;
+    padding: 0 0;
+    margin: 0;
+    height: 38px;
+    --padding-start: 2px;
+    --padding-end: 12px;
 
-    .name {
-      font-size: 16px;
+    .wallet-img {
+      height: 32px;
+      width: 32px;
+      background: purple;
+      border-radius: 50%;
+      margin-right: 12px;
     }
 
-    .address {
-      font-size: 14px;
-      color: #777;
-      margin-top: 3px;
-    }
-  }
+    ion-label {
+      .name {
+        font-size: 16px;
+        font-family: 'Gotham', serif;
+        letter-spacing: 0;
+      }
 
-  ion-icon {
-    color: #505050;
-    margin-left: 18px;
-    font-size: 20px;
+      .address {
+        font-size: 14px;
+        color: #777;
+        margin-top: 3px;
+      }
+    }
+
+    ion-icon {
+      color: #505050;
+      margin-left: 18px;
+      font-size: 20px;
+    }
   }
 }

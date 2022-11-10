@@ -2,9 +2,10 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NftsComponent } from '@pages/nfts/component/nfts.component';
+import { WithdrawComponent } from '@pages/withdraw/component/withdraw.component';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-import { NftsRoutingModule } from '@pages/nfts/nfts.routing';
+import { WithdrawRoutingModule } from '@pages/withdraw/withdraw.routing';
+import { BackButtonModule } from '@components/back-button/back-button.module';
 
 @NgModule({
   imports: [
@@ -12,8 +13,9 @@ import { NftsRoutingModule } from '@pages/nfts/nfts.routing';
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    NftsRoutingModule,
+    WithdrawRoutingModule,
+    BackButtonModule,
   ],
-  declarations: [NftsComponent],
+  declarations: [WithdrawComponent],
 })
-export class NftsPageModule {}
+export class WithdrawModule {}

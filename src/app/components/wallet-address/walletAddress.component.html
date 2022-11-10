@@ -1,0 +1,11 @@
+<div class="wallet-address">
+  <ion-button
+    id="copy"
+    (copied)="copied($event)"
+    [payload]="payloadClipboard"
+    appCopyClipboard
+    class="btn-address"
+  >
+    {{ parseAddress(wallet?.address) }}
+  </ion-button>
+</div>

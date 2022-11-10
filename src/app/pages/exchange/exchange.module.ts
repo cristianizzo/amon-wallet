@@ -6,6 +6,7 @@ import { ExchangeComponent } from '@pages/exchange/component/exchange.component'
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { ExchangeRoutingModule } from './exchange.routing';
+import { BackButtonModule } from '@components/back-button/back-button.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { ExchangeRoutingModule } from './exchange.routing';
     FormsModule,
     ExploreContainerComponentModule,
     ExchangeRoutingModule,
+    BackButtonModule,
   ],
   declarations: [ExchangeComponent],
 })

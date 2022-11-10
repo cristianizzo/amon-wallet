@@ -7,6 +7,10 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 import { AssetsRoutingModule } from '@pages/assets/assets.routing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HeaderModule } from '@components/header/header.module';
+import { TotalBalanceModule } from '@components/total-balance/totalBalance.module';
+import { WalletAddressModule } from '@components/wallet-address/walletAddress.module';
+import { WalletActionButtonsModule } from '@components/wallet-action-buttons/walletActionButtons.module';
+import { TokensModule } from '@components/tokens/tokens.module';
 
 @NgModule({
   imports: [
@@ -17,6 +21,10 @@ import { HeaderModule } from '@components/header/header.module';
     AssetsRoutingModule,
     TranslateModule,
     HeaderModule,
+    TotalBalanceModule,
+    WalletAddressModule,
+    WalletActionButtonsModule,
+    TokensModule,
   ],
   declarations: [AssetsComponent],
 })

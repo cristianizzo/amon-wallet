@@ -13,7 +13,7 @@ export class TabsComponent {
   public menu: MenuModel[];
   public selectedTab: string;
   public hiddenTabs: boolean;
-  public pathHidden = ['/auth/setting', '/auth/deposit'];
+  public pathHidden = ['/auth/setting', '/auth/deposit', '/auth/withdraw'];
 
   constructor(private utilsHelper: UtilsHelper, public router: Router) {
     this.menu = this.utilsHelper.menuJson;

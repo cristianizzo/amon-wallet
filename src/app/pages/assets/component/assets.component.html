@@ -1,39 +1,41 @@
 <app-header></app-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item
-    class="list-item totalBalance qpass-flex animated fadeIn"
-    lines="none"
-  >
-    <div class="endSide">
-      <div class="totalSum">{{ 'DASHBOARD.wallets.total' | translate }}</div>
-      <span class="currency">{{ provider?.symbol }}</span>
-      <span [innerHTML]="wallet?.balance || '0'" class="price plus"></span>
-    </div>
-  </ion-item>
+  <app-account></app-account>
+  <app-total-balance></app-total-balance>
+  <app-wallet-address></app-wallet-address>
+  <app-wallet-action-buttons></app-wallet-action-buttons>
 
-  <ion-grid>
-    <ion-col>
-      <ion-button routerLink="/auth/deposit" routerDirection="back">
-        <ion-icon [name]="getIcon('wallet-receive')"></ion-icon>
-        <ion-label>Deposit</ion-label>
-      </ion-button>
+  <div class="assets">
+    <ion-segment
+      (ionChange)="onSelectAssetType($any($event.target).value)"
+      scrollable="true"
+      [value]="selectedAssetType"
+      class="segment"
+    >
+      <ion-segment-button [value]="assetTypeEnum.tokens">
+        Tokens
+      </ion-segment-button>
+      <ion-segment-button [value]="assetTypeEnum.nfts">
+        NFTs
+      </ion-segment-button>
+    </ion-segment>
 
-      <ion-button routerLink="/auth/withdraw" routerDirection="forward">
-        <ion-icon [name]="getIcon('wallet-send')"></ion-icon>
-        <ion-label>Send</ion-label>
-      </ion-button>
+    <ion-row
+      class="token-list"
+      *ngIf="selectedAssetType === assetTypeEnum.tokens"
+    >
+      <app-tokens></app-tokens>
+    </ion-row>
 
-      <ion-button routerLink="/auth/exchange" routerDirection="forward">
-        <ion-icon [name]="getIcon('wallet-exchange')"></ion-icon>
-        <ion-label>Swap</ion-label>
-      </ion-button>
-    </ion-col>
-  </ion-grid>
+    <ion-row class="nft-list" *ngIf="selectedAssetType === assetTypeEnum.nfts">
+      Nfts
+    </ion-row>
+  </div>
 
-  <ion-button>
-    <ion-label>Import Token</ion-label>
-  </ion-button>
+  <!--  <ion-button>-->
+  <!--    <ion-label>Import Token</ion-label>-->
+  <!--  </ion-button>-->
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!--  <app-explore-container name="Tab 1 page"></app-explore-container>-->
 </ion-content>

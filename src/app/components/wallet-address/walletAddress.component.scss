@@ -1,0 +1,17 @@
+@import 'media';
+
+.wallet-address {
+  margin-top: 15px;
+  text-align: center;
+
+  ion-button.btn-address {
+    font-size: 14px;
+    font-weight: 400;
+    height: 24px;
+    --border-color: #656464;
+    --background: #eaeaea;
+    color: #787878;
+    --color: #787878;
+    --border-radius: 25px;
+  }
+}

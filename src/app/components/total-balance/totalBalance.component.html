@@ -1,0 +1,9 @@
+<div class="total-balance">
+  <ng-container *ngIf="showBalance">
+    <span class="currency">{{ currency?.native }}</span>
+    <span class="totalBalance">{{ totalBalance | number: '1.2-2' }}</span>
+  </ng-container>
+  <ng-container *ngIf="!showBalance">
+    <span class="amountHidden">{{ '****' }}</span>
+  </ng-container>
+</div>
