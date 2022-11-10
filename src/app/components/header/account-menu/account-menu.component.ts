@@ -74,7 +74,7 @@ export class AccountMenuComponent {
   /**
    * importWallet Function
    */
-  public async importWallet() {
+  public async importWallet(walletType = '') {
     try {
       const walletName = await this.walletModule.askWalletName();
 
@@ -89,7 +89,7 @@ export class AccountMenuComponent {
       };
 
       await this.close();
-      await this.router.navigate(['/import-wallet/recovery-phrase']);
+      await this.router.navigate([walletType === 'privateKey' ? '/import-wallet/private-key' : '/import-wallet/recovery-phrase']);
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }

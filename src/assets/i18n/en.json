@@ -113,6 +113,7 @@
       "SETTINGS": {
         "ADD_WALLET": "Create Account",
         "IMPORT_WALLET": "Import Account",
+        "IMPORT_PRIVATE_KEY": "Import Private Key",
         "ADD_HARDWARE_WALLET": "Import Hardware Wallet"
       }
     }

@@ -52,6 +52,12 @@
       ></ion-label>
       <div slot="end"></div>
     </ion-item>
+    <ion-item button [mode]="'ios'" (click)="importWallet('privateKey')">
+      <ion-label
+        [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.IMPORT_PRIVATE_KEY' | translate"
+      ></ion-label>
+      <div slot="end"></div>
+    </ion-item>
     <ion-item button [mode]="'ios'" (click)="(true)">
       <ion-label
         [innerHTML]="
