@@ -2,6 +2,7 @@ import { Component, Injectable, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ErrorService } from '@services/error.service';
 import { UtilsHelper } from '@helpers/utils';
+import * as web3 from 'ethers';
 
 @Injectable()
 @Component({
@@ -18,7 +19,7 @@ export class FormValidationHelper {
 
   constructor(
     private utilsHelper: UtilsHelper,
-    private errorService: ErrorService
+    private errorService: ErrorService,
   ) {}
 
   /**
@@ -37,6 +38,17 @@ export class FormValidationHelper {
 
     return null;
   }
+
+  public privateKey(ac: FormControl): { [key: string]: boolean} | boolean {
+      try {
+        new web3.Wallet(ac.value);
+        return null;
+      }
+      catch (e) {
+        return { privateKey: true };
+      }
+  }
+
 
   /**
    * MatchPassword function

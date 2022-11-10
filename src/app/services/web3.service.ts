@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
+import { CryptoHelper } from '@helpers/crypto';
 import * as web3 from 'ethers';
 import { ProviderModel } from '@models/provider.model';
 import { WalletModel } from '@app/models';
@@ -9,7 +10,10 @@ export class Web3Services {
   private web3 = web3;
   private provider: any;
 
-  constructor(public utilsHelper: UtilsHelper) {}
+  constructor(
+    public utilsHelper: UtilsHelper,
+    private cryptoHelper: CryptoHelper
+  ) {}
 
   public async connectProvider(
     config: ProviderModel
@@ -72,6 +76,27 @@ export class Web3Services {
     } catch (_) {
       return '0';
     }
+  }
+
+  public getWalletFromPrivateKey({
+          name,
+          privateKey,
+          main = false,
+          derivationPath = `m/44'/60'/0'/0/0`,
+                                  }): WalletModel {
+    const buffer = this.cryptoHelper.hexToBuffer(privateKey);
+    const wallet = new this.web3.Wallet(buffer);
+
+    return {
+      name,
+      main,
+      basePath: derivationPath,
+      address: wallet.address,
+      privateKey: wallet.privateKey,
+      walletType: 'privkey',
+      isHardware: false,
+      signerType: 'secp256k1',
+    };
   }
 
   private generateMnemonic() {

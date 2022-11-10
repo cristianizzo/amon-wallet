@@ -6,6 +6,7 @@ import { EncryptedDataModel, WalletModel } from '@app/models';
 import { from, Observable } from 'rxjs';
 import { Web3Services } from '@services/web3.service';
 import assert from 'assert';
+import {WalletType} from '@app/models';
 
 @Injectable()
 export class WalletService {
@@ -49,14 +50,24 @@ export class WalletService {
           (w) => w.address === wallet.address
         );
         assert(!existingWallet, 'walletAlreadyExists');
+        const isPrivateKeyWallet = wallet.walletType === WalletType.privkey;
+        let encrypted;
 
-        const encrypted = await this.cryptWallet({
-          seedPhrase: wallet.phrase,
-          secret,
-        });
+        if( !isPrivateKeyWallet ) {
+          encrypted = await this.cryptWallet({
+            seedPhrase: wallet.phrase,
+            secret,
+          });
+        }
+
+        if( isPrivateKeyWallet ) {
+          encrypted = await this.cryptoHelper.encrypt(wallet.privateKey, secret, false);
+        }
+
+
         assert(encrypted, 'failEncrypt');
 
-        await this.verifyEncryption(encrypted, secret);
+        await this.verifyEncryption(encrypted, secret, !isPrivateKeyWallet);
 
         const newWallet = {
           main: dbWallets.length === 0,
@@ -128,10 +139,9 @@ export class WalletService {
   }
 
   public async decryptWallet({ wallet, secret }): Promise<WalletModel> {
-    const decrypted = await this.cryptoHelper.decrypt(wallet.encrypted, secret);
+    const decrypted = await this.cryptoHelper.decrypt(wallet.encrypted, secret, !(wallet.walletType === WalletType.privkey ));
     assert(decrypted, 'failDecrypt');
-
-    return Object.assign({}, wallet, { phrase: decrypted });
+    return Object.assign({}, wallet, { privateKey: decrypted, phrase: decrypted });
   }
 
   public async getWalletsFromStorage(): Promise<WalletModel[]> {
@@ -142,10 +152,11 @@ export class WalletService {
 
   private verifyEncryption(
     encrypted: EncryptedDataModel,
-    secret: string
+    secret: string,
+    isPrivateKeyWallet: boolean
   ): Promise<boolean> {
     return this.utilsHelper.async(async () => {
-      const decrypted = await this.cryptoHelper.decrypt(encrypted, secret);
+      const decrypted = await this.cryptoHelper.decrypt(encrypted, secret, isPrivateKeyWallet);
       assert(decrypted, 'failVerifyEncryption');
       return true;
     });

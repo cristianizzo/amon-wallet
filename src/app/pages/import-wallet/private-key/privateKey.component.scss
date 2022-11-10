@@ -1,0 +1,30 @@
+@import 'media';
+@import 'theme';
+
+ion-toolbar.default {
+  padding-top: 7px;
+  padding-bottom: 0;
+  background-color: #fff;
+  border-bottom: none;
+
+  @include isDarkTheme {
+    --background: transparent;
+    border-bottom: none;
+  }
+
+  ion-title {
+    padding: 0;
+    font-weight: 500;
+    font-size: 18px;
+  }
+}
+
+ion-content {
+  background-color: #fff;
+}
+
+ion-textarea {
+  border: 1px solid #000;
+  border-radius: 7px;
+  padding: 0px 12px;
+}

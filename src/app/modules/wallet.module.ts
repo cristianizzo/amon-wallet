@@ -41,6 +41,40 @@ export class WalletModule {
     }
   }
 
+  public async importWalletFromPrivateKey(name: string, privateKey: string): Promise<any> {
+    try {
+      const dbWallets = await this.walletService.getWalletsFromStorage();
+      return this.web3Services.getWalletFromPrivateKey({
+        name,
+        privateKey,
+        main: !this.utilsHelper.arrayHasValue(dbWallets),
+      });
+    } catch (_) {
+      return false;
+    }
+  }
+
+
+  public async exportWallet({name, mnemonic, privateKey}): Promise<any> {
+    try{
+      if( mnemonic ) {
+        return this.web3Services.getWallet({
+          name,
+          mnemonic,
+        });
+      }
+      else {
+        return this.web3Services.getWalletFromPrivateKey({
+          name,
+          privateKey,
+        });
+      }
+    }
+    catch (_) {
+      return false;
+    }
+  }
+
   public async askWalletName(): Promise<string> {
     return new Promise(async (resolve) => {
       const buttons = [

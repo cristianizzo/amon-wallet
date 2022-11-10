@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
-import { ProviderSelector, WalletSelector } from '@app/core/selectors';
-import { Store } from '@ngrx/store';
-import { StateModel } from '@models/state.model';
-import { ProviderModel, WalletModel } from '@app/models';
-import { WalletService } from '@services/wallet.service';
-import { WalletModule } from '@app/modules/index.module';
-import { ErrorService } from '@services/error.service';
-import { ToastService } from '@services/toast.service';
-import { Router } from '@angular/router';
-import { TempStorageService } from '@services/tempStorage.service';
-import { ModalController, PopoverController } from '@ionic/angular';
-import { WalletMenuComponent } from '@components/header/wallet-menu/wallet-menu.component';
+import {Component} from '@angular/core';
+import {ProviderSelector, WalletSelector} from '@app/core/selectors';
+import {Store} from '@ngrx/store';
+import {StateModel} from '@models/state.model';
+import {ProviderModel, WalletModel, WalletType} from '@app/models';
+import {WalletService} from '@services/wallet.service';
+import {WalletModule} from '@app/modules/index.module';
+import {ErrorService} from '@services/error.service';
+import {ToastService} from '@services/toast.service';
+import {Router} from '@angular/router';
+import {TempStorageService} from '@services/tempStorage.service';
+import {ModalController, PopoverController} from '@ionic/angular';
+import {WalletMenuComponent} from '@components/header/wallet-menu/wallet-menu.component';
 import assert from 'assert';
-import { WalletActions } from '@app/core/actions';
+import {WalletActions} from '@app/core/actions';
 
 @Component({
   selector: 'app-account-menu',
@@ -159,6 +159,9 @@ export class AccountMenuComponent {
       case 'delete':
         this.deleteWallet(wallet);
         break;
+      case 'privateKey':
+        this.exportPrivateKey(wallet);
+        break;
       default:
         return;
     }
@@ -169,6 +172,33 @@ export class AccountMenuComponent {
    */
   private switchWallet(wallet: WalletModel) {
     this.store.dispatch(WalletActions.switchDefaultWallet(wallet.address));
+  }
+
+  private async exportPrivateKey(wallet: WalletModel) {
+    try{
+      const walletSecret = await this.walletModule.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret
+      });
+      let privateKey = '';
+      if( wallet.walletType !== WalletType.privkey ){
+        const _wallet = await this.walletModule.exportWallet({
+          name: wallet.name,
+          mnemonic: decrypted.phrase,
+          privateKey: decrypted.privateKey
+        });
+        privateKey =_wallet.privateKey;
+      }
+      else {
+        privateKey = decrypted.privateKey;
+      }
+
+      console.log(privateKey);
+    }
+    catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
   }
 
   /**

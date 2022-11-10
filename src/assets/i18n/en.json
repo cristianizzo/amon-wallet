@@ -36,6 +36,13 @@
       "PLACEHOLDER": {
         "SEED_PHRASE": "Seed Phrase"
       }
+    },
+    "PRIVATE_KEY": {
+      "TITLE": "Enter your private key",
+      "DESCRIPTION": "Use your backup private key to restore your the accounts in your wallet.",
+      "PLACEHOLDER": {
+        "PRIVATE_KEY": "Private Key"
+      }
     }
   },
   "PAGE": {
@@ -119,6 +126,7 @@
     "WALLET_NAME": "Wallet name should be at least 3 characters long.",
     "NOT_FOUND": "Not found.",
     "INVALID_SECRET": "Invalid password.",
-    "SEED_PHRASE": "Invalid seed phrase."
+    "SEED_PHRASE": "Invalid seed phrase.",
+    "PRIVATE_KEY": "Invalid Private Key"
   }
 }
