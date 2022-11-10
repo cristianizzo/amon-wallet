@@ -20,16 +20,18 @@ const routes: Routes = [
           import('@pages/deposit/deposit.module').then((m) => m.DepositModule),
       },
       {
+        path: 'withdraw',
+        loadChildren: () =>
+          import('@pages/withdraw/withdraw.module').then(
+            (m) => m.WithdrawModule
+          ),
+      },
+      {
         path: 'exchange',
         loadChildren: () =>
           import('@pages/exchange/exchange.module').then(
             (m) => m.ExchangeModule
           ),
-      },
-      {
-        path: 'nfts',
-        loadChildren: () =>
-          import('@pages/nfts/nfts.module').then((m) => m.NftsPageModule),
       },
       {
         path: 'setting',

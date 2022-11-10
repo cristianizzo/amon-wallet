@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NftsComponent } from '@pages/nfts/component/nfts.component';
+import { WithdrawComponent } from '@pages/withdraw/component/withdraw.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: NftsComponent,
+    component: WithdrawComponent,
   },
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class NftsRoutingModule {}
+export class WithdrawRoutingModule {}

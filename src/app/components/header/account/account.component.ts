@@ -13,7 +13,6 @@ import { AccountMenuComponent } from '@components/header/account-menu/account-me
 })
 export class AccountComponent {
   public wallet: WalletModel;
-  public wallets: WalletModel[];
 
   constructor(
     private modalCtrl: ModalController,
@@ -35,15 +34,4 @@ export class AccountComponent {
 
     await askPinCodeModal.present();
   }
-
-  public parseAddress(address: string) {
-    if (address) {
-      return `${address.slice(0, 5)}...${address.slice(address.length - 4)}`;
-    }
-  }
-
-  /**
-   * goBack Function
-   */
-  goBack() {}
 }

@@ -74,7 +74,7 @@
     "DEPOSIT": {
       "TITLE": "Deposit",
       "ADDRESS": "address",
-      "INFO": ""
+      "INFO": "You can send ETH to this address using Ethereum network."
     },
     "SETTING": {
       "TITLE": "Settings",

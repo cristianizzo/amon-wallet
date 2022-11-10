@@ -1,4 +1,5 @@
 export class TokenModel {
+  icon: string;
   symbol: string;
   address: string;
   name: string;

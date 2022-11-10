@@ -13,6 +13,10 @@ export class HeaderComponent {
     this.router.navigate(['/auth/setting']);
   }
 
+  public goToProviders() {
+    // TODO:
+  }
+
   /**
    * goBack Function
    */

@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
-import { AccountMenuComponent } from '@components/header/account-menu/account-menu.component';
-import { AccountComponent } from '@components/header/account/account.component';
-import { WalletMenuComponent } from '@components/header/wallet-menu/wallet-menu.component';
-import { HeaderComponent } from '@components/header/component/header.component';
+import { WalletActionButtonsComponent } from '@components/wallet-action-buttons/walletActionButtons.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { FormsModule } from '@angular/forms';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   imports: [
@@ -20,19 +18,10 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     FormsModule,
     NgAmonPipesModule,
     NgAmonDirectivesModule,
+    RouterModule,
   ],
-  exports: [
-    HeaderComponent,
-    AccountComponent,
-    AccountMenuComponent,
-    WalletMenuComponent,
-  ],
+  exports: [WalletActionButtonsComponent],
   entryComponents: [],
-  declarations: [
-    HeaderComponent,
-    AccountComponent,
-    AccountMenuComponent,
-    WalletMenuComponent,
-  ],
+  declarations: [WalletActionButtonsComponent],
 })
-export class HeaderModule {}
+export class WalletActionButtonsModule {}
