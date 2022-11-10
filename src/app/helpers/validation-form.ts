@@ -19,7 +19,7 @@ export class FormValidationHelper {
 
   constructor(
     private utilsHelper: UtilsHelper,
-    private errorService: ErrorService,
+    private errorService: ErrorService
   ) {}
 
   /**
@@ -39,16 +39,14 @@ export class FormValidationHelper {
     return null;
   }
 
-  public privateKey(ac: FormControl): { [key: string]: boolean} | boolean {
-      try {
-        new web3.Wallet(ac.value);
-        return null;
-      }
-      catch (e) {
-        return { privateKey: true };
-      }
+  public privateKey(ac: FormControl): { [key: string]: boolean } | boolean {
+    try {
+      new web3.Wallet(ac.value);
+      return null;
+    } catch (e) {
+      return { privateKey: true };
+    }
   }
-
 
   /**
    * MatchPassword function

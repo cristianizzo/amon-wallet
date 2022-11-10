@@ -79,11 +79,11 @@ export class Web3Services {
   }
 
   public getWalletFromPrivateKey({
-          name,
-          privateKey,
-          main = false,
-          derivationPath = `m/44'/60'/0'/0/0`,
-                                  }): WalletModel {
+    name,
+    privateKey,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
     const buffer = this.cryptoHelper.hexToBuffer(privateKey);
     const wallet = new this.web3.Wallet(buffer);
 

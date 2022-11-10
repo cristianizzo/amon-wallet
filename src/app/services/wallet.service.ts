@@ -6,7 +6,7 @@ import { EncryptedDataModel, WalletModel } from '@app/models';
 import { from, Observable } from 'rxjs';
 import { Web3Services } from '@services/web3.service';
 import assert from 'assert';
-import {WalletType} from '@app/models';
+import { WalletType } from '@app/models';
 
 @Injectable()
 export class WalletService {
@@ -53,17 +53,20 @@ export class WalletService {
         const isPrivateKeyWallet = wallet.walletType === WalletType.privkey;
         let encrypted;
 
-        if( !isPrivateKeyWallet ) {
+        if (!isPrivateKeyWallet) {
           encrypted = await this.cryptWallet({
             seedPhrase: wallet.phrase,
             secret,
           });
         }
 
-        if( isPrivateKeyWallet ) {
-          encrypted = await this.cryptoHelper.encrypt(wallet.privateKey, secret, false);
+        if (isPrivateKeyWallet) {
+          encrypted = await this.cryptoHelper.encrypt(
+            wallet.privateKey,
+            secret,
+            false
+          );
         }
-
 
         assert(encrypted, 'failEncrypt');
 
@@ -139,9 +142,16 @@ export class WalletService {
   }
 
   public async decryptWallet({ wallet, secret }): Promise<WalletModel> {
-    const decrypted = await this.cryptoHelper.decrypt(wallet.encrypted, secret, !(wallet.walletType === WalletType.privkey ));
+    const decrypted = await this.cryptoHelper.decrypt(
+      wallet.encrypted,
+      secret,
+      !(wallet.walletType === WalletType.privkey)
+    );
     assert(decrypted, 'failDecrypt');
-    return Object.assign({}, wallet, { privateKey: decrypted, phrase: decrypted });
+    return Object.assign({}, wallet, {
+      privateKey: decrypted,
+      phrase: decrypted,
+    });
   }
 
   public async getWalletsFromStorage(): Promise<WalletModel[]> {
@@ -156,7 +166,11 @@ export class WalletService {
     isPrivateKeyWallet: boolean
   ): Promise<boolean> {
     return this.utilsHelper.async(async () => {
-      const decrypted = await this.cryptoHelper.decrypt(encrypted, secret, isPrivateKeyWallet);
+      const decrypted = await this.cryptoHelper.decrypt(
+        encrypted,
+        secret,
+        isPrivateKeyWallet
+      );
       assert(decrypted, 'failVerifyEncryption');
       return true;
     });

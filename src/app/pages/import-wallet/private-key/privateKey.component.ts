@@ -1,28 +1,31 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormValidationHelper } from '@helpers/validation-form';
-import {WalletModule} from "@app/modules/wallet.module";
+import { WalletModule } from '@app/modules/wallet.module';
 import { TempStorageService } from '@services/tempStorage.service';
-import {Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
-import {environment} from "@env/environment";
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
+import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
 import { LanguageService } from '@services/languages.service';
-import {WalletModel} from "@app/models";
-import {WalletActions} from "@app/core/actions";
-import {WalletSelector} from "@app/core/selectors";
-import {LoadingController} from "@ionic/angular";
-import {UtilsHelper} from "@helpers/utils";
-import {Store} from "@ngrx/store";
+import { WalletModel } from '@app/models';
+import { WalletActions } from '@app/core/actions';
+import { WalletSelector } from '@app/core/selectors';
+import { LoadingController } from '@ionic/angular';
+import { UtilsHelper } from '@helpers/utils';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-private-key',
   templateUrl: 'privateKey.component.html',
   styleUrls: ['privateKey.component.scss'],
 })
-
 export class PrivateKeyComponent {
-
   public formObj: FormGroup;
 
   constructor(
@@ -126,7 +129,7 @@ export class PrivateKeyComponent {
         '',
         Validators.compose([
           Validators.required,
-          this.formValidatorHelper.privateKey.bind(this)
+          this.formValidatorHelper.privateKey.bind(this),
         ])
       ),
     });
