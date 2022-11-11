@@ -99,6 +99,27 @@ export class Web3Services {
     };
   }
 
+  public getWalletFromKeyStoreJSON({
+    name,
+    walletJson,
+    password,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
+    const wallet = this.web3.Wallet.fromEncryptedJsonSync(walletJson, password);
+
+    return {
+      name,
+      main,
+      basePath: derivationPath,
+      address: wallet.address,
+      privateKey: wallet.privateKey,
+      walletType: 'privkey',
+      isHardware: false,
+      signerType: 'secp256k1',
+    };
+  }
+
   private generateMnemonic() {
     const mnemonic = this.web3.utils.entropyToMnemonic(
       this.web3.utils.randomBytes(32)

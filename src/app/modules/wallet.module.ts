@@ -57,6 +57,24 @@ export class WalletModule {
     }
   }
 
+  public async importWalletFromEncryptedJson(
+    name: string,
+    walletJson: string,
+    password: string
+  ): Promise<any> {
+    try {
+      const dbWallets = await this.walletService.getWalletsFromStorage();
+      return this.web3Services.getWalletFromKeyStoreJSON({
+        name,
+        walletJson,
+        password,
+        main: !this.utilsHelper.arrayHasValue(dbWallets),
+      });
+    } catch (_) {
+      return false;
+    }
+  }
+
   public async exportWallet({ name, mnemonic, privateKey }): Promise<any> {
     try {
       if (mnemonic) {

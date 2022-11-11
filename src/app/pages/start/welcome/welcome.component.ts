@@ -46,7 +46,7 @@ export class WelcomeComponent {
         text: this.langService.getTranslate('BUTTON.JSON_FILE'),
         role: 'json-file',
         cssClass: 'json-file',
-        handler: () => this.router.navigate(['/import-wallet/json-file']),
+        handler: () => this.router.navigate(['/import-wallet/keystore-file']),
       },
       {
         text: this.langService.getTranslate('BUTTON.CANCEL'),

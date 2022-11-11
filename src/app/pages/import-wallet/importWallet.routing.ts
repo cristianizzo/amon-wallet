@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/app.auth.guard';
 import { RecoveryPhraseComponent } from '@pages/import-wallet/recovery-phrase/recovery-phrase.component';
 import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey.component';
+import { KeystoreFileComponent } from '@pages/import-wallet/keystore-file/keystoreFile.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,16 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: '/import-wallet/private-key',
+    pathMatch: 'full',
+  },
+  {
+    path: 'keystore-file',
+    component: KeystoreFileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: '',
+    redirectTo: '/import-wallet/keystore-file',
     pathMatch: 'full',
   },
 ];
