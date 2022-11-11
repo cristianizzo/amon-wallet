@@ -1,8 +1,16 @@
-import { WalletModel } from '@models/wallet.model';
-import { ProviderModel } from '@models/provider.model';
+import {
+  CurrencyModel,
+  LanguageModel,
+  ProviderModel,
+  TokenModel,
+  WalletModel,
+} from '@models/index';
 
 export interface StateModel {
-  readonly password?: string;
+  readonly theme?: string;
+  readonly tokens?: TokenModel[];
   readonly providers?: ProviderModel[];
   readonly wallets?: WalletModel[];
+  readonly currencies?: CurrencyModel[];
+  readonly languages?: LanguageModel[];
 }

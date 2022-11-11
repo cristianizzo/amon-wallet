@@ -70,6 +70,19 @@ export class Web3Services {
     return this.web3.utils.formatEther(balance);
   }
 
+  public async getTokenBalance(
+    tokenAddress: string,
+    walletAddress: string
+  ): Promise<string> {
+    const contract = new web3.Contract(
+      tokenAddress,
+      this.utilsHelper.abi.erc20,
+      this.provider
+    );
+    const balance = await contract.balanceOf(walletAddress);
+    return this.formatEther(balance);
+  }
+
   public formatEther(balance: string): string {
     try {
       return this.web3.utils.formatEther(balance);

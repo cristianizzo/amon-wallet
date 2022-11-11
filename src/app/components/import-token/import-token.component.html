@@ -1,0 +1,53 @@
+<ion-header class="no-border" [translucent]="true">
+  <ion-toolbar #toolbar class="default">
+    <ion-buttons slot="start">
+      <app-back-button [delegate]="true" (clicked)="close()"></app-back-button>
+    </ion-buttons>
+    <ion-title>Import Token</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <div class="tabs">
+    <ion-segment
+      (ionChange)="onSelectTabType($any($event.target).value)"
+      scrollable="true"
+      [value]="selectedTabType"
+      class="segment"
+    >
+      <ion-segment-button [value]="tabTypeEnum.default">
+        Tokens
+      </ion-segment-button>
+      <ion-segment-button [value]="tabTypeEnum.custom">
+        NFTs
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-row class="token-list" *ngIf="selectedTabType === tabTypeEnum.default">
+      <ion-searchbar
+        animated
+        [debounce]="250"
+        [(ngModel)]="searchQuery"
+        autocorrect="off"
+        [placeholder]="'search token name'"
+      ></ion-searchbar>
+
+      <ion-list>
+        <ion-item
+          (click)="addToken(token)"
+          lines="none"
+          *ngFor="
+            let token of tokens
+              | appFilter: searchQuery:['name', 'address', 'symbol']
+          "
+        >
+          <ion-label>{{ token?.symbol }} {{ token?.name }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-row>
+
+    <ion-row class="nft-list" *ngIf="selectedTabType === tabTypeEnum.custom">
+      Custom
+    </ion-row>
+  </div>
+</ion-content>

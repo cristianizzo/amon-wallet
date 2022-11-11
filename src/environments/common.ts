@@ -27,7 +27,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'string',
     'NG_APP_DEFAULT_CURRENCY',
-    'EUR'
+    'USD'
   ),
   theme: configParser(sourceConfig, 'string', 'NG_APP_THEME', 'light'),
   sentry: configParser(sourceConfig, 'string', 'NG_APP_SENTRY_DSN', null),
@@ -51,7 +51,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'string',
     'NG_APP_COINGECKO_URI',
-    'https://api.coingecko.com/api/v3/'
+    'https://api.coingecko.com/api/v3'
   ),
 });
 

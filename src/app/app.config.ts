@@ -4,11 +4,19 @@ import { Web3Services } from '@services/web3.service';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import {
-  ThemeActions,
-  ProviderActions,
+  CurrencyActions,
   LanguageActions,
+  ProviderActions,
+  ThemeActions,
+  TokenActions,
   WalletActions,
 } from '@app/core/actions';
+import {
+  CurrencySelector,
+  ProviderSelector,
+  WalletSelector,
+} from '@app/core/selectors';
+import { combineLatest } from 'rxjs';
 
 @Injectable()
 export class AppConfig {
@@ -19,12 +27,29 @@ export class AppConfig {
   ) {}
 
   public async loadConfiguration() {
-    this.store.dispatch(ThemeActions.initTheme());
     this.store.dispatch(ProviderActions.initProviders());
+    this.store.dispatch(CurrencyActions.initCurrencies());
+    this.store.dispatch(WalletActions.initWallets());
+    this.store.dispatch(ThemeActions.initTheme());
     this.store.dispatch(LanguageActions.initLanguage());
 
     await this.utilsHelper.wait(500);
-    this.store.dispatch(WalletActions.initWallets());
+
+    combineLatest([
+      this.store.select(ProviderSelector.getProvider),
+      this.store.select(CurrencySelector.getCurrency),
+      this.store.select(WalletSelector.getWallet),
+    ]).subscribe(([provider, currency, wallet]) => {
+      if (
+        this.utilsHelper.objectHasValue(provider) &&
+        this.utilsHelper.objectHasValue(currency)
+      ) {
+        console.log('init token');
+        this.store.dispatch(
+          TokenActions.initTokens(provider, currency, wallet)
+        );
+      }
+    });
 
     //print store
     this.store

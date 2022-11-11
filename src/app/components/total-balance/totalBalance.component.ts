@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WalletSelector } from '@app/core/selectors';
+import { WalletSelector, CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { CurrencyModel, WalletModel } from '@app/models';
@@ -16,18 +16,17 @@ export class TotalBalanceComponent {
   public wallets: WalletModel[];
 
   constructor(private store: Store<StateModel>) {
-    // TODO: currency
+    // TODO: show balance, totalBalance
     this.showBalance = true;
     this.totalBalance = 34407.1;
-    this.currency = {
-      symbol: 'USD',
-      name: 'US Dollar',
-      native: '$',
-    };
 
     this.store
       .select(WalletSelector.getWallets)
       .subscribe((wallets) => this.sumTotalBalance(wallets));
+
+    this.store
+      .select(CurrencySelector.getCurrency)
+      .subscribe((currency) => (this.currency = currency));
   }
 
   private sumTotalBalance(wallets: WalletModel[]) {

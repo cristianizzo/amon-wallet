@@ -3,9 +3,16 @@ import {
   CurrencyModel,
   MenuModel,
   ProviderModel,
+  TokenModel,
   WalletModel,
 } from '@app/models';
-import { CurrenciesJson, MenuJson, ProvidersJson } from '@assets/data';
+import {
+  CurrenciesJson,
+  MenuJson,
+  ProvidersJson,
+  TokensJson,
+} from '@assets/data';
+import { ERC20 } from '@assets/abi/index';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
 
@@ -23,10 +30,14 @@ export class UtilsHelper {
     string: '^[a-zA-Z ]*$',
   };
 
+  public abi = {
+    erc20: ERC20,
+  };
+
   public menuJson: MenuModel[] = MenuJson;
   public providersJson: ProviderModel[] = ProvidersJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
-
+  public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;
 
   public async wait(ms: number): Promise<any> {

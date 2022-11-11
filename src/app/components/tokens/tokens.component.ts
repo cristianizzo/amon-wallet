@@ -2,12 +2,9 @@ import { Component } from '@angular/core';
 import { ProviderSelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import {
-  CurrencyModel,
-  ProviderModel,
-  TokenModel,
-  WalletModel,
-} from '@app/models';
+import { CurrencyModel, ProviderModel, WalletModel } from '@app/models';
+import { ModalController } from '@ionic/angular';
+import { ImportTokenComponent } from '@components/import-token/import-token.component';
 
 @Component({
   selector: 'app-tokens',
@@ -22,7 +19,10 @@ export class TokensComponent {
   public loading: boolean;
   public tokens: any;
 
-  constructor(private store: Store<StateModel>) {
+  constructor(
+    private store: Store<StateModel>,
+    private modalCtrl: ModalController
+  ) {
     // TODO: currency
     this.tokens = [];
     this.showBalance = true;
@@ -42,5 +42,17 @@ export class TokensComponent {
 
   public goToToken(tokenSymbol: string) {
     console.log(tokenSymbol);
+  }
+
+  public async openImportTokenModel() {
+    const importTokenModal = await this.modalCtrl.create({
+      id: 'import-token',
+      component: ImportTokenComponent,
+      cssClass: ['import-token'],
+      backdropDismiss: false,
+      canDismiss: true,
+    });
+
+    await importTokenModal.present();
   }
 }
