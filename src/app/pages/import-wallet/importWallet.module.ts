@@ -10,6 +10,7 @@ import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
+import {KeystoreFileComponent} from '@pages/import-wallet/keystore-file/keystoreFile.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     NgAmonPipesModule,
     NgAmonDirectivesModule,
   ],
-  declarations: [RecoveryPhraseComponent, PrivateKeyComponent],
+  declarations: [RecoveryPhraseComponent, PrivateKeyComponent, KeystoreFileComponent],
   providers: [],
 })
 export class ImportWalletModule {}

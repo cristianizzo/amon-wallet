@@ -43,6 +43,13 @@
       "PLACEHOLDER": {
         "PRIVATE_KEY": "Private Key"
       }
+    },
+    "KEYSTORE_FILE": {
+      "TITLE": "Upload your keystore file",
+      "DESCRIPTION": "Upload your keystore file to restore your the account in your wallet",
+      "PLACEHOLDER": {
+        "KEYSTORE_FILE": "Keystore File"
+      }
     }
   },
   "PAGE": {
