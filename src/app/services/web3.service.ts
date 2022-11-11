@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {UtilsHelper} from '@helpers/utils';
-import {CryptoHelper} from '@helpers/crypto';
+import { Injectable } from '@angular/core';
+import { UtilsHelper } from '@helpers/utils';
+import { CryptoHelper } from '@helpers/crypto';
 import * as web3 from 'ethers';
-import {ProviderModel} from '@models/provider.model';
-import {WalletModel} from '@app/models';
+import { ProviderModel } from '@models/provider.model';
+import { WalletModel } from '@app/models';
 
 @Injectable()
 export class Web3Services {
@@ -13,8 +13,7 @@ export class Web3Services {
   constructor(
     public utilsHelper: UtilsHelper,
     private cryptoHelper: CryptoHelper
-  ) {
-  }
+  ) {}
 
   public async connectProvider(
     config: ProviderModel
@@ -41,11 +40,11 @@ export class Web3Services {
   }
 
   public getWallet({
-                     name,
-                     mnemonic = null,
-                     main = false,
-                     derivationPath = `m/44'/60'/0'/0/0`,
-                   }): WalletModel {
+    name,
+    mnemonic = null,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
     if (!mnemonic) {
       const generateMnemonic = this.generateMnemonic();
       mnemonic = generateMnemonic.mnemonic;
@@ -80,11 +79,11 @@ export class Web3Services {
   }
 
   public getWalletFromPrivateKey({
-                                   name,
-                                   privateKey,
-                                   main = false,
-                                   derivationPath = `m/44'/60'/0'/0/0`,
-                                 }): WalletModel {
+    name,
+    privateKey,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
     const buffer = this.cryptoHelper.hexToBuffer(privateKey);
     const wallet = new this.web3.Wallet(buffer);
 
@@ -101,13 +100,12 @@ export class Web3Services {
   }
 
   public getWalletFromKeyStoreJSON({
-                                     name,
-                                     walletJson,
-                                     password,
-                                     main = false,
-                                     derivationPath = `m/44'/60'/0'/0/0`,
-                                   }): WalletModel {
-
+    name,
+    walletJson,
+    password,
+    main = false,
+    derivationPath = `m/44'/60'/0'/0/0`,
+  }): WalletModel {
     const wallet = this.web3.Wallet.fromEncryptedJsonSync(walletJson, password);
 
     return {

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '@app/app.auth.guard';
 import { RecoveryPhraseComponent } from '@pages/import-wallet/recovery-phrase/recovery-phrase.component';
 import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey.component';
-import {KeystoreFileComponent} from '@pages/import-wallet/keystore-file/keystoreFile.component';
+import { KeystoreFileComponent } from '@pages/import-wallet/keystore-file/keystoreFile.component';
 
 const routes: Routes = [
   {

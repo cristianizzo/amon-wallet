@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener} from '@angular/core';
+import { Component, ElementRef, HostListener } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -39,7 +39,7 @@ export class KeystoreFileComponent {
     private langService: LanguageService,
     private loadingCtrl: LoadingController,
     private utilsHelper: UtilsHelper,
-    private store: Store,
+    private store: Store
   ) {
     this.initForm();
   }
@@ -115,7 +115,6 @@ export class KeystoreFileComponent {
     );
     await loader.present();
 
-
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
@@ -136,15 +135,10 @@ export class KeystoreFileComponent {
         '',
         Validators.compose([
           Validators.required,
-          this.formValidatorHelper.jsonFile.bind(this)
+          this.formValidatorHelper.jsonFile.bind(this),
         ])
       ),
-      password: new FormControl(
-        '',
-        Validators.compose([
-          Validators.required,
-        ])
-      )
+      password: new FormControl('', Validators.compose([Validators.required])),
     });
   }
 }

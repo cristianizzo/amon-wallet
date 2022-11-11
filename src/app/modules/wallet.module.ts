@@ -62,7 +62,7 @@ export class WalletModule {
     walletJson: string,
     password: string
   ): Promise<any> {
-    try{
+    try {
       const dbWallets = await this.walletService.getWalletsFromStorage();
       return this.web3Services.getWalletFromKeyStoreJSON({
         name,
@@ -70,8 +70,7 @@ export class WalletModule {
         password,
         main: !this.utilsHelper.arrayHasValue(dbWallets),
       });
-    }
-     catch (_) {
+    } catch (_) {
       return false;
     }
   }

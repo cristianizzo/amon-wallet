@@ -41,12 +41,12 @@ export class FormValidationHelper {
 
   public jsonFile(ac: FormControl): { [key: string]: boolean } | null {
     const file = ac.value;
-    if(file && !file.match(/\.json$/)){
-      return  {
-        jsonFile: true
+    if (file && !file.match(/\.json$/)) {
+      return {
+        jsonFile: true,
       };
     }
-    return  null;
+    return null;
   }
 
   public privateKey(ac: FormControl): { [key: string]: boolean } | boolean {
