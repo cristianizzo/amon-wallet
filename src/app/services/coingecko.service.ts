@@ -1,9 +1,10 @@
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { APIService } from '@services/api.service';
-import { CoingeckoCoinModel } from '@app/models';
+import { CoingeckoCoinModel, TokenModel } from '@app/models';
 import { Observable } from 'rxjs';
 import { memoize } from 'lodash';
+import { UtilsHelper } from '@helpers/utils';
 
 @Injectable()
 export class CoinGeckoService {
@@ -12,24 +13,70 @@ export class CoinGeckoService {
    *
    * @params {string} coinId
    */
-  public allCoins = memoize(async () => {
-    return this.apiService
-      .get('coingecko', `/coins/list?include_platform=true`)
-      .toPromise();
-  });
+  public allCoins = memoize(
+    async () =>
+      new Promise(async (resolve) => {
+        try {
+          const coins = await this.apiService
+            .get('coingecko', `/coins/list?include_platform=true`)
+            .toPromise();
 
+          resolve(coins);
+        } catch (error) {
+          console.log('error fetch coinGecko coins', error);
+          resolve([]);
+        }
+      })
+  );
   /**
    * Get ticker function
    *
    * @params {string} coinId
    */
-  public getTicker = memoize(async (coinId: string) => {
-    return this.apiService
-      .get('coingecko', `/coins/${coinId}?market_data=true`)
-      .toPromise();
-  });
+  public getTicker = memoize(
+    async (coinId: string, symbol: string) =>
+      new Promise(async (resolve) => {
+        try {
+          const ticker = await this.apiService
+            .get('coingecko', `/coins/${coinId}?market_data=true`)
+            .toPromise();
 
-  constructor(private apiService: APIService) {}
+          resolve(ticker);
+        } catch (error) {
+          console.log('error fetch coinGecko ticker', error, coinId, symbol);
+          resolve(null);
+        }
+      })
+  );
+
+  constructor(
+    private apiService: APIService,
+    public utilsHelper: UtilsHelper
+  ) {}
+
+  public async findTokensCoinGeckoId(defaultTokens: TokenModel[]) {
+    const allCoinGeckoCoins = await this.allCoins();
+
+    const tokens = await this.utilsHelper.asyncMap(
+      defaultTokens,
+      async (token) => {
+        const coin = allCoinGeckoCoins.find(
+          (cg) => cg.symbol.toLowerCase() === token.symbol.toLowerCase()
+        );
+
+        if (coin) {
+          token.coinGeckoId = coin.id;
+        }
+
+        return token;
+      },
+      (error) => {
+        console.log('coingecko error find token', error);
+      }
+    );
+
+    return tokens.filter((token) => token.coinGeckoId);
+  }
 
   /**
    * Global markets function
@@ -78,6 +125,7 @@ export class CoinGeckoService {
   public getGraph(
     coinId: string,
     days = 1
+    // eslint-disable-next-line @typescript-eslint/naming-convention
   ): Observable<{ total_volumes: any; market_caps: any; prices: any }> {
     return this.apiService.get(
       'coingecko',

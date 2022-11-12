@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { CoingeckoTickerModel } from '@models/coingeckoTicker.model';
 
 export class CoingeckoCoinModel {
@@ -5,7 +6,7 @@ export class CoingeckoCoinModel {
   symbol: string;
   name: string;
   image: string;
-  'current_price': number;
+  ['current_price']: number;
   'market_cap': number;
   'market_cap_rank': number;
   'total_volume': number;

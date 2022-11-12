@@ -7,14 +7,16 @@ export const ProvidersJson = [
     chainId: 1,
     symbol: 'ETH',
     explorer: 'https://etherscan.io/',
+    testnet: false,
     default: true,
   },
   {
     id: 2,
     name: 'Ethereum Goerli',
-    rpc: 'https://goerli.infura.io/v3/',
+    rpc: 'https://ethereum-goerli-rpc.allthatnode.com',
     chainId: 5,
     symbol: 'ETH',
+    testnet: true,
     explorer: 'https://goerli.etherscan.io',
     default: false,
   },
@@ -25,6 +27,7 @@ export const ProvidersJson = [
     chainId: 56,
     symbol: 'BNB',
     explorer: 'https://bscscan.com/',
+    testnet: false,
     default: false,
   },
   {
@@ -34,6 +37,7 @@ export const ProvidersJson = [
     chainId: 137,
     symbol: 'MATIC',
     explorer: 'https://polygonscan.com/',
+    testnet: false,
     default: false,
   },
   {
@@ -43,6 +47,7 @@ export const ProvidersJson = [
     chainId: 137,
     symbol: 'AVAX',
     explorer: 'https://cchain.explorer.avax.network/',
+    testnet: false,
     default: false,
   },
   {
@@ -52,6 +57,7 @@ export const ProvidersJson = [
     chainId: 250,
     symbol: 'FTM',
     explorer: 'https://ftmscan.com/',
+    testnet: false,
     default: false,
   },
 ];

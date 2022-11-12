@@ -4,9 +4,13 @@
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
+    "DEPOSIT": "Deposit",
+    "WITHDRAW": "Send",
+    "SWAP": "Swap",
     "NEXT": "next",
     "COPY": "copy",
     "SHARE": "share",
+    "IMPORT_TOKEN": "Import Token",
     "CONTINUE": "continue",
     "CREATE_WALLET": "Create a new wallet",
     "RESTORE_WALLET": "Restore existing wallet",
@@ -50,7 +54,23 @@
       "PLACEHOLDER": {
         "KEYSTORE_FILE": "Keystore File"
       }
-    }
+    },
+    "WALLET_MENU": {
+      "CONNECT": "Connect",
+      "RENAME": "Rename",
+      "EXPORT_PK": "Export Private Key",
+      "COPY_ADDRESS": "Copy Address",
+      "DELETE": "Delete"
+    },
+    "IMPORT_TOKENS": {
+      "MENU": {
+        "TOKENS": "Tokens",
+        "CUSTOM": "Custom"
+      }
+    },
+    "TOKENS": {
+      "INFO": "Don't see your token?"
+    },
   },
   "PAGE": {
     "START": {
@@ -125,6 +145,7 @@
     }
   },
   "ERRORS": {
+    "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",
     "FAIL_ENCRYPT": "Error encrypt seed phrase.",
     "FAIL_DECRYPT": "Error decrypt seed phrase.",

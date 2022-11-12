@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WalletSelector, CurrencySelector } from '@app/core/selectors';
+import { CurrencySelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { CurrencyModel, WalletModel } from '@app/models';
@@ -29,8 +29,7 @@ export class TotalBalanceComponent {
       .subscribe((currency) => (this.currency = currency));
   }
 
-  private sumTotalBalance(wallets: WalletModel[]) {
+  private sumTotalBalance(_wallets: WalletModel[]) {
     // TODO:
-    console.log(wallets);
   }
 }

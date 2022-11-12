@@ -14,15 +14,15 @@ export const tokenReducer = createReducer(
   on(
     TokenActions.addTokenToState,
     (state: TokenModel[] = initialState, { token }) => [...state, token]
+  ),
+  on(
+    TokenActions.updateTokenToState,
+    (state: TokenModel[] = initialState, { token }) => {
+      console.log('update state', token);
+      const updatedState = state.map((tk) => Object.assign({}, tk, token));
+      return updatedState;
+    }
   )
-  // on(TokenActions.deleteProvider, (state: TokenModel[] = initialState, {provider}) =>
-  //   state.filter(p => p.id !== provider.id)
-  // ),
-  // on(TokenActions.switchProvider, (state: TokenModel[] = initialState, {provider}) =>
-  //   state.map(p => Object.assign({}, p, {
-  //     default: p.id === provider.id
-  //   }))
-  // ),
 );
 
 export const reducer = (state: TokenModel[] | undefined, action: Action): any =>

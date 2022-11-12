@@ -30,7 +30,7 @@ export class Web3Services {
         blockNumber,
       };
     } catch (error) {
-      console.log(error);
+      console.log('error connectProvider', error);
       throw error;
     }
   }
@@ -74,13 +74,18 @@ export class Web3Services {
     tokenAddress: string,
     walletAddress: string
   ): Promise<string> {
-    const contract = new web3.Contract(
-      tokenAddress,
-      this.utilsHelper.abi.erc20,
-      this.provider
-    );
-    const balance = await contract.balanceOf(walletAddress);
-    return this.formatEther(balance);
+    try {
+      const contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc20,
+        this.provider
+      );
+      const balance = await contract.balanceOf(walletAddress);
+      return this.formatEther(balance);
+    } catch (error) {
+      console.log('error fetch token balance', error);
+      return '0';
+    }
   }
 
   public formatEther(balance: string): string {

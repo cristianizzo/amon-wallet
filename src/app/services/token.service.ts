@@ -10,6 +10,7 @@ import { from, Observable } from 'rxjs';
 import { LocalForageService } from '@services/localforage.service';
 import { CoinGeckoService } from './coingecko.service';
 import { Web3Services } from './web3.service';
+import assert from 'assert';
 
 @Injectable()
 export class TokenService {
@@ -29,76 +30,227 @@ export class TokenService {
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        let dbTokens: TokenModel[] = await this.localForageService.getItem(
-          'tokens'
-        );
+        let dbTokens = await this.getTokensFromStorage(provider);
 
-        // existing tokens
-        if (this.utilsHelper.arrayHasValue(dbTokens)) {
-          dbTokens = await Promise.all(
-            dbTokens
-              .filter(
-                (token) =>
-                  token.providerSymbol === provider.symbol &&
-                  token.chainId === provider.chainId
-              )
-              .map(async (token) =>
-                this._pairToken(token, provider, currency, wallet)
-              )
-          );
-        } else {
-          // init tokens
-
-          const allTokens = [
-            ...this.utilsHelper.tokensJson[provider.symbol],
-          ].filter((token) => token.chainId === provider.chainId);
-
-          dbTokens = await Promise.all(
-            allTokens.map((token) =>
-              this._pairToken(token, provider, currency, wallet)
-            )
-          );
+        if (!this.utilsHelper.arrayHasValue(dbTokens)) {
+          //init tokens
+          dbTokens = await this._getInitTokens(provider);
         }
 
-        await this.localForageService.setItem('tokens', dbTokens);
+        await Promise.all(
+          dbTokens.map((updatedDbToken) =>
+            this._addUpdateTokenToStorage(updatedDbToken)
+          )
+        );
+
+        const dbSelectedTokens = await this._syncSelectedTokensWithCoinGecko(
+          wallet,
+          provider,
+          currency
+        );
+
+        await Promise.all([
+          dbTokens.map((updatedDbToken) =>
+            this._addUpdateTokenToStorage(updatedDbToken)
+          ),
+          dbSelectedTokens.map((selectedToken) =>
+            this._addUpdateTokenToStorage(selectedToken)
+          ),
+        ]);
 
         return dbTokens;
       })
     );
   }
 
-  public addToken(token: TokenModel, wallet: WalletModel): Observable<any> {
+  public addToken(
+    address: string,
+    wallet: WalletModel,
+    provider: ProviderModel,
+    currency: CurrencyModel
+  ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const balance = await this.web3Services.getTokenBalance(
-          token.address,
-          wallet.address
-        );
+        const existingToken = await this._getTokenFromStorage(address);
+        assert(!existingToken, 'tokenAlreadyExists');
 
-        token.selected = true;
-        token.balance = balance;
-        return token;
+        try {
+          if (!existingToken) {
+            // TODO: handle custom token
+            // create new token
+          }
+
+          const updatedToken = await this._updateCoinGeckoTicker(
+            existingToken,
+            provider,
+            currency
+          );
+
+          const balance = await this.web3Services.getTokenBalance(
+            updatedToken.address,
+            wallet.address
+          );
+
+          updatedToken.selected = true;
+          updatedToken.balance = balance;
+
+          await this._addUpdateTokenToStorage(updatedToken);
+
+          return updatedToken;
+        } catch (error) {
+          console.log('error add token', error);
+          throw error;
+        }
       })
     );
   }
 
-  private async _pairCoinGeckoTokenId(token: TokenModel): Promise<TokenModel> {
-    if (!token.coinGeckoId) {
-      const allCoins = await this.coinGeckoService.allCoins();
-      const coin = allCoins.find(
-        (cg) => cg.symbol.toLowerCase() === token.symbol.toLowerCase()
-      );
+  public selectToken(
+    address: string,
+    wallet: WalletModel,
+    provider: ProviderModel,
+    currency: CurrencyModel
+  ): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const dbToken = await this._getTokenFromStorage(address);
+        assert(!dbToken || !dbToken.selected, 'tokenNotFound');
 
-      if (coin) {
-        token.coinGeckoId = coin.id;
-      } else {
-        // TODO: log error
-        console.log('coingecko coin not found');
-        return null;
-      }
+        try {
+          const updatedToken = await this._updateCoinGeckoTicker(
+            dbToken,
+            provider,
+            currency
+          );
+
+          const balance = await this.web3Services.getTokenBalance(
+            updatedToken.address,
+            wallet.address
+          );
+
+          updatedToken.selected = true;
+          updatedToken.balance = balance;
+
+          await this._addUpdateTokenToStorage(updatedToken);
+
+          return updatedToken;
+        } catch (error) {
+          console.log('error select token', error);
+          throw error;
+        }
+      })
+    );
+  }
+
+  public unselectToken(address: string): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const dbToken = await this._getTokenFromStorage(address);
+        assert(dbToken && dbToken.selected, 'tokenNotFound');
+
+        try {
+          dbToken.selected = false;
+          await this._addUpdateTokenToStorage(dbToken);
+          return dbToken;
+        } catch (error) {
+          console.log('error select token', error);
+          throw error;
+        }
+      })
+    );
+  }
+
+  private async getTokensFromStorage(
+    provider?: ProviderModel
+  ): Promise<TokenModel[]> {
+    const dbWallets = (await this.localForageService.getItem('tokens')) || [];
+
+    if (provider) {
+      return dbWallets.filter(
+        (token) =>
+          token.providerSymbol === provider.symbol &&
+          token.chainId === provider.chainId
+      );
     }
 
+    return dbWallets;
+  }
+
+  private async _syncSelectedTokensWithCoinGecko(
+    wallet: WalletModel,
+    provider: ProviderModel,
+    currency: CurrencyModel
+  ): Promise<TokenModel[]> {
+    const dbTokens = await this.getTokensFromStorage(provider);
+
+    const dbSelectedTokens = await this.utilsHelper.asyncMap(
+      dbTokens.filter((tk) => tk.selected),
+      async (token) => {
+        const updatedToken = await this._updateCoinGeckoTicker(
+          token,
+          provider,
+          currency
+        );
+
+        if (updatedToken.selected && wallet && wallet.address) {
+          const balance = await this.web3Services.getTokenBalance(
+            updatedToken.address,
+            wallet.address
+          );
+          updatedToken.balance = balance;
+        }
+
+        return updatedToken;
+      },
+      (error) => {
+        console.log('error initTokens', error);
+      }
+    );
+
+    return dbSelectedTokens;
+  }
+
+  private async _addUpdateTokenToStorage(
+    token: TokenModel
+  ): Promise<TokenModel[]> {
+    let dbTokens = await this.getTokensFromStorage();
+    const existingToken = dbTokens.find((tk) => tk.address === token.address);
+
+    if (existingToken) {
+      dbTokens = dbTokens.map((tk) => {
+        if (tk.address === token.address) {
+          return Object.assign(tk, token);
+        }
+        return tk;
+      });
+    } else {
+      dbTokens.push(token);
+    }
+
+    await this.localForageService.setItem('tokens', dbTokens);
+
+    return dbTokens;
+  }
+
+  private async _getTokenFromStorage(address: string): Promise<TokenModel> {
+    const dbTokens = await this.getTokensFromStorage();
+    const token = dbTokens.find((tk) => tk.address === address);
     return token;
+  }
+
+  private async _getInitTokens(provider: ProviderModel) {
+    const defaultTokens: TokenModel[] = [
+      ...this.utilsHelper.tokensJson[provider.symbol],
+    ].filter((token) => token.chainId === provider.chainId);
+
+    const tokenWithCoinGeckoId =
+      await this.coinGeckoService.findTokensCoinGeckoId(defaultTokens);
+
+    const parsedTokens = tokenWithCoinGeckoId.map((t) =>
+      this._parseToken(t, provider)
+    );
+
+    return parsedTokens;
   }
 
   private _parseToken(token: TokenModel, provider: ProviderModel): TokenModel {
@@ -114,7 +266,7 @@ export class TokenService {
         type: token.type,
         symbol: token.symbol,
         balance: '0',
-        image: null,
+        image: token.image,
         cryptoPrice: 0,
         fiatPrice: 0,
         priceChange24h: 0,
@@ -126,66 +278,37 @@ export class TokenService {
     return token;
   }
 
-  private async _pairCoinGeckoTicker(
+  private async _updateCoinGeckoTicker(
     token: TokenModel,
     provider: ProviderModel,
     currency: CurrencyModel
   ) {
-    const ticker = await this.coinGeckoService.getTicker(token.coinGeckoId);
+    const ticker = await this.coinGeckoService.getTicker(
+      token.coinGeckoId,
+      token.symbol
+    );
 
-    if (ticker.image) {
-      token.image = ticker.image;
-    }
-
-    if (ticker.market_data && ticker.market_data.current_price) {
-      if (ticker.market_data.current_price[provider.symbol.toLowerCase()]) {
-        token.cryptoPrice =
-          ticker.market_data.current_price[provider.symbol.toLowerCase()];
+    if (ticker) {
+      if (ticker.image && !token.image) {
+        token.image = ticker.image;
       }
+      if (ticker.market_data && ticker.market_data.current_price) {
+        if (ticker.market_data.current_price[provider.symbol.toLowerCase()]) {
+          token.cryptoPrice =
+            ticker.market_data.current_price[provider.symbol.toLowerCase()];
+        }
 
-      if (ticker.market_data.current_price[currency.symbol.toLowerCase()]) {
-        token.fiatPrice =
-          ticker.market_data.current_price[currency.symbol.toLowerCase()];
-      }
+        if (ticker.market_data.current_price[currency.symbol.toLowerCase()]) {
+          token.fiatPrice =
+            ticker.market_data.current_price[currency.symbol.toLowerCase()];
+        }
 
-      if (ticker.market_data.price_change_percentage_24h) {
-        token.priceChange24h = ticker.market_data.price_change_percentage_24h;
+        if (ticker.market_data.price_change_percentage_24h) {
+          token.priceChange24h = ticker.market_data.price_change_percentage_24h;
+        }
       }
     }
 
     return token;
-  }
-
-  private async _pairToken(
-    token: TokenModel,
-    provider: ProviderModel,
-    currency: CurrencyModel,
-    wallet: WalletModel
-  ) {
-    try {
-      let newToken = await this._pairCoinGeckoTokenId(token);
-      newToken = this._parseToken(newToken, provider);
-
-      if (newToken.coinGeckoId) {
-        newToken = await this._pairCoinGeckoTicker(
-          newToken,
-          provider,
-          currency
-        );
-      }
-
-      if (wallet && newToken.selected) {
-        const balance = await this.web3Services.getTokenBalance(
-          newToken.address,
-          wallet.address
-        );
-        newToken.balance = balance;
-      }
-
-      return newToken;
-    } catch (error) {
-      console.log('error fetch token', token);
-      console.log(error);
-    }
   }
 }

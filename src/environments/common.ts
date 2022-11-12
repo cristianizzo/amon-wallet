@@ -53,6 +53,18 @@ const getConfigObject = (sourceConfig) => ({
     'NG_APP_COINGECKO_URI',
     'https://api.coingecko.com/api/v3'
   ),
+  defaultProvider: configParser(
+    sourceConfig,
+    'string',
+    'NG_APP_DEFAULT_PROVIDER',
+    'ETH'
+  ),
+  defaultChainId: configParser(
+    sourceConfig,
+    'number',
+    'NG_APP_DEFAULT_CHAIN_ID',
+    5
+  ),
 });
 
 export default { getConfigObject };

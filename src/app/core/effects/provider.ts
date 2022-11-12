@@ -19,7 +19,10 @@ export class ProviderEffects {
             map((providers) => ProviderActions.updateStateProviders(providers))
           )
       ),
-      catchError((error) => of(ProviderActions.providerError(error)))
+      catchError((error) => {
+        console.log('providerError', error);
+        return of(ProviderActions.providerError(error));
+      })
     )
   );
 

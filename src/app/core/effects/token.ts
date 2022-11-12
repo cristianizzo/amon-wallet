@@ -21,6 +21,61 @@ export class TokenEffects {
     )
   );
 
+  addToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.addToken),
+      switchMap((action) =>
+        this.tokenService
+          .addToken(
+            action.address,
+            action.wallet,
+            action.provider,
+            action.currency
+          )
+          .pipe(map((token) => TokenActions.addTokenToState(token)))
+      ),
+      catchError((error) => {
+        console.log('tokenError', error);
+        return of(TokenActions.tokenError(error));
+      })
+    )
+  );
+
+  selectToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.selectToken),
+      switchMap((action) =>
+        this.tokenService
+          .selectToken(
+            action.address,
+            action.wallet,
+            action.provider,
+            action.currency
+          )
+          .pipe(map((token) => TokenActions.updateTokenToState(token)))
+      ),
+      catchError((error) => {
+        console.log('selectToken error', error);
+        return of(TokenActions.tokenError(error));
+      })
+    )
+  );
+
+  unselectToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.unselectToken),
+      switchMap((action) =>
+        this.tokenService
+          .unselectToken(action.address)
+          .pipe(map((token) => TokenActions.updateTokenToState(token)))
+      ),
+      catchError((error) => {
+        console.log('unselectToken error', error);
+        return of(TokenActions.tokenError(error));
+      })
+    )
+  );
+
   error$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -30,18 +85,6 @@ export class TokenEffects {
         })
       ),
     { dispatch: false }
-  );
-
-  addToken$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(TokenActions.addToken),
-      switchMap((action) =>
-        this.tokenService
-          .addToken(action.token, action.wallet)
-          .pipe(map((token) => TokenActions.addTokenToState(token)))
-      ),
-      catchError((error) => of(TokenActions.tokenError(error)))
-    )
   );
 
   constructor(

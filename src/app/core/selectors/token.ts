@@ -5,12 +5,11 @@ import { TokenReducer } from '@app/core/reducers';
 export const getTokenState = createFeatureSelector<TokenModel[]>(
   TokenReducer.featureKey
 );
-export const getDefaultTokens = createSelector(
+export const getAllTokens = createSelector(
   getTokenState,
-  (state: TokenModel[]): TokenModel[] =>
-    state ? state.filter((w) => !w.selected) : null
+  (state: TokenModel[]): TokenModel[] => (state ? state : null)
 );
-export const getSelectedToken = createSelector(
+export const getSelectedTokens = createSelector(
   getTokenState,
   (state: TokenModel[]): TokenModel[] =>
     state ? state.filter((w) => w.selected) : null

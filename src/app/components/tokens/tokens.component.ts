@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { ProviderSelector, WalletSelector } from '@app/core/selectors';
+import {
+  CurrencySelector,
+  ProviderSelector,
+  WalletSelector,
+} from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { CurrencyModel, ProviderModel, WalletModel } from '@app/models';
@@ -23,14 +27,13 @@ export class TokensComponent {
     private store: Store<StateModel>,
     private modalCtrl: ModalController
   ) {
-    // TODO: currency
     this.tokens = [];
+    // TODO: move into the state
     this.showBalance = true;
-    this.currency = {
-      symbol: 'USD',
-      name: 'US Dollar',
-      native: '$',
-    };
+
+    this.store
+      .select(CurrencySelector.getCurrency)
+      .subscribe((currency) => (this.currency = currency));
 
     this.store
       .select(ProviderSelector.getProvider)

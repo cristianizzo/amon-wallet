@@ -7,12 +7,7 @@
   <app-wallet-action-buttons></app-wallet-action-buttons>
 
   <div class="assets">
-    <ion-segment
-      (ionChange)="onSelectAssetType($any($event.target).value)"
-      scrollable="true"
-      [value]="selectedAssetType"
-      class="segment"
-    >
+    <ion-segment (ionChange)="onSelectAssetType($any($event.target).value)" scrollable="true" [value]="selectedAssetType" class="segment">
       <ion-segment-button [value]="assetTypeEnum.tokens">
         Tokens
       </ion-segment-button>
@@ -21,10 +16,7 @@
       </ion-segment-button>
     </ion-segment>
 
-    <ion-row
-      class="token-list"
-      *ngIf="selectedAssetType === assetTypeEnum.tokens"
-    >
+    <ion-row class="token-list" *ngIf="selectedAssetType === assetTypeEnum.tokens">
       <app-tokens></app-tokens>
     </ion-row>
 
