@@ -18,9 +18,12 @@ export class WalletAddressComponent {
     private store: Store<StateModel>,
     private toastService: ToastService
   ) {
-    this.store
-      .select(WalletSelector.getWallet)
-      .subscribe((wallet) => (this.wallet = wallet));
+    this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
+      this.wallet = wallet;
+      if (wallet) {
+        this.payloadClipboard = this.wallet.address;
+      }
+    });
   }
 
   /**
