@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, switchMap } from 'rxjs/operators';
 import { LanguageActions } from '@app/core/actions';
 import { LanguageService } from '@services/languages.service';
 import { ToastService } from '@services/toast.service';
 import { ErrorService } from '@services/error.service';
+import { of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:language');
 
 @Injectable()
 export class LanguageEffects {
@@ -17,7 +21,16 @@ export class LanguageEffects {
           .pipe(
             map((languages) => LanguageActions.updateStateLanguages(languages))
           )
-      )
+      ),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init languages`,
+            error,
+          })
+        );
+        return of(LanguageActions.languageError(error));
+      })
     )
   );
 
@@ -38,7 +51,16 @@ export class LanguageEffects {
         ofType(LanguageActions.switchLanguage),
         switchMap(async (action) =>
           this.languageService.setLanguage(action.language.lang)
-        )
+        ),
+        catchError((error) => {
+          logger.error(
+            logContent.add({
+              info: `error switch languages`,
+              error,
+            })
+          );
+          return of(LanguageActions.languageError(error));
+        })
       ),
     { dispatch: false }
   );

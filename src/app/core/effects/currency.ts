@@ -6,6 +6,9 @@ import { ToastService } from '@services/toast.service';
 import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:currency');
 
 @Injectable()
 export class CurrencyEffects {
@@ -21,7 +24,15 @@ export class CurrencyEffects {
             )
           )
       ),
-      catchError((error) => of(CurrencyActions.currencyError(error)))
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init currencies`,
+            error,
+          })
+        );
+        return of(CurrencyActions.currencyError(error));
+      })
     )
   );
 
@@ -35,17 +46,6 @@ export class CurrencyEffects {
       ),
     { dispatch: false }
   );
-
-  // switchProvider$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(CurrencyActions.switchProvider),
-  //     switchMap(async (action) => {
-  //
-  //       const dbProviders: ProviderModel[] = await this.localForageService.getItem('providers');
-  //       this.web3Services.connectProvider(dbProviders.find(p => p.id === action.provider.id));
-  //       return CurrencyActions.getProvider();
-  //     }))
-  // );
 
   constructor(
     private actions$: Actions,

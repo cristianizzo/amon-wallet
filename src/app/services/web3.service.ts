@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
-import * as web3 from 'ethers';
 import { ProviderModel } from '@models/provider.model';
 import { WalletModel } from '@app/models';
+import * as web3 from 'ethers';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('services:web3');
 
 @Injectable()
 export class Web3Services {
@@ -30,7 +33,13 @@ export class Web3Services {
         blockNumber,
       };
     } catch (error) {
-      console.log('error connectProvider', error);
+      logger.error(
+        logContent.add({
+          info: `error connect provider`,
+          error,
+        })
+      );
+
       throw error;
     }
   }
@@ -83,7 +92,15 @@ export class Web3Services {
       const balance = await contract.balanceOf(walletAddress);
       return this.formatEther(balance);
     } catch (error) {
-      console.log('error fetch token balance', error);
+      logger.warn(
+        logContent.add({
+          info: `error fetch token balance`,
+          tokenAddress,
+          walletAddress,
+          error,
+        })
+      );
+
       return '0';
     }
   }

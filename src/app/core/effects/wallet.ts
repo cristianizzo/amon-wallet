@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { WalletActions } from '@app/core/actions';
 import { WalletService } from '@services/wallet.service';
 import { ErrorService } from '@services/error.service';
 import { ToastService } from '@app/services/toast.service';
+import { of } from 'rxjs';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:wallet');
 
 @Injectable()
 export class WalletEffects {
@@ -19,7 +22,12 @@ export class WalletEffects {
           .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
       ),
       catchError((error) => {
-        console.log('walletError', error);
+        logger.error(
+          logContent.add({
+            info: `error init wallets`,
+            error,
+          })
+        );
         return of(WalletActions.walletError(error));
       })
     )
@@ -38,7 +46,15 @@ export class WalletEffects {
             map((wallets: any) => WalletActions.updateStateWallets(wallets))
           )
       ),
-      catchError((error) => of(WalletActions.walletError(error)))
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init wallets`,
+            error,
+          })
+        );
+        return of(WalletActions.walletError(error));
+      })
     )
   );
 
@@ -53,7 +69,15 @@ export class WalletEffects {
           .fetchBalances(w)
           .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
       ),
-      catchError((error) => of(WalletActions.walletError(error)))
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init wallets`,
+            error,
+          })
+        );
+        return of(WalletActions.walletError(error));
+      })
     )
   );
 
