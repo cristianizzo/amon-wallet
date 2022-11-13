@@ -1,6 +1,10 @@
 <div class="tokens">
   <ion-list>
-    <ion-item (click)="goToToken(provider?.symbol)" class="list-item wallet-list" lines="none">
+    <ion-item
+      (click)="goToToken(provider?.symbol)"
+      class="list-item wallet-list"
+      lines="none"
+    >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">
         <ion-icon [name]="provider?.symbol?.toLowerCase()"></ion-icon>
         <span class="coinCode">{{ provider?.symbol }}</span>
@@ -9,7 +13,10 @@
         <div class="col-xs ion-text-right coinBalance">
           <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
           <ng-container *ngIf="!loading && showBalance">
-            <span [innerHTML]="wallet?.balance | cryptoBalance" class="symbol"></span>
+            <span
+              [innerHTML]="wallet?.balance | cryptoBalance"
+              class="symbol"
+            ></span>
           </ng-container>
           <ng-container *ngIf="!loading && !showBalance">
             <small>{{ '****' }}</small>
@@ -20,9 +27,12 @@
   </ion-list>
 
   <div class="missingToken">
-    {{'COMP.TOKENS.INFO' | translate}}<br/>
-    <ion-button (click)="openImportTokenModel()" class="btn-white outline small">
-      {{'BUTTON.IMPORT_TOKEN' | translate}}
+    {{ 'COMP.TOKENS.INFO' | translate }}<br />
+    <ion-button
+      (click)="openImportTokenModel()"
+      class="btn-white outline small"
+    >
+      {{ 'BUTTON.IMPORT_TOKEN' | translate }}
     </ion-button>
   </div>
 </div>

@@ -18,11 +18,20 @@
       <ion-row class="body">
         <div class="walletDetails">
           <ng-container *ngIf="qrCode && wallet?.address">
-            <app-qrcode [qrcElementType]="'url'" [qrcValue]="qrCode"></app-qrcode>
+            <app-qrcode
+              [qrcElementType]="'url'"
+              [qrcValue]="qrCode"
+            ></app-qrcode>
 
             <div class="box-item">
-              <div class="label-address" [innerHTML]="'PAGE.DEPOSIT.ADDRESS' | translate"></div>
-              <div class="box-address qpass-flex between-xs middle-xs" (click)="copyAddress(wallet)">
+              <div
+                class="label-address"
+                [innerHTML]="'PAGE.DEPOSIT.ADDRESS' | translate"
+              ></div>
+              <div
+                class="box-address qpass-flex between-xs middle-xs"
+                (click)="copyAddress(wallet)"
+              >
                 <p class="address">
                   {{ wallet?.address }}
                 </p>
@@ -30,7 +39,10 @@
             </div>
 
             <div class="box-item info-text" *ngIf="wallet?.address">
-              <div class="label-address" [innerHTML]="'PAGE.DEPOSIT.INFO' | translate"></div>
+              <div
+                class="label-address"
+                [innerHTML]="'PAGE.DEPOSIT.INFO' | translate"
+              ></div>
             </div>
           </ng-container>
         </div>

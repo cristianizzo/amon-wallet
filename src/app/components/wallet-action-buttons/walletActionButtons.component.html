@@ -1,17 +1,29 @@
 <div class="wallet-action-buttons">
   <ion-grid>
     <ion-col>
-      <ion-button class="btn-wallet-action" routerDirection="back" routerLink="/auth/deposit">
+      <ion-button
+        class="btn-wallet-action"
+        routerDirection="back"
+        routerLink="/auth/deposit"
+      >
         <ion-icon name="arrow-down-outline"></ion-icon>
         <ion-label [innerHTML]="'BUTTON.DEPOSIT' | translate"></ion-label>
       </ion-button>
 
-      <ion-button class="btn-wallet-action" routerDirection="forward" routerLink="/auth/withdraw">
+      <ion-button
+        class="btn-wallet-action"
+        routerDirection="forward"
+        routerLink="/auth/withdraw"
+      >
         <ion-icon name="arrow-up-outline"></ion-icon>
         <ion-label [innerHTML]="'BUTTON.WITHDRAW' | translate"></ion-label>
       </ion-button>
 
-      <ion-button class="btn-wallet-action" routerDirection="forward" routerLink="/auth/exchange">
+      <ion-button
+        class="btn-wallet-action"
+        routerDirection="forward"
+        routerLink="/auth/exchange"
+      >
         <ion-icon class="swap-icon" name="repeat-outline"></ion-icon>
         <ion-label [innerHTML]="'BUTTON.SWAP' | translate"></ion-label>
       </ion-button>

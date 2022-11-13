@@ -5,16 +5,23 @@
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar class="default">
-    <ion-searchbar [(ngModel)]="searchInputText" [debounce]="250" [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
+    <ion-searchbar
+      [(ngModel)]="searchInputText"
+      [debounce]="250"
+      [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
       animated="true"
-      autocorrect="off">
+      autocorrect="off"
+    >
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="account-menu">
   <ion-list class="user-wallets">
-    <ion-item *ngFor="let w of wallets | appFilter: searchInputText:['name', 'address']" [mode]="'ios'">
+    <ion-item
+      *ngFor="let w of wallets | appFilter: searchInputText:['name', 'address']"
+      [mode]="'ios'"
+    >
       <ion-icon *ngIf="w.connected" name="checkmark-circle-outline"></ion-icon>
       <ion-text>
         <h2>{{ w.name }}</h2>
@@ -34,15 +41,23 @@
 <ion-footer>
   <ion-list class="account-settings">
     <ion-item (click)="addNewWallet()" [mode]="'ios'" button>
-      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.ADD_WALLET' | translate"></ion-label>
+      <ion-label
+        [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.ADD_WALLET' | translate"
+      ></ion-label>
       <div slot="end"></div>
     </ion-item>
     <ion-item (click)="importWallet()" [mode]="'ios'" button>
-      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.IMPORT_WALLET' | translate"></ion-label>
+      <ion-label
+        [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.IMPORT_WALLET' | translate"
+      ></ion-label>
       <div slot="end"></div>
     </ion-item>
     <ion-item (click)="(true)" [mode]="'ios'" button>
-      <ion-label [innerHTML]="'HEADER.ACCOUNT_MENU.SETTINGS.ADD_HARDWARE_WALLET' | translate"></ion-label>
+      <ion-label
+        [innerHTML]="
+          'HEADER.ACCOUNT_MENU.SETTINGS.ADD_HARDWARE_WALLET' | translate
+        "
+      ></ion-label>
       <div slot="end"></div>
     </ion-item>
   </ion-list>

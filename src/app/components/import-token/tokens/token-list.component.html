@@ -8,9 +8,21 @@
   ></ion-searchbar>
 
   <ion-list>
-    <ion-item *ngFor="let token of tokens | appFilter: searchQuery:['name', 'address', 'symbol']" lines="none">
-      <ion-label>{{ token?.symbol }} {{ token?.name }} {{ token.selected }}</ion-label>
-      <ion-toggle (ionChange)="toggleToken(token.address)" [checked]="token.selected" class="toggle"></ion-toggle>
+    <ion-item
+      *ngFor="
+        let token of tokens
+          | appFilter: searchQuery:['name', 'address', 'symbol']
+      "
+      lines="none"
+    >
+      <ion-label
+        >{{ token?.symbol }} {{ token?.name }} {{ token.selected }}</ion-label
+      >
+      <ion-toggle
+        (ionChange)="toggleToken(token.address)"
+        [checked]="token.selected"
+        class="toggle"
+      ></ion-toggle>
     </ion-item>
   </ion-list>
 </ion-row>

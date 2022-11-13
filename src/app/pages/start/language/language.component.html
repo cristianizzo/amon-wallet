@@ -4,20 +4,37 @@
       <ion-col>
         <div class="welcome">
           <div class="intro">
-            <img [src]="selectedTheme === 'dark' ? 'assets/img/logo-white.svg' : 'assets/img/logo-black.svg'" class="logo"/>
+            <img
+              [src]="
+                selectedTheme === 'dark'
+                  ? 'assets/img/logo-white.svg'
+                  : 'assets/img/logo-black.svg'
+              "
+              class="logo"
+            />
             <p class="subtitle">
               {{ 'PAGE.START.LANGUAGE.TITLE' | translate }}
             </p>
           </div>
           <ion-card class="languages">
             <ion-card-header>
-              <ion-label>{{ 'PAGE.START.LANGUAGE.SELECT_LANG' | translate }}</ion-label>
+              <ion-label>{{
+                'PAGE.START.LANGUAGE.SELECT_LANG' | translate
+              }}</ion-label>
             </ion-card-header>
             <ion-card-content>
               <ion-list>
-                <ion-item [id]="language.lang" (click)="onSelectedLanguage(language)" *ngFor="let language of languages" [ngClass]="{ selected: language?.selected }" lines="none">
+                <ion-item
+                  [id]="language.lang"
+                  (click)="onSelectedLanguage(language)"
+                  *ngFor="let language of languages"
+                  [ngClass]="{ selected: language?.selected }"
+                  lines="none"
+                >
                   <img [src]="language.flag" class="country-flag" />
-                  <ion-label [innerHTML]="language.label | translate"></ion-label>
+                  <ion-label
+                    [innerHTML]="language.label | translate"
+                  ></ion-label>
                 </ion-item>
               </ion-list>
             </ion-card-content>
@@ -30,7 +47,12 @@
 
 <ion-footer class="no-border">
   <ion-toolbar>
-    <ion-button id="btn-continue" (click)="go()" [disabled]="!selectedLanguage" slot="end">
+    <ion-button
+      id="btn-continue"
+      (click)="go()"
+      [disabled]="!selectedLanguage"
+      slot="end"
+    >
       {{ 'BUTTON.CONTINUE' | translate }}
       <ion-icon name="arrow-forward-outline"></ion-icon>
     </ion-button>

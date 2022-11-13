@@ -14,14 +14,39 @@
   <ion-grid class="ion-no-padding">
     <ion-row class="header">
       <div *ngIf="step === 1">
-        <h1 [innerHTML]="'PAGE.CREATE_WALLET.RECOVER_PHRASE.TITLE_STEP_1' | translate" class="subtitle"></h1>
-        <p [innerHTML]="'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_STEP_1' | translate" class="description"></p>
-        <p [innerHTML]="'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_2_STEP_1' | translate" class="security-info"></p>
+        <h1
+          [innerHTML]="
+            'PAGE.CREATE_WALLET.RECOVER_PHRASE.TITLE_STEP_1' | translate
+          "
+          class="subtitle"
+        ></h1>
+        <p
+          [innerHTML]="
+            'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_STEP_1' | translate
+          "
+          class="description"
+        ></p>
+        <p
+          [innerHTML]="
+            'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_2_STEP_1' | translate
+          "
+          class="security-info"
+        ></p>
       </div>
 
       <div *ngIf="step === 2">
-        <h1 [innerHTML]="'PAGE.CREATE_WALLET.RECOVER_PHRASE.TITLE_STEP_2' | translate" class="subtitle"></h1>
-        <p [innerHTML]="'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_STEP_2' | translate" class="description"></p>
+        <h1
+          [innerHTML]="
+            'PAGE.CREATE_WALLET.RECOVER_PHRASE.TITLE_STEP_2' | translate
+          "
+          class="subtitle"
+        ></h1>
+        <p
+          [innerHTML]="
+            'PAGE.CREATE_WALLET.RECOVER_PHRASE.SUBTITLE_STEP_2' | translate
+          "
+          class="description"
+        ></p>
       </div>
     </ion-row>
 
@@ -35,12 +60,15 @@
 
       <ion-item-group [hidden]="step !== 2">
         <div class="verifyPhrases" *ngFor="let phrase of verifyPhrases">
-          <ion-label class="select">Select word #{{ phrase.index + 1 }}</ion-label>
+          <ion-label class="select"
+            >Select word #{{ phrase.index + 1 }}</ion-label
+          >
           <ion-chip
             (click)="selectAnswer(phrase, item)"
             *ngFor="let item of phrase.items"
             [class.error]="item.answer && !item.valid"
-            [class.success]="item.answer && item.valid">
+            [class.success]="item.answer && item.valid"
+          >
             <ion-label>{{ item.name }}</ion-label>
           </ion-chip>
         </div>
@@ -51,10 +79,22 @@
 
 <ion-footer class="no-border">
   <ion-toolbar>
-    <ion-button id="copy" (copied)="copied($event)" *ngIf="step === 1" [payload]="payloadClipboard" appCopyClipboard class="btn-white">
+    <ion-button
+      id="copy"
+      (copied)="copied($event)"
+      *ngIf="step === 1"
+      [payload]="payloadClipboard"
+      appCopyClipboard
+      class="btn-white"
+    >
       {{ 'BUTTON.COPY' | translate }}
     </ion-button>
-    <ion-button id="btn-seedPhrase" (click)="step === 1 ? goToStep(2) : step === 2 ? submit() : null" [disabled]="disabledSubmit()" class="btn-action">
+    <ion-button
+      id="btn-seedPhrase"
+      (click)="step === 1 ? goToStep(2) : step === 2 ? submit() : null"
+      [disabled]="disabledSubmit()"
+      class="btn-action"
+    >
       {{ 'BUTTON.CONTINUE' | translate }}
     </ion-button>
   </ion-toolbar>

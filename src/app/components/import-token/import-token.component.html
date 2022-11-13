@@ -9,12 +9,17 @@
 
 <ion-content class="ion-no-padding">
   <div class="tabs">
-    <ion-segment (ionChange)="onSelectTabType($any($event.target).value)" [value]="selectedTabType" class="segment" scrollable="true">
+    <ion-segment
+      (ionChange)="onSelectTabType($any($event.target).value)"
+      [value]="selectedTabType"
+      class="segment"
+      scrollable="true"
+    >
       <ion-segment-button [value]="tabTypeEnum.default">
-        {{'COMP.IMPORT_TOKENS.MENU.TOKENS' | translate}}
+        {{ 'COMP.IMPORT_TOKENS.MENU.TOKENS' | translate }}
       </ion-segment-button>
       <ion-segment-button [value]="tabTypeEnum.custom">
-        {{'COMP.IMPORT_TOKENS.MENU.CUSTOM' | translate}}
+        {{ 'COMP.IMPORT_TOKENS.MENU.CUSTOM' | translate }}
       </ion-segment-button>
     </ion-segment>
 

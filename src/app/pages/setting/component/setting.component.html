@@ -17,25 +17,33 @@
     <ion-item-group>
       <ion-item-divider [mode]="'ios'">
         <!--//Preferences-->
-        <ion-label [innerHTML]="'PAGE.SETTING.SUBTITLES.PREFERENCES' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.SUBTITLES.PREFERENCES' | translate"
+        ></ion-label>
       </ion-item-divider>
 
       <ion-item button [mode]="'ios'" (click)="askChangeCurrency()">
-        <ion-label [innerHTML]="'PAGE.SETTING.CONFIG.CURRENCY' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.CONFIG.CURRENCY' | translate"
+        ></ion-label>
         <div slot="end">
           {{ currency?.symbol }}
         </div>
       </ion-item>
 
       <ion-item button [mode]="'ios'" (click)="askChangeLanguage()">
-        <ion-label [innerHTML]="'PAGE.SETTING.CONFIG.LANGUAGE' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.CONFIG.LANGUAGE' | translate"
+        ></ion-label>
         <div slot="end" style="text-transform: uppercase">
           {{ selectedLang }}
         </div>
       </ion-item>
 
       <ion-item button [mode]="'ios'" (click)="askChangeTheme()">
-        <ion-label [innerHTML]="'PAGE.SETTING.CONFIG.THEME' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.CONFIG.THEME' | translate"
+        ></ion-label>
         <div slot="end" style="text-transform: capitalize">
           {{ getThemeTranslation() }}
         </div>
@@ -43,33 +51,59 @@
 
       <ion-item-divider [mode]="'ios'">
         <!--//Security-->
-        <ion-label [innerHTML]="'PAGE.SETTING.SUBTITLES.SECURITY' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.SUBTITLES.SECURITY' | translate"
+        ></ion-label>
       </ion-item-divider>
 
       <ion-item [mode]="'ios'" button (click)="askChangeSecret()">
-        <ion-label [innerHTML]="'PAGE.SETTING.CONFIG.CHANGE_PASSWORD' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.CONFIG.CHANGE_PASSWORD' | translate"
+        ></ion-label>
       </ion-item>
 
       <ion-item-divider mode="ios">
         <!--//Legal-->
-        <ion-label [innerHTML]="'PAGE.SETTING.SUBTITLES.LEGAL' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.SUBTITLES.LEGAL' | translate"
+        ></ion-label>
       </ion-item-divider>
 
-      <ion-item lines="none" button [mode]="'ios'" routerLink="/privacy" routerDirection="forward">
+      <ion-item
+        lines="none"
+        button
+        [mode]="'ios'"
+        routerLink="/privacy"
+        routerDirection="forward"
+      >
         <ion-label>{{ 'PAGE.SETTING.CONFIG.PRIVACY' | translate }}</ion-label>
       </ion-item>
 
-      <ion-item lines="none" button [mode]="'ios'" routerLink="/terms-conditions" routerDirection="forward">
+      <ion-item
+        lines="none"
+        button
+        [mode]="'ios'"
+        routerLink="/terms-conditions"
+        routerDirection="forward"
+      >
         <ion-label>{{ 'PAGE.SETTING.CONFIG.TERMS' | translate }}</ion-label>
       </ion-item>
 
-      <ion-item lines="none" button [mode]="'ios'" routerLink="/license" routerDirection="forward">
+      <ion-item
+        lines="none"
+        button
+        [mode]="'ios'"
+        routerLink="/license"
+        routerDirection="forward"
+      >
         <ion-label>{{ 'PAGE.SETTING.CONFIG.LICENSE' | translate }}</ion-label>
       </ion-item>
 
       <ion-item-divider mode="ios">
         <!--//Platform-->
-        <ion-label [innerHTML]="'PAGE.SETTING.SUBTITLES.PLATFORM' | translate"></ion-label>
+        <ion-label
+          [innerHTML]="'PAGE.SETTING.SUBTITLES.PLATFORM' | translate"
+        ></ion-label>
       </ion-item-divider>
 
       <ion-item button [mode]="'ios'" (click)="goToWebsite()">
