@@ -9,7 +9,15 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: yarn install
-      - run: yarn format:check
-      - run: yarn lint
-      - run: yarn lint:languages
+      - run:
+          name: Install Dependencies
+          command: 'yarn install'
+      - run:
+          name: Format Check
+          command: 'yarn format:check'
+      - run:
+          name: Lint
+          command: 'yarn lint'
+      - run:
+          name: Lint languages
+          command: 'yarn lint:languages'

@@ -10,7 +10,7 @@ class LogData {
   }
 
   add(data) {
-    return {data, service: this.service};
+    return { data, service: this.service };
   }
 }
 
