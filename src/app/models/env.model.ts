@@ -1,7 +1,7 @@
 export interface EnvModel {
   host?: string;
   gitHashCommit?: string;
-  env?: string;
+  env?: string; // local | dev | prod
   production: boolean;
   version?: string;
   versionCode?: string;

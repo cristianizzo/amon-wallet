@@ -11,6 +11,9 @@ import { LocalForageService } from '@services/localforage.service';
 import { CoinGeckoService } from './coingecko.service';
 import { Web3Services } from './web3.service';
 import assert from 'assert';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:token');
 
 @Injectable()
 export class TokenService {
@@ -98,7 +101,14 @@ export class TokenService {
 
           return updatedToken;
         } catch (error) {
-          console.log('error add token', error);
+          logger.error(
+            logContent.add({
+              info: `error add token`,
+              provider,
+              currency,
+              error,
+            })
+          );
           throw error;
         }
       })
@@ -135,7 +145,14 @@ export class TokenService {
 
           return updatedToken;
         } catch (error) {
-          console.log('error select token', error);
+          logger.error(
+            logContent.add({
+              info: `error select token`,
+              provider,
+              currency,
+              error,
+            })
+          );
           throw error;
         }
       })
@@ -153,7 +170,12 @@ export class TokenService {
           await this._addUpdateTokenToStorage(dbToken);
           return dbToken;
         } catch (error) {
-          console.log('error select token', error);
+          logger.error(
+            logContent.add({
+              info: `error unselect token`,
+              error,
+            })
+          );
           throw error;
         }
       })
@@ -203,7 +225,15 @@ export class TokenService {
         return updatedToken;
       },
       (error) => {
-        console.log('error initTokens', error);
+        logger.error(
+          logContent.add({
+            info: `error sync selected tokens with coinGecko`,
+            provider,
+            currency,
+            error,
+          })
+        );
+        throw error;
       }
     );
 

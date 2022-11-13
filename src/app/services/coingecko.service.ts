@@ -5,6 +5,9 @@ import { CoingeckoCoinModel, TokenModel } from '@app/models';
 import { Observable } from 'rxjs';
 import { memoize } from 'lodash';
 import { UtilsHelper } from '@helpers/utils';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('services:coingecko');
 
 @Injectable()
 export class CoinGeckoService {
@@ -23,7 +26,12 @@ export class CoinGeckoService {
 
           resolve(coins);
         } catch (error) {
-          console.log('error fetch coinGecko coins', error);
+          logger.error(
+            logContent.add({
+              info: `error fetch all coins coinGecko`,
+              error,
+            })
+          );
           resolve([]);
         }
       })
@@ -43,7 +51,14 @@ export class CoinGeckoService {
 
           resolve(ticker);
         } catch (error) {
-          console.log('error fetch coinGecko ticker', error, coinId, symbol);
+          logger.warn(
+            logContent.add({
+              info: `error fetch ticker coinGecko`,
+              error,
+              coinId,
+              symbol,
+            })
+          );
           resolve(null);
         }
       })
@@ -71,7 +86,12 @@ export class CoinGeckoService {
         return token;
       },
       (error) => {
-        console.log('coingecko error find token', error);
+        logger.error(
+          logContent.add({
+            info: `error find token coinGecko`,
+            error,
+          })
+        );
       }
     );
 

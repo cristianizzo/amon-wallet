@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { AppConfig } from './app.config';
+import { environment } from '@env/environment';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('app:root');
 
 @Component({
   selector: 'app-root',
@@ -16,9 +20,11 @@ export class AmonComponent {
     this.platform.ready().then(async () => {
       this.appConfig.loadConfiguration();
 
-      // logger.info(logContent(Object.assign({}, {
-      //   info: `app running on ${environment.host} - env: ${environment.env}`
-      // })));
+      logger.info(
+        logContent.add({
+          info: `app running on ${environment.host} - env: ${environment.env}`,
+        })
+      );
     });
   }
 }

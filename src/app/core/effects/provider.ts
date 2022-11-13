@@ -6,6 +6,9 @@ import { ToastService } from '@services/toast.service';
 import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:provider');
 
 @Injectable()
 export class ProviderEffects {
@@ -20,7 +23,12 @@ export class ProviderEffects {
           )
       ),
       catchError((error) => {
-        console.log('providerError', error);
+        logger.error(
+          logContent.add({
+            info: `error init providers`,
+            error,
+          })
+        );
         return of(ProviderActions.providerError(error));
       })
     )

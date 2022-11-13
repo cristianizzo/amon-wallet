@@ -6,6 +6,9 @@ import { ToastService } from '@services/toast.service';
 import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('core:effects:token');
 
 @Injectable()
 export class TokenEffects {
@@ -17,7 +20,15 @@ export class TokenEffects {
           .initTokens(action.provider, action.currency, action.wallet)
           .pipe(map((tokens) => TokenActions.updateStateTokens(tokens)))
       ),
-      catchError((error) => of(TokenActions.tokenError(error)))
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init tokens`,
+            error,
+          })
+        );
+        return of(TokenActions.tokenError(error));
+      })
     )
   );
 
@@ -35,7 +46,12 @@ export class TokenEffects {
           .pipe(map((token) => TokenActions.addTokenToState(token)))
       ),
       catchError((error) => {
-        console.log('tokenError', error);
+        logger.error(
+          logContent.add({
+            info: `error add token`,
+            error,
+          })
+        );
         return of(TokenActions.tokenError(error));
       })
     )
@@ -55,7 +71,12 @@ export class TokenEffects {
           .pipe(map((token) => TokenActions.updateTokenToState(token)))
       ),
       catchError((error) => {
-        console.log('selectToken error', error);
+        logger.error(
+          logContent.add({
+            info: `error select token`,
+            error,
+          })
+        );
         return of(TokenActions.tokenError(error));
       })
     )
@@ -70,7 +91,12 @@ export class TokenEffects {
           .pipe(map((token) => TokenActions.updateTokenToState(token)))
       ),
       catchError((error) => {
-        console.log('unselectToken error', error);
+        logger.error(
+          logContent.add({
+            info: `error unselect token`,
+            error,
+          })
+        );
         return of(TokenActions.tokenError(error));
       })
     )

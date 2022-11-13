@@ -98,6 +98,12 @@
         "SUBTITLE_STEP_2": "Please select correct words based on their numbers"
       }
     },
+    "ASSETS": {
+      "TAB": {
+        "TOKENS": "Tokens",
+        "NFTS": "NFTs"
+      }
+    },
     "DEPOSIT": {
       "TITLE": "Deposit",
       "ADDRESS": "address",
