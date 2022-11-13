@@ -8,7 +8,7 @@ const getConfigObject = (sourceConfig) => ({
     window.location.origin
   ),
   gitHashCommit: configParser(sourceConfig, 'string', 'NG_APP_COMMIT', null),
-  env: configParser(sourceConfig, 'string', 'NG_APP_ENV', 'local'),
+  env: configParser(sourceConfig, 'string', 'NG_APP_ENV', 'local'), // local | dev | prod
   production: configParser(sourceConfig, 'bool', 'NG_APP_PROD_BUILD', false),
   version: configParser(sourceConfig, 'string', 'NG_APP_VERSION', '0.0.1'),
   versionCode: configParser(
