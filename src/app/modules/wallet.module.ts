@@ -5,7 +5,6 @@ import { ToastService } from '@app/services/toast.service';
 import { AlertController } from '@ionic/angular';
 import { Web3Services } from '@app/services/web3.service';
 import { UtilsHelper } from '@helpers/utils';
-import { WalletModel } from '@app/models';
 
 declare const navigator: any;
 

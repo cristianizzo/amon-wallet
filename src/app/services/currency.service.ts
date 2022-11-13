@@ -2,6 +2,8 @@ import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { CurrencyModel } from '@models/index';
 import { UtilsHelper } from '@helpers/utils';
+import { from, Observable } from 'rxjs';
+import { LocalForageService } from '@services/localforage.service';
 
 declare const window: any;
 
@@ -9,8 +11,30 @@ declare const window: any;
 export class CurrencyService {
   public currencies: CurrencyModel[];
 
-  constructor(public utilsHelper: UtilsHelper) {
+  constructor(
+    public utilsHelper: UtilsHelper,
+    private localForageService: LocalForageService
+  ) {
     this.currencies = [...this.utilsHelper.currenciesJson];
+  }
+
+  public initCurrencies(): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        let dbCurrencies: CurrencyModel[] =
+          await this.localForageService.getItem('currencies');
+
+        if (!this.utilsHelper.arrayHasValue(dbCurrencies)) {
+          dbCurrencies = this.utilsHelper.currenciesJson.map((currency) => {
+            currency.default = currency.symbol === environment.defaultCurrency;
+            return currency;
+          });
+          await this.localForageService.setItem('currencies', dbCurrencies);
+        }
+
+        return dbCurrencies;
+      })
+    );
   }
 
   public get() {

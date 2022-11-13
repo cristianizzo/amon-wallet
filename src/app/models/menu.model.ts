@@ -3,4 +3,5 @@ export class MenuModel {
   url: string;
   icon: string;
   title?: string;
+  side: string;
 }

@@ -41,6 +41,5 @@ export class AssetsComponent {
 
   public onSelectAssetType = (asset: string) => {
     this.selectedAssetType = asset;
-    console.log(asset);
   };
 }

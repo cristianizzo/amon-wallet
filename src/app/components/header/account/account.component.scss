@@ -5,7 +5,7 @@
   text-align: center;
 
   ion-button.btn-transparent {
-    background-color: #e5e5e5;
+    background-color: #f2f2f2;
     border-radius: 25px;
     padding: 0 0;
     margin: 0;
@@ -26,17 +26,12 @@
         font-size: 16px;
         font-family: 'Gotham', serif;
         letter-spacing: 0;
-      }
-
-      .address {
-        font-size: 14px;
-        color: #777;
-        margin-top: 3px;
+        color: #757575;
       }
     }
 
     ion-icon {
-      color: #505050;
+      color: #757575;
       margin-left: 18px;
       font-size: 20px;
     }

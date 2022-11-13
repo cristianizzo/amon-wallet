@@ -3,11 +3,21 @@ import {
   CurrencyModel,
   MenuModel,
   ProviderModel,
+  TokenModel,
   WalletModel,
 } from '@app/models';
-import { CurrenciesJson, MenuJson, ProvidersJson } from '@assets/data';
+import {
+  CurrenciesJson,
+  MenuJson,
+  ProvidersJson,
+  TokensJson,
+} from '@assets/data';
+import { ERC20 } from '@assets/abi';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
+import assert from 'assert';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class UtilsHelper {
@@ -23,10 +33,14 @@ export class UtilsHelper {
     string: '^[a-zA-Z ]*$',
   };
 
+  public abi = {
+    erc20: ERC20,
+  };
+
   public menuJson: MenuModel[] = MenuJson;
   public providersJson: ProviderModel[] = ProvidersJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
-
+  public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;
 
   public async wait(ms: number): Promise<any> {
@@ -87,6 +101,24 @@ export class UtilsHelper {
     }
   }
 
+  public async asyncMap(array: any, fn: any, onError: any): Promise<any> {
+    assert(array && fn && onError, 'missing parameters');
+
+    const successResults = [];
+    const errorResults = [];
+    for (const task of array) {
+      try {
+        const result = await fn(task);
+        successResults.push(result);
+      } catch (error) {
+        errorResults.push(error);
+      }
+    }
+
+    errorResults.forEach((error) => onError && onError(error));
+    return successResults;
+  }
+
   public arrayHasValue(array: any): boolean {
     if (!array) {
       return false;
@@ -142,6 +174,22 @@ export class UtilsHelper {
     } catch (error) {
       return Promise.reject(error);
     }
+  }
+
+  public combine(tasks: Observable<any>[], fn: any) {
+    return new Promise((resolve) => {
+      const unsubscribe$ = new Subject();
+      const tasksLength = tasks.length;
+
+      combineLatest(tasks)
+        .pipe(takeUntil(unsubscribe$))
+        .subscribe((done: any[]) => {
+          if (done.filter((task) => task).length === tasksLength) {
+            unsubscribe$.next();
+            resolve(fn(done));
+          }
+        });
+    });
   }
 
   public cryptoPrecision(value?: string, decimal?: number): string {

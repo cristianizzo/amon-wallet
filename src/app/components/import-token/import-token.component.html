@@ -1,0 +1,34 @@
+<ion-header [translucent]="true" class="no-border">
+  <ion-toolbar #toolbar class="default">
+    <ion-buttons slot="start">
+      <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
+    </ion-buttons>
+    <ion-title>Import Token</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <div class="tabs">
+    <ion-segment
+      (ionChange)="onSelectTabType($any($event.target).value)"
+      [value]="selectedTabType"
+      class="segment"
+      scrollable="true"
+    >
+      <ion-segment-button [value]="tabTypeEnum.default">
+        {{ 'COMP.IMPORT_TOKENS.MENU.TOKENS' | translate }}
+      </ion-segment-button>
+      <ion-segment-button [value]="tabTypeEnum.custom">
+        {{ 'COMP.IMPORT_TOKENS.MENU.CUSTOM' | translate }}
+      </ion-segment-button>
+    </ion-segment>
+
+    <ng-container *ngIf="selectedTabType === tabTypeEnum.default">
+      <app-token-list></app-token-list>
+    </ng-container>
+
+    <ion-row *ngIf="selectedTabType === tabTypeEnum.custom" class="nft-list">
+      Custom
+    </ion-row>
+  </div>
+</ion-content>

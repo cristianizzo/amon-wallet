@@ -5,5 +5,6 @@ export interface ProviderModel {
   chainId: number;
   explorer: string;
   symbol: string;
+  testnet?: boolean;
   default?: boolean;
 }

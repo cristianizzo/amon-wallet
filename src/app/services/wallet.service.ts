@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { LocalForageService } from '@services/localforage.service';
-import { EncryptedDataModel, WalletModel } from '@app/models';
+import { EncryptedDataModel, WalletModel, WalletType } from '@app/models';
 import { from, Observable } from 'rxjs';
 import { Web3Services } from '@services/web3.service';
 import assert from 'assert';
-import { WalletType } from '@app/models';
 
 @Injectable()
 export class WalletService {

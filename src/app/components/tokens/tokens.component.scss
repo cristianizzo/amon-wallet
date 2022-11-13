@@ -171,3 +171,12 @@ ion-list {
     }
   }
 }
+
+.missingToken {
+  text-align: center;
+  margin-top: 20px;
+
+  ion-button.btn-white {
+    margin-top: 12px;
+  }
+}

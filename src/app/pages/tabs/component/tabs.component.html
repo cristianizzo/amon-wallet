@@ -1,9 +1,38 @@
 <ion-tabs (ionTabsDidChange)="switched($event)">
+  <ion-fab
+    [hidden]="hiddenTabs"
+    horizontal="center"
+    slot="bottom"
+    translucent="true"
+    vertical="bottom"
+  >
+    <ion-fab-button class="logo">
+      <ion-ripple-effect></ion-ripple-effect>
+      <ion-icon name="amn"></ion-icon>
+      <img class="menu-logo-border" src="/assets/img/menu-logo-border.svg" />
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-tab-bar slot="bottom" [hidden]="hiddenTabs">
     <ion-tab-button
       [class.page.id]="true"
       [tab]="page.id"
-      *ngFor="let page of menu"
+      *ngFor="let page of menu | appFilterArgs: 'side':'left'"
+    >
+      <div class="menu-icon" [class.isActive]="isActive(page.id)">
+        <ion-icon
+          [name]="isActive(page.id) ? page.icon + '-fill' : page.icon"
+        ></ion-icon>
+      </div>
+      <ion-label>{{ page.title }}</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button></ion-tab-button>
+
+    <ion-tab-button
+      [class.page.id]="true"
+      [tab]="page.id"
+      *ngFor="let page of menu | appFilterArgs: 'side':'right'"
     >
       <div class="menu-icon" [class.isActive]="isActive(page.id)">
         <ion-icon

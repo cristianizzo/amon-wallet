@@ -18,7 +18,10 @@ export class WalletEffects {
           .fetchBalances(w)
           .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
       ),
-      catchError((error) => of(WalletActions.walletError(error)))
+      catchError((error) => {
+        console.log('walletError', error);
+        return of(WalletActions.walletError(error));
+      })
     )
   );
 

@@ -30,7 +30,7 @@ export class Web3Services {
         blockNumber,
       };
     } catch (error) {
-      console.log(error);
+      console.log('error connectProvider', error);
       throw error;
     }
   }
@@ -68,6 +68,24 @@ export class Web3Services {
   public async getBalance(address: string): Promise<string> {
     const balance = await this.provider.getBalance(address);
     return this.web3.utils.formatEther(balance);
+  }
+
+  public async getTokenBalance(
+    tokenAddress: string,
+    walletAddress: string
+  ): Promise<string> {
+    try {
+      const contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc20,
+        this.provider
+      );
+      const balance = await contract.balanceOf(walletAddress);
+      return this.formatEther(balance);
+    } catch (error) {
+      console.log('error fetch token balance', error);
+      return '0';
+    }
   }
 
   public formatEther(balance: string): string {

@@ -1,8 +1,16 @@
 export class TokenModel {
-  icon: string;
-  symbol: string;
-  address: string;
-  name: string;
-  decimals: number;
-  balance: string;
+  selected?: boolean;
+  coinGeckoId?: string;
+  providerSymbol?: string;
+  symbol?: string;
+  chainId?: number;
+  type?: string;
+  address?: string;
+  name?: string;
+  decimals?: number;
+  balance?: string;
+  image?: string;
+  priceChange24h?: number;
+  fiatPrice?: number;
+  cryptoPrice?: number; // price of the main coin network
 }
