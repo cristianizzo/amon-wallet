@@ -4,6 +4,7 @@ import { OrderByPipe } from '@pipes/orderBy.pipe';
 import { DateFormatPipe } from '@pipes/dateFormat.pipe';
 import { LocaleDatePipe } from '@pipes/localeDate.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
+import { FilterArgsPipe } from '@pipes/filterArgs.pipe';
 import { CryptoBalancePipe } from '@pipes/cryptoBalance.pipe';
 
 @NgModule({
@@ -14,6 +15,7 @@ import { CryptoBalancePipe } from '@pipes/cryptoBalance.pipe';
     DateFormatPipe,
     LocaleDatePipe,
     FilterPipe,
+    FilterArgsPipe,
   ],
   exports: [
     CryptoBalancePipe,
@@ -21,6 +23,7 @@ import { CryptoBalancePipe } from '@pipes/cryptoBalance.pipe';
     DateFormatPipe,
     LocaleDatePipe,
     FilterPipe,
+    FilterArgsPipe,
   ],
   providers: [DecimalPipe, DatePipe],
 })

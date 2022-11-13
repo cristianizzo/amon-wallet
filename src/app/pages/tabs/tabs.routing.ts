@@ -39,6 +39,16 @@ const routes: Routes = [
           import('@pages/setting/setting.module').then((m) => m.SettingModule),
       },
       {
+        path: 'market',
+        loadChildren: () =>
+          import('@pages/market/market.module').then((m) => m.MarketModule),
+      },
+      {
+        path: 'profile',
+        loadChildren: () =>
+          import('@pages/profile/profile.module').then((m) => m.ProfileModule),
+      },
+      {
         path: '',
         redirectTo: '/auth/assets',
         pathMatch: 'full',

@@ -1,7 +1,42 @@
 @import 'media';
 @import 'theme';
 
+ion-fab-button.logo {
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  --ripple-color: none;
+  --background: #fff;
+  --box-shadow: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  position: relative;
+  top: 4px;
+  left: -4px;
+
+  .menu-logo-border {
+    position: relative;
+    z-index: 0;
+  }
+
+  ion-icon {
+    z-index: 1;
+    font-size: 42px;
+    position: absolute;
+    bottom: 9px;
+  }
+
+  &.ion-activated {
+    box-shadow: 0 1px 6px rgb(0 0 0 / 12%);
+    --background: #fff;
+  }
+}
+
 ion-tab-bar {
+  --background: #fff;
+  --border: 1.4px solid #cfcfcf;
+
   @include isDarkTheme {
     --ion-tab-bar-background: transparent;
     --background-focused: transparent;
@@ -24,12 +59,6 @@ ion-tab-bar {
       }
 
       ion-icon {
-      }
-    }
-
-    &.card {
-      ion-icon {
-        font-size: 20px;
       }
     }
 
