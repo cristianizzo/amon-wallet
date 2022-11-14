@@ -5,14 +5,13 @@ import { CurrencyModel, ProviderModel, WalletModel } from '@app/models';
 
 export const tokenActionTypes = {
   initTokens: type('[Token] init token'),
-  addToken: type('[Token] add new token'),
+  addToken: type('[Token] add token'),
   selectToken: type('[Token] select token'),
   unselectToken: type('[Token] unselect token'),
   addTokenToState: type('[Token] add token state'),
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
   resetState: type('[Token] reset state'),
-  reloadTokens: type('[Token] reload tokens'),
   tokenError: type('[Token] token error'),
 };
 
@@ -73,15 +72,6 @@ export const updateTokenToState = createAction(
 export const updateStateTokens = createAction(
   tokenActionTypes.updateStateTokens,
   (tokens: TokenModel[]) => ({ tokens })
-);
-
-export const reloadTokens = createAction(
-  tokenActionTypes.reloadTokens,
-  (provider: ProviderModel, currency: CurrencyModel, wallet?: WalletModel) => ({
-    provider,
-    currency,
-    wallet,
-  })
 );
 
 export const resetState = createAction(tokenActionTypes.resetState);

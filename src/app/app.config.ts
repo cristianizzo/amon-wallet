@@ -51,24 +51,4 @@ export class AppConfig {
       }
     );
   }
-
-  private listening() {
-    this.store
-      .select(ProviderSelector.getProvider)
-      .subscribe(async (provider) => {
-        await this.utilsHelper.combine(
-          [
-            this.store.select(CurrencySelector.getCurrency),
-            this.store.select(WalletSelector.getWallet),
-          ],
-          ([currency, wallet]) => {
-            if (provider && currency && wallet) {
-              this.store.dispatch(
-                TokenActions.reloadTokens(provider, currency, wallet)
-              );
-            }
-          }
-        );
-      });
-  }
 }
