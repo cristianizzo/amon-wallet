@@ -11,9 +11,9 @@
   <div class="tabs">
     <ion-segment
       (ionChange)="onSelectTabType($any($event.target).value)"
+      scrollable="true"
       [value]="selectedTabType"
       class="segment"
-      scrollable="true"
     >
       <ion-segment-button [value]="tabTypeEnum.default">
         {{ 'COMP.IMPORT_TOKENS.MENU.TOKENS' | translate }}
@@ -23,12 +23,11 @@
       </ion-segment-button>
     </ion-segment>
 
-    <ng-container *ngIf="selectedTabType === tabTypeEnum.default">
-      <app-token-list></app-token-list>
+    <ng-container [ngSwitch]="selectedTabType">
+      <ng-container *ngSwitchCase="tabTypeEnum.default">
+        <app-token-list></app-token-list>
+      </ng-container>
+      <ng-container *ngSwitchCase="tabTypeEnum.custom"> Custom </ng-container>
     </ng-container>
-
-    <ion-row *ngIf="selectedTabType === tabTypeEnum.custom" class="nft-list">
-      Custom
-    </ion-row>
   </div>
 </ion-content>

@@ -144,6 +144,7 @@ export class WalletModule {
         });
       }
 
+      // TODO: move text
       const alert = await this.alertController.create({
         header: 'Please enter your password',
         buttons,

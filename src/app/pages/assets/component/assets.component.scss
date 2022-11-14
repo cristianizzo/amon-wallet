@@ -5,7 +5,7 @@
   .segment {
     box-shadow: none;
     max-width: 280px;
-    margin: 0 auto;
+    margin: 0 auto 15px;
 
     ion-segment-button {
       --background: transparent;
@@ -24,6 +24,9 @@
       font-weight: 400;
       --indicator-color: 1;
       --ripple-color: transparent;
+      --border-color: white;
+      --indicator-height: 0;
+      position: relative;
 
       ion-item {
         align-items: center;
@@ -52,6 +55,17 @@
 
       &.segment-button-checked {
         font-weight: 500;
+
+        &:after {
+          content: '━';
+          position: absolute;
+          display: block;
+          margin: 0 auto;
+          right: 0;
+          left: 0;
+          bottom: -18px;
+        }
+
         ion-item {
           color: #fff;
         }

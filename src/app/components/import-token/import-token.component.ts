@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 enum TabTypeEnum {
@@ -11,12 +11,16 @@ enum TabTypeEnum {
   templateUrl: './import-token.component.html',
   styleUrls: ['./import-token.component.scss'],
 })
-export class ImportTokenComponent {
+export class ImportTokenComponent implements AfterViewInit {
   public tabTypeEnum = TabTypeEnum;
   public selectedTabType: string;
 
-  constructor(private modalCtrl: ModalController) {
-    this.selectedTabType = this.tabTypeEnum.default;
+  constructor(private modalCtrl: ModalController) {}
+
+  ngAfterViewInit() {
+    setTimeout((_) => {
+      this.selectedTabType = this.tabTypeEnum.default;
+    }, 0);
   }
 
   public onSelectTabType = (tab: string) => {
