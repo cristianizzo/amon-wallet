@@ -9,10 +9,7 @@ export const providerReducer = createReducer(
   initialState,
   on(
     ProviderActions.updateStateProviders,
-    (state: ProviderModel[] = initialState, { providers }) => [
-      ...state,
-      ...providers,
-    ]
+    (_state: ProviderModel[] = initialState, { providers }) => providers
   )
   // on(ProviderActions.addProvider, (state: ProviderModel[] = initialState, {provider}) => ([
   //   ...state, provider // increase provider id

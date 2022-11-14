@@ -11,6 +11,8 @@ export const tokenActionTypes = {
   addTokenToState: type('[Token] add token state'),
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
+  resetState: type('[Token] reset state'),
+  reloadTokens: type('[Token] reload tokens'),
   tokenError: type('[Token] token error'),
 };
 
@@ -55,7 +57,7 @@ export const selectToken = createAction(
 
 export const unselectToken = createAction(
   tokenActionTypes.unselectToken,
-  (address: string) => ({ address })
+  (address: string, provider: ProviderModel) => ({ address, provider })
 );
 
 export const addTokenToState = createAction(
@@ -72,6 +74,17 @@ export const updateStateTokens = createAction(
   tokenActionTypes.updateStateTokens,
   (tokens: TokenModel[]) => ({ tokens })
 );
+
+export const reloadTokens = createAction(
+  tokenActionTypes.reloadTokens,
+  (provider: ProviderModel, currency: CurrencyModel, wallet?: WalletModel) => ({
+    provider,
+    currency,
+    wallet,
+  })
+);
+
+export const resetState = createAction(tokenActionTypes.resetState);
 
 export const tokenError = createAction(
   tokenActionTypes.tokenError,

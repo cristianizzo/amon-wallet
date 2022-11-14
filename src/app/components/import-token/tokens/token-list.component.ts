@@ -53,7 +53,7 @@ export class TokenListComponent {
   public toggleToken(address: string) {
     const token = this.tokens.find((tk) => tk.address === address);
     if (token.selected) {
-      this.store.dispatch(TokenActions.unselectToken(address));
+      this.store.dispatch(TokenActions.unselectToken(address, this.provider));
     } else {
       this.store.dispatch(
         TokenActions.selectToken(

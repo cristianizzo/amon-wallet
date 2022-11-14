@@ -24,12 +24,24 @@
     [placeholder]="'PAGE.PROVIDER.SEARCH' | translate"
   ></ion-searchbar>
 
+  <div class="filters">
+    <ion-label>Only Test Networks</ion-label>
+    <ion-toggle
+      (ionChange)="toggleTestNetworks()"
+      [checked]="testnetNetworks"
+      class="toggle"
+    ></ion-toggle>
+  </div>
   <ion-list class="providers">
     <ion-item
       button
       *ngFor="
         let provider of providers
-          | appFilter: search:['name', 'address', 'symbol']
+          | appFilter
+            : search
+            : ['name', 'address', 'symbol']
+            : 'testnet'
+            : testnetNetworks
       "
       class="list-item"
       lines="none"
@@ -40,7 +52,9 @@
           [name]="provider.default ? 'ellipse' : 'ellipse-outline'"
         ></ion-icon>
         <span class="providerName">{{ provider?.name }}</span>
-        <div class="col-xs ion-text-right"></div>
+        <div class="col-xs ion-text-right">
+          <ion-chip *ngIf="provider?.testnet">testnet</ion-chip>
+        </div>
       </ion-button>
     </ion-item>
   </ion-list>

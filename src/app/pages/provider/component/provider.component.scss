@@ -1,6 +1,20 @@
 @import 'media';
 @import 'theme';
 
+.filters {
+  align-items: center;
+  font-size: 13px;
+  background-color: #e5e5e5;
+  display: inline-flex;
+  margin-left: 8px;
+  border-radius: 6px;
+  padding: 0px 7px;
+
+  ion-toggle.toggle {
+    --background: #fafafa;
+  }
+}
+
 ion-list {
   ion-item {
     ion-button.provider-box {
@@ -73,6 +87,15 @@ ion-list {
           font-size: 12px;
         }
       }
+    }
+
+    ion-chip {
+      font-size: 10px;
+      padding: 8px 8px;
+      border-radius: 6px;
+      height: auto;
+      background-color: #bc2a2a;
+      color: #fff;
     }
 
     &:last-child {

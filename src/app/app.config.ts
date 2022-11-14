@@ -33,7 +33,11 @@ export class AppConfig {
 
     await this.utilsHelper.wait(500);
     this.store.dispatch(WalletActions.initWallets());
+    await this.initConfig();
+    // await this.listening();
+  }
 
+  private async initConfig() {
     await this.utilsHelper.combine(
       [
         this.store.select(ProviderSelector.getProvider),
@@ -46,12 +50,25 @@ export class AppConfig {
         );
       }
     );
+  }
 
-    //print store
-    // this.store
-    //   .select((store) => {
-    //     console.log(store);
-    //   })
-    //   .subscribe();
+  private listening() {
+    this.store
+      .select(ProviderSelector.getProvider)
+      .subscribe(async (provider) => {
+        await this.utilsHelper.combine(
+          [
+            this.store.select(CurrencySelector.getCurrency),
+            this.store.select(WalletSelector.getWallet),
+          ],
+          ([currency, wallet]) => {
+            if (provider && currency && wallet) {
+              this.store.dispatch(
+                TokenActions.reloadTokens(provider, currency, wallet)
+              );
+            }
+          }
+        );
+      });
   }
 }

@@ -21,7 +21,8 @@ export const tokenReducer = createReducer(
       const updatedState = state.map((tk) => Object.assign({}, tk, token));
       return updatedState;
     }
-  )
+  ),
+  on(TokenActions.resetState, (_state: TokenModel[] = initialState) => [])
 );
 
 export const reducer = (state: TokenModel[] | undefined, action: Action): any =>
