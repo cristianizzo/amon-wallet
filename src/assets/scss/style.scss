@@ -118,6 +118,10 @@ ion-header {
       border-bottom: 0;
       --opacity: 1;
 
+      ion-title {
+        text-align: center;
+      }
+
       ion-label {
         opacity: 1;
       }

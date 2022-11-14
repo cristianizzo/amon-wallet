@@ -8,7 +8,8 @@ export const getWalletsState = createFeatureSelector<WalletModel[]>(
 );
 export const getWallets = createSelector(
   getWalletsState,
-  (state: WalletModel[]) => new UtilsHelper().sortWallets(state)
+  (state: WalletModel[]): WalletModel[] =>
+    new UtilsHelper().sortByProp(state, 'connected')
 );
 export const getWallet = createSelector(
   getWalletsState,

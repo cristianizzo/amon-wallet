@@ -5,6 +5,7 @@ import { ProviderModel } from '@models/provider.model';
 import { WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
+import assert from 'assert';
 
 const logContent = logger.logContent('services:web3');
 
@@ -39,8 +40,7 @@ export class Web3Services {
           error,
         })
       );
-
-      throw error;
+      assert(false, 'connectionError');
     }
   }
 

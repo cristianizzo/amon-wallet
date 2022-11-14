@@ -138,6 +138,16 @@
         "SELECT_LANG": "Change Language",
         "SELECT_THEME": "Change Theme"
       }
+    },
+    "PROFILE": {
+      "TITLE": "Profile"
+    },
+    "EXCHANGE": {
+      "TITLE": "Swap"
+    },
+    "PROVIDER": {
+      "TITLE": "Networks",
+      "SEARCH": "Search network"
     }
   },
   "HEADER": {
@@ -151,6 +161,7 @@
     }
   },
   "ERRORS": {
+    "CONNECTION_ERROR": "Error connect to the network",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",
     "FAIL_ENCRYPT": "Error encrypt seed phrase.",

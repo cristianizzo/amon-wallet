@@ -1,5 +1,10 @@
 import { environment } from '@env/environment';
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import {
+  ActionReducer,
+  ActionReducerMap,
+  INIT,
+  MetaReducer,
+} from '@ngrx/store';
 import * as WalletReducer from '@app/core/reducers/wallet';
 import * as ProviderReducer from '@app/core/reducers/provider';
 import * as LanguageReducer from '@app/core/reducers/language';

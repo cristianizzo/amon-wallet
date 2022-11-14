@@ -2,24 +2,24 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProfileComponent } from '@pages/profile/component/profile.component';
-import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
-import { ProfileRoutingModule } from '@pages/profile/profile.routing';
+import { ProviderComponent } from '@pages/provider/component/provider.component';
+import { ProviderRoutingModule } from '@pages/provider/provider.routing';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgAmonPipesModule } from '@pipes/index.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
-    ExploreContainerComponentModule,
-    ProfileRoutingModule,
+    ProviderRoutingModule,
     BackButtonModule,
     NgAmonDirectivesModule,
     TranslateModule,
+    NgAmonPipesModule,
   ],
-  declarations: [ProfileComponent],
+  declarations: [ProviderComponent],
 })
-export class ProfileModule {}
+export class ProviderModule {}

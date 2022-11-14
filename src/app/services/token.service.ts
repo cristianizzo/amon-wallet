@@ -42,7 +42,7 @@ export class TokenService {
 
         await Promise.all(
           dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken)
+            this._addUpdateTokenToStorage(updatedDbToken, provider)
           )
         );
 
@@ -54,10 +54,10 @@ export class TokenService {
 
         await Promise.all([
           dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken)
+            this._addUpdateTokenToStorage(updatedDbToken, provider)
           ),
           dbSelectedTokens.map((selectedToken) =>
-            this._addUpdateTokenToStorage(selectedToken)
+            this._addUpdateTokenToStorage(selectedToken, provider)
           ),
         ]);
 
@@ -74,7 +74,10 @@ export class TokenService {
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const existingToken = await this._getTokenFromStorage(address);
+        const existingToken = await this._getTokenFromStorage(
+          address,
+          provider
+        );
         assert(!existingToken, 'tokenAlreadyExists');
 
         try {
@@ -97,7 +100,7 @@ export class TokenService {
           updatedToken.selected = true;
           updatedToken.balance = balance;
 
-          await this._addUpdateTokenToStorage(updatedToken);
+          await this._addUpdateTokenToStorage(updatedToken, provider);
 
           return updatedToken;
         } catch (error) {
@@ -123,7 +126,7 @@ export class TokenService {
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const dbToken = await this._getTokenFromStorage(address);
+        const dbToken = await this._getTokenFromStorage(address, provider);
         assert(!dbToken || !dbToken.selected, 'tokenNotFound');
 
         try {
@@ -141,7 +144,7 @@ export class TokenService {
           updatedToken.selected = true;
           updatedToken.balance = balance;
 
-          await this._addUpdateTokenToStorage(updatedToken);
+          await this._addUpdateTokenToStorage(updatedToken, provider);
 
           return updatedToken;
         } catch (error) {
@@ -159,15 +162,18 @@ export class TokenService {
     );
   }
 
-  public unselectToken(address: string): Observable<any> {
+  public unselectToken(
+    address: string,
+    provider: ProviderModel
+  ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const dbToken = await this._getTokenFromStorage(address);
+        const dbToken = await this._getTokenFromStorage(address, provider);
         assert(dbToken && dbToken.selected, 'tokenNotFound');
 
         try {
           dbToken.selected = false;
-          await this._addUpdateTokenToStorage(dbToken);
+          await this._addUpdateTokenToStorage(dbToken, provider);
           return dbToken;
         } catch (error) {
           logger.error(
@@ -182,20 +188,53 @@ export class TokenService {
     );
   }
 
+  public reloadTokens(
+    provider: ProviderModel,
+    currency: CurrencyModel,
+    wallet?: WalletModel
+  ): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        let dbTokens = await this.getTokensFromStorage(provider);
+
+        if (!this.utilsHelper.arrayHasValue(dbTokens)) {
+          //init tokens
+          dbTokens = await this._getInitTokens(provider);
+        }
+
+        await Promise.all(
+          dbTokens.map((updatedDbToken) =>
+            this._addUpdateTokenToStorage(updatedDbToken, provider)
+          )
+        );
+
+        const dbSelectedTokens = await this._syncSelectedTokensWithCoinGecko(
+          wallet,
+          provider,
+          currency
+        );
+
+        await Promise.all([
+          dbTokens.map((updatedDbToken) =>
+            this._addUpdateTokenToStorage(updatedDbToken, provider)
+          ),
+          dbSelectedTokens.map((selectedToken) =>
+            this._addUpdateTokenToStorage(selectedToken, provider)
+          ),
+        ]);
+
+        return dbTokens;
+      })
+    );
+  }
+
   private async getTokensFromStorage(
-    provider?: ProviderModel
+    provider: ProviderModel
   ): Promise<TokenModel[]> {
-    const dbWallets = (await this.localForageService.getItem('tokens')) || [];
-
-    if (provider) {
-      return dbWallets.filter(
-        (token) =>
-          token.providerSymbol === provider.symbol &&
-          token.chainId === provider.chainId
-      );
-    }
-
-    return dbWallets;
+    const dbTokens =
+      (await this.localForageService.getItem(`${provider.symbol}-tokens`)) ||
+      [];
+    return dbTokens;
   }
 
   private async _syncSelectedTokensWithCoinGecko(
@@ -241,9 +280,10 @@ export class TokenService {
   }
 
   private async _addUpdateTokenToStorage(
-    token: TokenModel
+    token: TokenModel,
+    provider: ProviderModel
   ): Promise<TokenModel[]> {
-    let dbTokens = await this.getTokensFromStorage();
+    let dbTokens = await this.getTokensFromStorage(provider);
     const existingToken = dbTokens.find((tk) => tk.address === token.address);
 
     if (existingToken) {
@@ -257,21 +297,29 @@ export class TokenService {
       dbTokens.push(token);
     }
 
-    await this.localForageService.setItem('tokens', dbTokens);
+    await this.localForageService.setItem(
+      `${provider.symbol}-tokens`,
+      dbTokens
+    );
 
     return dbTokens;
   }
 
-  private async _getTokenFromStorage(address: string): Promise<TokenModel> {
-    const dbTokens = await this.getTokensFromStorage();
+  private async _getTokenFromStorage(
+    address: string,
+    provider: ProviderModel
+  ): Promise<TokenModel> {
+    const dbTokens = await this.getTokensFromStorage(provider);
     const token = dbTokens.find((tk) => tk.address === address);
     return token;
   }
 
   private async _getInitTokens(provider: ProviderModel) {
-    const defaultTokens: TokenModel[] = [
-      ...this.utilsHelper.tokensJson[provider.symbol],
-    ].filter((token) => token.chainId === provider.chainId);
+    const initTokens = this.utilsHelper.tokensJson[provider.symbol] || [];
+
+    const defaultTokens: TokenModel[] = [...initTokens].filter(
+      (token) => token.chainId === provider.chainId
+    );
 
     const tokenWithCoinGeckoId =
       await this.coinGeckoService.findTokensCoinGeckoId(defaultTokens);

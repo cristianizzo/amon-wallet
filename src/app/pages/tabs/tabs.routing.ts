@@ -49,6 +49,13 @@ const routes: Routes = [
           import('@pages/profile/profile.module').then((m) => m.ProfileModule),
       },
       {
+        path: 'provider',
+        loadChildren: () =>
+          import('@pages/provider/provider.module').then(
+            (m) => m.ProviderModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/auth/assets',
         pathMatch: 'full',

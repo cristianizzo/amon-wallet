@@ -7,6 +7,8 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { ExchangeRoutingModule } from './exchange.routing';
 import { BackButtonModule } from '@components/back-button/back-button.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgAmonDirectivesModule } from '@directives/index.module';
 
 @NgModule({
   imports: [
@@ -16,6 +18,8 @@ import { BackButtonModule } from '@components/back-button/back-button.module';
     ExploreContainerComponentModule,
     ExchangeRoutingModule,
     BackButtonModule,
+    TranslateModule,
+    NgAmonDirectivesModule,
   ],
   declarations: [ExchangeComponent],
 })

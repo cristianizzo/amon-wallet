@@ -1,18 +1,17 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
-      <app-back-button></app-back-button>
+      <app-back-button [delegate]="true" (clicked)="goBack()"></app-back-button>
     </ion-buttons>
-    <ion-title> Profile </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
+  <ion-item lines="none" class="titlePage">
+    <div class="centerSide">
+      <strong [innerHTML]="'PAGE.PROFILE.TITLE' | translate"></strong>
+    </div>
+  </ion-item>
 
   <app-explore-container name="Tab 2 page"></app-explore-container>
 </ion-content>

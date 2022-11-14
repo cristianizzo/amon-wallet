@@ -87,7 +87,7 @@ export class TokenEffects {
       ofType(TokenActions.unselectToken),
       switchMap((action) =>
         this.tokenService
-          .unselectToken(action.address)
+          .unselectToken(action.address, action.provider)
           .pipe(map((token) => TokenActions.updateTokenToState(token)))
       ),
       catchError((error) => {
@@ -102,6 +102,25 @@ export class TokenEffects {
     )
   );
 
+  reloadTokens$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.reloadTokens),
+      switchMap((action) =>
+        this.tokenService
+          .reloadTokens(action.provider, action.currency, action.wallet)
+          .pipe(map((tokens) => TokenActions.updateStateTokens(tokens)))
+      ),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init tokens`,
+            error,
+          })
+        );
+        return of(TokenActions.tokenError(error));
+      })
+    )
+  );
   error$ = createEffect(
     () =>
       this.actions$.pipe(

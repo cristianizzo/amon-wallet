@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ProviderActions } from '@app/core/actions';
+import { ProviderActions, TokenActions } from '@app/core/actions';
 import { ProviderService } from '@services/providers.service';
 import { ToastService } from '@services/toast.service';
 import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
 
 const logContent = logger.logContent('core:effects:provider');
@@ -34,6 +34,34 @@ export class ProviderEffects {
     )
   );
 
+  switchProvider$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProviderActions.switchProvider),
+      switchMap((action) =>
+        this.providerService.switchProvider(action.provider).pipe(
+          mergeMap((providers) => [
+            TokenActions.resetState(),
+            ProviderActions.updateStateProviders(providers),
+            TokenActions.initTokens(
+              action.provider,
+              action.currency,
+              action.wallet
+            ),
+          ]),
+          catchError((error) => {
+            logger.error(
+              logContent.add({
+                info: `error switch provider`,
+                error,
+              })
+            );
+            return of(ProviderActions.providerError(error));
+          })
+        )
+      )
+    )
+  );
+
   error$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -44,17 +72,6 @@ export class ProviderEffects {
       ),
     { dispatch: false }
   );
-
-  // switchProvider$ = createEffect(() =>
-  //   this.actions$.pipe(
-  //     ofType(ProviderActions.switchProvider),
-  //     switchMap(async (action) => {
-  //
-  //       const dbProviders: ProviderModel[] = await this.localForageService.getItem('providers');
-  //       this.web3Services.connectProvider(dbProviders.find(p => p.id === action.provider.id));
-  //       return ProviderActions.getProvider();
-  //     }))
-  // );
 
   constructor(
     private actions$: Actions,
