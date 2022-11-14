@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ThemeSelector } from '@app/core/selectors';
 import { ActionSheetController } from '@ionic/angular';
-import {WalletModule} from "@app/modules/wallet.module";
+import { WalletModule } from '@app/modules/wallet.module';
 
 @Component({
   selector: 'app-welcome',
@@ -24,6 +24,6 @@ export class WelcomeComponent {
   }
 
   public async askRestoreWallet() {
-    await this.walletModule.askRestoreWallet()
+    await this.walletModule.askRestoreWallet();
   }
 }

@@ -34,7 +34,7 @@ export class AccountMenuComponent {
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController,
+    private popoverController: PopoverController
   ) {
     this.store
       .select(ProviderSelector.getProvider)
@@ -71,13 +71,11 @@ export class AccountMenuComponent {
     }
   }
 
-
   /**
    * importWallet Function
    */
 
   public async importWallet() {
-
     await this.walletModule.askRestoreWallet();
 
     await this.modalCtrl.dismiss();
