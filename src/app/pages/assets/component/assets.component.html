@@ -21,15 +21,11 @@
       </ion-segment-button>
     </ion-segment>
 
-    <ion-row
-      class="token-list"
-      *ngIf="selectedAssetType === assetTypeEnum.tokens"
-    >
-      <app-tokens></app-tokens>
-    </ion-row>
-
-    <ion-row class="nft-list" *ngIf="selectedAssetType === assetTypeEnum.nfts">
-      Nfts
-    </ion-row>
+    <ng-container [ngSwitch]="selectedAssetType">
+      <ion-row *ngSwitchCase="assetTypeEnum.tokens">
+        <app-tokens></app-tokens>
+      </ion-row>
+      <ion-row *ngSwitchCase="assetTypeEnum.nfts"> Nfts </ion-row>
+    </ng-container>
   </div>
 </ion-content>

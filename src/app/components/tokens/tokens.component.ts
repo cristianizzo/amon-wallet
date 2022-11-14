@@ -2,11 +2,17 @@ import { Component } from '@angular/core';
 import {
   CurrencySelector,
   ProviderSelector,
+  TokenSelector,
   WalletSelector,
 } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { CurrencyModel, ProviderModel, WalletModel } from '@app/models';
+import {
+  CurrencyModel,
+  ProviderModel,
+  TokenModel,
+  WalletModel,
+} from '@app/models';
 import { ModalController } from '@ionic/angular';
 import { ImportTokenComponent } from '@components/import-token/import-token.component';
 
@@ -21,7 +27,7 @@ export class TokensComponent {
   public currency: CurrencyModel;
   public showBalance: boolean;
   public loading: boolean;
-  public tokens: any;
+  public tokens: TokenModel[];
 
   constructor(
     private store: Store<StateModel>,
@@ -38,9 +44,14 @@ export class TokensComponent {
     this.store
       .select(ProviderSelector.getProvider)
       .subscribe((provider) => (this.provider = provider));
+
     this.store
       .select(WalletSelector.getWallet)
       .subscribe((wallet) => (this.wallet = wallet));
+
+    this.store
+      .select(TokenSelector.getSelectedTokens)
+      .subscribe((tokens) => (this.tokens = tokens));
   }
 
   public goToToken(tokenSymbol: string) {
