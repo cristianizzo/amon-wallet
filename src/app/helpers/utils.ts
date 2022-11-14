@@ -158,10 +158,10 @@ export class UtilsHelper {
     };
   }
 
-  public sortWallets(state: WalletModel[]): WalletModel[] {
+  public sortByProp(state: any, prop: string): any {
     if (state && state.length > 0) {
       return Object.assign([], state).sort(
-        (a, b) => Number(b.connected) - Number(a.connected)
+        (a, b) => Number(b[prop]) - Number(a[prop])
       );
     }
     return state;

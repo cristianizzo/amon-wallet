@@ -13,8 +13,8 @@ export class HeaderComponent {
     this.router.navigate(['/auth/setting']);
   }
 
-  public goToProviders() {
-    // TODO:
+  public goToProvider() {
+    this.router.navigate(['/auth/provider']);
   }
 
   /**

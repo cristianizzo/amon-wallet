@@ -138,6 +138,16 @@
         "SELECT_LANG": "Change Language",
         "SELECT_THEME": "Change Theme"
       }
+    },
+    "PROFILE": {
+      "TITLE": "Profile"
+    },
+    "EXCHANGE": {
+      "TITLE": "Swap"
+    },
+    "PROVIDER": {
+      "TITLE": "Networks",
+      "SEARCH": "Search provider"
     }
   },
   "HEADER": {

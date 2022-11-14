@@ -2,7 +2,7 @@
   <ion-list>
     <ion-item
       (click)="goToToken(provider?.symbol)"
-      class="list-item wallet-list"
+      class="list-item"
       lines="none"
     >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">
@@ -28,7 +28,7 @@
     <ion-item
       *ngFor="let token of tokens"
       (click)="goToToken(provider?.symbol)"
-      class="list-item wallet-list"
+      class="list-item"
       lines="none"
     >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">

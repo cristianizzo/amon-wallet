@@ -1,15 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Exchange </ion-title>
-  </ion-toolbar>
+<ion-header class="no-border">
+  <ion-toolbar #toolbar class="default"> </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
+  <ion-item lines="none" class="titlePage">
+    <div class="centerSide">
+      <strong>{{ 'PAGE.EXCHANGE.TITLE' | translate }}</strong>
+    </div>
+  </ion-item>
 
   <app-explore-container name="Tab 2 page"></app-explore-container>
 </ion-content>
