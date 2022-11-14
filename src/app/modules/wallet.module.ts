@@ -5,6 +5,9 @@ import { ToastService } from '@app/services/toast.service';
 import { AlertController } from '@ionic/angular';
 import { Web3Services } from '@app/services/web3.service';
 import { UtilsHelper } from '@helpers/utils';
+import { ActionSheetController } from '@ionic/angular';
+import { LanguageService } from '@app/services/languages.service';
+import { Router } from '@angular/router';
 
 declare const navigator: any;
 
@@ -16,7 +19,10 @@ export class WalletModule {
     private toastService: ToastService,
     private alertController: AlertController,
     private web3Services: Web3Services,
-    private utilsHelper: UtilsHelper
+    private utilsHelper: UtilsHelper,
+    private actionSheetController: ActionSheetController,
+    private langService: LanguageService,
+    private router: Router
   ) {}
 
   public async createWalletFromMnemonic(name: string) {
@@ -197,5 +203,46 @@ export class WalletModule {
   public copyAddress(address: string) {
     navigator.clipboard.writeText(address);
     this.toastService.responseSuccess('Copied');
+  }
+
+  /**
+   * Ask Restore Wallet function
+   */
+  public async askRestoreWallet() {
+    const buttons = [
+      {
+        text: this.langService.getTranslate('BUTTON.RECOVER_PHRASE'),
+        role: 'recovery-phrase',
+        cssClass: 'recovery-phrase',
+        handler: () => this.router.navigate(['/import-wallet/recovery-phrase']),
+      },
+      {
+        text: this.langService.getTranslate('BUTTON.PRIVATE_KEY'),
+        role: 'private-key',
+        cssClass: 'private-key',
+        handler: () => this.router.navigate(['/import-wallet/private-key']),
+      },
+      {
+        text: this.langService.getTranslate('BUTTON.JSON_FILE'),
+        role: 'json-file',
+        cssClass: 'json-file',
+        handler: () => this.router.navigate(['/import-wallet/keystore-file']),
+      },
+      {
+        text: this.langService.getTranslate('BUTTON.CANCEL'),
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {},
+      },
+    ];
+
+    const actionSheet = await this.actionSheetController.create({
+      header: this.langService.getTranslate('ACTION_SHEET.IMPORT_ACCOUNT'),
+      buttons,
+    });
+
+    await actionSheet.present();
+
+    return await actionSheet.onDidDismiss();
   }
 }

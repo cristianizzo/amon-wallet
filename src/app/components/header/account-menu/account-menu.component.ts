@@ -34,7 +34,7 @@ export class AccountMenuComponent {
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
   ) {
     this.store
       .select(ProviderSelector.getProvider)
@@ -71,28 +71,16 @@ export class AccountMenuComponent {
     }
   }
 
+
   /**
    * importWallet Function
    */
+
   public async importWallet() {
-    try {
-      const walletName = await this.walletModule.askWalletName();
 
-      if (!walletName) {
-        return;
-      }
+    await this.walletModule.askRestoreWallet();
 
-      assert(walletName && walletName.length >= 3, 'walletName');
-
-      this.tempStorageService.data = {
-        walletName,
-      };
-
-      await this.close();
-      await this.router.navigate(['/import-wallet/recovery-phrase']);
-    } catch (error) {
-      this.toastService.responseError(this.errorService.parseError(error));
-    }
+    await this.modalCtrl.dismiss();
   }
 
   /**
