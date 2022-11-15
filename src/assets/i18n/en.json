@@ -59,6 +59,7 @@
       "CONNECT": "Connect",
       "RENAME": "Rename",
       "EXPORT_PK": "Export Private Key",
+      "EXPORT_SEED": "Export Recovery Seed",
       "COPY_ADDRESS": "Copy Address",
       "DELETE": "Delete"
     },

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { WalletModel } from '@app/models';
-import { NavParams, PopoverController } from '@ionic/angular';
+import {Component} from '@angular/core';
+import {WalletModel, WalletType} from '@app/models';
+import {NavParams, PopoverController} from '@ionic/angular';
 
 @Component({
   selector: 'app-wallet-menu',
@@ -19,5 +19,9 @@ export class WalletMenuComponent {
 
   close(action: string) {
     this.popoverController.dismiss({ action, wallet: this.wallet });
+  }
+
+  isPrivateKeyWallet() {
+    return this.wallet.walletType === WalletType.privkey;
   }
 }

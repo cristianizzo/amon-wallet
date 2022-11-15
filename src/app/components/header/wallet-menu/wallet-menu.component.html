@@ -6,15 +6,19 @@
     detail="false"
   >
     <ion-icon name="navigate-outline"></ion-icon>
-    {{ 'COMP.WALLET_MENU.CONNECT' }}
+    {{ 'COMP.WALLET_MENU.CONNECT' | translate }}
   </ion-item>
   <ion-item (click)="close('rename')" button detail="false">
     <ion-icon name="create-outline"></ion-icon>
     {{ 'COMP.WALLET_MENU.RENAME' | translate }}
   </ion-item>
-  <ion-item (click)="close('privateKey')" button detail="false">
+  <ion-item *ngIf="isPrivateKeyWallet()" (click)="close('privateKey')" button detail="false">
     <ion-icon name="create-outline"></ion-icon>
     {{ 'COMP.WALLET_MENU.EXPORT_PK' | translate }}
+  </ion-item>
+  <ion-item *ngIf="!isPrivateKeyWallet()" (click)="close('backupSeed')" button detail="false">
+    <ion-icon name="create-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.EXPORT_SEED' | translate }}
   </ion-item>
   <ion-item (click)="close('copy')" button detail="false">
     <ion-icon name="copy-outline"></ion-icon>
