@@ -81,7 +81,8 @@ export class Web3Services {
 
   public async getTokenBalance(
     tokenAddress: string,
-    walletAddress: string
+    walletAddress: string,
+    decimals
   ): Promise<string> {
     try {
       const contract = new web3.Contract(
@@ -90,7 +91,7 @@ export class Web3Services {
         this.provider
       );
       const balance = await contract.balanceOf(walletAddress);
-      return this.formatEther(balance);
+      return this.formatEther(balance, decimals);
     } catch (error) {
       logger.warn(
         logContent.add({
@@ -128,7 +129,7 @@ export class Web3Services {
         chainId,
         address: tokenAddress,
         type: 'ERC20',
-        balance: this.formatEther(balance),
+        balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
       logger.warn(
@@ -144,9 +145,9 @@ export class Web3Services {
     }
   }
 
-  public formatEther(balance: string): string {
+  public formatEther(balance: string, decimal = 18): string {
     try {
-      return this.web3.utils.formatEther(balance);
+      return this.web3.utils.formatUnits(balance, decimal);
     } catch (_) {
       return '0';
     }
