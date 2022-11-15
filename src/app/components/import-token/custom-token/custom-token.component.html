@@ -1,0 +1,31 @@
+<form
+  (keydown.enter)="!formObj.invalid ? submit() : null"
+  [formGroup]="formObj"
+  autocomplete="off"
+>
+  <ion-list class="form-item">
+    <ion-item-group>
+      <ion-item lines="none">
+        <ion-input
+          id="address"
+          [placeholder]="'PLACEHOLDER.ADDRESS' | translate"
+          formControlName="address"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-row class="btn-actions">
+    <ion-col>
+      <ion-button
+        id="submit"
+        [disabled]="formObj.invalid"
+        (click)="!formObj.invalid ? submit() : null"
+        class="btn-action"
+      >
+        {{ 'BUTTON.CONTINUE' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</form>

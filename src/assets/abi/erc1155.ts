@@ -6,23 +6,23 @@ export const ERC1155 = [
         indexed: true,
         internalType: 'address',
         name: 'account',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'operator',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: false,
         internalType: 'bool',
         name: 'approved',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     name: 'ApprovalForAll',
-    type: 'event'
+    type: 'event',
   },
   {
     anonymous: false,
@@ -31,35 +31,35 @@ export const ERC1155 = [
         indexed: true,
         internalType: 'address',
         name: 'operator',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'from',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'to',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: false,
         internalType: 'uint256[]',
         name: 'ids',
-        type: 'uint256[]'
+        type: 'uint256[]',
       },
       {
         indexed: false,
         internalType: 'uint256[]',
         name: 'values',
-        type: 'uint256[]'
-      }
+        type: 'uint256[]',
+      },
     ],
     name: 'TransferBatch',
-    type: 'event'
+    type: 'event',
   },
   {
     anonymous: false,
@@ -68,35 +68,35 @@ export const ERC1155 = [
         indexed: true,
         internalType: 'address',
         name: 'operator',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'from',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: true,
         internalType: 'address',
         name: 'to',
-        type: 'address'
+        type: 'address',
       },
       {
         indexed: false,
         internalType: 'uint256',
         name: 'id',
-        type: 'uint256'
+        type: 'uint256',
       },
       {
         indexed: false,
         internalType: 'uint256',
         name: 'value',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'TransferSingle',
-    type: 'event'
+    type: 'event',
   },
   {
     anonymous: false,
@@ -105,210 +105,210 @@ export const ERC1155 = [
         indexed: false,
         internalType: 'string',
         name: 'value',
-        type: 'string'
+        type: 'string',
       },
       {
         indexed: true,
         internalType: 'uint256',
         name: 'id',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'URI',
-    type: 'event'
+    type: 'event',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'account',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'uint256',
         name: 'id',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'balanceOf',
     outputs: [
       {
         internalType: 'uint256',
         name: '',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address[]',
         name: 'accounts',
-        type: 'address[]'
+        type: 'address[]',
       },
       {
         internalType: 'uint256[]',
         name: 'ids',
-        type: 'uint256[]'
-      }
+        type: 'uint256[]',
+      },
     ],
     name: 'balanceOfBatch',
     outputs: [
       {
         internalType: 'uint256[]',
         name: '',
-        type: 'uint256[]'
-      }
+        type: 'uint256[]',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'account',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'address',
         name: 'operator',
-        type: 'address'
-      }
+        type: 'address',
+      },
     ],
     name: 'isApprovedForAll',
     outputs: [
       {
         internalType: 'bool',
         name: '',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'from',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'address',
         name: 'to',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'uint256[]',
         name: 'ids',
-        type: 'uint256[]'
+        type: 'uint256[]',
       },
       {
         internalType: 'uint256[]',
         name: 'amounts',
-        type: 'uint256[]'
+        type: 'uint256[]',
       },
       {
         internalType: 'bytes',
         name: 'data',
-        type: 'bytes'
-      }
+        type: 'bytes',
+      },
     ],
     name: 'safeBatchTransferFrom',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'from',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'address',
         name: 'to',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'uint256',
         name: 'id',
-        type: 'uint256'
+        type: 'uint256',
       },
       {
         internalType: 'uint256',
         name: 'amount',
-        type: 'uint256'
+        type: 'uint256',
       },
       {
         internalType: 'bytes',
         name: 'data',
-        type: 'bytes'
-      }
+        type: 'bytes',
+      },
     ],
     name: 'safeTransferFrom',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
         name: 'operator',
-        type: 'address'
+        type: 'address',
       },
       {
         internalType: 'bool',
         name: 'approved',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     name: 'setApprovalForAll',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'bytes4',
         name: 'interfaceId',
-        type: 'bytes4'
-      }
+        type: 'bytes4',
+      },
     ],
     name: 'supportsInterface',
     outputs: [
       {
         internalType: 'bool',
         name: '',
-        type: 'bool'
-      }
+        type: 'bool',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
+    type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'uint256',
         name: 'id',
-        type: 'uint256'
-      }
+        type: 'uint256',
+      },
     ],
     name: 'uri',
     outputs: [
       {
         internalType: 'string',
         name: '',
-        type: 'string'
-      }
+        type: 'string',
+      },
     ],
     stateMutability: 'view',
-    type: 'function'
-  }
+    type: 'function',
+  },
 ];

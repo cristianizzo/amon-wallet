@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { ProviderModel } from '@models/provider.model';
-import { WalletModel } from '@app/models';
+import { TokenModel, WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
 import assert from 'assert';
@@ -102,6 +102,45 @@ export class Web3Services {
       );
 
       return '0';
+    }
+  }
+
+  public async getTokenInfo(
+    tokenAddress: string,
+    walletAddress: string
+  ): Promise<TokenModel> {
+    try {
+      const contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc20,
+        this.provider
+      );
+      const balance = await contract.balanceOf(walletAddress);
+      const name = await contract.name();
+      const symbol = await contract.symbol();
+      const decimals = await contract.decimals();
+      const { chainId } = await this.provider.getNetwork();
+
+      return {
+        name,
+        symbol,
+        decimals,
+        chainId,
+        address: tokenAddress,
+        type: 'ERC20',
+        balance: this.formatEther(balance),
+      };
+    } catch (error) {
+      logger.warn(
+        logContent.add({
+          info: `error fetch token balance`,
+          tokenAddress,
+          walletAddress,
+          error,
+        })
+      );
+
+      throw error;
     }
   }
 

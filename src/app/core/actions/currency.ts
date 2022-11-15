@@ -8,9 +8,7 @@ export const currencyActionTypes = {
   currencyError: type('[Currency] currency error'),
 };
 
-export const initCurrencies = createAction(
-  currencyActionTypes.initCurrency
-);
+export const initCurrencies = createAction(currencyActionTypes.initCurrency);
 
 export const updateStateCurrencies = createAction(
   currencyActionTypes.updateStateCurrencies,

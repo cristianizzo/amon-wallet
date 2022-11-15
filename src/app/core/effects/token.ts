@@ -43,17 +43,19 @@ export class TokenEffects {
             action.provider,
             action.currency
           )
-          .pipe(map((token) => TokenActions.addTokenToState(token)))
-      ),
-      catchError((error) => {
-        logger.error(
-          logContent.add({
-            info: `error add token`,
-            error,
-          })
-        );
-        return of(TokenActions.tokenError(error));
-      })
+          .pipe(
+            map((token) => TokenActions.addTokenToState(token)),
+            catchError((error) => {
+              logger.error(
+                logContent.add({
+                  info: `error add token`,
+                  error,
+                })
+              );
+              return of(TokenActions.tokenError(error));
+            })
+          )
+      )
     )
   );
 
@@ -68,17 +70,19 @@ export class TokenEffects {
             action.provider,
             action.currency
           )
-          .pipe(map((token) => TokenActions.updateTokenToState(token)))
-      ),
-      catchError((error) => {
-        logger.error(
-          logContent.add({
-            info: `error select token`,
-            error,
-          })
-        );
-        return of(TokenActions.tokenError(error));
-      })
+          .pipe(
+            map((token) => TokenActions.updateTokenToState(token)),
+            catchError((error) => {
+              logger.error(
+                logContent.add({
+                  info: `error select token`,
+                  error,
+                })
+              );
+              return of(TokenActions.tokenError(error));
+            })
+          )
+      )
     )
   );
 
@@ -86,19 +90,19 @@ export class TokenEffects {
     this.actions$.pipe(
       ofType(TokenActions.unselectToken),
       switchMap((action) =>
-        this.tokenService
-          .unselectToken(action.address, action.provider)
-          .pipe(map((token) => TokenActions.updateTokenToState(token)))
-      ),
-      catchError((error) => {
-        logger.error(
-          logContent.add({
-            info: `error unselect token`,
-            error,
+        this.tokenService.unselectToken(action.address, action.provider).pipe(
+          map((token) => TokenActions.updateTokenToState(token)),
+          catchError((error) => {
+            logger.error(
+              logContent.add({
+                info: `error unselect token`,
+                error,
+              })
+            );
+            return of(TokenActions.tokenError(error));
           })
-        );
-        return of(TokenActions.tokenError(error));
-      })
+        )
+      )
     )
   );
 

@@ -40,10 +40,19 @@ export class TokenService {
           dbTokens = await this._getInitTokens(provider);
         }
 
-        await Promise.all(
-          dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken, provider)
-          )
+        await this.utilsHelper.asyncMap(
+          dbTokens,
+          async (token) => {
+            await this._addUpdateTokenToStorage(token, provider);
+          },
+          (error) => {
+            logger.error(
+              logContent.add({
+                info: `error update token to storage`,
+                error,
+              })
+            );
+          }
         );
 
         const dbSelectedTokens = await this._syncSelectedTokensWithCoinGecko(
@@ -74,16 +83,16 @@ export class TokenService {
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const existingToken = await this._getTokenFromStorage(
-          address,
-          provider
-        );
+        let existingToken = await this._getTokenFromStorage(address, provider);
         assert(!existingToken, 'tokenAlreadyExists');
 
         try {
           if (!existingToken) {
-            // TODO: handle custom token
-            // create new token
+            existingToken = await this._fetchCustomToken(
+              address,
+              wallet,
+              provider
+            );
           }
 
           const updatedToken = await this._updateCoinGeckoTicker(
@@ -184,46 +193,6 @@ export class TokenService {
           );
           throw error;
         }
-      })
-    );
-  }
-
-  public reloadTokens(
-    provider: ProviderModel,
-    currency: CurrencyModel,
-    wallet?: WalletModel
-  ): Observable<any> {
-    return from(
-      this.utilsHelper.async(async () => {
-        let dbTokens = await this.getTokensFromStorage(provider);
-
-        if (!this.utilsHelper.arrayHasValue(dbTokens)) {
-          //init tokens
-          dbTokens = await this._getInitTokens(provider);
-        }
-
-        await Promise.all(
-          dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken, provider)
-          )
-        );
-
-        const dbSelectedTokens = await this._syncSelectedTokensWithCoinGecko(
-          wallet,
-          provider,
-          currency
-        );
-
-        await Promise.all([
-          dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken, provider)
-          ),
-          dbSelectedTokens.map((selectedToken) =>
-            this._addUpdateTokenToStorage(selectedToken, provider)
-          ),
-        ]);
-
-        return dbTokens;
       })
     );
   }
@@ -331,6 +300,26 @@ export class TokenService {
     return parsedTokens;
   }
 
+  private async _fetchCustomToken(
+    address: string,
+    wallet: WalletModel,
+    provider: ProviderModel
+  ): Promise<TokenModel> {
+    const tokenInfo: TokenModel = await this.web3Services.getTokenInfo(
+      address,
+      wallet.address
+    );
+
+    const tokenWithCoinGeckoId =
+      await this.coinGeckoService.findTokensCoinGeckoId([tokenInfo]);
+
+    const parsedTokens = tokenWithCoinGeckoId.map((t) =>
+      this._parseToken(t, provider)
+    );
+
+    return parsedTokens[0];
+  }
+
   private _parseToken(token: TokenModel, provider: ProviderModel): TokenModel {
     if (!token.providerSymbol) {
       const newToken: TokenModel = {
@@ -361,28 +350,31 @@ export class TokenService {
     provider: ProviderModel,
     currency: CurrencyModel
   ) {
-    const ticker = await this.coinGeckoService.getTicker(
-      token.coinGeckoId,
-      token.symbol
-    );
+    if (token && token.coinGeckoId) {
+      const ticker = await this.coinGeckoService.getTicker(
+        token.coinGeckoId,
+        token.symbol
+      );
 
-    if (ticker) {
-      if (ticker.image && !token.image) {
-        token.image = ticker.image;
-      }
-      if (ticker.market_data && ticker.market_data.current_price) {
-        if (ticker.market_data.current_price[provider.symbol.toLowerCase()]) {
-          token.cryptoPrice =
-            ticker.market_data.current_price[provider.symbol.toLowerCase()];
+      if (ticker) {
+        if (ticker.image && !token.image) {
+          token.image = ticker.image;
         }
+        if (ticker.market_data && ticker.market_data.current_price) {
+          if (ticker.market_data.current_price[provider.symbol.toLowerCase()]) {
+            token.cryptoPrice =
+              ticker.market_data.current_price[provider.symbol.toLowerCase()];
+          }
 
-        if (ticker.market_data.current_price[currency.symbol.toLowerCase()]) {
-          token.fiatPrice =
-            ticker.market_data.current_price[currency.symbol.toLowerCase()];
-        }
+          if (ticker.market_data.current_price[currency.symbol.toLowerCase()]) {
+            token.fiatPrice =
+              ticker.market_data.current_price[currency.symbol.toLowerCase()];
+          }
 
-        if (ticker.market_data.price_change_percentage_24h) {
-          token.priceChange24h = ticker.market_data.price_change_percentage_24h;
+          if (ticker.market_data.price_change_percentage_24h) {
+            token.priceChange24h =
+              ticker.market_data.price_change_percentage_24h;
+          }
         }
       }
     }
