@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import {WalletModel, WalletType} from '@app/models';
-import {NavParams, PopoverController} from '@ionic/angular';
+import { Component } from '@angular/core';
+import { WalletModel, WalletType } from '@app/models';
+import { NavParams, PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-wallet-menu',

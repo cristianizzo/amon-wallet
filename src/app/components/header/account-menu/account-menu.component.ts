@@ -13,7 +13,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { WalletMenuComponent } from '@components/header/wallet-menu/wallet-menu.component';
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
-import {decrypt} from "ethereum-cryptography/aes";
+import { decrypt } from 'ethereum-cryptography/aes';
 
 @Component({
   selector: 'app-account-menu',
@@ -179,30 +179,32 @@ export class AccountMenuComponent {
   }
 
   private downloadRecoverySeed(wallet: WalletModel) {
-
-    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({
-      address: wallet.address,
-      seed: wallet.phrase
-    }));
+    let dataStr =
+      'data:text/json;charset=utf-8,' +
+      encodeURIComponent(
+        JSON.stringify({
+          address: wallet.address,
+          seed: wallet.phrase,
+        })
+      );
 
     let downloadBtn = document.createElement('a');
-    downloadBtn.setAttribute("href",     dataStr);
-    downloadBtn.setAttribute("download",  "backup-seed.json");
+    downloadBtn.setAttribute('href', dataStr);
+    downloadBtn.setAttribute('download', 'backup-seed.json');
     document.body.appendChild(downloadBtn);
     downloadBtn.click();
     downloadBtn.remove();
   }
 
   private async exportSeeds(wallet: WalletModule) {
-    try{
+    try {
       const walletSecret = await this.walletModule.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
         wallet,
-        secret: walletSecret
+        secret: walletSecret,
       });
       this.downloadRecoverySeed(decrypted);
-    }
-    catch (error) {
+    } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
   }

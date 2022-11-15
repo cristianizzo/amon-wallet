@@ -12,11 +12,21 @@
     <ion-icon name="create-outline"></ion-icon>
     {{ 'COMP.WALLET_MENU.RENAME' | translate }}
   </ion-item>
-  <ion-item *ngIf="isPrivateKeyWallet()" (click)="close('privateKey')" button detail="false">
+  <ion-item
+    *ngIf="isPrivateKeyWallet()"
+    (click)="close('privateKey')"
+    button
+    detail="false"
+  >
     <ion-icon name="create-outline"></ion-icon>
     {{ 'COMP.WALLET_MENU.EXPORT_PK' | translate }}
   </ion-item>
-  <ion-item *ngIf="!isPrivateKeyWallet()" (click)="close('backupSeed')" button detail="false">
+  <ion-item
+    *ngIf="!isPrivateKeyWallet()"
+    (click)="close('backupSeed')"
+    button
+    detail="false"
+  >
     <ion-icon name="create-outline"></ion-icon>
     {{ 'COMP.WALLET_MENU.EXPORT_SEED' | translate }}
   </ion-item>
