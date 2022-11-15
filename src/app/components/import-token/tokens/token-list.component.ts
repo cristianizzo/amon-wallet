@@ -15,7 +15,6 @@ import {
 import { Store } from '@ngrx/store';
 import { UtilsHelper } from '@helpers/utils';
 import { TokenActions } from '@app/core/actions';
-import _ from 'lodash';
 
 @Component({
   selector: 'app-token-list',
@@ -46,7 +45,7 @@ export class TokenListComponent {
       .subscribe((wallet) => (this.wallet = wallet));
 
     this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
-      this.tokens = _.cloneDeep(tokens);
+      this.tokens = tokens;
     });
   }
 

@@ -18,7 +18,12 @@ export const tokenReducer = createReducer(
   on(
     TokenActions.updateTokenToState,
     (state: TokenModel[] = initialState, { token }) => {
-      const updatedState = state.map((tk) => Object.assign({}, tk, token));
+      const updatedState = state.map((tk) => {
+        if (tk.symbol === token.symbol) {
+          return Object.assign({}, tk, token);
+        }
+        return tk;
+      });
       return updatedState;
     }
   ),

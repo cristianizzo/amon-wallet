@@ -30,7 +30,9 @@
       <ng-container *ngSwitchCase="tabTypeEnum.default">
         <app-token-list></app-token-list>
       </ng-container>
-      <ng-container *ngSwitchCase="tabTypeEnum.custom"> Custom </ng-container>
+      <ng-container *ngSwitchCase="tabTypeEnum.custom">
+        <app-custom-token (onClose)="onClose()"></app-custom-token>
+      </ng-container>
     </ng-container>
   </div>
 </ion-content>

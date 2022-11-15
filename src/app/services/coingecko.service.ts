@@ -69,11 +69,11 @@ export class CoinGeckoService {
     public utilsHelper: UtilsHelper
   ) {}
 
-  public async findTokensCoinGeckoId(defaultTokens: TokenModel[]) {
+  public async findTokensCoinGeckoId(rawTokens: TokenModel[]) {
     const allCoinGeckoCoins = await this.allCoins();
 
     const tokens = await this.utilsHelper.asyncMap(
-      defaultTokens,
+      rawTokens,
       async (token) => {
         const coin = allCoinGeckoCoins.find(
           (cg) => cg.symbol.toLowerCase() === token.symbol.toLowerCase()
@@ -95,7 +95,7 @@ export class CoinGeckoService {
       }
     );
 
-    return tokens.filter((token) => token.coinGeckoId);
+    return tokens;
   }
 
   /**

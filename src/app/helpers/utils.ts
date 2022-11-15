@@ -12,7 +12,7 @@ import {
   ProvidersJson,
   TokensJson,
 } from '@assets/data';
-import { ERC20 } from '@assets/abi';
+import { ERC20, ERC1155, ERC721 } from '@assets/abi';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
 import assert from 'assert';
@@ -35,6 +35,8 @@ export class UtilsHelper {
 
   public abi = {
     erc20: ERC20,
+    erc721: ERC721,
+    erc1155: ERC1155,
   };
 
   public menuJson: MenuModel[] = MenuJson;
