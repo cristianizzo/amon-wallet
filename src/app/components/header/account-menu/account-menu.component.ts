@@ -224,6 +224,10 @@ export class AccountMenuComponent {
    * Delete Wallet Function
    */
   private deleteWallet(wallet: WalletModel) {
-    console.log(wallet);
+    try {
+      this.store.dispatch(WalletActions.deleteWallet(wallet.address));
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
   }
 }

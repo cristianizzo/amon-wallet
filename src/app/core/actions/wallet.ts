@@ -38,10 +38,10 @@ export const renameWallet = createAction(
   (address: string, name: string) => ({ address, name })
 );
 
-// export const deleteWallet = createAction(
-//   '[Wallet] delete wallet',
-//   (address: string) => ({address})
-// );
+export const deleteWallet = createAction(
+  '[Wallet] delete wallet',
+  (address: string) => ({ address })
+);
 
 // export const loadWallets = createAction(
 //   '[Wallet] Load Wallets'

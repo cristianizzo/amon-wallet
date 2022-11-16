@@ -58,6 +58,27 @@ export class WalletEffects {
     )
   );
 
+  deleteWallet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.deleteWallet),
+      mergeMap(({ address }) => this.walletService.deleteWallet({ address })),
+      switchMap((w) =>
+        this.walletService
+          .fetchBalances(w)
+          .pipe(map((wallets) => WalletActions.updateStateWallets(wallets)))
+      ),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init wallets`,
+            error,
+          })
+        );
+        return of(WalletActions.walletError(error));
+      })
+    )
+  );
+
   renameWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.renameWallet),
