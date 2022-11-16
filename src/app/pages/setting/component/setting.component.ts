@@ -6,9 +6,13 @@ import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
 import { LanguageService } from '@services/languages.service';
 import * as packageJson from '../../../../../package.json';
-import { CurrencySelector } from '@app/core/selectors';
+import {
+  CurrencySelector,
+  LanguageSelector,
+  ThemeSelector,
+} from '@app/core/selectors';
 import { Store } from '@ngrx/store';
-import { ModalController } from '@ionic/angular';
+import { ActionSheetController, ModalController } from '@ionic/angular';
 import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
 
 // @ts-ignore
@@ -32,7 +36,8 @@ export class SettingComponent implements OnInit {
     private utilsHelper: UtilsHelper,
     private router: Router,
     private store: Store<StateModel>,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public actionSheetController: ActionSheetController
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -41,14 +46,20 @@ export class SettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.store
-      .select(CurrencySelector.getCurrency)
-      .subscribe((currency) => (this.currency = currency));
+    // this may not update the values when changed
+    this.utilsHelper.combine(
+      [
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(LanguageSelector.getLanguage),
+        this.store.select(ThemeSelector.getTheme),
+      ],
+      ([currency, language, theme]) => {
+        this.currency = currency;
+        this.selectedLang = language.lang;
+        this.selectedTheme = theme;
+      }
+    );
   }
-
-  ionViewWillEnter(): void {}
-
-  ionViewDidLeave(): void {}
 
   public async askChangeCurrency() {
     const currencyModal = await this.modalCtrl.create({
@@ -67,70 +78,72 @@ export class SettingComponent implements OnInit {
     await currencyModal.present();
   }
 
-  public askChangeLanguage() {
-    // const buttons = [];
-    // environment.languages.map(lang => {
-    //   buttons.push({
-    //     text: this.langService.getTranslate(`LANGUAGES.${lang}`),
-    //     role: lang,
-    //     handler: async () => {
-    //       this.langService.setLanguage(lang);
-    //       this.getLanguage();
-    //       await this.updateUser({
-    //         language: lang.toUpperCase()
-    //       });
-    //     }
-    //   });
-    // });
-    //
-    // buttons.push({
-    //   text: this.langService.getTranslate('BUTTON.cancel'),
-    //   icon: 'close',
-    //   role: 'cancel',
-    //   handler: () => {
-    //   }
-    // });
-    //
-    // const actionSheet = await this.actionSheetController.create({
-    //   header: this.langService.getTranslate('PAGE.SETTING.ACTION_SHEET.SELECT_LANG'),
-    //   buttons,
-    //   cssClass: ['blur-action-sheet']
-    // });
-    //
-    // await actionSheet.present();
+  public async askChangeLanguage() {
+    const buttons = [];
+    environment.languages.map((lang) => {
+      buttons.push({
+        text: this.langService.getTranslate(`LANGUAGES.${lang.toUpperCase()}`),
+        role: lang,
+        handler: async () => {
+          //TODO trigger switchLanguage action
+        },
+      });
+    });
+
+    buttons.push({
+      text: this.langService.getTranslate('BUTTON.CANCEL'),
+      icon: 'close',
+      role: 'cancel',
+      handler: () => {},
+    });
+
+    const actionSheet = await this.actionSheetController.create({
+      header: this.langService.getTranslate(
+        'PAGE.SETTING.ACTION_SHEET.SELECT_LANG'
+      ),
+      buttons,
+      cssClass: ['blur-action-sheet'],
+    });
+
+    await actionSheet.present();
   }
 
-  public askChangeTheme() {
-    // const lightThemeLabel = this.langService.getTranslate('PAGE.SETTING.THEME.LIGHT');
-    // const darkThemeLabel = this.langService.getTranslate('PAGE.SETTING.THEME.DARK');
-    //
-    // const buttons = [
-    //   {
-    // eslint-disable-next-line max-len
-    //     text: (this.selectedTheme === 'dark') ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel) : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
-    //     role: (this.selectedTheme === 'dark') ? 'light' : 'dark',
-    //     handler: () => {
-    //       this.themeService.saveTheme((this.selectedTheme === 'dark') ? 'light' : 'dark');
-    //       this.getTheme();
-    //       this.changeStatusBar();
-    //     }
-    //   },
-    //   {
-    //     text: this.langService.getTranslate('BUTTON.cancel'),
-    //     icon: 'close',
-    //     role: 'cancel',
-    //     handler: () => {
-    //     }
-    //   }
-    // ];
-    //
-    // const actionSheet = await this.actionSheetController.create({
-    //   header: this.langService.getTranslate('PAGE.SETTING.ACTION_SHEET.SELECT_THEME'),
-    //   buttons,
-    //   cssClass: ['blur-action-sheet']
-    // });
-    //
-    // await actionSheet.present();
+  public async askChangeTheme() {
+    const lightThemeLabel = this.langService.getTranslate(
+      'PAGE.SETTING.THEME.LIGHT'
+    );
+    const darkThemeLabel = this.langService.getTranslate(
+      'PAGE.SETTING.THEME.DARK'
+    );
+
+    const buttons = [
+      {
+        text:
+          this.selectedTheme === 'dark'
+            ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel)
+            : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
+        role: this.selectedTheme === 'dark' ? 'light' : 'dark',
+        handler: () => {
+          // TODO trigger switchTheme action
+        },
+      },
+      {
+        text: this.langService.getTranslate('BUTTON.CANCEL'),
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {},
+      },
+    ];
+
+    const actionSheet = await this.actionSheetController.create({
+      header: this.langService.getTranslate(
+        'PAGE.SETTING.ACTION_SHEET.SELECT_THEME'
+      ),
+      buttons,
+      cssClass: ['blur-action-sheet'],
+    });
+
+    await actionSheet.present();
   }
 
   public askChangeSecret() {}

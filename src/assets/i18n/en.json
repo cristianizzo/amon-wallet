@@ -185,5 +185,12 @@
     "MESSAGE": {
       "CURRENCY": "Do you want change to {{symbol}}?"
     }
+  },
+  "LANGUAGES": {
+    "IT": "Italian",
+    "EN": "English",
+    "ES": "Spanish",
+    "PT": "Portuguese",
+    "FR": "French"
   }
 }
