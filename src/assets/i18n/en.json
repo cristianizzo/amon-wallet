@@ -173,5 +173,17 @@
     "INVALID_SECRET": "Invalid password.",
     "SEED_PHRASE": "Invalid seed phrase.",
     "PRIVATE_KEY": "Invalid Private Key"
+  },
+  "CURRENCY_SELECTOR": {
+    "TITLE": "Change Currency",
+    "SEARCH": "Search Currency"
+  },
+  "ALERT": {
+    "HEADER": {
+      "CURRENCY": "Change Currency"
+    },
+    "MESSAGE": {
+      "CURRENCY": "Do you want change to {{symbol}}?"
+    }
   }
 }

@@ -1,11 +1,15 @@
 import { environment } from '@env/environment';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { CurrencyModel } from '@app/models';
+import { CurrencyModel, StateModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
 import { LanguageService } from '@services/languages.service';
 import * as packageJson from '../../../../../package.json';
+import { CurrencySelector } from '@app/core/selectors';
+import { Store } from '@ngrx/store';
+import { ModalController } from '@ionic/angular';
+import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
 
 // @ts-ignore
 const logContent = (data) => Object.assign({ service: 'setting' }, data);
@@ -15,7 +19,7 @@ const logContent = (data) => Object.assign({ service: 'setting' }, data);
   templateUrl: 'setting.component.html',
   styleUrls: ['setting.component.scss'],
 })
-export class SettingComponent {
+export class SettingComponent implements OnInit{
   public selectedLang: string;
   public selectedTheme: string;
   public isLocal: boolean;
@@ -26,7 +30,9 @@ export class SettingComponent {
   constructor(
     private langService: LanguageService,
     private utilsHelper: UtilsHelper,
-    private router: Router
+    private router: Router,
+    private store: Store<StateModel>,
+    private modalCtrl: ModalController,
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -34,11 +40,32 @@ export class SettingComponent {
     this.isLocal = environment.env === 'local';
   }
 
+  ngOnInit() {
+    this.store
+      .select(CurrencySelector.getCurrency)
+      .subscribe((currency) => (this.currency = currency));
+  }
+
   ionViewWillEnter(): void {}
 
   ionViewDidLeave(): void {}
 
-  public askChangeCurrency() {}
+  public async askChangeCurrency() {
+    const currencyModal = await this.modalCtrl.create({
+      id: 'change-currency',
+      component: CurrencySelectorComponent,
+      cssClass: 'modal-mini',
+      backdropDismiss: true,
+      componentProps: {}
+    });
+
+    currencyModal.onDidDismiss().then(async () => {
+      // TODO should be updated from the subscribed one
+      // this.currency = await this.appState.getNewState('appCurrency');
+    });
+
+    await currencyModal.present();
+  }
 
   public askChangeLanguage() {
     // const buttons = [];

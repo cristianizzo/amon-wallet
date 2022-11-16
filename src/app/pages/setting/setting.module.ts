@@ -8,6 +8,7 @@ import { NgAmonPipesModule } from '@pipes/index.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
+import { CurrencySelectorModule } from '@components/currency-selector/currency-selector.module';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     TranslateModule,
     BackButtonModule,
     NgAmonDirectivesModule,
+    CurrencySelectorModule
   ],
   declarations: [SettingComponent],
   providers: [],

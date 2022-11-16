@@ -14,3 +14,8 @@ export const getCurrency = createSelector(
   (state: CurrencyModel[]): CurrencyModel =>
     state ? state.find((w) => w.default) : null
 );
+export const selectCurrenciesWithSelectedCurrency = createSelector(
+  getCurrencyState,
+  getCurrency,
+  (currencies: CurrencyModel[], selectedCurrency: CurrencyModel) => ({currencies, selectedCurrency})
+);
