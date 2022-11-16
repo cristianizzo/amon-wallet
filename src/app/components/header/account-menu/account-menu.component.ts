@@ -179,7 +179,7 @@ export class AccountMenuComponent {
   }
 
   private downloadRecoverySeed(wallet: WalletModel) {
-    let dataStr =
+    const dataStr =
       'data:text/json;charset=utf-8,' +
       encodeURIComponent(
         JSON.stringify({
@@ -188,7 +188,7 @@ export class AccountMenuComponent {
         })
       );
 
-    let downloadBtn = document.createElement('a');
+    const downloadBtn = document.createElement('a');
     downloadBtn.setAttribute('href', dataStr);
     downloadBtn.setAttribute('download', 'backup-seed.json');
     document.body.appendChild(downloadBtn);
