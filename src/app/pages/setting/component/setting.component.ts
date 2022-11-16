@@ -19,7 +19,7 @@ const logContent = (data) => Object.assign({ service: 'setting' }, data);
   templateUrl: 'setting.component.html',
   styleUrls: ['setting.component.scss'],
 })
-export class SettingComponent implements OnInit{
+export class SettingComponent implements OnInit {
   public selectedLang: string;
   public selectedTheme: string;
   public isLocal: boolean;
@@ -32,7 +32,7 @@ export class SettingComponent implements OnInit{
     private utilsHelper: UtilsHelper,
     private router: Router,
     private store: Store<StateModel>,
-    private modalCtrl: ModalController,
+    private modalCtrl: ModalController
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -56,7 +56,7 @@ export class SettingComponent implements OnInit{
       component: CurrencySelectorComponent,
       cssClass: 'modal-mini',
       backdropDismiss: true,
-      componentProps: {}
+      componentProps: {},
     });
 
     currencyModal.onDidDismiss().then(async () => {

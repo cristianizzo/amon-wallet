@@ -17,5 +17,8 @@ export const getCurrency = createSelector(
 export const selectCurrenciesWithSelectedCurrency = createSelector(
   getCurrencyState,
   getCurrency,
-  (currencies: CurrencyModel[], selectedCurrency: CurrencyModel) => ({currencies, selectedCurrency})
+  (currencies: CurrencyModel[], selectedCurrency: CurrencyModel) => ({
+    currencies,
+    selectedCurrency,
+  })
 );

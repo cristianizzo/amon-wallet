@@ -7,10 +7,15 @@ import { NgAmonPipesModule } from '@pipes/index.module';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  imports: [IonicModule, CommonModule, TranslateModule, NgAmonPipesModule, FormsModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    TranslateModule,
+    NgAmonPipesModule,
+    FormsModule,
+  ],
   exports: [CurrencySelectorComponent],
   entryComponents: [CurrencySelectorComponent],
-  declarations: [CurrencySelectorComponent]
+  declarations: [CurrencySelectorComponent],
 })
-export class CurrencySelectorModule {
-}
+export class CurrencySelectorModule {}

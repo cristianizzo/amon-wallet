@@ -47,7 +47,7 @@ ion-content {
 }
 
 ion-searchbar {
-  --background: #F5F5F8;
+  --background: #f5f5f8;
   --color: #333;
   --icon-color: #a5a3a3;
   --box-shadow: none;
@@ -62,7 +62,6 @@ ion-searchbar {
     font-size: 14px !important;
   }
 }
-
 
 ion-list {
   --ion-item-background: transparent;
@@ -92,7 +91,7 @@ ion-item.currency {
 
   @include isDarkTheme {
     --color: #a08282;
-    border-bottom: 1px solid rgba(255,255,255,0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   ion-button {
@@ -108,7 +107,6 @@ ion-item.currency {
     --padding-top: 7px;
 
     .coin-box {
-
       .label-box {
         max-width: 140px;
         text-align: left;
@@ -157,5 +155,4 @@ ion-item.currency {
       }
     }
   }
-
 }

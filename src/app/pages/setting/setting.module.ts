@@ -21,7 +21,7 @@ import { CurrencySelectorModule } from '@components/currency-selector/currency-s
     TranslateModule,
     BackButtonModule,
     NgAmonDirectivesModule,
-    CurrencySelectorModule
+    CurrencySelectorModule,
   ],
   declarations: [SettingComponent],
   providers: [],
