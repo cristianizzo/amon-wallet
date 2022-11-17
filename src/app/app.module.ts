@@ -11,6 +11,7 @@ import { NgAmonServicesModule } from '@app/services/index.module';
 import { NgAmonHelpersModule } from '@helpers/index.module';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
+import { NgAmonCoreModule } from '@core/index.module';
 import { NgAmonModuleModule } from '@app/modules/index.module';
 import { DEFAULT_CONFIG, Driver, NgForageOptions } from 'ngforage';
 import { StoreModule } from '@ngrx/store';
@@ -30,15 +31,7 @@ import { effects } from '@app/core/effects';
     NgAmonHelpersModule,
     NgAmonPipesModule,
     NgAmonDirectivesModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-      // runtimeChecks: {
-      //   strictStateImmutability: true,
-      //   strictActionImmutability: true,
-      // },
-    }),
-    EffectsModule.forRoot(effects),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    NgAmonCoreModule,
   ],
   providers: [
     AppConfig,

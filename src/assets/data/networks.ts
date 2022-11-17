@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-export const ProvidersJson = [
+export const NetworksJson = [
   {
     id: 1,
     name: 'Ethereum',

@@ -27,7 +27,7 @@
       </ion-text>
       <div slot="end">
         <div class="balance">
-          {{ w.balance | number: '1.0-8' }} {{ provider?.symbol }}
+          {{ w.balance | number: '1.0-8' }} {{ network?.symbol }}
         </div>
       </div>
       <ion-button (click)="openMenu($event, w)" class="btn-dot" slot="end">

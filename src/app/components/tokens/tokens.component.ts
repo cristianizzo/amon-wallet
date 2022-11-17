@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   CurrencySelector,
-  ProviderSelector,
+  NetworkSelector,
   TokenSelector,
   WalletSelector,
 } from '@app/core/selectors';
@@ -9,7 +9,7 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import {
   CurrencyModel,
-  ProviderModel,
+  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
@@ -22,7 +22,7 @@ import { ImportTokenComponent } from '@components/import-token/import-token.comp
   styleUrls: ['./tokens.component.scss'],
 })
 export class TokensComponent {
-  public provider: ProviderModel;
+  public network: NetworkModel;
   public wallet: WalletModel;
   public currency: CurrencyModel;
   public showBalance: boolean;
@@ -42,8 +42,8 @@ export class TokensComponent {
       .subscribe((currency) => (this.currency = currency));
 
     this.store
-      .select(ProviderSelector.getProvider)
-      .subscribe((provider) => (this.provider = provider));
+      .select(NetworkSelector.getNetwork)
+      .subscribe((network) => (this.network = network));
 
     this.store
       .select(WalletSelector.getWallet)
@@ -63,7 +63,7 @@ export class TokensComponent {
       id: 'import-token',
       component: ImportTokenComponent,
       cssClass: ['import-token'],
-      backdropDismiss: false,
+      backdropDismiss: true,
       canDismiss: true,
     });
 

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import {
   CurrencyModel,
   MenuModel,
-  ProviderModel,
+  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
 import {
   CurrenciesJson,
   MenuJson,
-  ProvidersJson,
+  NetworksJson,
   TokensJson,
 } from '@assets/data';
 import { ERC20, ERC1155, ERC721 } from '@assets/abi';
@@ -40,7 +40,7 @@ export class UtilsHelper {
   };
 
   public menuJson: MenuModel[] = MenuJson;
-  public providersJson: ProviderModel[] = ProvidersJson;
+  public networksJson: NetworkModel[] = NetworksJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
   public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;

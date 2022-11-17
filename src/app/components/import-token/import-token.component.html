@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" class="no-border">
+<ion-header class="no-border">
   <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
@@ -14,7 +14,6 @@
   <div class="tabs">
     <ion-segment
       (ionChange)="onSelectTabType($any($event.target).value)"
-      scrollable="true"
       [value]="selectedTabType"
       class="segment"
     >

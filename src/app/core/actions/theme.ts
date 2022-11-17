@@ -6,7 +6,6 @@ export const languageActionTypes = {
   updateStateTheme: type('[Theme] update state theme'),
   switchTheme: type('[Theme] switch theme'),
   getTheme: type('[Theme] get theme'),
-  themeError: type('[Theme] theme error'),
 };
 
 export const initTheme = createAction(languageActionTypes.initTheme);
@@ -19,9 +18,4 @@ export const updateStateTheme = createAction(
 export const switchTheme = createAction(
   languageActionTypes.switchTheme,
   (theme: string) => ({ theme })
-);
-
-export const themeError = createAction(
-  languageActionTypes.themeError,
-  (error: any) => ({ error })
 );

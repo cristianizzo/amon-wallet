@@ -2,12 +2,8 @@ import { Component } from '@angular/core';
 import { Web3Services } from '@app/services/web3.service';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import {
-  ProviderSelector,
-  ThemeSelector,
-  WalletSelector,
-} from '@app/core/selectors';
-import { ProviderModel, WalletModel } from '@app/models';
+import { NetworkSelector, WalletSelector } from '@app/core/selectors';
+import { NetworkModel, WalletModel } from '@app/models';
 
 enum AssetTypeEnum {
   tokens = 'tokens',
@@ -22,7 +18,7 @@ enum AssetTypeEnum {
 export class AssetsComponent {
   public assetTypeEnum = AssetTypeEnum;
   public wallet: WalletModel;
-  public provider: ProviderModel;
+  public network: NetworkModel;
   public selectedAssetType: string;
 
   constructor(
@@ -31,8 +27,8 @@ export class AssetsComponent {
   ) {
     this.selectedAssetType = this.assetTypeEnum.tokens;
     this.store
-      .select(ProviderSelector.getProvider)
-      .subscribe((provider) => (this.provider = provider));
+      .select(NetworkSelector.getNetwork)
+      .subscribe((network) => (this.network = network));
     this.store
       .select(WalletSelector.getWallet)
       .subscribe((wallet) => (this.wallet = wallet));

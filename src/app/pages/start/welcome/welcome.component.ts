@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ThemeSelector } from '@app/core/selectors';
 import { LanguageService } from '@app/services/languages.service';
-import { ActionSheetController, ModalController } from '@ionic/angular';
+import { ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
 @Component({
