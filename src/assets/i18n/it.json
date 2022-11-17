@@ -17,12 +17,15 @@
     "CANCEL": "Annulla",
     "JSON_FILE": "Json File",
     "PRIVATE_KEY": "Chiave privata",
-    "RECOVER_PHRASE": "Recupera frase"
+    "RECOVER_PHRASE": "Recupera frase",
+    "CHANGE_PASSWORD": "Change Password"
   },
   "PLACEHOLDER": {
     "ADDRESS": "Indirizzo del token",
     "PASSWORD": "Parola d’ordine",
-    "CONFIRM_PASSWORD": "Conferma password"
+    "CONFIRM_PASSWORD": "Conferma password",
+    "OLD_PASSWORD": "Old Password",
+    "NEW_PASSWORD": "New Password"
   },
   "LANGUAGE": {
     "IT": "Italiano",
@@ -195,5 +198,8 @@
     "ES": "Spanish",
     "PT": "Portuguese",
     "FR": "French"
+  },
+  "INFO": {
+    "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
   }
 }
