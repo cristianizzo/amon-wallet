@@ -4,11 +4,13 @@
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
+    "DOWNLOAD_BACKUP": "Download",
     "DEPOSIT": "Deposit",
     "WITHDRAW": "Send",
     "SWAP": "Swap",
     "NEXT": "next",
     "COPY": "copy",
+    "CLOSE": "close",
     "SHARE": "share",
     "IMPORT_TOKEN": "Import Token",
     "CONTINUE": "continue",
@@ -75,6 +77,11 @@
     },
     "TOKENS": {
       "INFO": "Don't see your token?"
+    },
+    "EXPORT_WALLET": {
+      "TITLE_PK": "Show Private Key",
+      "TITLE_SEED": "Show Seed Phrase",
+      "DESCRIPTION": "Warning: Never disclose this key. Anyone with your Private Key or Seed Phrase can steal any assets held in your account."
     }
   },
   "PAGE": {

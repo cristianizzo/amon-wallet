@@ -52,17 +52,16 @@ export class WalletService {
           (w) => w.address === wallet.address
         );
         assert(!existingWallet, 'walletAlreadyExists');
-        const isPrivateKeyWallet = wallet.walletType === WalletType.privkey;
-        let encrypted;
 
-        if (!isPrivateKeyWallet) {
+        let encrypted;
+        if (wallet.walletType === WalletType.mnemonic) {
           encrypted = await this.cryptWallet({
             seedPhrase: wallet.phrase,
             secret,
           });
         }
 
-        if (isPrivateKeyWallet) {
+        if (wallet.walletType === WalletType.privateKey) {
           encrypted = await this.cryptoHelper.encrypt(
             wallet.privateKey,
             secret,
@@ -72,7 +71,7 @@ export class WalletService {
 
         assert(encrypted, 'failEncrypt');
 
-        await this.verifyEncryption(encrypted, secret, !isPrivateKeyWallet);
+        await this.verifyEncryption(encrypted, secret, wallet.walletType);
 
         dbWallets.push({
           main: dbWallets.length === 0,
@@ -151,13 +150,21 @@ export class WalletService {
     const decrypted = await this.cryptoHelper.decrypt(
       wallet.encrypted,
       secret,
-      !(wallet.walletType === WalletType.privkey)
+      wallet.walletType
     );
     assert(decrypted, 'failDecrypt');
-    return Object.assign({}, wallet, {
-      privateKey: decrypted,
-      phrase: decrypted,
-    });
+
+    if (wallet.walletType === WalletType.mnemonic) {
+      return Object.assign({}, wallet, {
+        phrase: decrypted,
+      });
+    }
+
+    if (wallet.walletType === WalletType.privateKey) {
+      return Object.assign({}, wallet, {
+        privateKey: decrypted,
+      });
+    }
   }
 
   public async getWalletsFromStorage(): Promise<WalletModel[]> {
@@ -169,13 +176,13 @@ export class WalletService {
   private verifyEncryption(
     encrypted: EncryptedDataModel,
     secret: string,
-    isPrivateKeyWallet: boolean
+    walletType: WalletType
   ): Promise<boolean> {
     return this.utilsHelper.async(async () => {
       const decrypted = await this.cryptoHelper.decrypt(
         encrypted,
         secret,
-        isPrivateKeyWallet
+        walletType
       );
       assert(decrypted, 'failVerifyEncryption');
       return true;

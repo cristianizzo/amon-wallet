@@ -22,6 +22,6 @@ export class WalletMenuComponent {
   }
 
   isPrivateKeyWallet() {
-    return this.wallet.walletType === WalletType.privkey;
+    return this.wallet.walletType === WalletType.privateKey;
   }
 }
