@@ -1,18 +1,12 @@
 import { Component } from '@angular/core';
 import {
-  CurrencySelector,
   NetworkSelector,
   TokenSelector,
   WalletSelector,
 } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import {
-  CurrencyModel,
-  NetworkModel,
-  TokenModel,
-  WalletModel,
-} from '@app/models';
+import { NetworkModel, TokenModel, WalletModel } from '@app/models';
 import { ModalController } from '@ionic/angular';
 import { ImportTokenComponent } from '@components/import-token/import-token.component';
 
@@ -24,10 +18,9 @@ import { ImportTokenComponent } from '@components/import-token/import-token.comp
 export class TokensComponent {
   public network: NetworkModel;
   public wallet: WalletModel;
-  public currency: CurrencyModel;
+  public tokens: TokenModel[];
   public showBalance: boolean;
   public loading: boolean;
-  public tokens: TokenModel[];
 
   constructor(
     private store: Store<StateModel>,
@@ -36,10 +29,6 @@ export class TokensComponent {
     this.tokens = [];
     // TODO: move into the state
     this.showBalance = true;
-
-    this.store
-      .select(CurrencySelector.getCurrency)
-      .subscribe((currency) => (this.currency = currency));
 
     this.store
       .select(NetworkSelector.getNetwork)
@@ -54,8 +43,8 @@ export class TokensComponent {
       .subscribe((tokens) => (this.tokens = tokens));
   }
 
-  public goToToken(tokenSymbol: string) {
-    console.log(tokenSymbol);
+  public goToToken(symbol: string) {
+    console.log(symbol);
   }
 
   public async openImportTokenModel() {

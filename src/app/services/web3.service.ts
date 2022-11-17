@@ -116,10 +116,62 @@ export class Web3Services {
         this.provider
       );
 
-      const balance = await contract.balanceOf(walletAddress);
-      const name = await contract.name();
-      const symbol = await contract.symbol();
-      const decimals = await contract.decimals();
+      let balance = '0x0';
+      try {
+        balance = await contract.balanceOf(walletAddress);
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token balance`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let name = 'unknown';
+      try {
+        name = await contract.name();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token name`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let symbol = 'UNKNOWN';
+      try {
+        symbol = await contract.symbol();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token name`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let decimals = 0;
+      try {
+        decimals = await contract.decimals();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token decimals`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
       const { chainId } = await this.provider.getNetwork();
 
       return {
@@ -140,7 +192,6 @@ export class Web3Services {
           error,
         })
       );
-      assert(false, 'contractError');
     }
   }
 

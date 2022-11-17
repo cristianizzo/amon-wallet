@@ -5,6 +5,7 @@ import { type } from '@app/core/util';
 export const tokenActionTypes = {
   initTokens: type('[Token] init token'),
   addToken: type('[Token] add token'),
+  updateToken: type('[Token] update token'),
   selectToken: type('[Token] select token'),
   unselectToken: type('[Token] unselect token'),
   addTokenToState: type('[Token] add token state'),
@@ -18,6 +19,16 @@ export const initTokens = createAction(tokenActionTypes.initTokens);
 export const addToken = createAction(
   tokenActionTypes.addToken,
   (address: string) => ({ address })
+);
+
+export const updateToken = createAction(
+  tokenActionTypes.updateToken,
+  (address: string, { symbol, name, decimals }) => ({
+    address,
+    symbol,
+    name,
+    decimals,
+  })
 );
 
 export const selectToken = createAction(
