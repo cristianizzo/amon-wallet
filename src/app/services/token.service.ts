@@ -100,11 +100,11 @@ export class TokenService {
           currency
         );
 
-          const balance = await this.web3Services.getTokenBalance(
-            updatedToken.address,
-            wallet.address,
-            updatedToken.decimals
-          );
+        const balance = await this.web3Services.getTokenBalance(
+          updatedToken.address,
+          wallet.address,
+          updatedToken.decimals
+        );
 
         updatedToken.selected = true;
         updatedToken.balance = balance;
@@ -137,7 +137,7 @@ export class TokenService {
         const balance = await this.web3Services.getTokenBalance(
           updatedToken.address,
           wallet.address,
-          decimals,
+          decimals
         );
 
         updatedToken.selected = true;
