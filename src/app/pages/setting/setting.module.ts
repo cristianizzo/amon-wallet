@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { CurrencySelectorModule } from '@components/currency-selector/currency-selector.module';
+import { ChangePasswordModule } from '@components/change-password/change-password.module';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { CurrencySelectorModule } from '@components/currency-selector/currency-s
     BackButtonModule,
     NgAmonDirectivesModule,
     CurrencySelectorModule,
+    ChangePasswordModule,
   ],
   declarations: [SettingComponent],
   providers: [],

@@ -17,6 +17,7 @@ import { CurrencySelectorComponent } from '@components/currency-selector/currenc
 import { Observable } from 'rxjs';
 import { LanguageActions, ThemeActions } from '@core/actions';
 import { take } from 'rxjs/operators';
+import { ChangePasswordComponent } from '@components/change-password/change-password.component';
 
 // @ts-ignore
 const logContent = (data) => Object.assign({ service: 'setting' }, data);
@@ -144,7 +145,19 @@ export class SettingComponent implements OnInit {
     });
   }
 
-  public askChangeSecret() {}
+  /**
+   * ask change secret function
+   */
+  async askChangeSecret() {
+    const changePasswordModal = await this.modalCtrl.create({
+      id: 'change-password',
+      component: ChangePasswordComponent,
+      backdropDismiss: true,
+      componentProps: {},
+    });
+
+    await changePasswordModal.present();
+  }
 
   /**
    * goToWebsite Function
