@@ -9,11 +9,8 @@ export const walletReducer = createReducer(
   initialState,
   on(
     WalletActions.updateStateWallets,
-    (_: WalletModel[] = initialState, { wallets }) => [...wallets]
+    (_: WalletModel[] = initialState, { wallets }) => wallets
   ),
-  // on(WalletActions.deleteWallet, (state: WalletModel[] = initialState, {address}) =>
-  //   state.filter(w => w.address !== address)
-  // ),
   on(
     WalletActions.switchDefaultWallet,
     (state: WalletModel[] = initialState, { address }) => {

@@ -26,7 +26,7 @@
               <ion-list>
                 <ion-item
                   [id]="language.lang"
-                  (click)="onSelectedLanguage(language)"
+                  (click)="switchLanguage(language)"
                   *ngFor="let language of languages"
                   [ngClass]="{ selected: language?.selected }"
                   lines="none"

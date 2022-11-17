@@ -9,7 +9,7 @@ export const tokenReducer = createReducer(
   initialState,
   on(
     TokenActions.updateStateTokens,
-    (state: TokenModel[] = initialState, { tokens }) => [...state, ...tokens]
+    (_: TokenModel[] = initialState, { tokens }) => tokens
   ),
   on(
     TokenActions.addTokenToState,

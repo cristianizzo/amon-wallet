@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { LanguageModel } from '@app/models';
 import { NavController } from '@ionic/angular';
-import { switchLanguage } from '@app/core/actions/language';
+import { LanguageActions, FormActions } from '@app/core/actions';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import * as LanguageSelector from '@app/core/selectors/language';
@@ -36,8 +36,8 @@ export class LanguageComponent {
       .subscribe((language) => (this.selectedLanguage = language));
   }
 
-  onSelectedLanguage(language: LanguageModel): void {
-    this.store.dispatch(switchLanguage(language));
+  switchLanguage(language: LanguageModel): void {
+    this.store.dispatch(LanguageActions.switchLanguage(language));
     this.selectedLanguage = language;
   }
 

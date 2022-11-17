@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
-import { ProviderModel } from '@models/provider.model';
+import { NetworkModel } from '@models/network.model';
 import { TokenModel, WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
@@ -19,8 +19,8 @@ export class Web3Services {
     private cryptoHelper: CryptoHelper
   ) {}
 
-  public async connectProvider(
-    config: ProviderModel
+  public async connectNetwork(
+    config: NetworkModel
   ): Promise<{ blockNumber: number }> {
     try {
       this.provider = new this.web3.providers.JsonRpcProvider(config.rpc, {
@@ -36,7 +36,7 @@ export class Web3Services {
     } catch (error) {
       logger.error(
         logContent.add({
-          info: `error connect provider`,
+          info: `error connect network`,
           error,
         })
       );
@@ -115,6 +115,7 @@ export class Web3Services {
         this.utilsHelper.abi.erc20,
         this.provider
       );
+
       const balance = await contract.balanceOf(walletAddress);
       const name = await contract.name();
       const symbol = await contract.symbol();
@@ -133,14 +134,13 @@ export class Web3Services {
     } catch (error) {
       logger.warn(
         logContent.add({
-          info: `error fetch token balance`,
+          info: `error fetch token info`,
           tokenAddress,
           walletAddress,
           error,
         })
       );
-
-      throw error;
+      assert(false, 'contractError');
     }
   }
 

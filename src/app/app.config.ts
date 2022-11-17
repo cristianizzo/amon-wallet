@@ -6,14 +6,14 @@ import { StateModel } from '@models/state.model';
 import {
   CurrencyActions,
   LanguageActions,
-  ProviderActions,
+  NetworkActions,
   ThemeActions,
   TokenActions,
   WalletActions,
 } from '@app/core/actions';
 import {
   CurrencySelector,
-  ProviderSelector,
+  NetworkSelector,
   WalletSelector,
 } from '@app/core/selectors';
 
@@ -26,29 +26,13 @@ export class AppConfig {
   ) {}
 
   public async loadConfiguration() {
-    this.store.dispatch(ProviderActions.initProviders());
+    this.store.dispatch(NetworkActions.initNetworks());
     this.store.dispatch(CurrencyActions.initCurrencies());
     this.store.dispatch(ThemeActions.initTheme());
     this.store.dispatch(LanguageActions.initLanguage());
 
     await this.utilsHelper.wait(500);
     this.store.dispatch(WalletActions.initWallets());
-    await this.initConfig();
-    // await this.listening();
-  }
-
-  private async initConfig() {
-    await this.utilsHelper.combine(
-      [
-        this.store.select(ProviderSelector.getProvider),
-        this.store.select(CurrencySelector.getCurrency),
-        this.store.select(WalletSelector.getWallet),
-      ],
-      ([provider, currency, wallet]) => {
-        this.store.dispatch(
-          TokenActions.initTokens(provider, currency, wallet)
-        );
-      }
-    );
+    this.store.dispatch(TokenActions.initTokens());
   }
 }

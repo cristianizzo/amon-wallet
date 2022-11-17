@@ -2,8 +2,8 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProviderComponent } from '@pages/provider/component/provider.component';
-import { ProviderRoutingModule } from '@pages/provider/provider.routing';
+import { NetworksComponent } from '@pages/networks/component/networks.component';
+import { NetworksRoutingModule } from '@pages/networks/networks.routing';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -14,12 +14,12 @@ import { NgAmonPipesModule } from '@pipes/index.module';
     IonicModule,
     CommonModule,
     FormsModule,
-    ProviderRoutingModule,
+    NetworksRoutingModule,
     BackButtonModule,
     NgAmonDirectivesModule,
     TranslateModule,
     NgAmonPipesModule,
   ],
-  declarations: [ProviderComponent],
+  declarations: [NetworksComponent],
 })
-export class ProviderModule {}
+export class NetworksModule {}

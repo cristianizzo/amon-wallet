@@ -3,10 +3,10 @@
     <ion-buttons slot="start">
       <app-back-button [delegate]="true" (clicked)="goBack()"></app-back-button>
     </ion-buttons>
-    <ion-title [innerHTML]="'PAGE.PROVIDER.TITLE' | translate"></ion-title>
+    <ion-title [innerHTML]="'PAGE.NETWORKS.TITLE' | translate"></ion-title>
     <ion-buttons slot="end">
       <ion-button
-        (click)="addProvider()"
+        (click)="addNetwork()"
         class="btn-transparent back-button white"
       >
         <ion-icon name="add-outline"></ion-icon>
@@ -21,7 +21,7 @@
     [debounce]="250"
     [(ngModel)]="search"
     autocorrect="off"
-    [placeholder]="'PAGE.PROVIDER.SEARCH' | translate"
+    [placeholder]="'PAGE.NETWORKS.SEARCH' | translate"
   ></ion-searchbar>
 
   <div class="filters">
@@ -32,11 +32,11 @@
       class="toggle"
     ></ion-toggle>
   </div>
-  <ion-list class="providers">
+  <ion-list class="networks">
     <ion-item
       button
       *ngFor="
-        let provider of providers
+        let network of networks
           | appFilter
             : search
             : ['name', 'address', 'symbol']
@@ -45,15 +45,15 @@
       "
       class="list-item"
       lines="none"
-      (click)="switchProvider(provider)"
+      (click)="switchNetwork(network)"
     >
-      <ion-button class="provider-box qpass-flex between-xs" expand="full">
+      <ion-button class="network-box qpass-flex between-xs" expand="full">
         <ion-icon
-          [name]="provider.default ? 'ellipse' : 'ellipse-outline'"
+          [name]="network.default ? 'ellipse' : 'ellipse-outline'"
         ></ion-icon>
-        <span class="providerName">{{ provider?.name }}</span>
+        <span class="networkName">{{ network?.name }}</span>
         <div class="col-xs ion-text-right">
-          <ion-chip *ngIf="provider?.testnet">testnet</ion-chip>
+          <ion-chip *ngIf="network?.testnet">testnet</ion-chip>
         </div>
       </ion-button>
     </ion-item>

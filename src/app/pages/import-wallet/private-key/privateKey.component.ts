@@ -14,9 +14,8 @@ import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
 import { LanguageService } from '@services/languages.service';
 import { WalletModel } from '@app/models';
-import { WalletActions } from '@app/core/actions';
+import { FormActions, WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
-import { LoadingController } from '@ionic/angular';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
 
@@ -37,7 +36,6 @@ export class PrivateKeyComponent {
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
     private langService: LanguageService,
-    private loadingCtrl: LoadingController,
     private utilsHelper: UtilsHelper,
     private store: Store
   ) {
@@ -102,19 +100,13 @@ export class PrivateKeyComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    const loader = await this.loadingCtrl.create(
-      this.utilsHelper.loaderOption()
-    );
-    await loader.present();
-
-    console.log(wallet, secret);
-
+    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
-      loader.dismiss();
       if (myWallet) {
+        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.router.navigate(['/auth/assets']);
       }
     });
