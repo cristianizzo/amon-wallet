@@ -29,6 +29,24 @@ export class CurrencyEffects {
     )
   );
 
+  switchCurrency$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(CurrencyActions.switchCurrency),
+        switchMap((action) => this.currencyService.save(action.currency)),
+        catchError((error) => {
+          logger.error(
+            logContent.add({
+              info: `error switch currency`,
+              error,
+            })
+          );
+          return of(CurrencyActions.currencyError(error));
+        })
+      ),
+    { dispatch: false }
+  );
+
   error$ = createEffect(
     () =>
       this.actions$.pipe(

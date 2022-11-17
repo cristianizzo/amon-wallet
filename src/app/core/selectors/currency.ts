@@ -12,7 +12,7 @@ export const getCurrencies = createSelector(
 export const getCurrency = createSelector(
   getCurrencyState,
   (state: CurrencyModel[]): CurrencyModel =>
-    state ? state.find((w) => w.default) : null
+    state ? state.find((w) => w.selected) : null
 );
 export const selectCurrenciesWithSelectedCurrency = createSelector(
   getCurrencyState,

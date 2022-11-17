@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { LanguageService } from '@services/languages.service';
 import { CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
+import { CurrencyActions } from '@core/actions';
 
 @Component({
   selector: 'app-currency-selector',
@@ -53,7 +54,7 @@ export class CurrencySelectorComponent implements OnInit {
         {
           text: this.langService.getTranslate('BUTTON.CONTINUE'),
           handler: () => {
-            // this.changeCurrency(symbol);
+            this.store.dispatch(CurrencyActions.switchCurrency(currency));
           },
         },
       ],

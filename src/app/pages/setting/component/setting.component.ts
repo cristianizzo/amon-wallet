@@ -1,7 +1,7 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { CurrencyModel, StateModel } from '@app/models';
+import { CurrencyModel, LanguageModel, StateModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
 import { LanguageService } from '@services/languages.service';
@@ -14,6 +14,9 @@ import {
 import { Store } from '@ngrx/store';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
+import { Observable } from 'rxjs';
+import { LanguageActions, ThemeActions } from '@core/actions';
+import { take } from 'rxjs/operators';
 
 // @ts-ignore
 const logContent = (data) => Object.assign({ service: 'setting' }, data);
@@ -24,12 +27,13 @@ const logContent = (data) => Object.assign({ service: 'setting' }, data);
   styleUrls: ['setting.component.scss'],
 })
 export class SettingComponent implements OnInit {
-  public selectedLang: string;
-  public selectedTheme: string;
   public isLocal: boolean;
   public version: string;
   public network: string;
-  public currency: CurrencyModel;
+  public currency$: Observable<CurrencyModel>;
+  public language$: Observable<LanguageModel>;
+  public languages$: Observable<LanguageModel[]>;
+  public theme$: Observable<string>;
 
   constructor(
     private langService: LanguageService,
@@ -46,19 +50,10 @@ export class SettingComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this may not update the values when changed
-    this.utilsHelper.combine(
-      [
-        this.store.select(CurrencySelector.getCurrency),
-        this.store.select(LanguageSelector.getLanguage),
-        this.store.select(ThemeSelector.getTheme),
-      ],
-      ([currency, language, theme]) => {
-        this.currency = currency;
-        this.selectedLang = language.lang;
-        this.selectedTheme = theme;
-      }
-    );
+    this.currency$ = this.store.select(CurrencySelector.getCurrency);
+    this.language$ = this.store.select(LanguageSelector.getLanguage);
+    this.languages$ = this.store.select(LanguageSelector.getLanguages);
+    this.theme$ = this.store.select(ThemeSelector.getTheme);
   }
 
   public async askChangeCurrency() {
@@ -70,42 +65,41 @@ export class SettingComponent implements OnInit {
       componentProps: {},
     });
 
-    currencyModal.onDidDismiss().then(async () => {
-      // TODO should be updated from the subscribed one
-      // this.currency = await this.appState.getNewState('appCurrency');
-    });
-
     await currencyModal.present();
   }
 
   public async askChangeLanguage() {
     const buttons = [];
-    environment.languages.map((lang) => {
-      buttons.push({
-        text: this.langService.getTranslate(`LANGUAGES.${lang.toUpperCase()}`),
-        role: lang,
-        handler: async () => {
-          //TODO trigger switchLanguage action
-        },
+    this.languages$.pipe(take(1)).subscribe(async (languages) => {
+      languages.map((language) => {
+        buttons.push({
+          text: this.langService.getTranslate(
+            `LANGUAGES.${language.lang.toUpperCase()}`
+          ),
+          role: language.lang,
+          handler: async () => {
+            this.store.dispatch(LanguageActions.switchLanguage(language));
+          },
+        });
       });
-    });
 
-    buttons.push({
-      text: this.langService.getTranslate('BUTTON.CANCEL'),
-      icon: 'close',
-      role: 'cancel',
-      handler: () => {},
-    });
+      buttons.push({
+        text: this.langService.getTranslate('BUTTON.CANCEL'),
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {},
+      });
 
-    const actionSheet = await this.actionSheetController.create({
-      header: this.langService.getTranslate(
-        'PAGE.SETTING.ACTION_SHEET.SELECT_LANG'
-      ),
-      buttons,
-      cssClass: ['blur-action-sheet'],
-    });
+      const actionSheet = await this.actionSheetController.create({
+        header: this.langService.getTranslate(
+          'PAGE.SETTING.ACTION_SHEET.SELECT_LANG'
+        ),
+        buttons,
+        cssClass: ['blur-action-sheet'],
+      });
 
-    await actionSheet.present();
+      await actionSheet.present();
+    });
   }
 
   public async askChangeTheme() {
@@ -116,34 +110,38 @@ export class SettingComponent implements OnInit {
       'PAGE.SETTING.THEME.DARK'
     );
 
-    const buttons = [
-      {
-        text:
-          this.selectedTheme === 'dark'
-            ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel)
-            : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
-        role: this.selectedTheme === 'dark' ? 'light' : 'dark',
-        handler: () => {
-          // TODO trigger switchTheme action
+    this.theme$.pipe(take(1)).subscribe(async (theme) => {
+      const buttons = [
+        {
+          text:
+            theme === 'dark'
+              ? this.utilsHelper.capitalizeFirstLetter(lightThemeLabel)
+              : this.utilsHelper.capitalizeFirstLetter(darkThemeLabel),
+          role: theme === 'dark' ? 'light' : 'dark',
+          handler: () => {
+            this.store.dispatch(
+              ThemeActions.switchTheme(theme === 'dark' ? 'light' : 'dark')
+            );
+          },
         },
-      },
-      {
-        text: this.langService.getTranslate('BUTTON.CANCEL'),
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {},
-      },
-    ];
+        {
+          text: this.langService.getTranslate('BUTTON.CANCEL'),
+          icon: 'close',
+          role: 'cancel',
+          handler: () => {},
+        },
+      ];
 
-    const actionSheet = await this.actionSheetController.create({
-      header: this.langService.getTranslate(
-        'PAGE.SETTING.ACTION_SHEET.SELECT_THEME'
-      ),
-      buttons,
-      cssClass: ['blur-action-sheet'],
+      const actionSheet = await this.actionSheetController.create({
+        header: this.langService.getTranslate(
+          'PAGE.SETTING.ACTION_SHEET.SELECT_THEME'
+        ),
+        buttons,
+        cssClass: ['blur-action-sheet'],
+      });
+
+      await actionSheet.present();
     });
-
-    await actionSheet.present();
   }
 
   public askChangeSecret() {}
@@ -162,8 +160,8 @@ export class SettingComponent implements OnInit {
     await Browser.open({ url: 'https://amon.tech/blog/amon-news' });
   }
 
-  public getThemeTranslation() {
-    if (this.selectedTheme === 'dark') {
+  public getThemeTranslation(theme) {
+    if (theme === 'dark') {
       return this.langService.getTranslate('PAGE.SETTING.THEME.DARK');
     } else {
       return this.langService.getTranslate('PAGE.SETTING.THEME.LIGHT');
