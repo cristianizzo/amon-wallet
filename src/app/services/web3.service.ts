@@ -82,7 +82,7 @@ export class Web3Services {
   public async getTokenBalance(
     tokenAddress: string,
     walletAddress: string,
-    decimals
+    decimals: number
   ): Promise<string> {
     try {
       const contract = new web3.Contract(
@@ -196,9 +196,9 @@ export class Web3Services {
     }
   }
 
-  public formatEther(balance: string, decimal = 18): string {
+  public formatEther(balance: string, decimals = 18): string {
     try {
-      return this.web3.utils.formatUnits(balance, decimal);
+      return this.web3.utils.formatUnits(balance, decimals);
     } catch (_) {
       return '0';
     }
