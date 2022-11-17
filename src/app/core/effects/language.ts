@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { LanguageActions } from '@app/core/actions';
+import { FormActions, LanguageActions } from '@app/core/actions';
 import { LanguageService } from '@services/languages.service';
-import { ToastService } from '@services/toast.service';
-import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
@@ -15,13 +13,8 @@ export class LanguageEffects {
   initLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LanguageActions.initLanguage),
-      switchMap((_) =>
-        this.languageService
-          .initLanguages()
-          .pipe(
-            map((languages) => LanguageActions.updateStateLanguages(languages))
-          )
-      ),
+      switchMap((_) => this.languageService.initLanguages()),
+      map((languages) => LanguageActions.updateStateLanguages(languages)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -29,20 +22,9 @@ export class LanguageEffects {
             error,
           })
         );
-        return of(LanguageActions.languageError(error));
+        return of(FormActions.formError(error));
       })
     )
-  );
-
-  error$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(LanguageActions.languageError),
-        map(({ error }) => {
-          this.toastService.responseError(this.errorService.parseError(error));
-        })
-      ),
-    { dispatch: false }
   );
 
   switchLanguage$ = createEffect(
@@ -50,7 +32,7 @@ export class LanguageEffects {
       this.actions$.pipe(
         ofType(LanguageActions.switchLanguage),
         switchMap(async (action) =>
-          this.languageService.setLanguage(action.language.lang)
+          this.languageService.saveLanguage(action.language.lang)
         ),
         catchError((error) => {
           logger.error(
@@ -59,7 +41,7 @@ export class LanguageEffects {
               error,
             })
           );
-          return of(LanguageActions.languageError(error));
+          return of(FormActions.formError(error));
         })
       ),
     { dispatch: false }
@@ -67,8 +49,6 @@ export class LanguageEffects {
 
   constructor(
     private actions$: Actions,
-    private languageService: LanguageService,
-    private toastService: ToastService,
-    private errorService: ErrorService
+    private languageService: LanguageService
   ) {}
 }

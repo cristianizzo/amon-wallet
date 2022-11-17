@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { WalletModel } from '@app/models';
 import { ModalController } from '@ionic/angular';
-import { AccountMenuComponent } from '@components/header/account-menu/account-menu.component';
+import { AccountMenuComponent } from '@components/account/account-menu/account-menu.component';
 
 @Component({
   selector: 'app-account',

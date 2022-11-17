@@ -11,7 +11,7 @@ import { TempStorageService } from '@services/tempStorage.service';
 import { ToastService } from '@services/toast.service';
 import { Web3Services } from '@services/web3.service';
 import { WalletService } from '@services/wallet.service';
-import { ProviderService } from '@services/providers.service';
+import { NetworkService } from '@services/networks.service';
 import { CoinGeckoService } from '@services/coingecko.service';
 import { TokenService } from '@services/token.service';
 import { LocalForageService } from '@services/localforage.service';
@@ -21,7 +21,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export {
   APIService,
   ErrorService,
-  ProviderService,
+  NetworkService,
   CoinGeckoService,
   ThemeService,
   CurrencyService,
@@ -59,7 +59,7 @@ export class NgAmonServicesModule {
       providers: [
         APIService,
         ErrorService,
-        ProviderService,
+        NetworkService,
         CoinGeckoService,
         CurrencyService,
         LanguageService,

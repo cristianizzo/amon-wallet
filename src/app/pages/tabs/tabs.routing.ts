@@ -49,10 +49,10 @@ const routes: Routes = [
           import('@pages/profile/profile.module').then((m) => m.ProfileModule),
       },
       {
-        path: 'provider',
+        path: 'networks',
         loadChildren: () =>
-          import('@pages/provider/provider.module').then(
-            (m) => m.ProviderModule
+          import('@pages/networks/networks.module').then(
+            (m) => m.NetworksModule
           ),
       },
       {

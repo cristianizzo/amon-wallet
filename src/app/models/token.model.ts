@@ -1,7 +1,7 @@
 export class TokenModel {
   selected?: boolean;
   coinGeckoId?: string;
-  providerSymbol?: string;
+  networkSymbol?: string;
   symbol?: string;
   chainId?: number;
   type?: string;
