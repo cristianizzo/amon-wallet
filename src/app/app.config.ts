@@ -33,7 +33,6 @@ export class AppConfig {
 
     await this.utilsHelper.wait(500);
     this.store.dispatch(WalletActions.initWallets());
-    this.initTokens();
   }
 
   private async initTokens() {

@@ -90,7 +90,6 @@ export class CustomTokenComponent {
 
     this.store.select(TokenSelector.getSelectedTokens).subscribe((tokens) => {
       if (tokens.find((tk) => tk.address === rawForm.address)) {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.onClose.emit();
         this.goToStep(1);
       }
