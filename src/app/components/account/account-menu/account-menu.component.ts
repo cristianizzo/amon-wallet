@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ProviderSelector, WalletSelector } from '@app/core/selectors';
+import { NetworkSelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { ProviderModel, WalletModel, WalletType } from '@app/models';
+import { NetworkModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
 import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
@@ -10,7 +10,7 @@ import { ToastService } from '@services/toast.service';
 import { Router } from '@angular/router';
 import { TempStorageService } from '@services/tempStorage.service';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { WalletMenuComponent } from '@components/header/wallet-menu/wallet-menu.component';
+import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu.component';
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 
@@ -20,7 +20,7 @@ import { WalletActions } from '@app/core/actions';
   styleUrls: ['./account-menu.component.scss'],
 })
 export class AccountMenuComponent {
-  public provider: ProviderModel;
+  public network: NetworkModel;
   public wallet: WalletModel;
   public wallets: WalletModel[];
   public searchInputText: string;
@@ -37,11 +37,8 @@ export class AccountMenuComponent {
     private popoverController: PopoverController
   ) {
     this.store
-      .select(ProviderSelector.getProvider)
-      .subscribe((provider) => (this.provider = provider));
-    this.store
-      .select(WalletSelector.getWallet)
-      .subscribe((wallet) => (this.wallet = wallet));
+      .select(NetworkSelector.getNetwork)
+      .subscribe((network) => (this.network = network));
     this.store
       .select(WalletSelector.getWallets)
       .subscribe((wallets) => (this.wallets = wallets));

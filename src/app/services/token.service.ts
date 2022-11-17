@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   CurrencyModel,
-  ProviderModel,
+  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
@@ -27,23 +27,23 @@ export class TokenService {
   ) {}
 
   public initTokens(
-    provider: ProviderModel,
+    network: NetworkModel,
     currency: CurrencyModel,
     wallet?: WalletModel
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        let dbTokens = await this.getTokensFromStorage(provider);
+        let dbTokens = await this.getTokensFromStorage(network);
 
         if (!this.utilsHelper.arrayHasValue(dbTokens)) {
           //init tokens
-          dbTokens = await this._getInitTokens(provider);
+          dbTokens = await this._getInitTokens(network);
         }
 
         await this.utilsHelper.asyncMap(
           dbTokens,
           async (token) => {
-            await this._addUpdateTokenToStorage(token, provider);
+            await this._addUpdateTokenToStorage(token, network);
           },
           (error) => {
             logger.error(
@@ -57,16 +57,16 @@ export class TokenService {
 
         const dbSelectedTokens = await this._syncSelectedTokensWithCoinGecko(
           wallet,
-          provider,
+          network,
           currency
         );
 
         await Promise.all([
           dbTokens.map((updatedDbToken) =>
-            this._addUpdateTokenToStorage(updatedDbToken, provider)
+            this._addUpdateTokenToStorage(updatedDbToken, network)
           ),
           dbSelectedTokens.map((selectedToken) =>
-            this._addUpdateTokenToStorage(selectedToken, provider)
+            this._addUpdateTokenToStorage(selectedToken, network)
           ),
         ]);
 
@@ -78,28 +78,27 @@ export class TokenService {
   public addToken(
     address: string,
     wallet: WalletModel,
-    provider: ProviderModel,
+    network: NetworkModel,
     currency: CurrencyModel
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        let existingToken = await this._getTokenFromStorage(address, provider);
+        let existingToken = await this._getTokenFromStorage(address, network);
         assert(!existingToken, 'tokenAlreadyExists');
 
-        try {
-          if (!existingToken) {
-            existingToken = await this._fetchCustomToken(
-              address,
-              wallet,
-              provider
-            );
-          }
-
-          const updatedToken = await this._updateCoinGeckoTicker(
-            existingToken,
-            provider,
-            currency
+        if (!existingToken) {
+          existingToken = await this._fetchCustomToken(
+            address,
+            wallet,
+            network
           );
+        }
+
+        const updatedToken = await this._updateCoinGeckoTicker(
+          existingToken,
+          network,
+          currency
+        );
 
           const balance = await this.web3Services.getTokenBalance(
             updatedToken.address,
@@ -107,23 +106,49 @@ export class TokenService {
             updatedToken.decimals
           );
 
-          updatedToken.selected = true;
-          updatedToken.balance = balance;
+        updatedToken.selected = true;
+        updatedToken.balance = balance;
 
-          await this._addUpdateTokenToStorage(updatedToken, provider);
+        await this._addUpdateTokenToStorage(updatedToken, network);
 
-          return updatedToken;
-        } catch (error) {
-          logger.error(
-            logContent.add({
-              info: `error add token`,
-              provider,
-              currency,
-              error,
-            })
-          );
-          throw error;
-        }
+        return updatedToken;
+      })
+    );
+  }
+
+  public updateToken(
+    address: string,
+    { symbol, name, decimals },
+    wallet: WalletModel,
+    network: NetworkModel,
+    currency: CurrencyModel
+  ): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const token = await this._getTokenFromStorage(address, network);
+        assert(token, 'tokenNotFound');
+
+        const updatedToken = await this._updateCoinGeckoTicker(
+          token,
+          network,
+          currency
+        );
+
+        const balance = await this.web3Services.getTokenBalance(
+          updatedToken.address,
+          wallet.address,
+          decimals,
+        );
+
+        updatedToken.selected = true;
+        updatedToken.balance = balance;
+        updatedToken.name = name;
+        updatedToken.symbol = symbol;
+        updatedToken.decimals = decimals;
+
+        await this._addUpdateTokenToStorage(updatedToken, network);
+
+        return updatedToken;
       })
     );
   }
@@ -131,18 +156,18 @@ export class TokenService {
   public selectToken(
     address: string,
     wallet: WalletModel,
-    provider: ProviderModel,
+    network: NetworkModel,
     currency: CurrencyModel
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const dbToken = await this._getTokenFromStorage(address, provider);
+        const dbToken = await this._getTokenFromStorage(address, network);
         assert(!dbToken || !dbToken.selected, 'tokenNotFound');
 
         try {
           const updatedToken = await this._updateCoinGeckoTicker(
             dbToken,
-            provider,
+            network,
             currency
           );
 
@@ -155,19 +180,20 @@ export class TokenService {
           updatedToken.selected = true;
           updatedToken.balance = balance;
 
-          await this._addUpdateTokenToStorage(updatedToken, provider);
+          await this._addUpdateTokenToStorage(updatedToken, network);
 
           return updatedToken;
         } catch (error) {
           logger.error(
             logContent.add({
               info: `error select token`,
-              provider,
+              network,
               currency,
               error,
             })
           );
-          throw error;
+
+          assert(false, 'selectToken');
         }
       })
     );
@@ -175,16 +201,16 @@ export class TokenService {
 
   public unselectToken(
     address: string,
-    provider: ProviderModel
+    network: NetworkModel
   ): Observable<any> {
     return from(
       this.utilsHelper.async(async () => {
-        const dbToken = await this._getTokenFromStorage(address, provider);
+        const dbToken = await this._getTokenFromStorage(address, network);
         assert(dbToken && dbToken.selected, 'tokenNotFound');
 
         try {
           dbToken.selected = false;
-          await this._addUpdateTokenToStorage(dbToken, provider);
+          await this._addUpdateTokenToStorage(dbToken, network);
           return dbToken;
         } catch (error) {
           logger.error(
@@ -200,27 +226,28 @@ export class TokenService {
   }
 
   private async getTokensFromStorage(
-    provider: ProviderModel
+    network: NetworkModel
   ): Promise<TokenModel[]> {
     const dbTokens =
-      (await this.localForageService.getItem(`${provider.symbol}-tokens`)) ||
-      [];
+      (await this.localForageService.getItem(
+        `${network.symbol}-${network.chainId}-tokens`
+      )) || [];
     return dbTokens;
   }
 
   private async _syncSelectedTokensWithCoinGecko(
     wallet: WalletModel,
-    provider: ProviderModel,
+    network: NetworkModel,
     currency: CurrencyModel
   ): Promise<TokenModel[]> {
-    const dbTokens = await this.getTokensFromStorage(provider);
+    const dbTokens = await this.getTokensFromStorage(network);
 
     const dbSelectedTokens = await this.utilsHelper.asyncMap(
       dbTokens.filter((tk) => tk.selected),
       async (token) => {
         const updatedToken = await this._updateCoinGeckoTicker(
           token,
-          provider,
+          network,
           currency
         );
 
@@ -239,7 +266,7 @@ export class TokenService {
         logger.error(
           logContent.add({
             info: `error sync selected tokens with coinGecko`,
-            provider,
+            network,
             currency,
             error,
           })
@@ -253,9 +280,9 @@ export class TokenService {
 
   private async _addUpdateTokenToStorage(
     token: TokenModel,
-    provider: ProviderModel
+    network: NetworkModel
   ): Promise<TokenModel[]> {
-    let dbTokens = await this.getTokensFromStorage(provider);
+    let dbTokens = await this.getTokensFromStorage(network);
     const existingToken = dbTokens.find((tk) => tk.address === token.address);
 
     if (existingToken) {
@@ -270,7 +297,7 @@ export class TokenService {
     }
 
     await this.localForageService.setItem(
-      `${provider.symbol}-tokens`,
+      `${network.symbol}-${network.chainId}-tokens`,
       dbTokens
     );
 
@@ -279,25 +306,25 @@ export class TokenService {
 
   private async _getTokenFromStorage(
     address: string,
-    provider: ProviderModel
+    network: NetworkModel
   ): Promise<TokenModel> {
-    const dbTokens = await this.getTokensFromStorage(provider);
+    const dbTokens = await this.getTokensFromStorage(network);
     const token = dbTokens.find((tk) => tk.address === address);
     return token;
   }
 
-  private async _getInitTokens(provider: ProviderModel) {
-    const initTokens = this.utilsHelper.tokensJson[provider.symbol] || [];
+  private async _getInitTokens(network: NetworkModel) {
+    const initTokens = this.utilsHelper.tokensJson[network.symbol] || [];
 
     const defaultTokens: TokenModel[] = [...initTokens].filter(
-      (token) => token.chainId === provider.chainId
+      (token) => token.chainId === network.chainId
     );
 
     const tokenWithCoinGeckoId =
       await this.coinGeckoService.findTokensCoinGeckoId(defaultTokens);
 
     const parsedTokens = tokenWithCoinGeckoId.map((t) =>
-      this._parseToken(t, provider)
+      this._parseToken(t, network)
     );
 
     return parsedTokens;
@@ -306,7 +333,7 @@ export class TokenService {
   private async _fetchCustomToken(
     address: string,
     wallet: WalletModel,
-    provider: ProviderModel
+    network: NetworkModel
   ): Promise<TokenModel> {
     const tokenInfo: TokenModel = await this.web3Services.getTokenInfo(
       address,
@@ -317,18 +344,18 @@ export class TokenService {
       await this.coinGeckoService.findTokensCoinGeckoId([tokenInfo]);
 
     const parsedTokens = tokenWithCoinGeckoId.map((t) =>
-      this._parseToken(t, provider)
+      this._parseToken(t, network)
     );
 
     return parsedTokens[0];
   }
 
-  private _parseToken(token: TokenModel, provider: ProviderModel): TokenModel {
-    if (!token.providerSymbol) {
+  private _parseToken(token: TokenModel, network: NetworkModel): TokenModel {
+    if (!token.networkSymbol) {
       const newToken: TokenModel = {
         selected: false,
         coinGeckoId: token.coinGeckoId,
-        providerSymbol: provider.symbol,
+        networkSymbol: network.symbol,
         address: token.address,
         chainId: token.chainId,
         decimals: token.decimals,
@@ -350,7 +377,7 @@ export class TokenService {
 
   private async _updateCoinGeckoTicker(
     token: TokenModel,
-    provider: ProviderModel,
+    network: NetworkModel,
     currency: CurrencyModel
   ) {
     if (token && token.coinGeckoId) {
@@ -364,9 +391,9 @@ export class TokenService {
           token.image = ticker.image;
         }
         if (ticker.market_data && ticker.market_data.current_price) {
-          if (ticker.market_data.current_price[provider.symbol.toLowerCase()]) {
+          if (ticker.market_data.current_price[network.symbol.toLowerCase()]) {
             token.cryptoPrice =
-              ticker.market_data.current_price[provider.symbol.toLowerCase()];
+              ticker.market_data.current_price[network.symbol.toLowerCase()];
           }
 
           if (ticker.market_data.current_price[currency.symbol.toLowerCase()]) {

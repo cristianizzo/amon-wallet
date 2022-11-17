@@ -9,10 +9,7 @@ export const languageReducer = createReducer(
   initialState,
   on(
     LanguageActions.updateStateLanguages,
-    (state: LanguageModel[] = initialState, { languages }) => [
-      ...state,
-      ...languages,
-    ]
+    (_: LanguageModel[] = initialState, { languages }) => languages
   ),
   on(
     LanguageActions.switchLanguage,

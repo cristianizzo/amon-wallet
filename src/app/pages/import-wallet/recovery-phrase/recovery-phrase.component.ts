@@ -1,6 +1,5 @@
 import { environment } from '@env/environment';
 import { Component } from '@angular/core';
-import { LoadingController } from '@ionic/angular';
 import { UtilsHelper } from '@helpers/utils';
 import {
   FormBuilder,
@@ -16,13 +15,9 @@ import { WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 import { TempStorageService } from '@services/tempStorage.service';
 import { WalletSelector } from '@app/core/selectors';
-import { WalletActions } from '@app/core/actions';
+import { FormActions, WalletActions } from '@app/core/actions';
 import { ToastService } from '@services/toast.service';
 import { LanguageService } from '@services/languages.service';
-// import logger from '@app/app.logger';
-
-const logContent = (data) =>
-  Object.assign({ service: 'import-wallet:recovery-phrase' }, data);
 
 @Component({
   selector: 'app-recovery-phrase',
@@ -39,7 +34,6 @@ export class RecoveryPhraseComponent {
     private router: Router,
     private formBuilder: FormBuilder,
     private utilsHelper: UtilsHelper,
-    private loadingController: LoadingController,
     private formValidationHelper: FormValidationHelper,
     private walletModule: WalletModule,
     private tempStorageService: TempStorageService,
@@ -116,17 +110,13 @@ export class RecoveryPhraseComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    const loader = await this.loadingController.create(
-      this.utilsHelper.loaderOption()
-    );
-    await loader.present();
-
+    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
-      loader.dismiss();
       if (myWallet) {
+        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.router.navigate(['/auth/assets']);
       }
     });

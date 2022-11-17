@@ -1,9 +1,9 @@
 import { environment } from '@env/environment';
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { registerLocaleData } from '@angular/common';
+
 import localeIt from '@angular/common/locales/it';
 import localeFr from '@angular/common/locales/fr';
 import localeEs from '@angular/common/locales/es';
@@ -12,7 +12,6 @@ import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class LanguageService {
-  public language: string;
   public languages: string[] = [...environment.languages];
 
   constructor(
@@ -25,57 +24,54 @@ export class LanguageService {
     registerLocaleData(localePt, 'pt');
   }
 
-  public initLanguages(): Observable<any> {
+  public initLanguages() {
     return from(
       this.utilsHelper.async(async () => {
-        const language = this.getLanguage();
-        this.setDefaultLang(language);
-
-        return this.getLanguages();
+        const defaultLang = this.getLanguage();
+        this.translate.use(defaultLang);
+        return environment.languages.map((lang: string) => ({
+          lang,
+          flag: this.utilsHelper.getLanguagePath(lang.toUpperCase()),
+          selected: defaultLang === lang,
+          label: `LANGUAGE.${lang.toUpperCase()}`,
+        }));
       })
     );
   }
 
-  public setDefaultLang(lang: string) {
-    this.translate.setDefaultLang(lang);
-    this.language = lang;
-  }
-
-  public getLanguages(): LanguageModel[] {
-    const defaultLang = this.getLanguage();
-    return environment.languages.map((lang: string) => ({
-      lang,
-      flag: this.utilsHelper.getLanguagePath(lang.toUpperCase()),
-      selected: defaultLang === lang,
-      label: `LANGUAGE.${lang.toUpperCase()}`,
-    }));
-  }
-
-  public getLanguage(): string {
-    let language = environment.defaultLanguage;
-
-    if (window.localStorage && window.localStorage.language) {
-      language = window.localStorage.language;
-    } else if (this.translate.getBrowserLang()) {
-      language = window.localStorage.language;
+  public getLanguage() {
+    let language = null;
+    if (this._getLanguageFromStorage()) {
+      language = this._getLanguageFromStorage();
+    } else if (this._getDefaultBrowserLanguage()) {
+      language = this._getDefaultBrowserLanguage();
+    } else {
+      language = environment.defaultLanguage;
     }
 
-    const supportedLang = this.languages.find((w) => w === language);
-
-    return supportedLang ? supportedLang : environment.defaultLanguage;
+    return this.languages.find((w) => w === language);
   }
 
-  public destroy() {
-    window.localStorage.removeItem('language');
+  public saveLanguage(language: string): Observable<string> {
+    return from(
+      this.utilsHelper.async(async () => {
+        if (!language || language === 'undefined' || language === null) {
+          return this.getLanguage();
+        }
+
+        if (window.localStorage.getItem('langSelected') !== '1') {
+          window.localStorage.setItem('langSelected', '1');
+        }
+        window.localStorage.language = language;
+        this.translate.use(language);
+
+        return language;
+      })
+    );
   }
 
   public isSelected(): boolean {
     return window.localStorage.getItem('langSelected') === '1';
-  }
-
-  public setLanguage(language: string): boolean {
-    this._save(language);
-    return true;
   }
 
   public getTranslate(key: string, params?: any) {
@@ -86,19 +82,19 @@ export class LanguageService {
     return this.translate.instant(key);
   }
 
-  private _save(language: string) {
-    if (!language || language === 'undefined' || language === null) {
-      return;
+  private _getLanguageFromStorage(): string {
+    if (window.localStorage && window.localStorage.language) {
+      return window.localStorage.language;
     }
 
-    if (window.localStorage.getItem('langSelected') !== '1') {
-      window.localStorage.setItem('langSelected', '1');
+    return null;
+  }
+
+  private _getDefaultBrowserLanguage(): string {
+    if (this.translate.getBrowserLang()) {
+      return window.localStorage.language;
     }
 
-    window.localStorage.language = language;
-    this.translate.use(language);
-    this.language = language;
-
-    return language;
+    return null;
   }
 }
