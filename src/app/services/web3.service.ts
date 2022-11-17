@@ -219,7 +219,7 @@ export class Web3Services {
       basePath: derivationPath,
       address: wallet.address,
       privateKey: wallet.privateKey,
-      walletType: 'privkey',
+      walletType: 'privateKey',
       isHardware: false,
       signerType: 'secp256k1',
     };
@@ -240,7 +240,7 @@ export class Web3Services {
       basePath: derivationPath,
       address: wallet.address,
       privateKey: wallet.privateKey,
-      walletType: 'privkey',
+      walletType: 'privateKey',
       isHardware: false,
       signerType: 'secp256k1',
     };

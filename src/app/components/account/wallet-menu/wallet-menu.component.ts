@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { WalletModel } from '@app/models';
+import { WalletModel, WalletType } from '@app/models';
 import { NavParams, PopoverController } from '@ionic/angular';
 
 @Component({
@@ -19,5 +19,9 @@ export class WalletMenuComponent {
 
   close(action: string) {
     this.popoverController.dismiss({ action, wallet: this.wallet });
+  }
+
+  isPrivateKeyWallet() {
+    return this.wallet.walletType === WalletType.privateKey;
   }
 }

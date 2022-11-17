@@ -1,0 +1,63 @@
+<ion-header class="no-border">
+  <ion-toolbar class="default">
+    <ion-toolbar class="default">
+      <ion-buttons slot="start">
+        <app-back-button
+          (clicked)="close()"
+          [delegate]="true"
+        ></app-back-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-item lines="none" class="titlePage">
+    <div class="centerSide">
+      <strong
+        *ngIf="walletType === 'privateKey'"
+        [innerHTML]="'COMP.EXPORT_WALLET.TITLE_PK' | translate"
+      ></strong>
+      <strong
+        *ngIf="walletType === 'mnemonic'"
+        [innerHTML]="'COMP.EXPORT_WALLET.TITLE_SEED' | translate"
+      ></strong>
+      <p
+        [innerHTML]="'COMP.EXPORT_WALLET.DESCRIPTION' | translate"
+        class="description"
+      ></p>
+    </div>
+  </ion-item>
+
+  <ion-row class="btn-actions" *ngIf="step === 1">
+    <ion-col>
+      <ion-button class="btn-action" (click)="goToStep(2)">
+        {{ 'BUTTON.CONTINUE' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-no-padding" *ngIf="step === 2">
+    <ion-row class="decrypted">
+      <div
+        class="decrypted-text"
+        (copied)="copied($event)"
+        [payload]="decrypted"
+        appCopyClipboard
+      >
+        {{ decrypted }}
+      </div>
+    </ion-row>
+  </ion-grid>
+
+  <ion-row class="btn-actions" *ngIf="step === 2">
+    <ion-col>
+      <ion-button class="btn-white outline" (click)="downloadBackupWallet()">
+        {{ 'BUTTON.DOWNLOAD_BACKUP' | translate }}
+      </ion-button>
+      <ion-button class="btn-action" (click)="close()">
+        {{ 'BUTTON.CLOSE' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

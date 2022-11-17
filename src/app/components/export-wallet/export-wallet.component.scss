@@ -1,0 +1,46 @@
+@import 'media';
+@import 'theme';
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.description {
+  font-size: 14px;
+  border-right: 0;
+  border-radius: 12px;
+  max-width: 480px;
+  padding: 12px;
+  margin: 22px auto 0;
+  line-height: 18px;
+  background-color: #000;
+  color: #fff;
+}
+
+.info {
+  font-size: 14px;
+  display: block;
+  margin: 22px auto 0;
+  text-align: center;
+}
+
+.decrypted {
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 22px;
+  border: 1px solid #cec7c7;
+  border-radius: 8px;
+  padding: 12px 7px;
+  display: block;
+  cursor: pointer;
+
+  .decrypted-text {
+  }
+}
+
+.btn-actions {
+  margin-top: 40px;
+  display: block;
+  text-align: center;
+}

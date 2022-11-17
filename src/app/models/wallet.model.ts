@@ -3,7 +3,7 @@ import { TokenModel } from './token.model';
 
 export enum WalletType {
   mnemonic = 'mnemonic',
-  privkey = 'privkey',
+  privateKey = 'privateKey',
   ledger = 'ledger',
   trezor = 'trezor',
 }

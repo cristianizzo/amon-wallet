@@ -13,6 +13,7 @@ import { ModalController, PopoverController } from '@ionic/angular';
 import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu.component';
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
+import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 
 @Component({
   selector: 'app-account-menu',
@@ -159,6 +160,9 @@ export class AccountMenuComponent {
       case 'privateKey':
         this.exportPrivateKey(wallet);
         break;
+      case 'mnemonic':
+        this.exportSeedPhrase(wallet);
+        break;
       default:
         return;
     }
@@ -171,6 +175,33 @@ export class AccountMenuComponent {
     this.store.dispatch(WalletActions.switchDefaultWallet(wallet.address));
   }
 
+  private async exportSeedPhrase(wallet: WalletModel) {
+    try {
+      const walletSecret = await this.walletModule.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: wallet.address,
+          decrypted,
+          walletType: wallet.walletType,
+        },
+      });
+
+      await exportWalletModal.present();
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
+  }
+
   private async exportPrivateKey(wallet: WalletModel) {
     try {
       const walletSecret = await this.walletModule.askWalletSecret();
@@ -178,19 +209,31 @@ export class AccountMenuComponent {
         wallet,
         secret: walletSecret,
       });
-      let privateKey = '';
-      if (wallet.walletType !== WalletType.privkey) {
+      let privateKey = decrypted.privateKey;
+
+      if (wallet.walletType !== WalletType.privateKey) {
         const _wallet = await this.walletModule.exportWallet({
           name: wallet.name,
           mnemonic: decrypted.phrase,
           privateKey: decrypted.privateKey,
         });
         privateKey = _wallet.privateKey;
-      } else {
-        privateKey = decrypted.privateKey;
       }
 
-      console.log(privateKey);
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: wallet.address,
+          decrypted: privateKey,
+          walletType: WalletType.privateKey,
+        },
+      });
+
+      await exportWalletModal.present();
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
