@@ -72,24 +72,8 @@ export class AccountMenuComponent {
    * importWallet Function
    */
   public async importWallet() {
-    try {
-      const walletName = await this.walletModule.askWalletName();
-
-      if (!walletName) {
-        return;
-      }
-
-      assert(walletName && walletName.length >= 3, 'walletName');
-
-      this.tempStorageService.data = {
-        walletName,
-      };
-
-      await this.close();
-      await this.router.navigate(['/import-wallet/recovery-phrase']);
-    } catch (error) {
-      this.toastService.responseError(this.errorService.parseError(error));
-    }
+    await this.modalCtrl.dismiss();
+    await this.walletModule.askRestoreWallet();
   }
 
   /**
@@ -159,8 +143,56 @@ export class AccountMenuComponent {
       case 'privateKey':
         this.exportPrivateKey(wallet);
         break;
+      case 'backupSeed':
+        this.exportSeeds(wallet);
+        break;
       default:
         return;
+    }
+  }
+
+  /**
+   * Download a json file with seed on it
+   *
+   * @param wallet
+   * @private
+   */
+
+  private downloadRecoverySeed(wallet: WalletModel) {
+    const dataStr =
+      'data:text/json;charset=utf-8,' +
+      encodeURIComponent(
+        JSON.stringify({
+          address: wallet.address,
+          seed: wallet.phrase,
+        })
+      );
+
+    const downloadBtn = document.createElement('a');
+    downloadBtn.setAttribute('href', dataStr);
+    downloadBtn.setAttribute('download', 'backup-seed.json');
+    document.body.appendChild(downloadBtn);
+    downloadBtn.click();
+    downloadBtn.remove();
+  }
+
+  /**
+   * Export Wallet Seed
+   *
+   * @param wallet
+   * @private
+   */
+
+  private async exportSeeds(wallet: WalletModule) {
+    try {
+      const walletSecret = await this.walletModule.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+      this.downloadRecoverySeed(decrypted);
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
     }
   }
 
@@ -174,11 +206,13 @@ export class AccountMenuComponent {
   private async exportPrivateKey(wallet: WalletModel) {
     try {
       const walletSecret = await this.walletModule.askWalletSecret();
+
       const decrypted = await this.walletService.decryptWallet({
         wallet,
         secret: walletSecret,
       });
       let privateKey = '';
+
       if (wallet.walletType !== WalletType.privkey) {
         const _wallet = await this.walletModule.exportWallet({
           name: wallet.name,
@@ -221,6 +255,10 @@ export class AccountMenuComponent {
    * Delete Wallet Function
    */
   private deleteWallet(wallet: WalletModel) {
-    console.log(wallet);
+    try {
+      this.store.dispatch(WalletActions.deleteWallet(wallet.address));
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
   }
 }

@@ -64,7 +64,8 @@
       "RENAME": "Rename",
       "EXPORT_PK": "Export Private Key",
       "COPY_ADDRESS": "Copy Address",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "EXPORT_SEED": "Export Recovery Seed"
     },
     "IMPORT_TOKENS": {
       "MENU": {
