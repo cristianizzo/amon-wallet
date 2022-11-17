@@ -52,7 +52,7 @@
 
   <ion-row class="btn-actions" *ngIf="step === 2">
     <ion-col>
-      <ion-button *ngIf="walletType === 'privateKey'" class="btn-white outline" (click)="downloadBackupWallet()">
+      <ion-button class="btn-white outline" (click)="downloadBackupWallet()">
         {{ 'BUTTON.DOWNLOAD_BACKUP' | translate }}
       </ion-button>
       <ion-button class="btn-action" (click)="close()">
