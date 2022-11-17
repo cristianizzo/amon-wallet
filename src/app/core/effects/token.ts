@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { TokenActions } from '@app/core/actions';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { FormActions, TokenActions } from '@app/core/actions';
 import { TokenService } from '@services/token.service';
-import { ToastService } from '@services/toast.service';
-import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
+import {
+  CurrencySelector,
+  NetworkSelector,
+  WalletSelector,
+} from '@core/selectors';
+import { Store } from '@ngrx/store';
+import { StateModel } from '@app/models';
 
 const logContent = logger.logContent('core:effects:token');
 
@@ -15,9 +20,14 @@ export class TokenEffects {
   initTokens$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.initTokens),
-      switchMap((action) =>
+      concatLatestFrom(() => [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ]),
+      switchMap(([_, network, currency, wallet]) =>
         this.tokenService
-          .initTokens(action.provider, action.currency, action.wallet)
+          .initTokens(network, currency, wallet)
           .pipe(map((tokens) => TokenActions.updateStateTokens(tokens)))
       ),
       catchError((error) => {
@@ -27,7 +37,7 @@ export class TokenEffects {
             error,
           })
         );
-        return of(TokenActions.tokenError(error));
+        return of(FormActions.formError(error));
       })
     )
   );
@@ -35,16 +45,15 @@ export class TokenEffects {
   addToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.addToken),
-      switchMap((action) =>
-        this.tokenService
-          .addToken(
-            action.address,
-            action.wallet,
-            action.provider,
-            action.currency
-          )
-          .pipe(map((token) => TokenActions.addTokenToState(token)))
+      concatLatestFrom(() => [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ]),
+      switchMap(([action, network, currency, wallet]) =>
+        this.tokenService.addToken(action.address, wallet, network, currency)
       ),
+      map((token) => TokenActions.addTokenToState(token)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -52,7 +61,41 @@ export class TokenEffects {
             error,
           })
         );
-        return of(TokenActions.tokenError(error));
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
+  updateToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.updateToken),
+      concatLatestFrom(() => [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ]),
+      switchMap(([action, network, currency, wallet]) =>
+        this.tokenService.updateToken(
+          action.address,
+          {
+            name: action.name,
+            symbol: action.symbol,
+            decimals: action.decimals,
+          },
+          wallet,
+          network,
+          currency
+        )
+      ),
+      map((token) => TokenActions.updateTokenToState(token)),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error update token`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
       })
     )
   );
@@ -60,16 +103,15 @@ export class TokenEffects {
   selectToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.selectToken),
-      switchMap((action) =>
-        this.tokenService
-          .selectToken(
-            action.address,
-            action.wallet,
-            action.provider,
-            action.currency
-          )
-          .pipe(map((token) => TokenActions.updateTokenToState(token)))
+      concatLatestFrom(() => [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ]),
+      switchMap(([action, network, currency, wallet]) =>
+        this.tokenService.selectToken(action.address, wallet, network, currency)
       ),
+      map((token) => TokenActions.updateTokenToState(token)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -77,7 +119,7 @@ export class TokenEffects {
             error,
           })
         );
-        return of(TokenActions.tokenError(error));
+        return of(FormActions.formError(error));
       })
     )
   );
@@ -85,11 +127,11 @@ export class TokenEffects {
   unselectToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.unselectToken),
-      switchMap((action) =>
-        this.tokenService
-          .unselectToken(action.address)
-          .pipe(map((token) => TokenActions.updateTokenToState(token)))
+      concatLatestFrom(() => [this.store.select(NetworkSelector.getNetwork)]),
+      switchMap(([action, network]) =>
+        this.tokenService.unselectToken(action.address, network)
       ),
+      map((token) => TokenActions.updateTokenToState(token)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -97,26 +139,14 @@ export class TokenEffects {
             error,
           })
         );
-        return of(TokenActions.tokenError(error));
+        return of(FormActions.formError(error));
       })
     )
-  );
-
-  error$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(TokenActions.tokenError),
-        map(({ error }) => {
-          this.toastService.responseError(this.errorService.parseError(error));
-        })
-      ),
-    { dispatch: false }
   );
 
   constructor(
     private actions$: Actions,
     private tokenService: TokenService,
-    private toastService: ToastService,
-    private errorService: ErrorService
+    private store: Store<StateModel>
   ) {}
 }

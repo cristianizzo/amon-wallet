@@ -49,6 +49,13 @@ const routes: Routes = [
           import('@pages/profile/profile.module').then((m) => m.ProfileModule),
       },
       {
+        path: 'networks',
+        loadChildren: () =>
+          import('@pages/networks/networks.module').then(
+            (m) => m.NetworksModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/auth/assets',
         pathMatch: 'full',

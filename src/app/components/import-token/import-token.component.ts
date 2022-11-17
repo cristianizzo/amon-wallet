@@ -27,6 +27,10 @@ export class ImportTokenComponent implements AfterViewInit {
     this.selectedTabType = tab;
   };
 
+  public async onClose() {
+    return this.close();
+  }
+
   /**
    * goBack Function
    */

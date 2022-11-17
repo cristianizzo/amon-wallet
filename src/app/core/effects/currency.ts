@@ -15,15 +15,8 @@ export class CurrencyEffects {
   initCurrencies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CurrencyActions.initCurrencies),
-      switchMap((_) =>
-        this.currencyService
-          .initCurrencies()
-          .pipe(
-            map((currencies) =>
-              CurrencyActions.updateStateCurrencies(currencies)
-            )
-          )
-      ),
+      switchMap((_) => this.currencyService.initCurrencies()),
+      map((currencies) => CurrencyActions.updateStateCurrencies(currencies)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -40,9 +33,9 @@ export class CurrencyEffects {
     () =>
       this.actions$.pipe(
         ofType(CurrencyActions.currencyError),
-        map(({ error }) => {
-          this.toastService.responseError(this.errorService.parseError(error));
-        })
+        map(({ error }) =>
+          this.toastService.responseError(this.errorService.parseError(error))
+        )
       ),
     { dispatch: false }
   );

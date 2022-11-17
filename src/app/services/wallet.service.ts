@@ -20,7 +20,10 @@ export class WalletService {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallets = await this.getWalletsFromStorage();
-        return dbWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          dbWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
@@ -49,17 +52,16 @@ export class WalletService {
           (w) => w.address === wallet.address
         );
         assert(!existingWallet, 'walletAlreadyExists');
-        const isPrivateKeyWallet = wallet.walletType === WalletType.privkey;
-        let encrypted;
 
-        if (!isPrivateKeyWallet) {
+        let encrypted;
+        if (wallet.walletType === WalletType.mnemonic) {
           encrypted = await this.cryptWallet({
             seedPhrase: wallet.phrase,
             secret,
           });
         }
 
-        if (isPrivateKeyWallet) {
+        if (wallet.walletType === WalletType.privateKey) {
           encrypted = await this.cryptoHelper.encrypt(
             wallet.privateKey,
             secret,
@@ -69,9 +71,9 @@ export class WalletService {
 
         assert(encrypted, 'failEncrypt');
 
-        await this.verifyEncryption(encrypted, secret, !isPrivateKeyWallet);
+        await this.verifyEncryption(encrypted, secret, wallet.walletType);
 
-        const newWallet = {
+        dbWallets.push({
           main: dbWallets.length === 0,
           name: wallet.name,
           address: wallet.address,
@@ -80,19 +82,20 @@ export class WalletService {
           signerType: wallet.signerType,
           isHardware: wallet.isHardware,
           encrypted,
-        };
+        });
 
-        dbWallets.push(newWallet);
-
-        const updatedWallets: WalletModel[] = dbWallets.map((w) =>
+        const updatedWallets = dbWallets.map((w) =>
           Object.assign(w, {
-            connected: w.address === newWallet.address,
+            connected: w.address === wallet.address,
           })
         );
 
         await this.localForageService.setItem('wallets', updatedWallets);
 
-        return updatedWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
@@ -118,7 +121,10 @@ export class WalletService {
 
         await this.localForageService.setItem('wallets', updatedWallets);
 
-        return updatedWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
@@ -144,13 +150,21 @@ export class WalletService {
     const decrypted = await this.cryptoHelper.decrypt(
       wallet.encrypted,
       secret,
-      !(wallet.walletType === WalletType.privkey)
+      wallet.walletType
     );
     assert(decrypted, 'failDecrypt');
-    return Object.assign({}, wallet, {
-      privateKey: decrypted,
-      phrase: decrypted,
-    });
+
+    if (wallet.walletType === WalletType.mnemonic) {
+      return Object.assign({}, wallet, {
+        phrase: decrypted,
+      });
+    }
+
+    if (wallet.walletType === WalletType.privateKey) {
+      return Object.assign({}, wallet, {
+        privateKey: decrypted,
+      });
+    }
   }
 
   public async getWalletsFromStorage(): Promise<WalletModel[]> {
@@ -162,13 +176,13 @@ export class WalletService {
   private verifyEncryption(
     encrypted: EncryptedDataModel,
     secret: string,
-    isPrivateKeyWallet: boolean
+    walletType: WalletType
   ): Promise<boolean> {
     return this.utilsHelper.async(async () => {
       const decrypted = await this.cryptoHelper.decrypt(
         encrypted,
         secret,
-        isPrivateKeyWallet
+        walletType
       );
       assert(decrypted, 'failVerifyEncryption');
       return true;

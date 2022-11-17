@@ -1,14 +1,14 @@
 <div class="tokens">
   <ion-list>
     <ion-item
-      (click)="goToToken(provider?.symbol)"
-      class="list-item wallet-list"
+      (click)="goToToken(network?.symbol)"
+      class="list-item"
       lines="none"
     >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">
-        <ion-icon [name]="provider?.symbol?.toLowerCase()"></ion-icon>
-        <span class="coinCode">{{ provider?.symbol }}</span>
-        <span class="coinName">{{ provider?.name }}</span>
+        <ion-icon [name]="network?.symbol?.toLowerCase()"></ion-icon>
+        <span class="coinCode">{{ network?.symbol }}</span>
+        <span class="coinName">{{ network?.name }}</span>
 
         <div class="col-xs ion-text-right coinBalance">
           <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
@@ -27,8 +27,8 @@
 
     <ion-item
       *ngFor="let token of tokens"
-      (click)="goToToken(provider?.symbol)"
-      class="list-item wallet-list"
+      (click)="goToToken(token.symbol)"
+      class="list-item"
       lines="none"
     >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">

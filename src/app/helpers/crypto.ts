@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EncryptedDataModel } from '@app/models';
+import { EncryptedDataModel, WalletType } from '@app/models';
 import crypto, {
   Cipher,
   createCipheriv,
@@ -10,6 +10,7 @@ import crypto, {
 import { scrypt } from 'ethereum-cryptography/scrypt';
 import { keccak256, stripHexPrefix } from 'web3-utils';
 import { utils } from 'ethers';
+import assert from 'assert';
 
 @Injectable()
 export class CryptoHelper {
@@ -99,7 +100,7 @@ export class CryptoHelper {
   public async decrypt(
     encryptedData: EncryptedDataModel,
     password: string,
-    withMnemonic = true
+    type = WalletType.mnemonic
   ): Promise<string> {
     const sparams = {
       cipher: this.CIPHER_ALGORYTHM,
@@ -145,8 +146,12 @@ export class CryptoHelper {
 
     const decryptedEntropy = this.runCipherBuffer(decipher, sparams.ciphertext);
 
-    return withMnemonic
-      ? utils.entropyToMnemonic(decryptedEntropy)
-      : decryptedEntropy.toString('utf-8');
+    if (type === WalletType.mnemonic) {
+      return utils.entropyToMnemonic(decryptedEntropy);
+    } else if (type === WalletType.privateKey) {
+      return decryptedEntropy.toString('utf-8');
+    }
+
+    assert(false, 'failDecrypt');
   }
 }

@@ -1,9 +1,12 @@
-<ion-header [translucent]="true" class="no-border">
+<ion-header class="no-border">
   <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
     </ion-buttons>
     <ion-title>Import Token</ion-title>
+    <ion-buttons slot="end">
+      <ion-button></ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -11,7 +14,6 @@
   <div class="tabs">
     <ion-segment
       (ionChange)="onSelectTabType($any($event.target).value)"
-      scrollable="true"
       [value]="selectedTabType"
       class="segment"
     >
@@ -27,7 +29,9 @@
       <ng-container *ngSwitchCase="tabTypeEnum.default">
         <app-token-list></app-token-list>
       </ng-container>
-      <ng-container *ngSwitchCase="tabTypeEnum.custom"> Custom </ng-container>
+      <ng-container *ngSwitchCase="tabTypeEnum.custom">
+        <app-custom-token (onClose)="onClose()"></app-custom-token>
+      </ng-container>
     </ng-container>
   </div>
 </ion-content>

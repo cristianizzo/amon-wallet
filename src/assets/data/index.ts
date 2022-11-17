@@ -1,6 +1,6 @@
 import { CurrenciesJson } from './currencies';
-import { ProvidersJson } from './providers';
+import { NetworksJson } from './networks';
 import { TokensJson } from './tokens';
 import { MenuJson } from './menu';
 
-export { CurrenciesJson, ProvidersJson, MenuJson, TokensJson };
+export { CurrenciesJson, NetworksJson, MenuJson, TokensJson };

@@ -1,56 +1,39 @@
 import { createAction } from '@ngrx/store';
 import { TokenModel } from '@models/token.model';
 import { type } from '@app/core/util';
-import { CurrencyModel, ProviderModel, WalletModel } from '@app/models';
 
 export const tokenActionTypes = {
   initTokens: type('[Token] init token'),
-  addToken: type('[Token] add new token'),
+  addToken: type('[Token] add token'),
+  updateToken: type('[Token] update token'),
   selectToken: type('[Token] select token'),
   unselectToken: type('[Token] unselect token'),
   addTokenToState: type('[Token] add token state'),
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
-  tokenError: type('[Token] token error'),
+  resetState: type('[Token] reset state'),
 };
 
-export const initTokens = createAction(
-  tokenActionTypes.initTokens,
-  (provider: ProviderModel, currency: CurrencyModel, wallet?: WalletModel) => ({
-    provider,
-    currency,
-    wallet,
-  })
-);
+export const initTokens = createAction(tokenActionTypes.initTokens);
 
 export const addToken = createAction(
   tokenActionTypes.addToken,
-  (
-    address: string,
-    wallet: WalletModel,
-    provider: ProviderModel,
-    currency: CurrencyModel
-  ) => ({
+  (address: string) => ({ address })
+);
+
+export const updateToken = createAction(
+  tokenActionTypes.updateToken,
+  (address: string, { symbol, name, decimals }) => ({
     address,
-    wallet,
-    provider,
-    currency,
+    symbol,
+    name,
+    decimals,
   })
 );
 
 export const selectToken = createAction(
   tokenActionTypes.selectToken,
-  (
-    address: string,
-    wallet: WalletModel,
-    provider: ProviderModel,
-    currency: CurrencyModel
-  ) => ({
-    address,
-    wallet,
-    provider,
-    currency,
-  })
+  (address: string) => ({ address })
 );
 
 export const unselectToken = createAction(
@@ -73,17 +56,4 @@ export const updateStateTokens = createAction(
   (tokens: TokenModel[]) => ({ tokens })
 );
 
-export const tokenError = createAction(
-  tokenActionTypes.tokenError,
-  (error: any) => ({ error })
-);
-
-// export const switchToken = createAction(
-//   '[Token] switch token',
-//   (token: TokenModel) => ({token})
-// );
-
-// export const deleteToken = createAction(
-//   '[Token] delete token',
-//   (token: TokenModel) => ({token})
-// );
+export const resetState = createAction(tokenActionTypes.resetState);

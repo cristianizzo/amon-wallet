@@ -6,6 +6,8 @@ import { ProfileComponent } from '@pages/profile/component/profile.component';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 import { ProfileRoutingModule } from '@pages/profile/profile.routing';
 import { BackButtonModule } from '@components/back-button/back-button.module';
+import { NgAmonDirectivesModule } from '@directives/index.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -15,6 +17,8 @@ import { BackButtonModule } from '@components/back-button/back-button.module';
     ExploreContainerComponentModule,
     ProfileRoutingModule,
     BackButtonModule,
+    NgAmonDirectivesModule,
+    TranslateModule,
   ],
   declarations: [ProfileComponent],
 })

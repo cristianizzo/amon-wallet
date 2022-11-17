@@ -6,6 +6,7 @@
     "paths": {
       "@env/*": ["src/environments/*"],
       "@app/*": ["src/app/*"],
+      "@core/*": ["src/app/core/*"],
       "@services/*": ["src/app/services/*"],
       "@pages/*": ["src/app/pages/*"],
       "@components/*": ["src/app/components/*"],

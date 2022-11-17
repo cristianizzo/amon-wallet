@@ -1,4 +1,4 @@
-export interface ProviderModel {
+export interface NetworkModel {
   id?: number;
   name: string;
   rpc: string;

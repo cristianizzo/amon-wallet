@@ -1,7 +1,7 @@
 import {
   CurrencyModel,
   LanguageModel,
-  ProviderModel,
+  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@models/index';
@@ -9,8 +9,9 @@ import {
 export interface StateModel {
   readonly theme?: string;
   readonly tokens?: TokenModel[];
-  readonly providers?: ProviderModel[];
+  readonly networks?: NetworkModel[];
   readonly wallets?: WalletModel[];
   readonly currencies?: CurrencyModel[];
   readonly languages?: LanguageModel[];
+  readonly form?: { loading: boolean };
 }

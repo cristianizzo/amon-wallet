@@ -9,6 +9,9 @@ import { Observable, throwError } from 'rxjs';
 export class ErrorService {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   private ERRORS = {
+    selectToken: 'ERRORS.SELECT_TOKEN',
+    contractError: 'ERRORS.CONTRACT_NOT_FOUND',
+    connectionError: 'ERRORS.CONNECTION_ERROR',
     tokenNotFound: 'ERRORS.TOKEN_NOT_FOUND',
     tokenAlreadyExists: 'ERRORS.TOKEN_ALREADY_EXISTS',
     walletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',

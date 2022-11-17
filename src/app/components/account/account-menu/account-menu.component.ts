@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { ProviderSelector, WalletSelector } from '@app/core/selectors';
+import { NetworkSelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { ProviderModel, WalletModel, WalletType } from '@app/models';
+import { NetworkModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
 import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
@@ -10,9 +10,10 @@ import { ToastService } from '@services/toast.service';
 import { Router } from '@angular/router';
 import { TempStorageService } from '@services/tempStorage.service';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { WalletMenuComponent } from '@components/header/wallet-menu/wallet-menu.component';
+import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu.component';
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
+import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 
 @Component({
   selector: 'app-account-menu',
@@ -20,7 +21,7 @@ import { WalletActions } from '@app/core/actions';
   styleUrls: ['./account-menu.component.scss'],
 })
 export class AccountMenuComponent {
-  public provider: ProviderModel;
+  public network: NetworkModel;
   public wallet: WalletModel;
   public wallets: WalletModel[];
   public searchInputText: string;
@@ -37,11 +38,8 @@ export class AccountMenuComponent {
     private popoverController: PopoverController
   ) {
     this.store
-      .select(ProviderSelector.getProvider)
-      .subscribe((provider) => (this.provider = provider));
-    this.store
-      .select(WalletSelector.getWallet)
-      .subscribe((wallet) => (this.wallet = wallet));
+      .select(NetworkSelector.getNetwork)
+      .subscribe((network) => (this.network = network));
     this.store
       .select(WalletSelector.getWallets)
       .subscribe((wallets) => (this.wallets = wallets));
@@ -148,6 +146,9 @@ export class AccountMenuComponent {
       case 'privateKey':
         this.exportPrivateKey(wallet);
         break;
+      case 'mnemonic':
+        this.exportSeedPhrase(wallet);
+        break;
       default:
         return;
     }
@@ -160,6 +161,33 @@ export class AccountMenuComponent {
     this.store.dispatch(WalletActions.switchDefaultWallet(wallet.address));
   }
 
+  private async exportSeedPhrase(wallet: WalletModel) {
+    try {
+      const walletSecret = await this.walletModule.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: wallet.address,
+          decrypted,
+          walletType: wallet.walletType,
+        },
+      });
+
+      await exportWalletModal.present();
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
+  }
+
   private async exportPrivateKey(wallet: WalletModel) {
     try {
       const walletSecret = await this.walletModule.askWalletSecret();
@@ -167,19 +195,31 @@ export class AccountMenuComponent {
         wallet,
         secret: walletSecret,
       });
-      let privateKey = '';
-      if (wallet.walletType !== WalletType.privkey) {
+      let privateKey = decrypted.privateKey;
+
+      if (wallet.walletType !== WalletType.privateKey) {
         const _wallet = await this.walletModule.exportWallet({
           name: wallet.name,
           mnemonic: decrypted.phrase,
           privateKey: decrypted.privateKey,
         });
         privateKey = _wallet.privateKey;
-      } else {
-        privateKey = decrypted.privateKey;
       }
 
-      console.log(privateKey);
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: wallet.address,
+          decrypted: privateKey,
+          walletType: WalletType.privateKey,
+        },
+      });
+
+      await exportWalletModal.present();
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }

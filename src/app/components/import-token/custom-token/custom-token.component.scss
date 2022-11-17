@@ -1,0 +1,16 @@
+@import 'media';
+@import 'theme';
+
+.form-item {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+ion-row {
+  display: block;
+  width: 100%;
+}
+
+.btn-actions {
+  text-align: center;
+}

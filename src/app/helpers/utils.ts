@@ -2,17 +2,17 @@ import { Injectable } from '@angular/core';
 import {
   CurrencyModel,
   MenuModel,
-  ProviderModel,
+  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
 import {
   CurrenciesJson,
   MenuJson,
-  ProvidersJson,
+  NetworksJson,
   TokensJson,
 } from '@assets/data';
-import { ERC20 } from '@assets/abi';
+import { ERC20, ERC1155, ERC721 } from '@assets/abi';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
 import assert from 'assert';
@@ -35,10 +35,12 @@ export class UtilsHelper {
 
   public abi = {
     erc20: ERC20,
+    erc721: ERC721,
+    erc1155: ERC1155,
   };
 
   public menuJson: MenuModel[] = MenuJson;
-  public providersJson: ProviderModel[] = ProvidersJson;
+  public networksJson: NetworkModel[] = NetworksJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
   public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;
@@ -158,10 +160,10 @@ export class UtilsHelper {
     };
   }
 
-  public sortWallets(state: WalletModel[]): WalletModel[] {
+  public sortByProp(state: any, prop: string): any {
     if (state && state.length > 0) {
       return Object.assign([], state).sort(
-        (a, b) => Number(b.connected) - Number(a.connected)
+        (a, b) => Number(b[prop]) - Number(a[prop])
       );
     }
     return state;

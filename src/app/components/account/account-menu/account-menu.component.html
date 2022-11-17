@@ -4,19 +4,17 @@
       <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
     </ion-buttons>
   </ion-toolbar>
-  <ion-toolbar class="default">
-    <ion-searchbar
-      [(ngModel)]="searchInputText"
-      [debounce]="250"
-      [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
-      animated="true"
-      autocorrect="off"
-    >
-    </ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="account-menu">
+  <ion-searchbar
+    [(ngModel)]="searchInputText"
+    [debounce]="250"
+    [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
+    animated="true"
+    autocorrect="off"
+  >
+  </ion-searchbar>
   <ion-list class="user-wallets">
     <ion-item
       *ngFor="let w of wallets | appFilter: searchInputText:['name', 'address']"
@@ -29,7 +27,7 @@
       </ion-text>
       <div slot="end">
         <div class="balance">
-          {{ w.balance | number: '1.0-8' }} {{ provider?.symbol }}
+          {{ w.balance | number: '1.0-8' }} {{ network?.symbol }}
         </div>
       </div>
       <ion-button (click)="openMenu($event, w)" class="btn-dot" slot="end">
