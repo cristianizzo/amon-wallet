@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { NetworkSelector, WalletSelector } from '@app/core/selectors';
 import { NetworkModel, WalletModel } from '@app/models';
+import { Router } from '@angular/router';
 
 enum AssetTypeEnum {
   tokens = 'tokens',
@@ -23,7 +24,8 @@ export class AssetsComponent {
 
   constructor(
     private store: Store<StateModel>,
-    private web3Services: Web3Services
+    private web3Services: Web3Services,
+    private router: Router
   ) {
     this.selectedAssetType = this.assetTypeEnum.tokens;
     this.store
@@ -38,4 +40,12 @@ export class AssetsComponent {
   public onSelectAssetType = (asset: string) => {
     this.selectedAssetType = asset;
   };
+
+  public goToSetting() {
+    this.router.navigate(['/auth/setting']);
+  }
+
+  public goToNetwork() {
+    this.router.navigate(['/auth/networks']);
+  }
 }

@@ -66,6 +66,40 @@ export class TokenEffects {
     )
   );
 
+  updateToken$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.updateToken),
+      concatLatestFrom(() => [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ]),
+      switchMap(([action, network, currency, wallet]) =>
+        this.tokenService.updateToken(
+          action.address,
+          {
+            name: action.name,
+            symbol: action.symbol,
+            decimals: action.decimals,
+          },
+          wallet,
+          network,
+          currency
+        )
+      ),
+      map((token) => TokenActions.updateTokenToState(token)),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error update token`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
   selectToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.selectToken),

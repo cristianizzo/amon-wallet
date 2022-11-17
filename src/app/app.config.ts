@@ -33,6 +33,24 @@ export class AppConfig {
 
     await this.utilsHelper.wait(500);
     this.store.dispatch(WalletActions.initWallets());
-    this.store.dispatch(TokenActions.initTokens());
+  }
+
+  private async initTokens() {
+    await this.utilsHelper.combine(
+      [
+        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(CurrencySelector.getCurrency),
+        this.store.select(WalletSelector.getWallet),
+      ],
+      ([network, currency, wallet]) => {
+        if (
+          this.utilsHelper.objectHasValue(network) &&
+          this.utilsHelper.objectHasValue(currency) &&
+          this.utilsHelper.objectHasValue(wallet)
+        ) {
+          this.store.dispatch(TokenActions.initTokens());
+        }
+      }
+    );
   }
 }

@@ -115,6 +115,42 @@ export class TokenService {
     );
   }
 
+  public updateToken(
+    address: string,
+    { symbol, name, decimals },
+    wallet: WalletModel,
+    network: NetworkModel,
+    currency: CurrencyModel
+  ): Observable<any> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const token = await this._getTokenFromStorage(address, network);
+        assert(token, 'tokenNotFound');
+
+        const updatedToken = await this._updateCoinGeckoTicker(
+          token,
+          network,
+          currency
+        );
+
+        const balance = await this.web3Services.getTokenBalance(
+          updatedToken.address,
+          wallet.address
+        );
+
+        updatedToken.selected = true;
+        updatedToken.balance = balance;
+        updatedToken.name = name;
+        updatedToken.symbol = symbol;
+        updatedToken.decimals = decimals;
+
+        await this._addUpdateTokenToStorage(updatedToken, network);
+
+        return updatedToken;
+      })
+    );
+  }
+
   public selectToken(
     address: string,
     wallet: WalletModel,

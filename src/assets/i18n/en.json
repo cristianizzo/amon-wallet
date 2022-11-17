@@ -20,6 +20,9 @@
     "RECOVER_PHRASE": "Recover Phrase"
   },
   "PLACEHOLDER": {
+    "NAME": "token name",
+    "SYMBOL": "token symbol",
+    "DECIMALS": "token decimals",
     "ADDRESS": "token address",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Confirm Password"
