@@ -124,12 +124,13 @@ $small-spinner-dimensions: $main-spinner-dimensions * 0.7; // width and height o
 
 .amn-loader {
   max-width: 140px;
-  margin: 0 auto 45%;
+  margin: 0 auto 2%;
   right: 0;
   left: 0;
   --background: transparent !important;
 
   .loading-wrapper {
+    box-shadow: none !important;
     backdrop-filter: none !important;
     --ion-background-color-rgb: none !important;
   }

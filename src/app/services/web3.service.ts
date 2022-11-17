@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
-import { ProviderModel } from '@models/provider.model';
+import { NetworkModel } from '@models/network.model';
 import { TokenModel, WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
@@ -19,8 +19,8 @@ export class Web3Services {
     private cryptoHelper: CryptoHelper
   ) {}
 
-  public async connectProvider(
-    config: ProviderModel
+  public async connectNetwork(
+    config: NetworkModel
   ): Promise<{ blockNumber: number }> {
     try {
       this.provider = new this.web3.providers.JsonRpcProvider(config.rpc, {
@@ -36,7 +36,7 @@ export class Web3Services {
     } catch (error) {
       logger.error(
         logContent.add({
-          info: `error connect provider`,
+          info: `error connect network`,
           error,
         })
       );
@@ -81,7 +81,8 @@ export class Web3Services {
 
   public async getTokenBalance(
     tokenAddress: string,
-    walletAddress: string
+    walletAddress: string,
+    decimals: number
   ): Promise<string> {
     try {
       const contract = new web3.Contract(
@@ -90,7 +91,7 @@ export class Web3Services {
         this.provider
       );
       const balance = await contract.balanceOf(walletAddress);
-      return this.formatEther(balance);
+      return this.formatEther(balance, decimals);
     } catch (error) {
       logger.warn(
         logContent.add({
@@ -115,10 +116,63 @@ export class Web3Services {
         this.utilsHelper.abi.erc20,
         this.provider
       );
-      const balance = await contract.balanceOf(walletAddress);
-      const name = await contract.name();
-      const symbol = await contract.symbol();
-      const decimals = await contract.decimals();
+
+      let balance = '0x0';
+      try {
+        balance = await contract.balanceOf(walletAddress);
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token balance`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let name = 'unknown';
+      try {
+        name = await contract.name();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token name`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let symbol = 'UNKNOWN';
+      try {
+        symbol = await contract.symbol();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token name`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
+      let decimals = 0;
+      try {
+        decimals = await contract.decimals();
+      } catch (error) {
+        logger.warn(
+          logContent.add({
+            info: `error fetch token decimals`,
+            tokenAddress,
+            walletAddress,
+            error,
+          })
+        );
+      }
+
       const { chainId } = await this.provider.getNetwork();
 
       return {
@@ -128,25 +182,23 @@ export class Web3Services {
         chainId,
         address: tokenAddress,
         type: 'ERC20',
-        balance: this.formatEther(balance),
+        balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
       logger.warn(
         logContent.add({
-          info: `error fetch token balance`,
+          info: `error fetch token info`,
           tokenAddress,
           walletAddress,
           error,
         })
       );
-
-      throw error;
     }
   }
 
-  public formatEther(balance: string): string {
+  public formatEther(balance: string, decimals = 18): string {
     try {
-      return this.web3.utils.formatEther(balance);
+      return this.web3.utils.formatUnits(balance, decimals);
     } catch (_) {
       return '0';
     }

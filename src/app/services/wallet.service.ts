@@ -20,7 +20,10 @@ export class WalletService {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallets = await this.getWalletsFromStorage();
-        return dbWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          dbWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
@@ -71,7 +74,7 @@ export class WalletService {
 
         await this.verifyEncryption(encrypted, secret, !isPrivateKeyWallet);
 
-        const newWallet = {
+        dbWallets.push({
           main: dbWallets.length === 0,
           name: wallet.name,
           address: wallet.address,
@@ -80,19 +83,20 @@ export class WalletService {
           signerType: wallet.signerType,
           isHardware: wallet.isHardware,
           encrypted,
-        };
+        });
 
-        dbWallets.push(newWallet);
-
-        const updatedWallets: WalletModel[] = dbWallets.map((w) =>
+        const updatedWallets = dbWallets.map((w) =>
           Object.assign(w, {
-            connected: w.address === newWallet.address,
+            connected: w.address === wallet.address,
           })
         );
 
         await this.localForageService.setItem('wallets', updatedWallets);
 
-        return updatedWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
@@ -118,7 +122,10 @@ export class WalletService {
 
         await this.localForageService.setItem('wallets', updatedWallets);
 
-        return updatedWallets;
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }

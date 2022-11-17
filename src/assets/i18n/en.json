@@ -20,6 +20,10 @@
     "RECOVER_PHRASE": "Recover Phrase"
   },
   "PLACEHOLDER": {
+    "NAME": "token name",
+    "SYMBOL": "token symbol",
+    "DECIMALS": "token decimals",
+    "ADDRESS": "token address",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Confirm Password"
   },
@@ -146,7 +150,7 @@
     "EXCHANGE": {
       "TITLE": "Swap"
     },
-    "PROVIDER": {
+    "NETWORKS": {
       "TITLE": "Networks",
       "SEARCH": "Search network"
     }
@@ -162,6 +166,8 @@
     }
   },
   "ERRORS": {
+    "SELECT_TOKEN": "Error select token",
+    "CONTRACT_NOT_FOUND": "Error smart contract not found",
     "CONNECTION_ERROR": "Error connect to the network",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",
