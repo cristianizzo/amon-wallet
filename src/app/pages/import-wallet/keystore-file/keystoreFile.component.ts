@@ -60,10 +60,11 @@ export class KeystoreFileComponent {
         : environment.defaultWalletName;
 
       const rawForm = this.formObj.getRawValue();
+      const file = await this.file.text();
 
       const newWallet = await this.walletModule.importWalletFromEncryptedJson(
         walletName,
-        await this.file.text(),
+        file,
         rawForm.password
       );
 
