@@ -8,7 +8,7 @@ export const walletActionTypes = {
   addWallet: type('[Wallet] add wallet'),
   updateStateWallets: type('[Wallet] update state wallet'),
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
-  switchWalletConnected: type('[Wallet] switch wallet connected'),
+  switchDefaultWallet: type('[Wallet] switch wallet connected'),
   renameWallet: type('[Wallet] rename wallet'),
   deleteWallet: type('[Wallet] delete wallet'),
 };
@@ -26,7 +26,7 @@ export const updateStateWallets = createAction(
 );
 
 export const switchDefaultWallet = createAction(
-  walletActionTypes.switchWalletConnected,
+  walletActionTypes.switchDefaultWallet,
   (address: string) => ({ address })
 );
 
