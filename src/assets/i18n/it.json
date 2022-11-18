@@ -191,15 +191,15 @@
     "PRIVATE_KEY": "Chive Privata errata"
   },
   "CURRENCY_SELECTOR": {
-    "TITLE": "Cambia Moneta",
-    "SEARCH": "Cerca Moneta"
+    "TITLE": "Cambia Valuta",
+    "SEARCH": "Cerca valuta"
   },
   "ALERT": {
     "HEADER": {
-      "CURRENCY": "Cambia Moneta"
+      "CURRENCY": "Cambia valuta"
     },
     "MESSAGE": {
-      "CURRENCY": "Vuoi cambiare {{symbol}}?"
+      "CURRENCY": "Vuoi cambiare valuta {{symbol}}?"
     }
   },
   "INFO": {
