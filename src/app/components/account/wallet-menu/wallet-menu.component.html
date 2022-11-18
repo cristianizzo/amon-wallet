@@ -1,0 +1,46 @@
+<ion-list>
+  <ion-item
+    (click)="close('connect')"
+    *ngIf="!wallet.connected"
+    button
+    detail="false"
+  >
+    <ion-icon name="navigate-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.CONNECT' | translate }}
+  </ion-item>
+  <ion-item (click)="close('rename')" button detail="false">
+    <ion-icon name="create-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.RENAME' | translate }}
+  </ion-item>
+  <ion-item (click)="close('copy')" button detail="false">
+    <ion-icon name="copy-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.COPY_ADDRESS' | translate }}
+  </ion-item>
+  <ion-item
+    *ngIf="isPrivateKeyWallet()"
+    (click)="close('privateKey')"
+    button
+    detail="false"
+  >
+    <ion-icon name="download-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.EXPORT_PK' | translate }}
+  </ion-item>
+  <ion-item
+    *ngIf="!isPrivateKeyWallet()"
+    (click)="close('mnemonic')"
+    button
+    detail="false"
+  >
+    <ion-icon name="create-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.EXPORT_SEED' | translate }}
+  </ion-item>
+  <ion-item
+    (click)="close('delete')"
+    *ngIf="!wallet.connected && !wallet.main"
+    button
+    detail="false"
+  >
+    <ion-icon name="trash-outline"></ion-icon>
+    {{ 'COMP.WALLET_MENU.DELETE' | translate }}
+  </ion-item>
+</ion-list>

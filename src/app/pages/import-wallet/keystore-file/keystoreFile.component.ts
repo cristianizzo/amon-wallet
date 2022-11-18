@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -9,14 +9,13 @@ import { FormValidationHelper } from '@helpers/validation-form';
 import { WalletModule } from '@app/modules/wallet.module';
 import { TempStorageService } from '@services/tempStorage.service';
 import { Router } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
 import { LanguageService } from '@services/languages.service';
 import { WalletModel } from '@app/models';
-import { WalletActions } from '@app/core/actions';
+import { FormActions, WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
-import { LoadingController } from '@ionic/angular';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
 
@@ -67,7 +66,7 @@ export class KeystoreFileComponent {
         await this.file.text(),
         rawForm.password
       );
-      console.log(newWallet);
+
       return newWallet;
     } catch (_) {
       return false;
@@ -110,16 +109,12 @@ export class KeystoreFileComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    const loader = await this.loadingCtrl.create(
-      this.utilsHelper.loaderOption()
-    );
-    await loader.present();
-
+    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
-      loader.dismiss();
+      this.store.dispatch(FormActions.setLoading({ loading: false }));
       if (myWallet) {
         this.router.navigate(['/auth/assets']);
       }

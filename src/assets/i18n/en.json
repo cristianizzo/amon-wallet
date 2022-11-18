@@ -4,11 +4,13 @@
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
+    "DOWNLOAD_BACKUP": "Download",
     "DEPOSIT": "Deposit",
     "WITHDRAW": "Send",
     "SWAP": "Swap",
     "NEXT": "next",
     "COPY": "copy",
+    "CLOSE": "close",
     "SHARE": "share",
     "IMPORT_TOKEN": "Import Token",
     "CONTINUE": "continue",
@@ -20,6 +22,10 @@
     "RECOVER_PHRASE": "Recover Phrase"
   },
   "PLACEHOLDER": {
+    "NAME": "token name",
+    "SYMBOL": "token symbol",
+    "DECIMALS": "token decimals",
+    "ADDRESS": "token address",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Confirm Password"
   },
@@ -59,6 +65,7 @@
       "CONNECT": "Connect",
       "RENAME": "Rename",
       "EXPORT_PK": "Export Private Key",
+      "EXPORT_SEED": "Export Recovery Seed",
       "COPY_ADDRESS": "Copy Address",
       "DELETE": "Delete"
     },
@@ -70,6 +77,11 @@
     },
     "TOKENS": {
       "INFO": "Don't see your token?"
+    },
+    "EXPORT_WALLET": {
+      "TITLE_PK": "Show Private Key",
+      "TITLE_SEED": "Show Seed Phrase",
+      "DESCRIPTION": "Warning: Never disclose this key. Anyone with your Private Key or Seed Phrase can steal any assets held in your account."
     }
   },
   "PAGE": {
@@ -145,7 +157,7 @@
     "EXCHANGE": {
       "TITLE": "Swap"
     },
-    "PROVIDER": {
+    "NETWORKS": {
       "TITLE": "Networks",
       "SEARCH": "Search network"
     }
@@ -161,6 +173,8 @@
     }
   },
   "ERRORS": {
+    "SELECT_TOKEN": "Error select token",
+    "CONTRACT_NOT_FOUND": "Error smart contract not found",
     "CONNECTION_ERROR": "Error connect to the network",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",

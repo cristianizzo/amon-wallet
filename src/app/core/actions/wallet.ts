@@ -6,9 +6,11 @@ import { type } from '@app/core/util';
 export const walletActionTypes = {
   initWallets: type('[Wallet] init wallets'),
   addWallet: type('[Wallet] add wallet'),
-  walletError: type('[Wallet] wallet error'),
   updateStateWallets: type('[Wallet] update state wallet'),
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
+  switchWalletConnected: type('[Wallet] switch wallet connected'),
+  renameWallet: type('[Wallet] rename wallet'),
+  deleteWallet: type('[Wallet] delete wallet'),
 };
 
 export const initWallets = createAction(walletActionTypes.initWallets);
@@ -18,31 +20,23 @@ export const addWallet = createAction(
   (wallet: WalletModel, secret: string) => ({ wallet, secret })
 );
 
-export const walletError = createAction(
-  walletActionTypes.walletError,
-  (error: any) => ({ error })
-);
-
 export const updateStateWallets = createAction(
   walletActionTypes.updateStateWallets,
   (wallets: WalletModel[]) => ({ wallets })
 );
 
 export const switchDefaultWallet = createAction(
-  '[Wallet] switch wallet connected',
+  walletActionTypes.switchWalletConnected,
   (address: string) => ({ address })
 );
 
 export const renameWallet = createAction(
-  '[Wallet] rename wallet',
+  walletActionTypes.renameWallet,
   (address: string, name: string) => ({ address, name })
 );
 
 export const deleteWallet = createAction(
-  '[Wallet] delete wallet',
+  walletActionTypes.deleteWallet,
   (address: string) => ({ address })
 );
 
-// export const loadWallets = createAction(
-//   '[Wallet] Load Wallets'
-// );
