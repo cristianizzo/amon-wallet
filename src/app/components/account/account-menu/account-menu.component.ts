@@ -191,7 +191,7 @@ export class AccountMenuComponent {
         canDismiss: true,
         componentProps: {
           address: wallet.address,
-          decrypted,
+          decrypted: decrypted.phrase,
           walletType: wallet.walletType,
         },
       });
