@@ -263,7 +263,13 @@ export class AccountMenuComponent {
   /**
    * Delete Wallet Function
    */
-  private deleteWallet(wallet: WalletModel) {
+  private async deleteWallet(wallet: WalletModel) {
+    const deleteWallet = await this.walletModule.askDeleteWallet();
+
+    if (!deleteWallet) {
+      return;
+    }
+
     try {
       this.store.dispatch(WalletActions.deleteWallet(wallet.address));
     } catch (error) {

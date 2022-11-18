@@ -108,11 +108,15 @@ export class WalletService {
           dbWallets.find((w) => w.address === address),
           'notFound'
         );
-        const updatedWallet: WalletModel[] = dbWallets.filter(
+        const updatedWallets: WalletModel[] = dbWallets.filter(
           (wallet) => wallet.address !== address
         );
-        await this.localForageService.setItem('wallets', updatedWallet);
-        return updatedWallet;
+        await this.localForageService.setItem('wallets', updatedWallets);
+
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
       })
     );
   }
