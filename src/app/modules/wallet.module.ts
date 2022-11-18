@@ -92,6 +92,29 @@ export class WalletModule {
     }
   }
 
+  public async askDeleteWallet(): Promise<boolean> {
+    return new Promise(async (resolve) => {
+      const buttons = [
+        {
+          role: 'cancel',
+          text: 'No',
+          handler: () => resolve(false),
+        },
+        {
+          text: 'Yes',
+          handler: () => resolve(true),
+        },
+      ];
+
+      const alert = await this.alertController.create({
+        header: 'Delete Wallet?',
+        buttons,
+      });
+
+      await alert.present();
+    });
+  }
+
   public async askWalletName(): Promise<string> {
     return new Promise(async (resolve) => {
       const buttons = [
