@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FormActions, WalletActions } from '@app/core/actions';
 import { WalletService } from '@services/wallet.service';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
 
 const logContent = logger.logContent('core:effects:wallet');
@@ -62,7 +62,7 @@ export class WalletEffects {
             error,
           })
         );
-        return of(WalletActions.walletError(error));
+        return of(FormActions.formError(error));
       })
     )
   );
