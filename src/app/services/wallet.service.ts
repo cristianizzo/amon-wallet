@@ -28,6 +28,29 @@ export class WalletService {
     );
   }
 
+  public connectWallet({ address }): Observable<WalletModel[]> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const dbWallets = await this.getWalletsFromStorage();
+        const existingWallet = dbWallets.find((w) => w.address === address);
+        assert(existingWallet, 'notFound');
+
+        const updatedWallets = dbWallets.map((w) =>
+          Object.assign(w, {
+            connected: w.address === address,
+          })
+        );
+
+        await this.localForageService.setItem('wallets', updatedWallets);
+
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
+      })
+    );
+  }
+
   public fetchBalances(wallets: WalletModel[]): Observable<WalletModel[]> {
     return from(
       this.utilsHelper.async(async () => {

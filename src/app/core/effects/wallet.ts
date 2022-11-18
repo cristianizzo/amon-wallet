@@ -37,7 +37,24 @@ export class WalletEffects {
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error add wallets`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
+  connectWallet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.connectWallet),
+      switchMap(({ address }) => this.walletService.connectWallet({ address })),
+      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error connect wallets`,
             error,
           })
         );
@@ -56,7 +73,7 @@ export class WalletEffects {
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error rename wallets`,
             error,
           })
         );
