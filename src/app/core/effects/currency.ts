@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CurrencyActions } from '@app/core/actions';
+import { CurrencyActions, FormActions } from '@app/core/actions';
 import { CurrencyService } from '@services/currency.service';
-import { ToastService } from '@services/toast.service';
-import { ErrorService } from '@services/error.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
@@ -24,44 +22,32 @@ export class CurrencyEffects {
             error,
           })
         );
-        return of(CurrencyActions.currencyError(error));
+        return of(FormActions.formError(error));
       })
     )
   );
 
-  switchCurrency$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CurrencyActions.switchCurrency),
-        switchMap((action) => this.currencyService.save(action.currency)),
-        catchError((error) => {
-          logger.error(
-            logContent.add({
-              info: `error switch currency`,
-              error,
-            })
-          );
-          return of(CurrencyActions.currencyError(error));
-        })
+  switchCurrency$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CurrencyActions.switchCurrency),
+      switchMap((action) =>
+        this.currencyService.switchCurrency(action.currency)
       ),
-    { dispatch: false }
-  );
-
-  error$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(CurrencyActions.currencyError),
-        map(({ error }) =>
-          this.toastService.responseError(this.errorService.parseError(error))
-        )
-      ),
-    { dispatch: false }
+      map((currencies) => CurrencyActions.updateStateCurrencies(currencies)),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error switch currency`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
   );
 
   constructor(
     private actions$: Actions,
-    private currencyService: CurrencyService,
-    private toastService: ToastService,
-    private errorService: ErrorService
+    private currencyService: CurrencyService
   ) {}
 }

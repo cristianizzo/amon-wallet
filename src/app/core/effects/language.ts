@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { FormActions, LanguageActions } from '@app/core/actions';
 import { LanguageService } from '@services/languages.service';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
+import { LanguageSelector } from '@core/selectors';
+import { Store } from '@ngrx/store';
+import { StateModel } from '@app/models';
 
 const logContent = logger.logContent('core:effects:language');
 
@@ -31,9 +34,13 @@ export class LanguageEffects {
     () =>
       this.actions$.pipe(
         ofType(LanguageActions.switchLanguage),
-        switchMap(async (action) =>
-          this.languageService.saveLanguage(action.language.lang)
+        concatLatestFrom(() => [
+          this.store.select(LanguageSelector.getLanguages),
+        ]),
+        switchMap(([action, languages]) =>
+          this.languageService.switchLanguage(action.language, languages)
         ),
+        map((languages) => LanguageActions.updateStateLanguages(languages)),
         catchError((error) => {
           logger.error(
             logContent.add({
@@ -49,6 +56,7 @@ export class LanguageEffects {
 
   constructor(
     private actions$: Actions,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private store: Store<StateModel>
   ) {}
 }

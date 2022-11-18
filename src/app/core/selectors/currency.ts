@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { CurrencyModel } from '@app/models';
-import { CurrencyReducer } from '@app/core/reducers';
+import { CurrencyModel, LanguageModel } from '@app/models';
+import { CurrencyReducer, LanguageReducer } from '@app/core/reducers';
 
 export const getCurrencyState = createFeatureSelector<CurrencyModel[]>(
   CurrencyReducer.featureKey
@@ -13,12 +13,4 @@ export const getCurrency = createSelector(
   getCurrencyState,
   (state: CurrencyModel[]): CurrencyModel =>
     state ? state.find((w) => w.selected) : null
-);
-export const selectCurrenciesWithSelectedCurrency = createSelector(
-  getCurrencyState,
-  getCurrency,
-  (currencies: CurrencyModel[], selectedCurrency: CurrencyModel) => ({
-    currencies,
-    selectedCurrency,
-  })
 );

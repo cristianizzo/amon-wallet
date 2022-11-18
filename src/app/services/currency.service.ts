@@ -5,8 +5,6 @@ import { UtilsHelper } from '@helpers/utils';
 import { from, Observable } from 'rxjs';
 import { LocalForageService } from '@services/localforage.service';
 
-declare const window: any;
-
 @Injectable()
 export class CurrencyService {
   public currencies: CurrencyModel[];
@@ -18,15 +16,14 @@ export class CurrencyService {
     this.currencies = [...this.utilsHelper.currenciesJson];
   }
 
-  public initCurrencies(): Observable<any> {
+  public initCurrencies(): Observable<CurrencyModel[]> {
     return from(
       this.utilsHelper.async(async () => {
-        let dbCurrencies: CurrencyModel[] =
-          await this.localForageService.getItem('currencies');
+        let dbCurrencies = await this._getCurrenciesFromStorage();
 
         if (!this.utilsHelper.arrayHasValue(dbCurrencies)) {
           dbCurrencies = this.utilsHelper.currenciesJson.map((currency) => {
-            currency.selected = currency.symbol === this.get().symbol;
+            currency.selected = currency.symbol === environment.defaultCurrency;
             return currency;
           });
           await this.localForageService.setItem('currencies', dbCurrencies);
@@ -37,30 +34,28 @@ export class CurrencyService {
     );
   }
 
-  public get(): CurrencyModel {
-    const currentCurrency = window.localStorage.currency
-      ? window.localStorage.currency
-      : environment.defaultCurrency;
-    return this.currencies.find(
-      (currency) => currency.symbol === currentCurrency
-    );
-  }
-
-  public save(currency: CurrencyModel) {
+  public switchCurrency(currency: CurrencyModel): Observable<CurrencyModel[]> {
     return from(
       this.utilsHelper.async(async () => {
-        if (!currency) {
-          return null;
-        }
+        const dbCurrencies = await this._getCurrenciesFromStorage();
 
-        window.localStorage.currency = currency.symbol;
+        const updatedCurrencies = dbCurrencies.map((w) =>
+          Object.assign(w, {
+            selected: w.symbol === currency.symbol,
+          })
+        );
 
-        return currency;
+        await this.localForageService.setItem('currencies', updatedCurrencies);
+
+        return updatedCurrencies;
       })
     );
   }
 
-  public destroy() {
-    window.localStorage.removeItem('currency');
+  private async _getCurrenciesFromStorage(): Promise<CurrencyModel[]> {
+    const dbCurrencies =
+      (await this.localForageService.getItem('currencies')) || [];
+
+    return dbCurrencies;
   }
 }

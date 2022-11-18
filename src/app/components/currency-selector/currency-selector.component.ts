@@ -24,12 +24,10 @@ export class CurrencySelectorComponent implements OnInit {
 
   async ngOnInit() {
     this.store
-      .select(CurrencySelector.selectCurrenciesWithSelectedCurrency)
-      .subscribe((result) => {
-        this.currencies = result.currencies.filter(
-          (w) => w.symbol !== result.selectedCurrency.symbol
-        );
-        this.selectedCurrency = result.selectedCurrency;
+      .select(CurrencySelector.getCurrencies)
+      .subscribe((currencies: CurrencyModel[]) => {
+        this.currencies = currencies.filter((cu) => !cu.selected);
+        this.selectedCurrency = currencies.find((cu) => cu.selected);
       });
   }
 

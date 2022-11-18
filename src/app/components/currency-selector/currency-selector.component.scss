@@ -79,6 +79,14 @@ ion-item.currency {
   --inner-padding-start: 0;
   --inner-padding-end: 0;
   --box-shadow: none;
+  cursor: pointer;
+
+  &:hover {
+    --background: #ecf0f1;
+    @include isDarkTheme {
+      --background: #fff;
+    }
+  }
 
   &.selected {
     --background: #ecf0f1;
