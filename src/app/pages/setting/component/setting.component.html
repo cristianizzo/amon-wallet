@@ -27,7 +27,7 @@
           [innerHTML]="'PAGE.SETTING.CONFIG.CURRENCY' | translate"
         ></ion-label>
         <div slot="end">
-          {{ currency?.symbol }}
+          {{ (currency$ | async)?.symbol }}
         </div>
       </ion-item>
 
@@ -36,7 +36,7 @@
           [innerHTML]="'PAGE.SETTING.CONFIG.LANGUAGE' | translate"
         ></ion-label>
         <div slot="end" style="text-transform: uppercase">
-          {{ selectedLang }}
+          {{ (language$ | async)?.lang }}
         </div>
       </ion-item>
 
@@ -45,7 +45,7 @@
           [innerHTML]="'PAGE.SETTING.CONFIG.THEME' | translate"
         ></ion-label>
         <div slot="end" style="text-transform: capitalize">
-          {{ getThemeTranslation() }}
+          {{ getThemeTranslation(theme$ | async) }}
         </div>
       </ion-item>
 

@@ -267,6 +267,13 @@ export class UtilsHelper {
     return uri;
   }
 
+  public capitalizeFirstLetter(txt: string): string {
+    if (!this.stringHasValue(txt)) {
+      return txt;
+    }
+    return txt.charAt(0).toUpperCase() + txt.slice(1);
+  }
+
   private _parseBalance(value) {
     if (this.stringHasValue(value[1])) {
       return value.join().replace(',', '.');

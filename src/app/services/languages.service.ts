@@ -32,7 +32,7 @@ export class LanguageService {
         return environment.languages.map((lang: string) => ({
           lang,
           flag: this.utilsHelper.getLanguagePath(lang.toUpperCase()),
-          selected: defaultLang === lang,
+          selected: lang === this.getLanguage(),
           label: `LANGUAGE.${lang.toUpperCase()}`,
         }));
       })

@@ -26,7 +26,7 @@ export class CurrencyService {
 
         if (!this.utilsHelper.arrayHasValue(dbCurrencies)) {
           dbCurrencies = this.utilsHelper.currenciesJson.map((currency) => {
-            currency.default = currency.symbol === environment.defaultCurrency;
+            currency.selected = currency.symbol === this.get().symbol;
             return currency;
           });
           await this.localForageService.setItem('currencies', dbCurrencies);
@@ -37,7 +37,7 @@ export class CurrencyService {
     );
   }
 
-  public get() {
+  public get(): CurrencyModel {
     const currentCurrency = window.localStorage.currency
       ? window.localStorage.currency
       : environment.defaultCurrency;
@@ -46,14 +46,18 @@ export class CurrencyService {
     );
   }
 
-  public save(currency: string) {
-    if (!currency || currency === 'undefined' || currency === null) {
-      return;
-    }
+  public save(currency: CurrencyModel) {
+    return from(
+      this.utilsHelper.async(async () => {
+        if (!currency) {
+          return null;
+        }
 
-    window.localStorage.currency = currency;
+        window.localStorage.currency = currency.symbol;
 
-    return currency;
+        return currency;
+      })
+    );
   }
 
   public destroy() {

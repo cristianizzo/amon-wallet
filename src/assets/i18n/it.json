@@ -1,0 +1,205 @@
+{
+  "APP": {
+    "title": "Catena multipla Un portafoglio",
+    "slogan": "Definisci la tua libertà"
+  },
+  "BUTTON": {
+    "DEPOSIT": "Depositare",
+    "WITHDRAW": "Invia",
+    "SWAP": "Barattare",
+    "NEXT": "prossimo",
+    "COPY": "copiare",
+    "SHARE": "Condividi",
+    "IMPORT_TOKEN": "Token di importazione",
+    "CONTINUE": "continuare",
+    "CREATE_WALLET": "Crea un nuovo portafoglio",
+    "RESTORE_WALLET": "Ripristina il portafoglio esistente",
+    "CANCEL": "Annulla",
+    "JSON_FILE": "Json File",
+    "PRIVATE_KEY": "Chiave privata",
+    "RECOVER_PHRASE": "Recupera frase",
+    "CHANGE_PASSWORD": "Change Password"
+  },
+  "PLACEHOLDER": {
+    "ADDRESS": "Indirizzo del token",
+    "PASSWORD": "Parola d’ordine",
+    "CONFIRM_PASSWORD": "Conferma password",
+    "OLD_PASSWORD": "Old Password",
+    "NEW_PASSWORD": "New Password"
+  },
+  "LANGUAGE": {
+    "IT": "Italiano",
+    "EN": "Inglese",
+    "ES": "Spagnolo",
+    "PT": "Portoghese",
+    "FR": "Francese"
+  },
+  "ACTION_SHEET": {
+    "IMPORT_ACCOUNT": "Ripristinare un portafoglio esistente"
+  },
+  "COMP": {
+    "RECOVERY_PHRASE": {
+      "TITLE": "Inserisci la tua frase di recupero",
+      "DESCRIPTION": "Usa una frase di recupero da 12 a 24 parole per ripristinare i tuoi account nel tuo portafoglio.",
+      "PLACEHOLDER": {
+        "SEED_PHRASE": "Frase seme"
+      }
+    },
+    "PRIVATE_KEY": {
+      "TITLE": "Inserisci la tua chiave privata",
+      "DESCRIPTION": "Usa la tua chiave privata di backup per ripristinare i tuoi account nel tuo portafoglio.",
+      "PLACEHOLDER": {
+        "PRIVATE_KEY": "Chiave privata"
+      }
+    },
+    "KEYSTORE_FILE": {
+      "TITLE": "Carica il tuo file keystore",
+      "DESCRIPTION": "Carica il file del tuo keystore per ripristinare il tuo account nel tuo portafoglio",
+      "PLACEHOLDER": {
+        "KEYSTORE_FILE": "Keystore File"
+      }
+    },
+    "WALLET_MENU": {
+      "CONNECT": "Connettersi",
+      "RENAME": "Ribattezzare",
+      "EXPORT_PK": "Esporta chiave privata",
+      "COPY_ADDRESS": "Copia indirizzo",
+      "DELETE": "Cancellare"
+    },
+    "IMPORT_TOKENS": {
+      "MENU": {
+        "TOKENS": "Token",
+        "CUSTOM": "Costume"
+      }
+    },
+    "TOKENS": {
+      "INFO": "Don't see your token?"
+    }
+  },
+  "PAGE": {
+    "START": {
+      "WELCOME": {
+        "TITLE": "Catena multipla in un unico portafoglio"
+      },
+      "LANGUAGE": {
+        "TITLE": "Portafoglio crittografico decentralizzato",
+        "SELECT_LANG": "Seleziona lingua"
+      }
+    },
+    "CREATE_WALLET": {
+      "PICK_PASSWORD": {
+        "TITLE_STEP_1": "Scegli una password",
+        "SUBTITLE_STEP_1": "Questo verrà utilizzato per sbloccare il tuo portafoglio",
+        "TITLE_STEP_2": "Conferma la tua password",
+        "SUBTITLE_STEP_2": "Amon non è custodito. Non possiamo ripristinare o reimpostare la tua password",
+        "PASSWORD_INFO": "Le migliori password sono lunghe e contengono lettere, numeri e caratteri speciali"
+      },
+      "RECOVER_PHRASE": {
+        "TITLE_STEP_1": "Frase di recupero segreta",
+        "SUBTITLE_STEP_1": "Questa è la fase di recupero per il tuo portafoglio. Tu e solo tu hai accesso ad esso. Può essere utilizzato per ripristinare il tuo portafoglio",
+        "SUBTITLE_2_STEP_1": "Le migliori pratiche per la tua frase di recupero sono scriverla su carta e conservarla in un posto sicuro",
+        "TITLE_STEP_2": "Conferma la tua frase segreta",
+        "SUBTITLE_STEP_2": "Seleziona le parole corrette in base ai loro numeri"
+      }
+    },
+    "ASSETS": {
+      "TAB": {
+        "TOKENS": "Tokens",
+        "NFTS": "NFTs"
+      }
+    },
+    "DEPOSIT": {
+      "TITLE": "Depositare",
+      "ADDRESS": "address",
+      "INFO": "You can send ETH to this address using Ethereum network."
+    },
+    "SETTING": {
+      "TITLE": "Impostazioni",
+      "SUBTITLES": {
+        "PREFERENCES": "Preferenze",
+        "SECURITY": "Sicurezza",
+        "LEGAL": "Legale",
+        "PLATFORM": "Piattaforma"
+      },
+      "CONFIG": {
+        "LANGUAGE": "Lingua",
+        "CURRENCY": "Valuta",
+        "THEME": "Tema",
+        "CHANGE_PASSWORD": "Cambia password",
+        "PRIVACY": "Informativa sulla privacy",
+        "TERMS": "Termini e condizioni",
+        "LICENSE": "Le nostre licenze",
+        "NETWORK": "Rete",
+        "WEBSITE": "Sito web",
+        "NEWS": "Notizie",
+        "VERSION": "Versione"
+      },
+      "THEME": {
+        "LIGHT": "Leggero",
+        "DARK": "Notte"
+      },
+      "ACTION_SHEET": {
+        "SELECT_LANG": "Cambia lingua",
+        "SELECT_THEME": "Cambia tema"
+      }
+    },
+    "PROFILE": {
+      "TITLE": "Profile"
+    },
+    "EXCHANGE": {
+      "TITLE": "Barattare"
+    },
+    "NETWORKS": {
+      "TITLE": "Networks",
+      "SEARCH": "Search network"
+    }
+  },
+  "HEADER": {
+    "ACCOUNT_MENU": {
+      "PLACEHOLDER": "Wallet",
+      "SETTINGS": {
+        "ADD_WALLET": "Create Account",
+        "IMPORT_WALLET": "Import Account",
+        "ADD_HARDWARE_WALLET": "Import Hardware Wallet"
+      }
+    }
+  },
+  "ERRORS": {
+    "SELECT_TOKEN": "Error select token",
+    "CONTRACT_NOT_FOUND": "Error smart contract not found",
+    "CONNECTION_ERROR": "Error connect to the network",
+    "TOKEN_ALREADY_EXISTS": "Token already exists.",
+    "WALLET_ALREADY_EXISTS": "Wallet already exists.",
+    "FAIL_ENCRYPT": "Error encrypt seed phrase.",
+    "FAIL_DECRYPT": "Error decrypt seed phrase.",
+    "FAIL_VERIFY_ENCRYPTION": "Error verify encryption.",
+    "WRONG_PASSWORD": "Key derivation failed - possibly wrong passphrase.",
+    "WALLET_NAME": "Wallet name should be at least 3 characters long.",
+    "NOT_FOUND": "Not found.",
+    "INVALID_SECRET": "Invalid password.",
+    "SEED_PHRASE": "Invalid seed phrase.",
+    "PRIVATE_KEY": "Invalid Private Key"
+  },
+  "CURRENCY_SELECTOR": {
+    "TITLE": "Change Currency",
+    "SEARCH": "Search Currency"
+  },
+  "ALERT": {
+    "HEADER": {
+      "CURRENCY": "Change Currency"
+    },
+    "MESSAGE": {
+      "CURRENCY": "Do you want change to {{symbol}}?"
+    }
+  },
+  "LANGUAGES": {
+    "IT": "Italian",
+    "EN": "English",
+    "ES": "Spanish",
+    "PT": "Portuguese",
+    "FR": "French"
+  },
+  "INFO": {
+    "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
+  }
+}

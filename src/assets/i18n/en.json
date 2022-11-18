@@ -19,7 +19,8 @@
     "CANCEL": "Cancel",
     "JSON_FILE": "Json File",
     "PRIVATE_KEY": "Private Key",
-    "RECOVER_PHRASE": "Recover Phrase"
+    "RECOVER_PHRASE": "Recover Phrase",
+    "CHANGE_PASSWORD": "Change Password"
   },
   "PLACEHOLDER": {
     "NAME": "token name",
@@ -27,7 +28,9 @@
     "DECIMALS": "token decimals",
     "ADDRESS": "token address",
     "PASSWORD": "Password",
-    "CONFIRM_PASSWORD": "Confirm Password"
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "OLD_PASSWORD": "Old Password",
+    "NEW_PASSWORD": "New Password"
   },
   "LANGUAGE": {
     "IT": "Italian",
@@ -187,5 +190,27 @@
     "INVALID_SECRET": "Invalid password.",
     "SEED_PHRASE": "Invalid seed phrase.",
     "PRIVATE_KEY": "Invalid Private Key"
+  },
+  "CURRENCY_SELECTOR": {
+    "TITLE": "Change Currency",
+    "SEARCH": "Search Currency"
+  },
+  "ALERT": {
+    "HEADER": {
+      "CURRENCY": "Change Currency"
+    },
+    "MESSAGE": {
+      "CURRENCY": "Do you want change to {{symbol}}?"
+    }
+  },
+  "LANGUAGES": {
+    "IT": "Italian",
+    "EN": "English",
+    "ES": "Spanish",
+    "PT": "Portuguese",
+    "FR": "French"
+  },
+  "INFO": {
+    "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
   }
 }

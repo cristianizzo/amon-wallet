@@ -10,6 +10,16 @@ export const currencyReducer = createReducer(
   on(
     CurrencyActions.updateStateCurrencies,
     (_: CurrencyModel[] = initialState, { currencies }) => currencies
+  ),
+  on(
+    CurrencyActions.switchCurrency,
+    (state: CurrencyModel[] = initialState, { currency }) => [
+      ...state.map((c) =>
+        Object.assign({}, c, {
+          selected: c.symbol === currency.symbol,
+        })
+      ),
+    ]
   )
 );
 
