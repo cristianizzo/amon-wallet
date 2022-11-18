@@ -1,31 +1,36 @@
 {
   "APP": {
-    "title": "Catena multipla Un portafoglio",
+    "title": "Gestisci le tue criptovalute",
     "slogan": "Definisci la tua libertà"
   },
   "BUTTON": {
+    "DOWNLOAD_BACKUP": "Download",
     "DEPOSIT": "Depositare",
     "WITHDRAW": "Invia",
     "SWAP": "Barattare",
     "NEXT": "prossimo",
     "COPY": "copiare",
-    "SHARE": "Condividi",
-    "IMPORT_TOKEN": "Token di importazione",
+    "CLOSE": "chiudi",
+    "SHARE": "condividi",
+    "IMPORT_TOKEN": "importa token",
     "CONTINUE": "continuare",
-    "CREATE_WALLET": "Crea un nuovo portafoglio",
-    "RESTORE_WALLET": "Ripristina il portafoglio esistente",
+    "CREATE_WALLET": "crea un portafoglio",
+    "RESTORE_WALLET": "Ripristina il portafoglio",
     "CANCEL": "Annulla",
-    "JSON_FILE": "Json File",
+    "JSON_FILE": "File Json",
     "PRIVATE_KEY": "Chiave privata",
-    "RECOVER_PHRASE": "Recupera frase",
+    "RECOVER_PHRASE": "Recupera Seed Phrase",
     "CHANGE_PASSWORD": "Change Password"
   },
   "PLACEHOLDER": {
-    "ADDRESS": "Indirizzo del token",
-    "PASSWORD": "Parola d’ordine",
+    "NAME": "nome token",
+    "SYMBOL": "simbolo token",
+    "DECIMALS": "decimali token",
+    "ADDRESS": "indirizzo Smart Contract token",
+    "PASSWORD": "password",
     "CONFIRM_PASSWORD": "Conferma password",
-    "OLD_PASSWORD": "Old Password",
-    "NEW_PASSWORD": "New Password"
+    "OLD_PASSWORD": "Vecchia Password",
+    "NEW_PASSWORD": "Nuova Password"
   },
   "LANGUAGE": {
     "IT": "Italiano",
@@ -35,51 +40,57 @@
     "FR": "Francese"
   },
   "ACTION_SHEET": {
-    "IMPORT_ACCOUNT": "Ripristinare un portafoglio esistente"
+    "IMPORT_ACCOUNT": "Importa portafoglio"
   },
   "COMP": {
     "RECOVERY_PHRASE": {
       "TITLE": "Inserisci la tua frase di recupero",
-      "DESCRIPTION": "Usa una frase di recupero da 12 a 24 parole per ripristinare i tuoi account nel tuo portafoglio.",
+      "DESCRIPTION": "Usa una frase di recupero da 12 a 24 parole per ripristinare il tuo portafoglio.",
       "PLACEHOLDER": {
-        "SEED_PHRASE": "Frase seme"
+        "SEED_PHRASE": "Seed Phrase"
       }
     },
     "PRIVATE_KEY": {
       "TITLE": "Inserisci la tua chiave privata",
-      "DESCRIPTION": "Usa la tua chiave privata di backup per ripristinare i tuoi account nel tuo portafoglio.",
+      "DESCRIPTION": "Usa la tua chiave privata di backup per ripristinare il tuo portafoglio.",
       "PLACEHOLDER": {
         "PRIVATE_KEY": "Chiave privata"
       }
     },
     "KEYSTORE_FILE": {
       "TITLE": "Carica il tuo file keystore",
-      "DESCRIPTION": "Carica il file del tuo keystore per ripristinare il tuo account nel tuo portafoglio",
+      "DESCRIPTION": "Carica il file del tuo keystore per ripristinare il tuo portafoglio",
       "PLACEHOLDER": {
-        "KEYSTORE_FILE": "Keystore File"
+        "KEYSTORE_FILE": "File Keystore"
       }
     },
     "WALLET_MENU": {
       "CONNECT": "Connettersi",
-      "RENAME": "Ribattezzare",
-      "EXPORT_PK": "Esporta chiave privata",
+      "RENAME": "Rinominare",
+      "EXPORT_PK": "Esporta Chiave Privata",
+      "EXPORT_SEED": "Esporta Seed Phrase",
       "COPY_ADDRESS": "Copia indirizzo",
       "DELETE": "Cancellare"
     },
     "IMPORT_TOKENS": {
       "MENU": {
         "TOKENS": "Token",
-        "CUSTOM": "Costume"
+        "CUSTOM": "Aggiungi"
       }
     },
     "TOKENS": {
-      "INFO": "Don't see your token?"
+      "INFO": "Non visualizzi i tokens?"
+    },
+    "EXPORT_WALLET": {
+      "TITLE_PK": "Mostra Chiave Privata",
+      "TITLE_SEED": "Mostra Seed Phrase",
+      "DESCRIPTION": "Attenzione: non rivelare mai questa chiave. Chiunque sia in possesso della tua chiave privata o Seed Phrase può rubare qualsiasi risorsa detenuta nel tuo account."
     }
   },
   "PAGE": {
     "START": {
       "WELCOME": {
-        "TITLE": "Catena multipla in un unico portafoglio"
+        "TITLE": "Gestisci le tue criptovalute"
       },
       "LANGUAGE": {
         "TITLE": "Portafoglio crittografico decentralizzato",
@@ -91,7 +102,7 @@
         "TITLE_STEP_1": "Scegli una password",
         "SUBTITLE_STEP_1": "Questo verrà utilizzato per sbloccare il tuo portafoglio",
         "TITLE_STEP_2": "Conferma la tua password",
-        "SUBTITLE_STEP_2": "Amon non è custodito. Non possiamo ripristinare o reimpostare la tua password",
+        "SUBTITLE_STEP_2": "Amon e non-custodial. Non possiamo ripristinare o reimpostare la tua password",
         "PASSWORD_INFO": "Le migliori password sono lunghe e contengono lettere, numeri e caratteri speciali"
       },
       "RECOVER_PHRASE": {
@@ -128,15 +139,14 @@
         "CHANGE_PASSWORD": "Cambia password",
         "PRIVACY": "Informativa sulla privacy",
         "TERMS": "Termini e condizioni",
-        "LICENSE": "Le nostre licenze",
         "NETWORK": "Rete",
         "WEBSITE": "Sito web",
         "NEWS": "Notizie",
         "VERSION": "Versione"
       },
       "THEME": {
-        "LIGHT": "Leggero",
-        "DARK": "Notte"
+        "LIGHT": "Chiaro",
+        "DARK": "Scuro"
       },
       "ACTION_SHEET": {
         "SELECT_LANG": "Cambia lingua",
@@ -144,62 +154,55 @@
       }
     },
     "PROFILE": {
-      "TITLE": "Profile"
+      "TITLE": "Profilo"
     },
     "EXCHANGE": {
-      "TITLE": "Barattare"
+      "TITLE": "Cambio"
     },
     "NETWORKS": {
-      "TITLE": "Networks",
-      "SEARCH": "Search network"
+      "TITLE": "Reti",
+      "SEARCH": "Cerca Rete"
     }
   },
   "HEADER": {
     "ACCOUNT_MENU": {
       "PLACEHOLDER": "Wallet",
       "SETTINGS": {
-        "ADD_WALLET": "Create Account",
-        "IMPORT_WALLET": "Import Account",
-        "ADD_HARDWARE_WALLET": "Import Hardware Wallet"
+        "ADD_WALLET": "Crea Account",
+        "IMPORT_WALLET": "Importa Account",
+        "ADD_HARDWARE_WALLET": "Importa Hardware Wallet"
       }
     }
   },
   "ERRORS": {
-    "SELECT_TOKEN": "Error select token",
-    "CONTRACT_NOT_FOUND": "Error smart contract not found",
-    "CONNECTION_ERROR": "Error connect to the network",
-    "TOKEN_ALREADY_EXISTS": "Token already exists.",
-    "WALLET_ALREADY_EXISTS": "Wallet already exists.",
-    "FAIL_ENCRYPT": "Error encrypt seed phrase.",
-    "FAIL_DECRYPT": "Error decrypt seed phrase.",
-    "FAIL_VERIFY_ENCRYPTION": "Error verify encryption.",
-    "WRONG_PASSWORD": "Key derivation failed - possibly wrong passphrase.",
-    "WALLET_NAME": "Wallet name should be at least 3 characters long.",
-    "NOT_FOUND": "Not found.",
-    "INVALID_SECRET": "Invalid password.",
-    "SEED_PHRASE": "Invalid seed phrase.",
-    "PRIVATE_KEY": "Invalid Private Key"
+    "SELECT_TOKEN": "Errore nel selezionare il token",
+    "CONTRACT_NOT_FOUND": "Errore smart contract non trovato",
+    "CONNECTION_ERROR": "Errore di connessione alla rete",
+    "TOKEN_ALREADY_EXISTS": "Token gia esiste.",
+    "WALLET_ALREADY_EXISTS": "Wallet gia esiste.",
+    "FAIL_ENCRYPT": "Errore nel crittografare il Seed Phrase.",
+    "FAIL_DECRYPT": "Errore nel decriptare il Seed Phrase.",
+    "FAIL_VERIFY_ENCRYPTION": "Errore verifica crittografia.",
+    "WRONG_PASSWORD": "Derivazione della chiave non riuscita - forse la password è errata.",
+    "WALLET_NAME": "Il nome deve essere di almeno 3 caratteri.",
+    "NOT_FOUND": "Non trovato.",
+    "INVALID_SECRET": "Password errata",
+    "SEED_PHRASE": "Seed Phrase errato",
+    "PRIVATE_KEY": "Chive Privata errata"
   },
   "CURRENCY_SELECTOR": {
-    "TITLE": "Change Currency",
-    "SEARCH": "Search Currency"
+    "TITLE": "Cambia Valuta",
+    "SEARCH": "Cerca valuta"
   },
   "ALERT": {
     "HEADER": {
-      "CURRENCY": "Change Currency"
+      "CURRENCY": "Cambia valuta"
     },
     "MESSAGE": {
-      "CURRENCY": "Do you want change to {{symbol}}?"
+      "CURRENCY": "Vuoi cambiare valuta {{symbol}}?"
     }
   },
-  "LANGUAGES": {
-    "IT": "Italian",
-    "EN": "English",
-    "ES": "Spanish",
-    "PT": "Portuguese",
-    "FR": "French"
-  },
   "INFO": {
-    "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
+    "PASSWORD": "Almeno 8 caratteri, devono includere lettere minuscole/maiuscole e numeri"
   }
 }

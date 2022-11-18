@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import _ from 'lodash';
 
 @Pipe({
   name: 'appOrderBy',
@@ -9,7 +10,7 @@ export class OrderByPipe implements PipeTransform {
       return [];
     }
 
-    array.sort((a: any, b: any) => {
+    _.cloneDeep(array).sort((a: any, b: any) => {
       if (a[args] < b[args]) {
         return -1;
       } else if (a[args] > b[args]) {

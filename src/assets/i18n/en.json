@@ -1,6 +1,6 @@
 {
   "APP": {
-    "title": "Multiple Chain One Wallet",
+    "title": "Manage your crypto assets",
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
@@ -26,7 +26,7 @@
     "NAME": "token name",
     "SYMBOL": "token symbol",
     "DECIMALS": "token decimals",
-    "ADDRESS": "token address",
+    "ADDRESS": "token contract address",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Confirm Password",
     "OLD_PASSWORD": "Old Password",
@@ -139,7 +139,6 @@
         "CHANGE_PASSWORD": "Change Password",
         "PRIVACY": "Privacy Policy",
         "TERMS": "Terms and Conditions",
-        "LICENSE": "Our Licenses",
         "NETWORK": "Network",
         "WEBSITE": "Website",
         "NEWS": "News",
@@ -202,13 +201,6 @@
     "MESSAGE": {
       "CURRENCY": "Do you want change to {{symbol}}?"
     }
-  },
-  "LANGUAGES": {
-    "IT": "Italian",
-    "EN": "English",
-    "ES": "Spanish",
-    "PT": "Portuguese",
-    "FR": "French"
   },
   "INFO": {
     "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
