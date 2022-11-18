@@ -4,11 +4,13 @@
     "slogan": "Definisci la tua libertà"
   },
   "BUTTON": {
+    "DOWNLOAD_BACKUP": "Download",
     "DEPOSIT": "Depositare",
     "WITHDRAW": "Invia",
     "SWAP": "Barattare",
     "NEXT": "prossimo",
     "COPY": "copiare",
+    "CLOSE": "chiudi",
     "SHARE": "Condividi",
     "IMPORT_TOKEN": "Token di importazione",
     "CONTINUE": "continuare",
@@ -21,8 +23,11 @@
     "CHANGE_PASSWORD": "Change Password"
   },
   "PLACEHOLDER": {
-    "ADDRESS": "Indirizzo del token",
-    "PASSWORD": "Parola d’ordine",
+    "NAME": "nome token",
+    "SYMBOL": "simbolo token",
+    "DECIMALS": "decimali token",
+    "ADDRESS": "indirizzo Smart Contract token",
+    "PASSWORD": "password",
     "CONFIRM_PASSWORD": "Conferma password",
     "OLD_PASSWORD": "Old Password",
     "NEW_PASSWORD": "New Password"
@@ -63,6 +68,7 @@
       "CONNECT": "Connettersi",
       "RENAME": "Ribattezzare",
       "EXPORT_PK": "Esporta chiave privata",
+      "EXPORT_SEED": "Esporta Seed Phrase",
       "COPY_ADDRESS": "Copia indirizzo",
       "DELETE": "Cancellare"
     },
@@ -74,6 +80,11 @@
     },
     "TOKENS": {
       "INFO": "Don't see your token?"
+    },
+    "EXPORT_WALLET": {
+      "TITLE_PK": "Mostra Chiave Privata",
+      "TITLE_SEED": "Mostra Seed Phrase",
+      "DESCRIPTION": "Attenzione: non rivelare mai questa chiave. Chiunque sia in possesso della tua chiave privata o Seed Phrase può rubare qualsiasi risorsa detenuta nel tuo account."
     }
   },
   "PAGE": {

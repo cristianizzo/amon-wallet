@@ -26,7 +26,7 @@
     "NAME": "token name",
     "SYMBOL": "token symbol",
     "DECIMALS": "token decimals",
-    "ADDRESS": "token address",
+    "ADDRESS": "token contract address",
     "PASSWORD": "Password",
     "CONFIRM_PASSWORD": "Confirm Password",
     "OLD_PASSWORD": "Old Password",
