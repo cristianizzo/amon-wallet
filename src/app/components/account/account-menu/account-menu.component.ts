@@ -172,7 +172,7 @@ export class AccountMenuComponent {
    * Switch Wallet Function
    */
   private switchWallet(wallet: WalletModel) {
-    this.store.dispatch(WalletActions.switchDefaultWallet(wallet.address));
+    this.store.dispatch(WalletActions.connectWallet(wallet.address));
   }
 
   private async exportSeedPhrase(wallet: WalletModel) {

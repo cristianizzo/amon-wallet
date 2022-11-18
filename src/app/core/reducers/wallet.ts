@@ -12,7 +12,7 @@ export const walletReducer = createReducer(
     (_: WalletModel[] = initialState, { wallets }) => wallets
   ),
   on(
-    WalletActions.switchDefaultWallet,
+    WalletActions.connectWallet,
     (state: WalletModel[] = initialState, { address }) => {
       const updatedState = state.map((w) =>
         Object.assign({}, w, {

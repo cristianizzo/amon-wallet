@@ -8,6 +8,8 @@ export const walletActionTypes = {
   addWallet: type('[Wallet] add wallet'),
   updateStateWallets: type('[Wallet] update state wallet'),
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
+  connectWallet: type('[Wallet] connect wallet'),
+  renameWallet: type('[Wallet] rename wallet'),
 };
 
 export const initWallets = createAction(walletActionTypes.initWallets);
@@ -22,12 +24,12 @@ export const updateStateWallets = createAction(
   (wallets: WalletModel[]) => ({ wallets })
 );
 
-export const switchDefaultWallet = createAction(
-  '[Wallet] switch wallet connected',
+export const connectWallet = createAction(
+  walletActionTypes.connectWallet,
   (address: string) => ({ address })
 );
 
 export const renameWallet = createAction(
-  '[Wallet] rename wallet',
+  walletActionTypes.renameWallet,
   (address: string, name: string) => ({ address, name })
 );
