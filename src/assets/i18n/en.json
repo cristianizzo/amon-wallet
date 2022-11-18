@@ -1,6 +1,6 @@
 {
   "APP": {
-    "title": "Multiple Chain One Wallet",
+    "title": "Manage your crypto assets",
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
@@ -201,13 +201,6 @@
     "MESSAGE": {
       "CURRENCY": "Do you want change to {{symbol}}?"
     }
-  },
-  "LANGUAGES": {
-    "IT": "Italian",
-    "EN": "English",
-    "ES": "Spanish",
-    "PT": "Portuguese",
-    "FR": "French"
   },
   "INFO": {
     "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
