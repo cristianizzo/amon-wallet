@@ -10,6 +10,7 @@ export const walletActionTypes = {
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
   connectWallet: type('[Wallet] connect wallet'),
   renameWallet: type('[Wallet] rename wallet'),
+  deleteWallet: type('[Wallet] delete wallet'),
 };
 
 export const initWallets = createAction(walletActionTypes.initWallets);
@@ -32,4 +33,9 @@ export const connectWallet = createAction(
 export const renameWallet = createAction(
   walletActionTypes.renameWallet,
   (address: string, name: string) => ({ address, name })
+);
+
+export const deleteWallet = createAction(
+  walletActionTypes.deleteWallet,
+  (address: string) => ({ address })
 );

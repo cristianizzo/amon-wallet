@@ -123,6 +123,27 @@ export class WalletService {
     );
   }
 
+  public deleteWallet({ address }): Observable<WalletModel[]> {
+    return from(
+      this.utilsHelper.async(async () => {
+        const dbWallets = await this.getWalletsFromStorage();
+        assert(
+          dbWallets.find((w) => w.address === address),
+          'notFound'
+        );
+        const updatedWallets: WalletModel[] = dbWallets.filter(
+          (wallet) => wallet.address !== address
+        );
+        await this.localForageService.setItem('wallets', updatedWallets);
+
+        const walletsWithBalance = await this.fetchBalances(
+          updatedWallets
+        ).toPromise();
+        return walletsWithBalance;
+      })
+    );
+  }
+
   public renameWallet({ address, name }): Observable<WalletModel[]> {
     return from(
       this.utilsHelper.async(async () => {
