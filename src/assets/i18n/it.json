@@ -145,8 +145,8 @@
         "VERSION": "Versione"
       },
       "THEME": {
-        "LIGHT": "Leggero",
-        "DARK": "Notte"
+        "LIGHT": "Chiaro",
+        "DARK": "Scuro"
       },
       "ACTION_SHEET": {
         "SELECT_LANG": "Cambia lingua",
