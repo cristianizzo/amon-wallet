@@ -843,14 +843,25 @@ select:-webkit-autofill:focus {
   }
 }
 
+.action-sheet-group.sc-ion-action-sheet-md:first-child {
+  border-top-right-radius: 24px;
+  border-top-left-radius: 24px;
+}
+
+.action-sheet-title.sc-ion-action-sheet-md {
+  border-bottom: 1px solid #f4eeee;
+  background: #f4eeee;
+  --color: #000;
+  padding-bottom: 0px;
+  padding-top: 24px;
+}
+
+.action-sheet-group.sc-ion-action-sheet-md:last-child {
+  border-top: 1px solid #e8e8e8;
+}
+
 .blur-action-sheet {
-  --button-background-selected: rgba(255, 255, 255, 0.2);
-  --button-background-selected-opacity: 0.6;
-
   .action-sheet-group {
-    background: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(7px);
-
     @include isDarkThemeRoot {
       background: rgb(249, 249, 249);
     }

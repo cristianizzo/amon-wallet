@@ -75,7 +75,7 @@ export class SettingComponent implements OnInit {
       languages.map((language) => {
         buttons.push({
           text: this.langService.getTranslate(
-            `LANGUAGES.${language.lang.toUpperCase()}`
+            `LANGUAGE.${language.lang.toUpperCase()}`
           ),
           role: language.lang,
           handler: async () => {
