@@ -27,7 +27,7 @@ export class AppConfig {
 
   public async loadConfiguration() {
     this.store.dispatch(ChainActions.initChain());
-    this.store.dispatch(CurrencyActions.initCurrencies());
+    this.store.dispatch(CurrencyActions.initCurrency());
     this.store.dispatch(ThemeActions.initTheme());
     this.store.dispatch(LanguageActions.initLanguage());
 

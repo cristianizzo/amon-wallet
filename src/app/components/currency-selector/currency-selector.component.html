@@ -33,6 +33,7 @@
     <ion-item
       class="currency"
       lines="none"
+      [hidden]="currency?.symbol === selectedCurrency?.symbol"
       *ngFor="
         let currency of currencies
           | appOrderBy: 'symbol'

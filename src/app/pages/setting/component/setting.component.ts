@@ -65,6 +65,7 @@ export class SettingComponent implements OnInit {
       component: CurrencySelectorComponent,
       cssClass: 'modal-mini',
       backdropDismiss: true,
+      canDismiss: true,
       componentProps: {},
     });
 
@@ -154,6 +155,7 @@ export class SettingComponent implements OnInit {
       id: 'change-password',
       component: ChangePasswordComponent,
       backdropDismiss: true,
+      canDismiss: true,
       componentProps: {},
     });
 

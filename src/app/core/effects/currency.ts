@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CurrencyActions, FormActions } from '@app/core/actions';
-import { CurrencyService } from '@services/currency.service';
+import { CurrencyProxy } from '@services/proxy/currency.proxy';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
@@ -10,15 +10,15 @@ const logContent = logger.logContent('core:effects:currency');
 
 @Injectable()
 export class CurrencyEffects {
-  initCurrencies$ = createEffect(() =>
+  initCurrency$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CurrencyActions.initCurrencies),
-      switchMap((_) => this.currencyService.initCurrencies()),
-      map((currencies) => CurrencyActions.updateStateCurrencies(currencies)),
+      ofType(CurrencyActions.initCurrency),
+      switchMap((_) => this.currencyProxy.initCurrency()),
+      map((currency) => CurrencyActions.updateStateCurrency(currency)),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init currencies`,
+            info: `error init currency`,
             error,
           })
         );
@@ -31,9 +31,9 @@ export class CurrencyEffects {
     this.actions$.pipe(
       ofType(CurrencyActions.switchCurrency),
       switchMap((action) =>
-        this.currencyService.switchCurrency(action.currency)
+        this.currencyProxy.switchCurrency(action.currency)
       ),
-      map((currencies) => CurrencyActions.updateStateCurrencies(currencies)),
+      map((currency) => CurrencyActions.updateStateCurrency(currency)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -48,6 +48,6 @@ export class CurrencyEffects {
 
   constructor(
     private actions$: Actions,
-    private currencyService: CurrencyService
+    private currencyProxy: CurrencyProxy,
   ) {}
 }

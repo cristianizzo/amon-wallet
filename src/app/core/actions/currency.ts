@@ -4,15 +4,15 @@ import { type } from '@app/core/util';
 
 export const currencyActionTypes = {
   initCurrency: type('[Currency] init currency'),
-  updateStateCurrencies: type('[Currency] update state currencies'),
+  updateStateCurrency: type('[Currency] update state currency'),
   switchCurrency: type('[Currency] switch currency'),
 };
 
-export const initCurrencies = createAction(currencyActionTypes.initCurrency);
+export const initCurrency = createAction(currencyActionTypes.initCurrency);
 
-export const updateStateCurrencies = createAction(
-  currencyActionTypes.updateStateCurrencies,
-  (currencies: CurrencyModel[]) => ({ currencies })
+export const updateStateCurrency = createAction(
+  currencyActionTypes.updateStateCurrency,
+  (currency: CurrencyModel) => ({ currency })
 );
 
 export const switchCurrency = createAction(

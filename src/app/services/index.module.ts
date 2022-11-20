@@ -5,6 +5,7 @@ import { APIService } from '@services/api.service';
 import { EnvService } from '@services/config.service';
 import { ThemeService } from '@services/theme.service';
 import { CurrencyService } from '@services/currency.service';
+import { CurrencyProxy } from '@services/proxy/currency.proxy';
 import { ErrorService } from '@services/error.service';
 import { LanguageService } from '@services/language.service';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
@@ -30,6 +31,7 @@ export {
   CoinGeckoService,
   ThemeService,
   CurrencyService,
+  CurrencyProxy,
   LanguageService,
   LanguageProxy,
   ToastService,
@@ -70,6 +72,7 @@ export class NgAmonServicesModule {
         ChainProxy,
         CoinGeckoService,
         CurrencyService,
+        CurrencyProxy,
         LanguageService,
         LanguageProxy,
         ToastService,

@@ -11,7 +11,7 @@ export interface StateModel {
   readonly tokens?: TokenModel[];
   readonly chain?: ChainModel;
   readonly wallet?: WalletModel;
-  readonly currencies?: CurrencyModel[];
+  readonly currency?: CurrencyModel;
   readonly language?: LanguageModel;
   readonly form?: { loading: boolean };
 }

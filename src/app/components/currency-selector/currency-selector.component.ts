@@ -4,7 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { CurrencyActions } from '@core/actions';
-import { LanguageProxy } from '@app/services/index.module';
+import { CurrencyProxy, LanguageProxy } from '@app/services/index.module';
 
 @Component({
   selector: 'app-currency-selector',
@@ -19,15 +19,16 @@ export class CurrencySelectorComponent implements OnInit {
   constructor(
     private alertController: AlertController,
     private languageProxy: LanguageProxy,
+    private currencyProxy: CurrencyProxy,
     private store: Store<StateModel>
   ) {}
 
   async ngOnInit() {
+    this.currencies = await this.currencyProxy.getAllCurrencies();
     this.store
-      .select(CurrencySelector.getCurrencies)
-      .subscribe((currencies: CurrencyModel[]) => {
-        this.currencies = currencies.filter((cu) => !cu.selected);
-        this.selectedCurrency = currencies.find((cu) => cu.selected);
+      .select(CurrencySelector.getCurrency)
+      .subscribe((currency: CurrencyModel) => {
+        this.selectedCurrency = currency;
       });
   }
 
