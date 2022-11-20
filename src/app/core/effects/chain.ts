@@ -31,7 +31,7 @@ export class ChainEffects {
 
   addChain$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ChainActions.switchChain),
+      ofType(ChainActions.addChain),
       switchMap((action) =>
         this.chainProxy.addCustomChain(action.chain).pipe(
           mergeMap((chain) => [
