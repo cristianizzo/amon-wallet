@@ -1,7 +1,7 @@
 import { environment } from '@env/environment';
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import * as WalletReducer from '@app/core/reducers/wallet';
-import * as NetworkReducer from '@app/core/reducers/network';
+import * as ChainReducer from '@app/core/reducers/chain';
 import * as LanguageReducer from '@app/core/reducers/language';
 import * as ThemeReducer from '@app/core/reducers/theme';
 import * as CurrencyReducer from '@app/core/reducers/currency';
@@ -11,7 +11,7 @@ import { StateModel } from '@app/models';
 
 export {
   WalletReducer,
-  NetworkReducer,
+  ChainReducer,
   LanguageReducer,
   ThemeReducer,
   CurrencyReducer,
@@ -20,11 +20,11 @@ export {
 };
 
 export const reducers: ActionReducerMap<StateModel> = {
-  wallets: WalletReducer.reducer,
-  networks: NetworkReducer.reducer,
+  wallet: WalletReducer.reducer,
+  chain: ChainReducer.reducer,
   currencies: CurrencyReducer.reducer,
   tokens: TokenReducer.reducer,
-  languages: LanguageReducer.reducer,
+  language: LanguageReducer.reducer,
   theme: ThemeReducer.reducer,
   form: FormReducer.reducer,
 };

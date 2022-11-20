@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
-import { NetworkModel } from '@models/network.model';
+import { ChainModel } from '@models/chain.model';
 import { TokenModel, WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
@@ -19,8 +19,8 @@ export class Web3Services {
     private cryptoHelper: CryptoHelper
   ) {}
 
-  public async connectNetwork(
-    config: NetworkModel
+  public async connectChain(
+    config: ChainModel
   ): Promise<{ blockNumber: number }> {
     try {
       this.provider = new this.web3.providers.JsonRpcProvider(config.rpc, {
@@ -29,18 +29,18 @@ export class Web3Services {
       });
 
       const blockNumber = await this.getBlockNumber();
-
       return {
         blockNumber,
       };
     } catch (error) {
       logger.error(
         logContent.add({
-          info: `error connect network`,
+          info: `error connect chain`,
           error,
         })
       );
-      assert(false, 'connectionError');
+
+      throw error;
     }
   }
 

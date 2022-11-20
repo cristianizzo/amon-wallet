@@ -3,10 +3,10 @@
     <ion-buttons slot="start">
       <app-back-button [delegate]="true" (clicked)="goBack()"></app-back-button>
     </ion-buttons>
-    <ion-title [innerHTML]="'PAGE.NETWORKS.TITLE' | translate"></ion-title>
+    <ion-title [innerHTML]="'PAGE.CHAINS.TITLE' | translate"></ion-title>
     <ion-buttons slot="end">
       <ion-button
-        (click)="addNetwork()"
+        (click)="addChain()"
         class="btn-transparent back-button white"
       >
         <ion-icon name="add-outline"></ion-icon>
@@ -21,39 +21,39 @@
     [debounce]="250"
     [(ngModel)]="search"
     autocorrect="off"
-    [placeholder]="'PAGE.NETWORKS.SEARCH' | translate"
+    [placeholder]="'PAGE.CHAINS.SEARCH' | translate"
   ></ion-searchbar>
 
   <div class="filters">
-    <ion-label>Only Test Networks</ion-label>
+    <ion-label>Only Test Chains</ion-label>
     <ion-toggle
-      (ionChange)="toggleTestNetworks()"
-      [checked]="testnetNetworks"
+      (ionChange)="toggleTestChains()"
+      [checked]="isChecked()"
       class="toggle"
     ></ion-toggle>
   </div>
-  <ion-list class="networks">
+  <ion-list class="chains">
     <ion-item
       button
       *ngFor="
-        let network of networks
+        let chain of chains
           | appFilter
             : search
             : ['name', 'address', 'symbol']
             : 'testnet'
-            : testnetNetworks
+            : !!testnetChains
       "
       class="list-item"
       lines="none"
-      (click)="switchNetwork(network)"
+      (click)="switchChain(chain)"
     >
-      <ion-button class="network-box qpass-flex between-xs" expand="full">
+      <ion-button class="chain-box qpass-flex between-xs" expand="full">
         <ion-icon
-          [name]="network.default ? 'ellipse' : 'ellipse-outline'"
+          [name]="isSelectedChain(chain) ? 'ellipse' : 'ellipse-outline'"
         ></ion-icon>
-        <span class="networkName">{{ network?.name }}</span>
+        <span class="chainName">{{ chain?.name }}</span>
         <div class="col-xs ion-text-right">
-          <ion-chip *ngIf="network?.testnet">testnet</ion-chip>
+          <ion-chip *ngIf="chain?.testnet">testnet</ion-chip>
         </div>
       </ion-button>
     </ion-item>

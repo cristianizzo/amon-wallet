@@ -1,10 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import {
   ModalController,
-  NavController,
   IonBackButtonDelegate,
-  LoadingController,
   AlertController,
 } from '@ionic/angular';
 import {
@@ -18,8 +15,7 @@ import { Subscription } from 'rxjs';
 import { matchValues } from '@helpers/validators/match.validator';
 import { notEqual } from '@helpers/validators/not-equal.validator';
 import { ToastService } from '@services/toast.service';
-import { LanguageService } from '@services/languages.service';
-import { ErrorService } from '@services/error.service';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 const logContent = (data) =>
   Object.assign({ service: 'app:setting:change-password' }, data);
@@ -39,16 +35,12 @@ export class ChangePasswordComponent {
   public regexPasswordValidation: any = this.utilsHelper.regex.password;
 
   constructor(
-    public errorService: ErrorService,
+    private languageProxy: LanguageProxy,
     public utilsHelper: UtilsHelper,
-    public route: ActivatedRoute,
     private formBuilder: FormBuilder,
-    public navController: NavController,
     private modalCtrl: ModalController,
     public toastService: ToastService,
-    private alertController: AlertController,
-    private loadingController: LoadingController,
-    private langService: LanguageService
+    private alertController: AlertController
   ) {
     this.initForm();
   }
@@ -111,11 +103,11 @@ export class ChangePasswordComponent {
   async alert() {
     const alert = await this.alertController.create({
       mode: 'md',
-      header: this.langService.getTranslate('ALERT.header.success'),
-      message: this.langService.getTranslate('ALERT.message.updatePassword'),
+      header: this.languageProxy.getTranslate('ALERT.header.success'),
+      message: this.languageProxy.getTranslate('ALERT.message.updatePassword'),
       buttons: [
         {
-          text: this.langService.getTranslate('BUTTON.return'),
+          text: this.languageProxy.getTranslate('BUTTON.return'),
           handler: () => {
             this.continue();
             // this.appEvents.sendEvent({action: 'logout', opts: {clear: true}});

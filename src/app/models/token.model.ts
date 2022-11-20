@@ -1,7 +1,7 @@
 export class TokenModel {
   selected?: boolean;
   coinGeckoId?: string;
-  networkSymbol?: string;
+  chainSymbol?: string;
   symbol?: string;
   chainId?: number;
   type?: string;
@@ -12,5 +12,5 @@ export class TokenModel {
   image?: string;
   priceChange24h?: number;
   fiatPrice?: number;
-  cryptoPrice?: number; // price of the main coin network
+  cryptoPrice?: number; // price of the main coin chain
 }

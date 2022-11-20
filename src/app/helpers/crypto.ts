@@ -47,54 +47,58 @@ export class CryptoHelper {
     password: string,
     withMnemonic = true
   ): Promise<EncryptedDataModel> {
-    const entropyMsg = withMnemonic
-      ? this.hexToBuffer(utils.mnemonicToEntropy(msg))
-      : Buffer.from(msg, 'utf-8');
+    try {
+      const entropyMsg = withMnemonic
+        ? this.hexToBuffer(utils.mnemonicToEntropy(msg))
+        : Buffer.from(msg, 'utf-8');
 
-    const sparams = {
-      cipher: this.CIPHER_ALGORYTHM,
-      kdf: 'scrypt',
-      dklen: 32,
-      n: 262144,
-      r: 8,
-      p: 1,
-      salt: randomBytes(32),
-      iv: randomBytes(16),
-    };
+      const sparams = {
+        cipher: this.CIPHER_ALGORYTHM,
+        kdf: 'scrypt',
+        dklen: 32,
+        n: 262144,
+        r: 8,
+        p: 1,
+        salt: randomBytes(32),
+        iv: randomBytes(16),
+      };
 
-    const derivedKey = await scrypt(
-      Buffer.from(password),
-      sparams.salt,
-      sparams.n,
-      sparams.p,
-      sparams.r,
-      sparams.dklen
-    );
+      const derivedKey = await scrypt(
+        Buffer.from(password),
+        sparams.salt,
+        sparams.n,
+        sparams.p,
+        sparams.r,
+        sparams.dklen
+      );
 
-    const cipher = createCipheriv(
-      sparams.cipher,
-      derivedKey.slice(0, 16),
-      sparams.iv
-    );
+      const cipher = createCipheriv(
+        sparams.cipher,
+        derivedKey.slice(0, 16),
+        sparams.iv
+      );
 
-    const ciphertext = this.runCipherBuffer(cipher, entropyMsg);
+      const ciphertext = this.runCipherBuffer(cipher, entropyMsg);
 
-    const mac = keccak256(
-      this.bufferToHex(
-        Buffer.concat([
-          Buffer.from(derivedKey.slice(16, 32)),
-          Buffer.from(ciphertext),
-        ])
-      )
-    );
+      const mac = keccak256(
+        this.bufferToHex(
+          Buffer.concat([
+            Buffer.from(derivedKey.slice(16, 32)),
+            Buffer.from(ciphertext),
+          ])
+        )
+      );
 
-    return {
-      ciphertext: this.bufferToHex(ciphertext),
-      salt: this.bufferToHex(sparams.salt),
-      iv: this.bufferToHex(sparams.iv),
-      version: 1,
-      mac,
-    };
+      return {
+        ciphertext: this.bufferToHex(ciphertext),
+        salt: this.bufferToHex(sparams.salt),
+        iv: this.bufferToHex(sparams.iv),
+        version: 1,
+        mac,
+      };
+    } catch (error) {
+      throw error;
+    }
   }
 
   public async decrypt(
@@ -102,56 +106,63 @@ export class CryptoHelper {
     password: string,
     type = WalletType.mnemonic
   ): Promise<string> {
-    const sparams = {
-      cipher: this.CIPHER_ALGORYTHM,
-      kdf: 'scrypt',
-      dklen: 32,
-      n: 262144,
-      r: 8,
-      p: 1,
-      ciphertext: this.hexToBuffer(encryptedData.ciphertext),
-      salt: this.hexToBuffer(encryptedData.salt),
-      iv: this.hexToBuffer(encryptedData.iv),
-      version: encryptedData.version,
-      mac: encryptedData.mac,
-    };
+    try {
+      const sparams = {
+        cipher: this.CIPHER_ALGORYTHM,
+        kdf: 'scrypt',
+        dklen: 32,
+        n: 262144,
+        r: 8,
+        p: 1,
+        ciphertext: this.hexToBuffer(encryptedData.ciphertext),
+        salt: this.hexToBuffer(encryptedData.salt),
+        iv: this.hexToBuffer(encryptedData.iv),
+        version: encryptedData.version,
+        mac: encryptedData.mac,
+      };
 
-    const derivedKey = await scrypt(
-      Buffer.from(password),
-      sparams.salt,
-      sparams.n,
-      sparams.p,
-      sparams.r,
-      sparams.dklen
-    );
+      const derivedKey = await scrypt(
+        Buffer.from(password),
+        sparams.salt,
+        sparams.n,
+        sparams.p,
+        sparams.r,
+        sparams.dklen
+      );
 
-    const mac = keccak256(
-      this.bufferToHex(
-        Buffer.concat([
-          Buffer.from(derivedKey.slice(16, 32)),
-          sparams.ciphertext,
-        ])
-      )
-    );
+      const mac = keccak256(
+        this.bufferToHex(
+          Buffer.concat([
+            Buffer.from(derivedKey.slice(16, 32)),
+            sparams.ciphertext,
+          ])
+        )
+      );
 
-    if (mac !== sparams.mac) {
-      throw new Error('wrongPassword');
+      if (mac !== sparams.mac) {
+        throw new Error('wrongPassword');
+      }
+
+      const decipher = createDecipheriv(
+        sparams.cipher,
+        derivedKey.slice(0, 16),
+        sparams.iv
+      );
+
+      const decryptedEntropy = this.runCipherBuffer(
+        decipher,
+        sparams.ciphertext
+      );
+
+      if (type === WalletType.mnemonic) {
+        return utils.entropyToMnemonic(decryptedEntropy);
+      } else if (type === WalletType.privateKey) {
+        return decryptedEntropy.toString('utf-8');
+      }
+
+      assert(false, 'failDecrypt');
+    } catch (error) {
+      throw error;
     }
-
-    const decipher = createDecipheriv(
-      sparams.cipher,
-      derivedKey.slice(0, 16),
-      sparams.iv
-    );
-
-    const decryptedEntropy = this.runCipherBuffer(decipher, sparams.ciphertext);
-
-    if (type === WalletType.mnemonic) {
-      return utils.entropyToMnemonic(decryptedEntropy);
-    } else if (type === WalletType.privateKey) {
-      return decryptedEntropy.toString('utf-8');
-    }
-
-    assert(false, 'failDecrypt');
   }
 }

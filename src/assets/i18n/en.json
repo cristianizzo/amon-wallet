@@ -159,9 +159,9 @@
     "EXCHANGE": {
       "TITLE": "Swap"
     },
-    "NETWORKS": {
-      "TITLE": "Networks",
-      "SEARCH": "Search network"
+    "CHAINS": {
+      "TITLE": "Chains",
+      "SEARCH": "Search chain"
     }
   },
   "HEADER": {
@@ -177,7 +177,8 @@
   "ERRORS": {
     "SELECT_TOKEN": "Error select token",
     "CONTRACT_NOT_FOUND": "Error smart contract not found",
-    "CONNECTION_ERROR": "Error connect to the network",
+    "CONNECTION_ERROR": "Error connect to the chain",
+    "TOKEN_NOT_FOUND": "Token not fund.",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",
     "FAIL_ENCRYPT": "Error encrypt seed phrase.",

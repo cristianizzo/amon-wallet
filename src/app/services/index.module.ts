@@ -6,12 +6,16 @@ import { EnvService } from '@services/config.service';
 import { ThemeService } from '@services/theme.service';
 import { CurrencyService } from '@services/currency.service';
 import { ErrorService } from '@services/error.service';
-import { LanguageService } from '@services/languages.service';
+import { LanguageService } from '@services/language.service';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 import { TempStorageService } from '@services/tempStorage.service';
 import { ToastService } from '@services/toast.service';
 import { Web3Services } from '@services/web3.service';
 import { WalletService } from '@services/wallet.service';
-import { NetworkService } from '@services/networks.service';
+import { WalletProxy } from '@services/proxy/wallet.proxy';
+import { ChainService } from '@services/chain.service';
+import { ChainProxy } from '@services/proxy/chain.proxy';
+
 import { CoinGeckoService } from '@services/coingecko.service';
 import { TokenService } from '@services/token.service';
 import { LocalForageService } from '@services/localforage.service';
@@ -21,16 +25,19 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 export {
   APIService,
   ErrorService,
-  NetworkService,
+  ChainService,
+  ChainProxy,
   CoinGeckoService,
   ThemeService,
   CurrencyService,
   LanguageService,
+  LanguageProxy,
   ToastService,
   TempStorageService,
   LocalForageService,
   Web3Services,
   WalletService,
+  WalletProxy,
   TokenService,
 };
 
@@ -59,14 +66,17 @@ export class NgAmonServicesModule {
       providers: [
         APIService,
         ErrorService,
-        NetworkService,
+        ChainService,
+        ChainProxy,
         CoinGeckoService,
         CurrencyService,
         LanguageService,
+        LanguageProxy,
         ToastService,
         TempStorageService,
         Web3Services,
         WalletService,
+        WalletProxy,
         TokenService,
         ThemeService,
         LocalForageService,

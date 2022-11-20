@@ -49,11 +49,9 @@ const routes: Routes = [
           import('@pages/profile/profile.module').then((m) => m.ProfileModule),
       },
       {
-        path: 'networks',
+        path: 'chains',
         loadChildren: () =>
-          import('@pages/networks/networks.module').then(
-            (m) => m.NetworksModule
-          ),
+          import('@pages/chains/chains.module').then((m) => m.ChainsModule),
       },
       {
         path: '',

@@ -10,6 +10,13 @@
   padding-bottom: 40px;
 }
 
+.loading {
+  &.active {
+    margin: 40px auto 30px;
+    display: block;
+  }
+}
+
 ion-list {
   ion-item {
     ion-button.coin-box {

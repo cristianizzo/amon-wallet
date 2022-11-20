@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { FormActions, WalletActions } from '@app/core/actions';
-import { WalletService } from '@services/wallet.service';
+import { WalletProxy } from '@services/proxy/wallet.proxy';
 import { of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
@@ -10,15 +10,15 @@ const logContent = logger.logContent('core:effects:wallet');
 
 @Injectable()
 export class WalletEffects {
-  initWallets$ = createEffect(() =>
+  initWallet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(WalletActions.initWallets),
-      switchMap(() => this.walletService.initWallets()),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      ofType(WalletActions.initWallet),
+      switchMap(() => this.walletProxy.initWallet()),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error init wallet`,
             error,
           })
         );
@@ -31,13 +31,13 @@ export class WalletEffects {
     this.actions$.pipe(
       ofType(WalletActions.addWallet),
       switchMap(({ wallet, secret }) =>
-        this.walletService.addWallet({ wallet, secret })
+        this.walletProxy.addWallet({ wallet, secret })
       ),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error add wallets`,
+            info: `error add wallet`,
             error,
           })
         );
@@ -49,12 +49,14 @@ export class WalletEffects {
   connectWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.connectWallet),
-      switchMap(({ address }) => this.walletService.connectWallet({ address })),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      switchMap(({ address }) =>
+        this.walletProxy.switchWalletAndFetchBalance({ address })
+      ),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error connect wallets`,
+            info: `error connect wallet`,
             error,
           })
         );
@@ -63,30 +65,31 @@ export class WalletEffects {
     )
   );
 
-  deleteWallet$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(WalletActions.deleteWallet),
-      switchMap(({ address }) => this.walletService.deleteWallet({ address })),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
-      catchError((error) => {
-        logger.error(
-          logContent.add({
-            info: `error init wallets`,
-            error,
-          })
-        );
-        return of(FormActions.formError(error));
-      })
-    )
+  deleteWallet$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(WalletActions.deleteWallet),
+        switchMap(({ address }) => this.walletProxy.deleteWallet({ address })),
+        catchError((error) => {
+          logger.error(
+            logContent.add({
+              info: `error init wallet`,
+              error,
+            })
+          );
+          return of(FormActions.formError(error));
+        })
+      ),
+    { dispatch: false }
   );
 
   renameWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.renameWallet),
       switchMap(({ address, name }) =>
-        this.walletService.renameWallet({ address, name })
+        this.walletProxy.renameWallet({ address, name })
       ),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -99,8 +102,5 @@ export class WalletEffects {
     )
   );
 
-  constructor(
-    private actions$: Actions,
-    private walletService: WalletService
-  ) {}
+  constructor(private actions$: Actions, private walletProxy: WalletProxy) {}
 }

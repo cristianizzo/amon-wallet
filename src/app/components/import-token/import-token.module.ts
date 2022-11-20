@@ -8,6 +8,7 @@ import { BackButtonModule } from '@components/back-button/back-button.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { LoaderModule } from '@components/loader/loader.component.module';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NgAmonPipesModule,
     TranslateModule,
     ReactiveFormsModule,
+    LoaderModule,
   ],
   exports: [ImportTokenComponent, TokenListComponent, CustomTokenComponent],
   entryComponents: [

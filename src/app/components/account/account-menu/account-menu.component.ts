@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NetworkSelector, WalletSelector } from '@app/core/selectors';
+import { ChainSelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { NetworkModel, WalletModel, WalletType } from '@app/models';
+import { ChainModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
 import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
@@ -14,6 +14,7 @@ import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
+import { WalletProxy } from '@app/services/proxy/wallet.proxy';
 
 @Component({
   selector: 'app-account-menu',
@@ -21,7 +22,7 @@ import { ExportWalletComponent } from '@components/export-wallet/export-wallet.c
   styleUrls: ['./account-menu.component.scss'],
 })
 export class AccountMenuComponent {
-  public network: NetworkModel;
+  public chain: ChainModel;
   public wallet: WalletModel;
   public wallets: WalletModel[];
   public searchInputText: string;
@@ -35,14 +36,20 @@ export class AccountMenuComponent {
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController
-  ) {
+    private popoverController: PopoverController,
+    private walletProxy: WalletProxy
+  ) {}
+
+  async ionViewWillEnter() {
     this.store
-      .select(NetworkSelector.getNetwork)
-      .subscribe((network) => (this.network = network));
-    this.store
-      .select(WalletSelector.getWallets)
-      .subscribe((wallets) => (this.wallets = wallets));
+      .select(ChainSelector.getChain)
+      .subscribe((chain) => (this.chain = chain));
+
+    this.store.select(WalletSelector.getWallet).subscribe(async (w) => {
+      if (w) {
+        this.wallets = await this.walletProxy.getAllWallets();
+      }
+    });
   }
 
   /**

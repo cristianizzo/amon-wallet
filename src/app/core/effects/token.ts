@@ -7,7 +7,7 @@ import { catchError, map, switchMap } from 'rxjs/operators';
 import logger from '@app/app.logger';
 import {
   CurrencySelector,
-  NetworkSelector,
+  ChainSelector,
   WalletSelector,
 } from '@core/selectors';
 import { Store } from '@ngrx/store';
@@ -21,13 +21,13 @@ export class TokenEffects {
     this.actions$.pipe(
       ofType(TokenActions.initTokens),
       concatLatestFrom(() => [
-        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(ChainSelector.getChain),
         this.store.select(CurrencySelector.getCurrency),
         this.store.select(WalletSelector.getWallet),
       ]),
-      switchMap(([_, network, currency, wallet]) =>
+      switchMap(([_, chain, currency, wallet]) =>
         this.tokenService
-          .initTokens(network, currency, wallet)
+          .initTokens(chain, currency, wallet)
           .pipe(map((tokens) => TokenActions.updateStateTokens(tokens)))
       ),
       catchError((error) => {
@@ -46,12 +46,12 @@ export class TokenEffects {
     this.actions$.pipe(
       ofType(TokenActions.addToken),
       concatLatestFrom(() => [
-        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(ChainSelector.getChain),
         this.store.select(CurrencySelector.getCurrency),
         this.store.select(WalletSelector.getWallet),
       ]),
-      switchMap(([action, network, currency, wallet]) =>
-        this.tokenService.addToken(action.address, wallet, network, currency)
+      switchMap(([action, chain, currency, wallet]) =>
+        this.tokenService.addToken(action.address, wallet, chain, currency)
       ),
       map((token) => TokenActions.addTokenToState(token)),
       catchError((error) => {
@@ -70,11 +70,11 @@ export class TokenEffects {
     this.actions$.pipe(
       ofType(TokenActions.updateToken),
       concatLatestFrom(() => [
-        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(ChainSelector.getChain),
         this.store.select(CurrencySelector.getCurrency),
         this.store.select(WalletSelector.getWallet),
       ]),
-      switchMap(([action, network, currency, wallet]) =>
+      switchMap(([action, chain, currency, wallet]) =>
         this.tokenService.updateToken(
           action.address,
           {
@@ -83,7 +83,7 @@ export class TokenEffects {
             decimals: action.decimals,
           },
           wallet,
-          network,
+          chain,
           currency
         )
       ),
@@ -104,12 +104,12 @@ export class TokenEffects {
     this.actions$.pipe(
       ofType(TokenActions.selectToken),
       concatLatestFrom(() => [
-        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(ChainSelector.getChain),
         this.store.select(CurrencySelector.getCurrency),
         this.store.select(WalletSelector.getWallet),
       ]),
-      switchMap(([action, network, currency, wallet]) =>
-        this.tokenService.selectToken(action.address, wallet, network, currency)
+      switchMap(([action, chain, currency, wallet]) =>
+        this.tokenService.selectToken(action.address, wallet, chain, currency)
       ),
       map((token) => TokenActions.updateTokenToState(token)),
       catchError((error) => {
@@ -127,9 +127,9 @@ export class TokenEffects {
   unselectToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.unselectToken),
-      concatLatestFrom(() => [this.store.select(NetworkSelector.getNetwork)]),
-      switchMap(([action, network]) =>
-        this.tokenService.unselectToken(action.address, network)
+      concatLatestFrom(() => [this.store.select(ChainSelector.getChain)]),
+      switchMap(([action, chain]) =>
+        this.tokenService.unselectToken(action.address, chain)
       ),
       map((token) => TokenActions.updateTokenToState(token)),
       catchError((error) => {

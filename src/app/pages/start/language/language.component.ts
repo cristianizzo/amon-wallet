@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { LanguageModel } from '@app/models';
 import { NavController } from '@ionic/angular';
-import { LanguageActions, FormActions } from '@app/core/actions';
+import { LanguageActions } from '@app/core/actions';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import * as LanguageSelector from '@app/core/selectors/language';
 import { ThemeSelector } from '@app/core/selectors';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 @Component({
   selector: 'app-language',
@@ -19,7 +20,8 @@ export class LanguageComponent {
 
   constructor(
     private readonly store: Store<StateModel>,
-    private navController: NavController
+    private navController: NavController,
+    private languageProxy: LanguageProxy
   ) {
     this.store
       .select(ThemeSelector.getTheme)
@@ -27,9 +29,7 @@ export class LanguageComponent {
   }
 
   ionViewWillEnter(): void {
-    this.store
-      .select(LanguageSelector.getLanguages)
-      .subscribe((languages) => (this.languages = languages));
+    this.languages = this.languageProxy.getAllLanguages();
 
     this.store
       .select(LanguageSelector.getLanguage)

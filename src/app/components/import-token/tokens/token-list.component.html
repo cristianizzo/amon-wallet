@@ -7,7 +7,14 @@
     autocorrect="off"
   ></ion-searchbar>
 </ion-row>
-<ion-row>
+
+<app-loader
+  class="loading"
+  [class.active]="loading"
+  [loading]="loading"
+></app-loader>
+
+<ion-row *ngIf="!loading">
   <ion-list>
     <ion-item
       *ngFor="

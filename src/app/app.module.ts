@@ -19,6 +19,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from '@app/core/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@app/core/effects';
+import { LoadingBarModule } from '@components/loading-bar/loading-bar.module';
 
 @NgModule({
   declarations: [AmonComponent],
@@ -32,6 +33,7 @@ import { effects } from '@app/core/effects';
     NgAmonPipesModule,
     NgAmonDirectivesModule,
     NgAmonCoreModule,
+    LoadingBarModule,
   ],
   providers: [
     AppConfig,

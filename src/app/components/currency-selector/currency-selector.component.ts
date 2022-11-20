@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CurrencyModel, StateModel } from '@app/models';
 import { AlertController } from '@ionic/angular';
-import { LanguageService } from '@services/languages.service';
 import { CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { CurrencyActions } from '@core/actions';
+import { LanguageProxy } from '@app/services/index.module';
 
 @Component({
   selector: 'app-currency-selector',
@@ -18,7 +18,7 @@ export class CurrencySelectorComponent implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private langService: LanguageService,
+    private languageProxy: LanguageProxy,
     private store: Store<StateModel>
   ) {}
 
@@ -39,18 +39,18 @@ export class CurrencySelectorComponent implements OnInit {
 
     const alert = await this.alertController.create({
       mode: 'md',
-      header: this.langService.getTranslate('ALERT.HEADER.CURRENCY'),
-      message: this.langService.getTranslate('ALERT.MESSAGE.CURRENCY', {
+      header: this.languageProxy.getTranslate('ALERT.HEADER.CURRENCY'),
+      message: this.languageProxy.getTranslate('ALERT.MESSAGE.CURRENCY', {
         symbol,
       }),
       buttons: [
         {
-          text: this.langService.getTranslate('BUTTON.CANCEL'),
+          text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
           role: 'cancel',
           handler: () => {},
         },
         {
-          text: this.langService.getTranslate('BUTTON.CONTINUE'),
+          text: this.languageProxy.getTranslate('BUTTON.CONTINUE'),
           handler: () => {
             this.store.dispatch(CurrencyActions.switchCurrency(currency));
           },

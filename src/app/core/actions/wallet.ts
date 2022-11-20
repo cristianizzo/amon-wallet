@@ -4,25 +4,25 @@ import { WalletModel } from '@app/models';
 import { type } from '@app/core/util';
 
 export const walletActionTypes = {
-  initWallets: type('[Wallet] init wallets'),
+  initWallet: type('[Wallet] init wallet'),
   addWallet: type('[Wallet] add wallet'),
-  updateStateWallets: type('[Wallet] update state wallet'),
+  updateStateWallet: type('[Wallet] update state wallet'),
   verifyPasswordWallet: type('[Wallet] verify password wallet'),
   connectWallet: type('[Wallet] connect wallet'),
   renameWallet: type('[Wallet] rename wallet'),
   deleteWallet: type('[Wallet] delete wallet'),
 };
 
-export const initWallets = createAction(walletActionTypes.initWallets);
+export const initWallet = createAction(walletActionTypes.initWallet);
 
 export const addWallet = createAction(
   walletActionTypes.addWallet,
   (wallet: WalletModel, secret: string) => ({ wallet, secret })
 );
 
-export const updateStateWallets = createAction(
-  walletActionTypes.updateStateWallets,
-  (wallets: WalletModel[]) => ({ wallets })
+export const updateStateWallet = createAction(
+  walletActionTypes.updateStateWallet,
+  (wallet: WalletModel) => ({ wallet })
 );
 
 export const connectWallet = createAction(

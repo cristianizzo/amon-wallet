@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { LanguageService } from '@services/languages.service';
-import { WalletService } from '@services/wallet.service';
 import { map } from 'rxjs/operators';
 import { TempStorageService } from '@services/tempStorage.service';
+import { WalletProxy, LanguageProxy } from '@services/index.module';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
     private router: Router,
-    private languageService: LanguageService,
-    private walletService: WalletService,
+    private languageProxy: LanguageProxy,
+    private walletProxy: WalletProxy,
     private tempStorageService: TempStorageService
   ) {}
 
   public canActivate(route: ActivatedRouteSnapshot) {
-    return this.walletService
+    return this.walletProxy
       .hasWallet()
       .pipe(map((isInit) => this.authRouter(isInit, route)));
   }
@@ -34,7 +33,7 @@ export class AuthGuard implements CanActivate {
 
       return true;
     } else if (['auth'].includes(route.routeConfig.path)) {
-      if (!this.languageService.isSelected()) {
+      if (!this.languageProxy.isSelected()) {
         this.router.navigate(['/']);
         return true;
       } else if (!isInit) {
@@ -44,7 +43,7 @@ export class AuthGuard implements CanActivate {
     }
 
     if (route.routeConfig.path === '') {
-      if (this.languageService.isSelected()) {
+      if (this.languageProxy.isSelected()) {
         this.router.navigate(['/welcome']);
         return false;
       }

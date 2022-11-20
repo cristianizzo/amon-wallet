@@ -17,7 +17,11 @@
   </ion-searchbar>
   <ion-list class="user-wallets">
     <ion-item
-      *ngFor="let w of wallets | appFilter: searchInputText:['name', 'address']"
+      *ngFor="
+        let w of wallets
+          | appOrderBy: 'connected'
+          | appFilter: searchInputText:['name', 'address']
+      "
       [mode]="'ios'"
     >
       <ion-icon *ngIf="w.connected" name="checkmark-circle-outline"></ion-icon>
@@ -27,7 +31,7 @@
       </ion-text>
       <div slot="end">
         <div class="balance">
-          {{ w.balance | number: '1.0-8' }} {{ network?.symbol }}
+          {{ w.balance | number: '1.0-8' }} {{ chain?.symbol }}
         </div>
       </div>
       <ion-button (click)="openMenu($event, w)" class="btn-dot" slot="end">

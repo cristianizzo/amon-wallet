@@ -9,10 +9,7 @@ import { StateModel } from '@models/state.model';
 import { FormActions, WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { WalletModule } from '@app/modules/index.module';
-import {
-  LanguageService,
-  TempStorageService,
-} from '@app/services/index.module';
+import { LanguageProxy, TempStorageService } from '@app/services/index.module';
 import { Location } from '@angular/common';
 
 @Component({
@@ -38,7 +35,7 @@ export class SeedPhraseComponent {
     private toastService: ToastService,
     private tempStorageService: TempStorageService,
     private walletModule: WalletModule,
-    private langService: LanguageService,
+    private languageProxy: LanguageProxy,
     private location: Location
   ) {
     this.step = 1;
@@ -64,7 +61,7 @@ export class SeedPhraseComponent {
 
     if (!secret || !isValidSecret) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.INVALID_SECRET')
+        this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
       );
       return false;
     }

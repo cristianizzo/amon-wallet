@@ -5,6 +5,13 @@ ion-searchbar {
   --background: #f2f2f2;
 }
 
+.loading {
+  &.active {
+    margin: 40px auto 30px;
+    display: block;
+  }
+}
+
 ion-row {
   display: block;
   width: 100%;

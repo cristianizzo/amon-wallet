@@ -18,9 +18,6 @@ export class ExportWalletComponent {
     private modalCtrl: ModalController,
     private toastService: ToastService
   ) {
-    console.log(this.decrypted);
-    console.log(this.walletType);
-    console.log(this.address);
     this.step = 1;
   }
 

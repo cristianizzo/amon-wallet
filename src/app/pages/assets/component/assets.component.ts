@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { Web3Services } from '@app/services/web3.service';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { NetworkSelector, WalletSelector } from '@app/core/selectors';
-import { NetworkModel, WalletModel } from '@app/models';
+import { ChainSelector, WalletSelector } from '@app/core/selectors';
+import { ChainModel, WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 
 enum AssetTypeEnum {
@@ -19,7 +19,7 @@ enum AssetTypeEnum {
 export class AssetsComponent {
   public assetTypeEnum = AssetTypeEnum;
   public wallet: WalletModel;
-  public network: NetworkModel;
+  public chain: ChainModel;
   public selectedAssetType: string;
 
   constructor(
@@ -29,8 +29,8 @@ export class AssetsComponent {
   ) {
     this.selectedAssetType = this.assetTypeEnum.tokens;
     this.store
-      .select(NetworkSelector.getNetwork)
-      .subscribe((network) => (this.network = network));
+      .select(ChainSelector.getChain)
+      .subscribe((chain) => (this.chain = chain));
     this.store
       .select(WalletSelector.getWallet)
       .subscribe((wallet) => (this.wallet = wallet));
@@ -45,7 +45,7 @@ export class AssetsComponent {
     this.router.navigate(['/auth/setting']);
   }
 
-  public goToNetwork() {
-    this.router.navigate(['/auth/networks']);
+  public goToChain() {
+    this.router.navigate(['/auth/chains']);
   }
 }
