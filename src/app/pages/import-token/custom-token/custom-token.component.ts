@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { StateModel, TokenModel } from '@app/models';
 import { TokenSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
@@ -11,12 +18,13 @@ import { FormActions, TokenActions } from '@app/core/actions';
   templateUrl: './custom-token.component.html',
   styleUrls: ['./custom-token.component.scss'],
 })
-export class CustomTokenComponent {
+export class CustomTokenComponent implements OnChanges {
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onClose = new EventEmitter<any>();
+  @Input() tokens: TokenModel[];
+
   public formObj: FormGroup;
   public allTokens: TokenModel[];
-  public tokens: TokenModel[];
   public step: number;
 
   constructor(
@@ -27,11 +35,13 @@ export class CustomTokenComponent {
     this.initForm();
   }
 
-  async ionViewWillEnter() {
-    this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
-      this.allTokens = tokens;
-    });
-    this.goToStep(1);
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
+      this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
+        this.allTokens = tokens;
+      });
+      this.goToStep(1);
+    }
   }
 
   /**

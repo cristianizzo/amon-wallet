@@ -33,7 +33,10 @@
         ></app-token-list>
       </ng-container>
       <ng-container *ngSwitchCase="tabTypeEnum.custom">
-        <app-custom-token (onClose)="close()"></app-custom-token>
+        <app-custom-token
+          [tokens]="tokens"
+          (onClose)="close()"
+        ></app-custom-token>
       </ng-container>
     </ng-container>
   </div>
