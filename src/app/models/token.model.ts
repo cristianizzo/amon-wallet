@@ -1,6 +1,9 @@
 export enum TokenType {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ERC20 = 'ERC20',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ERC721 = 'ERC721',
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ERC1155 = 'ERC1155',
 }
 
