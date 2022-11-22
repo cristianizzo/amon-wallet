@@ -17,8 +17,7 @@ export class TokenService {
     private web3Services: Web3Services,
     private localForageService: LocalForageService,
     private coinGeckoService: CoinGeckoService
-  ) {
-  }
+  ) {}
 
   public async getTokensFromStorage(chain: ChainModel): Promise<TokenModel[]> {
     const dbTokens =
