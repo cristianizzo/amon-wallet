@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { TokenActions } from '@app/core/actions';
 import { Store } from '@ngrx/store';
 import { StateModel, TokenModel } from '@app/models';
-import { ChainSelector, TokenSelector } from '@app/core/selectors';
+import { TokenSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 
 enum TabTypeEnum {
@@ -31,6 +31,7 @@ export class ImportTokenComponent {
   }
 
   async ionViewWillEnter() {
+    await this.utilsHelper.wait(500);
     this.store.dispatch(TokenActions.getAllTokens());
     this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
       this.tokens = tokens;

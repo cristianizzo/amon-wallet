@@ -28,9 +28,9 @@ export class CustomTokenComponent {
   }
 
   async ionViewWillEnter() {
-    // this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
-    //   this.allTokens = tokens;
-    // });
+    this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
+      this.allTokens = tokens;
+    });
     this.goToStep(1);
   }
 

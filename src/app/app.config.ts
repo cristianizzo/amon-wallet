@@ -26,11 +26,6 @@ export class AppConfig {
   ) {}
 
   public async loadConfiguration() {
-    // this.store.dispatch(ChainActions.initChain());
-    // this.store.dispatch(CurrencyActions.initCurrency());
-    // this.store.dispatch(ThemeActions.initTheme());
-    // this.store.dispatch(LanguageActions.initLanguage());
-
     await this.utilsHelper.wait(500);
     this.store.dispatch(WalletActions.initWallet());
     this.initTokens();

@@ -1,10 +1,16 @@
+export enum TokenType {
+  ERC20 = 'ERC20',
+  ERC721 = 'ERC721',
+  ERC1155 = 'ERC1155',
+}
+
 export class TokenModel {
   selected?: boolean;
   coinGeckoId?: string;
   chainSymbol?: string;
   symbol?: string;
   chainId?: number;
-  type?: string;
+  type?: TokenType;
   address?: string;
   name?: string;
   decimals?: number;

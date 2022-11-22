@@ -1,16 +1,9 @@
 import { Injectable } from '@angular/core';
-import {
-  CurrencyModel,
-  ChainModel,
-  TokenModel,
-  WalletModel,
-} from '@app/models';
+import { ChainModel, CurrencyModel, TokenModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
-import { from, Observable } from 'rxjs';
 import { LocalForageService } from '@services/localforage.service';
 import { CoinGeckoService } from './coingecko.service';
 import { Web3Services } from './web3.service';
-import assert from 'assert';
 import logger from '@app/app.logger';
 
 const logContent = logger.logContent('core:effects:token');
@@ -24,7 +17,8 @@ export class TokenService {
     private web3Services: Web3Services,
     private localForageService: LocalForageService,
     private coinGeckoService: CoinGeckoService
-  ) {}
+  ) {
+  }
 
   public async getTokensFromStorage(chain: ChainModel): Promise<TokenModel[]> {
     const dbTokens =

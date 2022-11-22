@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { ChainModel } from '@models/chain.model';
-import { TokenModel, WalletModel } from '@app/models';
+import { TokenModel, WalletModel, TypeToken } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
 import assert from 'assert';
@@ -181,7 +181,7 @@ export class Web3Services {
         decimals,
         chainId,
         address: tokenAddress,
-        type: 'ERC20',
+        type: TypeToken.ERC20,
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
