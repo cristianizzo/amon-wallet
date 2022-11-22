@@ -1,11 +1,9 @@
 import { environment } from '@env/environment';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { UtilsHelper } from '@app/helpers/utils';
-import { LanguageService } from '@services/languages.service';
+import { LanguageService } from '@services/language.service';
 import { ThemeService } from '@services/theme.service';
 import { ToastService } from '@services/toast.service';
-import { ErrorService } from '@services/error.service';
 import { WalletModel } from '@app/models';
 import { WalletModule } from '@app/modules/wallet.module';
 import { WalletSelector } from '@app/core/selectors';
@@ -29,11 +27,9 @@ export class DepositComponent {
   constructor(
     private readonly store: Store<StateModel>,
     private utilsHelper: UtilsHelper,
-    public route: ActivatedRoute,
     private langService: LanguageService,
     private themeService: ThemeService,
     public toastService: ToastService,
-    public errorService: ErrorService,
     private walletModule: WalletModule
   ) {
     this.themeService.theme.subscribe((theme) => (this.selectedTheme = theme));

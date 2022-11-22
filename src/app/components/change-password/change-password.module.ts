@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from '@components/change-password/change-password.component';
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { LoaderModule } from '@components/loader/loader.component.module';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
     ReactiveFormsModule,
     BackButtonModule,
     MatPasswordStrengthModule,
+    LoaderModule,
   ],
   exports: [ChangePasswordComponent],
   entryComponents: [ChangePasswordComponent],

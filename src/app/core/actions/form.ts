@@ -2,10 +2,19 @@ import { createAction } from '@ngrx/store';
 import { type } from '@app/core/util';
 
 export const formActionTypes = {
+  formStart: type('[Form] start'),
+  formEnd: type('[Form] end'),
   formSuccess: type('[Form] success'),
   formError: type('[Form] error'),
   setLoading: type('[Form] set loading'),
 };
+
+export const formStart = createAction(
+  formActionTypes.formStart,
+  ({ loading = false, topLoading = false }) => ({ loading, topLoading })
+);
+
+export const formEnd = createAction(formActionTypes.formEnd);
 
 export const formSuccess = createAction(
   formActionTypes.formSuccess,
@@ -19,5 +28,5 @@ export const formError = createAction(
 
 export const setLoading = createAction(
   formActionTypes.setLoading,
-  (status: { loading: boolean }) => ({ status })
+  (status: { topLoading?: boolean; loading?: boolean }) => ({ status })
 );

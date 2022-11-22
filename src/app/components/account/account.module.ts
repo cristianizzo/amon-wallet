@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { ExportWalletModule } from '@components/export-wallet/export-wallet.module';
+import { LoaderModule } from '@components/loader/loader.component.module';
 
 @NgModule({
   imports: [
@@ -21,6 +22,7 @@ import { ExportWalletModule } from '@components/export-wallet/export-wallet.modu
     NgAmonPipesModule,
     NgAmonDirectivesModule,
     ExportWalletModule,
+    LoaderModule,
   ],
   exports: [AccountComponent, AccountMenuComponent, WalletMenuComponent],
   entryComponents: [],

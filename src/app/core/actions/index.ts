@@ -1,4 +1,4 @@
-import * as NetworkActions from '@app/core/actions/network';
+import * as ChainActions from '@app/core/actions/chain';
 import * as LanguageActions from '@app/core/actions/language';
 import * as WalletActions from '@app/core/actions/wallet';
 import * as ThemeActions from '@app/core/actions/theme';
@@ -7,7 +7,7 @@ import * as TokenActions from '@app/core/actions/token';
 import * as FormActions from '@app/core/actions/form';
 
 export {
-  NetworkActions,
+  ChainActions,
   LanguageActions,
   WalletActions,
   ThemeActions,

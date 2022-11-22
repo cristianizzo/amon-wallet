@@ -3,6 +3,7 @@ import { CurrencySelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { CurrencyModel, WalletModel } from '@app/models';
+import { WalletActions } from '@core/actions';
 
 @Component({
   selector: 'app-total-balance',
@@ -19,17 +20,20 @@ export class TotalBalanceComponent {
     // TODO: show balance, totalBalance
     this.showBalance = true;
     this.totalBalance = 34407.1;
+  }
 
+  async ionViewWillEnter() {
+    this.store.dispatch(WalletActions.getAllWallets());
     this.store
-      .select(WalletSelector.getWallets)
-      .subscribe((wallets) => this.sumTotalBalance(wallets));
-
+      .select(WalletSelector.getAllWallets)
+      .subscribe((wallets) => (this.wallets = wallets));
     this.store
       .select(CurrencySelector.getCurrency)
       .subscribe((currency) => (this.currency = currency));
+    this.sumTotalBalance();
   }
 
-  private sumTotalBalance(_wallets: WalletModel[]) {
+  private sumTotalBalance() {
     // TODO:
   }
 }

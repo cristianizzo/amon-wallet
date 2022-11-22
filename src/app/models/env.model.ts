@@ -15,6 +15,6 @@ export interface EnvModel {
   blockchainHighFee?: number;
   languages?: any;
   coinGeckoUri?: any;
-  defaultNetwork?: any;
+  defaultChain?: any;
   defaultChainId?: any;
 }

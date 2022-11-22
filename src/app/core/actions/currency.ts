@@ -3,16 +3,29 @@ import { CurrencyModel } from '@models/currency.model';
 import { type } from '@app/core/util';
 
 export const currencyActionTypes = {
-  initCurrency: type('[Currency] init currency'),
-  updateStateCurrencies: type('[Currency] update state currencies'),
+  updateStateCurrency: type('[Currency] update state currency'),
   switchCurrency: type('[Currency] switch currency'),
+  getAllCurrencies: type('[Currency] get all currencies'),
+  getAllCurrenciesSuccess: type('[Currency] get all currencies success'),
+  resetCurrencies: type('[Currency] reset currencies'),
 };
 
-export const initCurrencies = createAction(currencyActionTypes.initCurrency);
+export const getAllCurrencies = createAction(
+  currencyActionTypes.getAllCurrencies
+);
 
-export const updateStateCurrencies = createAction(
-  currencyActionTypes.updateStateCurrencies,
+export const getAllCurrenciesSuccess = createAction(
+  currencyActionTypes.getAllCurrenciesSuccess,
   (currencies: CurrencyModel[]) => ({ currencies })
+);
+
+export const resetCurrencies = createAction(
+  currencyActionTypes.resetCurrencies
+);
+
+export const updateStateCurrency = createAction(
+  currencyActionTypes.updateStateCurrency,
+  (currency: CurrencyModel) => ({ currency })
 );
 
 export const switchCurrency = createAction(

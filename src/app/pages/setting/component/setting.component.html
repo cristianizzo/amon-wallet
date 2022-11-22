@@ -36,7 +36,7 @@
           [innerHTML]="'PAGE.SETTING.CONFIG.LANGUAGE' | translate"
         ></ion-label>
         <div slot="end" style="text-transform: uppercase">
-          {{ (language$ | async)?.lang }}
+          {{ language?.lang }}
         </div>
       </ion-item>
 

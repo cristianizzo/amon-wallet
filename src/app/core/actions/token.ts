@@ -12,9 +12,22 @@ export const tokenActionTypes = {
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
   resetState: type('[Token] reset state'),
+
+  getAllTokens: type('[Token] get all tokens'),
+  getAllTokensSuccess: type('[Token] get all tokens success'),
+  resetTokens: type('[Token] reset tokens'),
 };
 
 export const initTokens = createAction(tokenActionTypes.initTokens);
+
+export const getAllTokens = createAction(tokenActionTypes.getAllTokens);
+
+export const getAllTokensSuccess = createAction(
+  tokenActionTypes.getAllTokensSuccess,
+  (tokens: TokenModel[]) => ({ tokens })
+);
+
+export const resetTokens = createAction(tokenActionTypes.resetTokens);
 
 export const addToken = createAction(
   tokenActionTypes.addToken,

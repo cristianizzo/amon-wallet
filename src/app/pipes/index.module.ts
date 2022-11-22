@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { OrderByPipe } from '@pipes/orderBy.pipe';
+import { OrderByValuePipe } from '@pipes/orderByValue.pipe';
 import { DateFormatPipe } from '@pipes/dateFormat.pipe';
 import { LocaleDatePipe } from '@pipes/localeDate.pipe';
 import { FilterPipe } from '@pipes/filter.pipe';
@@ -12,6 +13,7 @@ import { CryptoBalancePipe } from '@pipes/cryptoBalance.pipe';
   declarations: [
     CryptoBalancePipe,
     OrderByPipe,
+    OrderByValuePipe,
     DateFormatPipe,
     LocaleDatePipe,
     FilterPipe,
@@ -20,6 +22,7 @@ import { CryptoBalancePipe } from '@pipes/cryptoBalance.pipe';
   exports: [
     CryptoBalancePipe,
     OrderByPipe,
+    OrderByValuePipe,
     DateFormatPipe,
     LocaleDatePipe,
     FilterPipe,

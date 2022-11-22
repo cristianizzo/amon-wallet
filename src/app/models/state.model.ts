@@ -1,17 +1,29 @@
 import {
+  ChainModel,
   CurrencyModel,
   LanguageModel,
-  NetworkModel,
   TokenModel,
   WalletModel,
 } from '@models/index';
 
 export interface StateModel {
-  readonly theme?: string;
-  readonly tokens?: TokenModel[];
-  readonly networks?: NetworkModel[];
-  readonly wallets?: WalletModel[];
-  readonly currencies?: CurrencyModel[];
-  readonly languages?: LanguageModel[];
-  readonly form?: { loading: boolean };
+  theme?: string;
+  tokens?: {
+    current: TokenModel[];
+    all: TokenModel[];
+  };
+  chain?: {
+    current: ChainModel;
+    all: ChainModel[];
+  };
+  wallet?: {
+    current: WalletModel;
+    all: WalletModel[];
+  };
+  currency?: {
+    current: CurrencyModel;
+    all: CurrencyModel[];
+  };
+  language?: LanguageModel;
+  form?: { loading: boolean; topLoading: boolean };
 }

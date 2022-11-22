@@ -5,12 +5,14 @@ import { ToastService } from '@app/services/toast.service';
 import { AlertController } from '@ionic/angular';
 import { Web3Services } from '@app/services/web3.service';
 import { UtilsHelper } from '@helpers/utils';
+import { WalletProxy } from '@services/proxy/wallet.proxy';
 
 declare const navigator: any;
 
 @Injectable()
 export class WalletModule {
   constructor(
+    private walletProxy: WalletProxy,
     private walletService: WalletService,
     private errorService: ErrorService,
     private toastService: ToastService,
@@ -20,7 +22,7 @@ export class WalletModule {
   ) {}
 
   public async createWalletFromMnemonic(name: string) {
-    const dbWallets = await this.walletService.getWalletsFromStorage();
+    const dbWallets = await this.walletProxy.getAllWallets();
     return this.web3Services.getWallet({
       name,
       main: !this.utilsHelper.arrayHasValue(dbWallets),
@@ -29,7 +31,7 @@ export class WalletModule {
 
   public async importWalletFromMnemonic(name: string, mnemonic): Promise<any> {
     try {
-      const dbWallets = await this.walletService.getWalletsFromStorage();
+      const dbWallets = await this.walletProxy.getAllWallets();
       return this.web3Services.getWallet({
         name,
         mnemonic,
@@ -45,7 +47,7 @@ export class WalletModule {
     privateKey: string
   ): Promise<any> {
     try {
-      const dbWallets = await this.walletService.getWalletsFromStorage();
+      const dbWallets = await this.walletProxy.getAllWallets();
       return this.web3Services.getWalletFromPrivateKey({
         name,
         privateKey,
@@ -62,7 +64,7 @@ export class WalletModule {
     password: string
   ): Promise<any> {
     try {
-      const dbWallets = await this.walletService.getWalletsFromStorage();
+      const dbWallets = await this.walletProxy.getAllWallets();
       return this.web3Services.getWalletFromKeyStoreJSON({
         name,
         walletJson,
@@ -190,7 +192,7 @@ export class WalletModule {
       return false;
     }
 
-    const dbWallets = await this.walletService.getWalletsFromStorage();
+    const dbWallets = await this.walletProxy.getAllWallets();
     const existingWallet = this.utilsHelper.arrayHasValue(dbWallets)
       ? dbWallets.find((w) => w.main)
       : null;

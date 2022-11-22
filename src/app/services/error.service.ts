@@ -1,9 +1,9 @@
 import { UtilsHelper } from '@helpers/utils';
 import { ErrorModel, ErrorValidatorModel } from '@app/models';
 import { Injectable } from '@angular/core';
-import { LanguageService } from '@services/languages.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 @Injectable()
 export class ErrorService {
@@ -12,6 +12,8 @@ export class ErrorService {
     selectToken: 'ERRORS.SELECT_TOKEN',
     contractError: 'ERRORS.CONTRACT_NOT_FOUND',
     connectionError: 'ERRORS.CONNECTION_ERROR',
+    tokenNotSelected: 'ERRORS.TOKEN_NOT_SELECTED',
+    tokenAlreadySelected: 'ERRORS.TOKEN_NOT_FOUND',
     tokenNotFound: 'ERRORS.TOKEN_NOT_FOUND',
     tokenAlreadyExists: 'ERRORS.TOKEN_ALREADY_EXISTS',
     walletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',
@@ -44,7 +46,7 @@ export class ErrorService {
 
   constructor(
     private utilsHelper: UtilsHelper,
-    public langService: LanguageService
+    public languageProxy: LanguageProxy
   ) {}
 
   /**
@@ -59,9 +61,9 @@ export class ErrorService {
    */
   public parseError(error: ErrorModel | any): any {
     if (error.message && this.ERRORS[error.message]) {
-      return this.langService.getTranslate(this.ERRORS[error.message]);
+      return this.languageProxy.getTranslate(this.ERRORS[error.message]);
     } else {
-      return this.langService.getTranslate('ERRORS.unknownError');
+      return this.languageProxy.getTranslate('ERRORS.unknownError');
     }
   }
 
@@ -78,14 +80,14 @@ export class ErrorService {
    */
   public getError(errorCode: string, args?: string): any {
     if (args) {
-      return `${this.langService.getTranslate(
+      return `${this.languageProxy.getTranslate(
         errorCode && this.ERRORS[errorCode]
           ? this.ERRORS[errorCode]
           : this.ERRORS.unknownError
       )} ${args}`;
     }
 
-    return `${this.langService.getTranslate(
+    return `${this.languageProxy.getTranslate(
       errorCode && this.ERRORS[errorCode]
         ? this.ERRORS[errorCode]
         : this.ERRORS.unknownError

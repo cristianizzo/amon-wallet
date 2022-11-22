@@ -1,0 +1,49 @@
+<ion-row class="token-list">
+  <div class="searchbar-box">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      [debounce]="250"
+      [placeholder]="'search token name'"
+      animated
+      autocorrect="off"
+    ></ion-searchbar>
+  </div>
+</ion-row>
+
+<app-loader
+  class="loading"
+  [class.active]="loading"
+  [loading]="loading"
+></app-loader>
+
+<ion-row>
+  <ion-list>
+    <ion-item
+      *ngFor="
+        let token of tokens
+          | appOrderByValue: 'selected':true
+          | appFilter: searchQuery:['name', 'address', 'symbol']
+      "
+      class="list-item"
+      lines="none"
+    >
+      <ion-button class="coin-box qpass-flex between-xs" expand="full">
+        <ion-img
+          class="token-img"
+          [src]="token.image"
+          [alt]="token.name"
+        ></ion-img>
+        <span class="coinCode">{{ token?.symbol }}</span>
+        <span class="coinName">{{ token?.name }}</span>
+
+        <div class="col-xs ion-text-right coinBalance">
+          <ion-toggle
+            (ionChange)="toggleToken(token.address)"
+            [checked]="token.selected"
+            class="toggle"
+          ></ion-toggle>
+        </div>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-row>

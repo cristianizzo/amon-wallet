@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   CurrencyModel,
   MenuModel,
-  NetworkModel,
+  ChainModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
-import {
-  CurrenciesJson,
-  MenuJson,
-  NetworksJson,
-  TokensJson,
-} from '@assets/data';
+import { CurrenciesJson, MenuJson, ChainsJson, TokensJson } from '@assets/data';
 import { ERC20, ERC1155, ERC721 } from '@assets/abi';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
@@ -40,7 +35,7 @@ export class UtilsHelper {
   };
 
   public menuJson: MenuModel[] = MenuJson;
-  public networksJson: NetworkModel[] = NetworksJson;
+  public chainsJson: ChainModel[] = ChainsJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
   public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;

@@ -12,12 +12,12 @@ import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
-import { LanguageService } from '@services/languages.service';
 import { WalletModel } from '@app/models';
 import { FormActions, WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 @Component({
   selector: 'app-private-key',
@@ -35,7 +35,7 @@ export class PrivateKeyComponent {
     private walletModule: WalletModule,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
-    private langService: LanguageService,
+    public languageProxy: LanguageProxy,
     private utilsHelper: UtilsHelper,
     private store: Store
   ) {
@@ -68,7 +68,7 @@ export class PrivateKeyComponent {
     const newWallet = await this.importWallet();
     if (!newWallet) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.PRIVATE_KEY')
+        this.languageProxy.getTranslate('ERRORS.PRIVATE_KEY')
       );
       return;
     }
@@ -79,7 +79,7 @@ export class PrivateKeyComponent {
 
     if (existingWallet) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
+        this.languageProxy.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
       );
       return;
     }
@@ -91,7 +91,7 @@ export class PrivateKeyComponent {
 
     if (!secret || !isValidSecret) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.INVALID_SECRET')
+        this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
       );
       return;
     }
@@ -100,13 +100,11 @@ export class PrivateKeyComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
       if (myWallet) {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.router.navigate(['/auth/assets']);
       }
     });

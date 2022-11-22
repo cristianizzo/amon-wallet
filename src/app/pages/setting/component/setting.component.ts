@@ -4,7 +4,6 @@ import { Browser } from '@capacitor/browser';
 import { CurrencyModel, LanguageModel, StateModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
-import { LanguageService } from '@services/languages.service';
 import * as packageJson from '../../../../../package.json';
 import {
   CurrencySelector,
@@ -14,10 +13,11 @@ import {
 import { Store } from '@ngrx/store';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { LanguageActions, ThemeActions } from '@core/actions';
 import { take } from 'rxjs/operators';
 import { ChangePasswordComponent } from '@components/change-password/change-password.component';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 // @ts-ignore
 const logContent = (data) => Object.assign({ service: 'setting' }, data);
@@ -32,12 +32,12 @@ export class SettingComponent implements OnInit {
   public version: string;
   public network: string;
   public currency$: Observable<CurrencyModel>;
-  public language$: Observable<LanguageModel>;
-  public languages$: Observable<LanguageModel[]>;
+  public language: LanguageModel;
+  public languages: LanguageModel[];
   public theme$: Observable<string>;
 
   constructor(
-    private langService: LanguageService,
+    public languageProxy: LanguageProxy,
     private utilsHelper: UtilsHelper,
     private router: Router,
     private store: Store<StateModel>,
@@ -52,8 +52,10 @@ export class SettingComponent implements OnInit {
 
   ngOnInit() {
     this.currency$ = this.store.select(CurrencySelector.getCurrency);
-    this.language$ = this.store.select(LanguageSelector.getLanguage);
-    this.languages$ = this.store.select(LanguageSelector.getLanguages);
+    this.store
+      .select(LanguageSelector.getLanguage)
+      .subscribe((lang) => (this.language = lang));
+    this.languages = this.languageProxy.getAllLanguages();
     this.theme$ = this.store.select(ThemeSelector.getTheme);
   }
 
@@ -63,6 +65,7 @@ export class SettingComponent implements OnInit {
       component: CurrencySelectorComponent,
       cssClass: 'modal-mini',
       backdropDismiss: true,
+      canDismiss: true,
       componentProps: {},
     });
 
@@ -71,12 +74,12 @@ export class SettingComponent implements OnInit {
 
   public async askChangeLanguage() {
     const buttons = [];
-    this.languages$.pipe(take(1)).subscribe(async (languages) => {
-      languages.map((language) => {
+
+    this.languages
+      .filter((l) => l.lang !== this.language?.lang)
+      .map((language) => {
         buttons.push({
-          text: this.langService.getTranslate(
-            `LANGUAGE.${language.lang.toUpperCase()}`
-          ),
+          text: this.languageProxy.getTranslate(language.label),
           role: language.lang,
           handler: async () => {
             this.store.dispatch(LanguageActions.switchLanguage(language));
@@ -84,30 +87,29 @@ export class SettingComponent implements OnInit {
         });
       });
 
-      buttons.push({
-        text: this.langService.getTranslate('BUTTON.CANCEL'),
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {},
-      });
-
-      const actionSheet = await this.actionSheetController.create({
-        header: this.langService.getTranslate(
-          'PAGE.SETTING.ACTION_SHEET.SELECT_LANG'
-        ),
-        buttons,
-        cssClass: ['blur-action-sheet'],
-      });
-
-      await actionSheet.present();
+    buttons.push({
+      text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
+      icon: 'close',
+      role: 'cancel',
+      handler: () => {},
     });
+
+    const actionSheet = await this.actionSheetController.create({
+      header: this.languageProxy.getTranslate(
+        'PAGE.SETTING.ACTION_SHEET.SELECT_LANG'
+      ),
+      buttons,
+      cssClass: ['blur-action-sheet'],
+    });
+
+    await actionSheet.present();
   }
 
   public async askChangeTheme() {
-    const lightThemeLabel = this.langService.getTranslate(
+    const lightThemeLabel = this.languageProxy.getTranslate(
       'PAGE.SETTING.THEME.LIGHT'
     );
-    const darkThemeLabel = this.langService.getTranslate(
+    const darkThemeLabel = this.languageProxy.getTranslate(
       'PAGE.SETTING.THEME.DARK'
     );
 
@@ -126,7 +128,7 @@ export class SettingComponent implements OnInit {
           },
         },
         {
-          text: this.langService.getTranslate('BUTTON.CANCEL'),
+          text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
           icon: 'close',
           role: 'cancel',
           handler: () => {},
@@ -134,7 +136,7 @@ export class SettingComponent implements OnInit {
       ];
 
       const actionSheet = await this.actionSheetController.create({
-        header: this.langService.getTranslate(
+        header: this.languageProxy.getTranslate(
           'PAGE.SETTING.ACTION_SHEET.SELECT_THEME'
         ),
         buttons,
@@ -153,6 +155,7 @@ export class SettingComponent implements OnInit {
       id: 'change-password',
       component: ChangePasswordComponent,
       backdropDismiss: true,
+      canDismiss: true,
       componentProps: {},
     });
 
@@ -175,9 +178,9 @@ export class SettingComponent implements OnInit {
 
   public getThemeTranslation(theme) {
     if (theme === 'dark') {
-      return this.langService.getTranslate('PAGE.SETTING.THEME.DARK');
+      return this.languageProxy.getTranslate('PAGE.SETTING.THEME.DARK');
     } else {
-      return this.langService.getTranslate('PAGE.SETTING.THEME.LIGHT');
+      return this.languageProxy.getTranslate('PAGE.SETTING.THEME.LIGHT');
     }
   }
 

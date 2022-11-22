@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
-import { NetworkModel } from '@models/network.model';
-import { TokenModel, WalletModel } from '@app/models';
+import { ChainModel } from '@models/chain.model';
+import { TokenModel, WalletModel, TokenType } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
-import assert from 'assert';
 
 const logContent = logger.logContent('services:web3');
 
@@ -19,8 +18,8 @@ export class Web3Services {
     private cryptoHelper: CryptoHelper
   ) {}
 
-  public async connectNetwork(
-    config: NetworkModel
+  public async connectChain(
+    config: ChainModel
   ): Promise<{ blockNumber: number }> {
     try {
       this.provider = new this.web3.providers.JsonRpcProvider(config.rpc, {
@@ -29,18 +28,18 @@ export class Web3Services {
       });
 
       const blockNumber = await this.getBlockNumber();
-
       return {
         blockNumber,
       };
     } catch (error) {
       logger.error(
         logContent.add({
-          info: `error connect network`,
+          info: `error connect chain`,
           error,
         })
       );
-      assert(false, 'connectionError');
+
+      throw error;
     }
   }
 
@@ -110,6 +109,7 @@ export class Web3Services {
     tokenAddress: string,
     walletAddress: string
   ): Promise<TokenModel> {
+    // TODO: check token type and fetch information and return
     try {
       const contract = new web3.Contract(
         tokenAddress,
@@ -181,7 +181,7 @@ export class Web3Services {
         decimals,
         chainId,
         address: tokenAddress,
-        type: 'ERC20',
+        type: TokenType.ERC20,
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {

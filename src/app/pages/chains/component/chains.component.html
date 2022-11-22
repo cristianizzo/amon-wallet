@@ -1,0 +1,63 @@
+<ion-header class="no-border">
+  <ion-toolbar #toolbar class="default">
+    <ion-buttons slot="start">
+      <app-back-button [delegate]="true" (clicked)="goBack()"></app-back-button>
+    </ion-buttons>
+    <ion-title [innerHTML]="'PAGE.CHAINS.TITLE' | translate"></ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="addChain()"
+        class="btn-transparent back-button white"
+      >
+        <ion-icon name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
+  <ion-searchbar
+    animated
+    [debounce]="250"
+    [(ngModel)]="search"
+    autocorrect="off"
+    [placeholder]="'PAGE.CHAINS.SEARCH' | translate"
+  ></ion-searchbar>
+
+  <div class="filters">
+    <ion-label>Only Test Chains</ion-label>
+    <ion-toggle
+      (ionChange)="toggleTestChains()"
+      [checked]="isChecked()"
+      class="toggle"
+    ></ion-toggle>
+  </div>
+  <ion-list class="chains">
+    <ion-item
+      button
+      *ngFor="
+        let chain of chains$
+          | async
+          | appOrderByValue: 'connected':true
+          | appFilter
+            : search
+            : ['name', 'address', 'symbol']
+            : 'testnet'
+            : !!testnetChains
+      "
+      class="list-item"
+      lines="none"
+      (click)="switchChain(chain)"
+    >
+      <ion-button class="chain-box qpass-flex between-xs" expand="full">
+        <ion-icon
+          [name]="chain?.connected ? 'ellipse' : 'ellipse-outline'"
+        ></ion-icon>
+        <span class="chainName">{{ chain?.name }}</span>
+        <div class="col-xs ion-text-right">
+          <ion-chip *ngIf="chain?.testnet">testnet</ion-chip>
+        </div>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

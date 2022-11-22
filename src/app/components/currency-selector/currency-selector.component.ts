@@ -1,34 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CurrencyModel, StateModel } from '@app/models';
 import { AlertController } from '@ionic/angular';
-import { LanguageService } from '@services/languages.service';
 import { CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { CurrencyActions } from '@core/actions';
+import { LanguageProxy } from '@app/services/index.module';
 
 @Component({
   selector: 'app-currency-selector',
   templateUrl: './currency-selector.component.html',
   styleUrls: ['./currency-selector.component.scss'],
 })
-export class CurrencySelectorComponent implements OnInit {
+export class CurrencySelectorComponent {
   public search: string;
   public currencies: CurrencyModel[];
   public selectedCurrency: CurrencyModel;
 
   constructor(
     private alertController: AlertController,
-    private langService: LanguageService,
+    private languageProxy: LanguageProxy,
     private store: Store<StateModel>
   ) {}
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
+    this.store.dispatch(CurrencyActions.getAllCurrencies());
     this.store
-      .select(CurrencySelector.getCurrencies)
-      .subscribe((currencies: CurrencyModel[]) => {
-        this.currencies = currencies.filter((cu) => !cu.selected);
-        this.selectedCurrency = currencies.find((cu) => cu.selected);
+      .select(CurrencySelector.getCurrency)
+      .subscribe((currency: CurrencyModel) => {
+        this.selectedCurrency = currency;
       });
+
+    this.store
+      .select(CurrencySelector.getAllCurrencies)
+      .subscribe((currencies) => {
+        this.currencies = currencies.filter(
+          (c) => c.symbol !== this.selectedCurrency?.symbol
+        );
+      });
+  }
+
+  ionViewWillLeave() {
+    this.store.dispatch(CurrencyActions.resetCurrencies());
   }
 
   /**
@@ -39,18 +51,18 @@ export class CurrencySelectorComponent implements OnInit {
 
     const alert = await this.alertController.create({
       mode: 'md',
-      header: this.langService.getTranslate('ALERT.HEADER.CURRENCY'),
-      message: this.langService.getTranslate('ALERT.MESSAGE.CURRENCY', {
+      header: this.languageProxy.getTranslate('ALERT.HEADER.CURRENCY'),
+      message: this.languageProxy.getTranslate('ALERT.MESSAGE.CURRENCY', {
         symbol,
       }),
       buttons: [
         {
-          text: this.langService.getTranslate('BUTTON.CANCEL'),
+          text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
           role: 'cancel',
           handler: () => {},
         },
         {
-          text: this.langService.getTranslate('BUTTON.CONTINUE'),
+          text: this.languageProxy.getTranslate('BUTTON.CONTINUE'),
           handler: () => {
             this.store.dispatch(CurrencyActions.switchCurrency(currency));
           },

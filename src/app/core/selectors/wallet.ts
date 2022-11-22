@@ -1,17 +1,19 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { WalletModel } from '@app/models';
 import { WalletReducer } from '@app/core/reducers';
-import { UtilsHelper } from '@helpers/utils';
 
-export const getWalletsState = createFeatureSelector<WalletModel[]>(
-  WalletReducer.featureKey
-);
-export const getWallets = createSelector(
-  getWalletsState,
-  (state: WalletModel[]): WalletModel[] =>
-    new UtilsHelper().sortByProp(state, 'connected')
-);
+export const getWalletState = createFeatureSelector<{
+  current: WalletModel;
+  all: WalletModel[];
+}>(WalletReducer.featureKey);
 export const getWallet = createSelector(
-  getWalletsState,
-  (state: WalletModel[]) => state.find((w) => w.connected)
+  getWalletState,
+  (state: { current: WalletModel; all: WalletModel[] }): WalletModel =>
+    state.current
+);
+
+export const getAllWallets = createSelector(
+  getWalletState,
+  (state: { current: WalletModel; all: WalletModel[] }): WalletModel[] =>
+    state.all
 );

@@ -1,9 +1,8 @@
 <ion-header [translucent]="true" class="no-border">
-  <ion-progress-bar type="indeterminate"></ion-progress-bar>
   <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <ion-button
-        (click)="goToNetwork()"
+        (click)="goToChain()"
         class="btn-transparent back-button white"
       >
         <ion-icon name="git-network-outline"></ion-icon>
@@ -43,7 +42,11 @@
 
     <ng-container [ngSwitch]="selectedAssetType">
       <ion-row *ngSwitchCase="assetTypeEnum.tokens">
-        <app-tokens></app-tokens>
+        <app-tokens
+          [chain]="chain"
+          [wallet]="wallet"
+          [tokens]="tokens"
+        ></app-tokens>
       </ion-row>
       <ion-row *ngSwitchCase="assetTypeEnum.nfts"> Nfts </ion-row>
     </ng-container>

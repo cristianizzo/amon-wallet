@@ -159,7 +159,7 @@
     "EXCHANGE": {
       "TITLE": "Cambio"
     },
-    "NETWORKS": {
+    "CHAINS": {
       "TITLE": "Reti",
       "SEARCH": "Cerca Rete"
     }
@@ -178,6 +178,9 @@
     "SELECT_TOKEN": "Errore nel selezionare il token",
     "CONTRACT_NOT_FOUND": "Errore smart contract non trovato",
     "CONNECTION_ERROR": "Errore di connessione alla rete",
+    "TOKEN_NOT_SELECTED": "Token non selezionato.",
+    "TOKEN_ALREADY_SELECTED": "Token già selezionato.",
+    "TOKEN_NOT_FOUND": "Token non trovato.",
     "TOKEN_ALREADY_EXISTS": "Token gia esiste.",
     "WALLET_ALREADY_EXISTS": "Wallet gia esiste.",
     "FAIL_ENCRYPT": "Errore nel crittografare il Seed Phrase.",
