@@ -54,6 +54,13 @@ const routes: Routes = [
           import('@pages/chains/chains.module').then((m) => m.ChainsModule),
       },
       {
+        path: 'import-token',
+        loadChildren: () =>
+          import('@pages/import-token/import-token.module').then(
+            (m) => m.ImportTokenModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/auth/assets',
         pathMatch: 'full',

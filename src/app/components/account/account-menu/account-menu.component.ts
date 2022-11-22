@@ -14,7 +14,7 @@ import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
-import { WalletProxy } from '@app/services/proxy/wallet.proxy';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-menu',
@@ -22,9 +22,8 @@ import { WalletProxy } from '@app/services/proxy/wallet.proxy';
   styleUrls: ['./account-menu.component.scss'],
 })
 export class AccountMenuComponent {
-  public chain: ChainModel;
-  public wallet: WalletModel;
-  public wallets: WalletModel[];
+  public chain$: Observable<ChainModel>;
+  public wallets$: Observable<WalletModel[]>;
   public searchInputText: string;
 
   constructor(
@@ -36,20 +35,17 @@ export class AccountMenuComponent {
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController,
-    private walletProxy: WalletProxy
+    private popoverController: PopoverController
   ) {}
 
   async ionViewWillEnter() {
-    this.store
-      .select(ChainSelector.getChain)
-      .subscribe((chain) => (this.chain = chain));
+    this.store.dispatch(WalletActions.getAllWallets());
+    this.wallets$ = this.store.select(WalletSelector.getAllWallets);
+    this.chain$ = this.store.select(ChainSelector.getChain);
+  }
 
-    this.store.select(WalletSelector.getWallet).subscribe(async (w) => {
-      if (w) {
-        this.wallets = await this.walletProxy.getAllWallets();
-      }
-    });
+  ionViewWillLeave() {
+    this.store.dispatch(WalletActions.resetWallets());
   }
 
   /**

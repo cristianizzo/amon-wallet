@@ -5,4 +5,5 @@ export interface ChainModel {
   explorer: string;
   symbol: string;
   testnet: boolean;
+  connected?: boolean;
 }

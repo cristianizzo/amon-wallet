@@ -1,64 +1,44 @@
-import { Component } from '@angular/core';
-import {
-  ChainSelector,
-  TokenSelector,
-  WalletSelector,
-} from '@app/core/selectors';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ChainModel, TokenModel, WalletModel } from '@app/models';
-import { ModalController } from '@ionic/angular';
-import { ImportTokenComponent } from '@components/import-token/import-token.component';
+import { Router } from '@angular/router';
+import { UtilsHelper } from '@helpers/utils';
 
 @Component({
   selector: 'app-tokens',
   templateUrl: './tokens.component.html',
   styleUrls: ['./tokens.component.scss'],
 })
-export class TokensComponent {
-  public chain: ChainModel;
-  public wallet: WalletModel;
-  public tokens: TokenModel[];
+export class TokensComponent implements OnChanges {
+  @Input() chain: ChainModel;
+  @Input() wallet: WalletModel;
+  @Input() tokens: TokenModel[];
   public showBalance: boolean;
   public loading: boolean;
 
   constructor(
     private store: Store<StateModel>,
-    private modalCtrl: ModalController
+    private router: Router,
+    private utilsHelper: UtilsHelper
   ) {
     this.loading = true;
     this.tokens = [];
     // TODO: move into the state
     this.showBalance = true;
+  }
 
-    this.store
-      .select(ChainSelector.getChain)
-      .subscribe((chain) => (this.chain = chain));
-
-    this.store
-      .select(WalletSelector.getWallet)
-      .subscribe((wallet) => (this.wallet = wallet));
-
-    this.store.select(TokenSelector.getSelectedTokens).subscribe((tokens) => {
-      console.log(tokens);
-      this.tokens = tokens;
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
       this.loading = false;
-    });
+    }
   }
 
   public goToToken(symbol: string) {
     console.log(symbol);
   }
 
-  public async openImportTokenModel() {
-    const importTokenModal = await this.modalCtrl.create({
-      id: 'import-token',
-      component: ImportTokenComponent,
-      cssClass: ['import-token'],
-      backdropDismiss: true,
-      canDismiss: true,
-    });
-
-    await importTokenModal.present();
+  public goToImportToken() {
+    this.router.navigate(['/auth/import-token']);
   }
 }

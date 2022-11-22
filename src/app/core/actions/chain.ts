@@ -3,13 +3,22 @@ import { ChainModel } from '@models/chain.model';
 import { type } from '@app/core/util';
 
 export const chainActionTypes = {
-  initChain: type('[Chain] init chain'),
   updateStateChain: type('[Chain] update state chain'),
   addChain: type('[Chain] add chain'),
   switchChain: type('[Chain] switch chain'),
+  getAllChains: type('[Chain] get all chains'),
+  getAllChainsSuccess: type('[Chain] get all chains success'),
+  resetChains: type('[Chain] reset chains'),
 };
 
-export const initChain = createAction(chainActionTypes.initChain);
+export const getAllChains = createAction(chainActionTypes.getAllChains);
+
+export const getAllChainsSuccess = createAction(
+  chainActionTypes.getAllChainsSuccess,
+  (chains: ChainModel[]) => ({ chains })
+);
+
+export const resetChains = createAction(chainActionTypes.resetChains);
 
 export const updateStateChain = createAction(
   chainActionTypes.updateStateChain,

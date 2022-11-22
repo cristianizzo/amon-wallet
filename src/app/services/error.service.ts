@@ -12,6 +12,8 @@ export class ErrorService {
     selectToken: 'ERRORS.SELECT_TOKEN',
     contractError: 'ERRORS.CONTRACT_NOT_FOUND',
     connectionError: 'ERRORS.CONNECTION_ERROR',
+    tokenNotSelected: 'ERRORS.TOKEN_NOT_SELECTED',
+    tokenAlreadySelected: 'ERRORS.TOKEN_NOT_FOUND',
     tokenNotFound: 'ERRORS.TOKEN_NOT_FOUND',
     tokenAlreadyExists: 'ERRORS.TOKEN_ALREADY_EXISTS',
     walletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',

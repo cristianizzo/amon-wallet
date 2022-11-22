@@ -1,10 +1,14 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { FormReducer } from '@app/core/reducers';
 
-export const getFormState = createFeatureSelector<{ loading: boolean }>(
-  FormReducer.featureKey
-);
+export const getFormState = createFeatureSelector<{
+  loading: boolean;
+  topLoading: boolean;
+}>(FormReducer.featureKey);
 export const getLoading = createSelector(
   getFormState,
-  (state: { loading: boolean }): { loading: boolean } => state
+  (state: {
+    loading: boolean;
+    topLoading: boolean;
+  }): { loading: boolean; topLoading: boolean } => state
 );

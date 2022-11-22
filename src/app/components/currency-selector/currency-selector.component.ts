@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CurrencyModel, StateModel } from '@app/models';
 import { AlertController } from '@ionic/angular';
 import { CurrencySelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { CurrencyActions } from '@core/actions';
-import { CurrencyProxy, LanguageProxy } from '@app/services/index.module';
+import { LanguageProxy } from '@app/services/index.module';
 
 @Component({
   selector: 'app-currency-selector',
   templateUrl: './currency-selector.component.html',
   styleUrls: ['./currency-selector.component.scss'],
 })
-export class CurrencySelectorComponent implements OnInit {
+export class CurrencySelectorComponent {
   public search: string;
   public currencies: CurrencyModel[];
   public selectedCurrency: CurrencyModel;
@@ -19,17 +19,28 @@ export class CurrencySelectorComponent implements OnInit {
   constructor(
     private alertController: AlertController,
     private languageProxy: LanguageProxy,
-    private currencyProxy: CurrencyProxy,
     private store: Store<StateModel>
   ) {}
 
-  async ngOnInit() {
-    this.currencies = await this.currencyProxy.getAllCurrencies();
+  async ionViewWillEnter() {
+    this.store.dispatch(CurrencyActions.getAllCurrencies());
     this.store
       .select(CurrencySelector.getCurrency)
       .subscribe((currency: CurrencyModel) => {
         this.selectedCurrency = currency;
       });
+
+    this.store
+      .select(CurrencySelector.getAllCurrencies)
+      .subscribe((currencies) => {
+        this.currencies = currencies.filter(
+          (c) => c.symbol !== this.selectedCurrency?.symbol
+        );
+      });
+  }
+
+  ionViewWillLeave() {
+    this.store.dispatch(CurrencyActions.resetCurrencies());
   }
 
   /**

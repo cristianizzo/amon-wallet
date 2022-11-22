@@ -10,8 +10,7 @@ export class CurrencyService {
   constructor(
     public utilsHelper: UtilsHelper,
     private localForageService: LocalForageService
-  ) {
-  }
+  ) {}
 
   public async getSelectedCurrencyFromStorage(): Promise<CurrencyModel> {
     const dbCurrency = await this.localForageService.getItem('currency');
@@ -19,7 +18,9 @@ export class CurrencyService {
     return dbCurrency;
   }
 
-  public async saveSelectedCurrencyToStorage(currency: CurrencyModel): Promise<CurrencyModel> {
+  public async saveSelectedCurrencyToStorage(
+    currency: CurrencyModel
+  ): Promise<CurrencyModel> {
     await this.localForageService.setItem('currency', currency);
 
     return currency;

@@ -15,11 +15,19 @@
     autocorrect="off"
   >
   </ion-searchbar>
+
+  <app-loader
+    class="loading"
+    [class.active]="(wallets$ | async)?.length === 0"
+    [loading]="(wallets$ | async)?.length === 0"
+  ></app-loader>
+
   <ion-list class="user-wallets">
     <ion-item
       *ngFor="
-        let w of wallets
-          | appOrderBy: 'connected'
+        let w of wallets$
+          | async
+          | appOrderByValue: 'connected':true
           | appFilter: searchInputText:['name', 'address']
       "
       [mode]="'ios'"
@@ -31,7 +39,8 @@
       </ion-text>
       <div slot="end">
         <div class="balance">
-          {{ w.balance | number: '1.0-8' }} {{ chain?.symbol }}
+          {{ w.balance || '0' | number: '1.0-8' }}
+          {{ (chain$ | async)?.symbol }}
         </div>
       </div>
       <ion-button (click)="openMenu($event, w)" class="btn-dot" slot="end">

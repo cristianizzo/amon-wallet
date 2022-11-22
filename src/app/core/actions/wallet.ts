@@ -11,9 +11,21 @@ export const walletActionTypes = {
   connectWallet: type('[Wallet] connect wallet'),
   renameWallet: type('[Wallet] rename wallet'),
   deleteWallet: type('[Wallet] delete wallet'),
+  getAllWallets: type('[Wallet] get all wallets'),
+  getAllWalletsSuccess: type('[Wallet] get all wallets success'),
+  resetWallets: type('[Wallet] reset wallets'),
 };
 
 export const initWallet = createAction(walletActionTypes.initWallet);
+
+export const getAllWallets = createAction(walletActionTypes.getAllWallets);
+
+export const getAllWalletsSuccess = createAction(
+  walletActionTypes.getAllWalletsSuccess,
+  (wallets: WalletModel[]) => ({ wallets })
+);
+
+export const resetWallets = createAction(walletActionTypes.resetWallets);
 
 export const addWallet = createAction(
   walletActionTypes.addWallet,

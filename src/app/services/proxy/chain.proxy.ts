@@ -72,9 +72,13 @@ export class ChainProxy {
     );
   }
 
-  public async getAllChains(): Promise<ChainModel[]> {
+  public async getAllChains(chain: ChainModel): Promise<ChainModel[]> {
     const dbChains = await this.chainService.getCustomChainsFromStorage();
 
-    return [...dbChains, ...this.utilsHelper.chainsJson];
+    return [...dbChains, ...this.utilsHelper.chainsJson].map((c) =>
+      Object.assign({}, c, {
+        connected: c.rpc === chain?.rpc,
+      })
+    );
   }
 }

@@ -36,7 +36,9 @@
     <ion-item
       button
       *ngFor="
-        let chain of chains
+        let chain of chains$
+          | async
+          | appOrderByValue: 'connected':true
           | appFilter
             : search
             : ['name', 'address', 'symbol']
@@ -49,7 +51,7 @@
     >
       <ion-button class="chain-box qpass-flex between-xs" expand="full">
         <ion-icon
-          [name]="isSelectedChain(chain) ? 'ellipse' : 'ellipse-outline'"
+          [name]="chain?.connected ? 'ellipse' : 'ellipse-outline'"
         ></ion-icon>
         <span class="chainName">{{ chain?.name }}</span>
         <div class="col-xs ion-text-right">

@@ -3,13 +3,10 @@ import { LanguageModel } from '@models/language.model';
 import { type } from '@app/core/util';
 
 export const languageActionTypes = {
-  initLanguage: type('[Language] init language'),
   switchLanguage: type('[Language] switch language'),
   getLanguage: type('[Language] get language'),
   updateStateLanguage: type('[Language] update state language'),
 };
-
-export const initLanguage = createAction(languageActionTypes.initLanguage);
 
 export const switchLanguage = createAction(
   languageActionTypes.switchLanguage,

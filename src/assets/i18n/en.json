@@ -178,6 +178,8 @@
     "SELECT_TOKEN": "Error select token",
     "CONTRACT_NOT_FOUND": "Error smart contract not found",
     "CONNECTION_ERROR": "Error connect to the chain",
+    "TOKEN_NOT_SELECTED": "Token not selected.",
+    "TOKEN_ALREADY_SELECTED": "Token already selected.",
     "TOKEN_NOT_FOUND": "Token not fund.",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",

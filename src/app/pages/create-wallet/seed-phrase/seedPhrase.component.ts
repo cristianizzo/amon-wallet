@@ -66,13 +66,11 @@ export class SeedPhraseComponent {
       return false;
     }
 
-    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(this.wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
       if (wallet) {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.tempStorageService.data = null;
         this.router.navigate(['/auth/assets']);
       }

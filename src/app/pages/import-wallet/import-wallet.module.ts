@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ImportWalletRoutingModule } from '@pages/import-wallet/importWallet.routing';
+import { ImportWalletRoutingModule } from '@pages/import-wallet/import-wallet.routing';
 import { RecoveryPhraseComponent } from '@pages/import-wallet/recovery-phrase/recovery-phrase.component';
 import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey.component';
 

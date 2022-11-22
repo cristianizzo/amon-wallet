@@ -3,9 +3,11 @@ import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { LocalForageService } from '@services/localforage.service';
 import { EncryptedDataModel, WalletModel, WalletType } from '@app/models';
-import { from, Observable } from 'rxjs';
 import { Web3Services } from '@services/web3.service';
 import assert from 'assert';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('services:wallet');
 
 @Injectable()
 export class WalletService {
@@ -99,15 +101,20 @@ export class WalletService {
     });
   }
 
-  public fetchBalances(wallets: WalletModel[]): Observable<WalletModel[]> {
-    return from(
-      this.utilsHelper.async(async () => {
-        const walletsWithBalance = await Promise.all(
-          wallets.map(async (wallet) => await this.fetchBalance(wallet))
+  public async fetchBalances(wallets: WalletModel[]): Promise<WalletModel[]> {
+    const walletsWithBalance = await this.utilsHelper.asyncMap(
+      wallets,
+      async (wallet) => await this.fetchBalance(wallet),
+      (error) => {
+        logger.warn(
+          logContent.add({
+            info: `error fetch wallet balance`,
+            error,
+          })
         );
-        return walletsWithBalance;
-      })
+      }
     );
+    return walletsWithBalance;
   }
 
   public verifyEncryption(

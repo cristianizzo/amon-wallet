@@ -9,16 +9,19 @@ import { CurrencyService } from '../currency.service';
 export class CurrencyProxy {
   constructor(
     private utilsHelper: UtilsHelper,
-    private currencyService: CurrencyService,
+    private currencyService: CurrencyService
   ) {}
 
   public initCurrency(): Observable<CurrencyModel> {
     return from(
       this.utilsHelper.async(async () => {
-        let dbCurrency = await this.currencyService.getSelectedCurrencyFromStorage();
+        let dbCurrency =
+          await this.currencyService.getSelectedCurrencyFromStorage();
 
         if (!dbCurrency) {
-          dbCurrency = this.utilsHelper.currenciesJson.find((currency) => currency.symbol === environment.defaultCurrency);
+          dbCurrency = this.utilsHelper.currenciesJson.find(
+            (currency) => currency.symbol === environment.defaultCurrency
+          );
           await this.currencyService.saveSelectedCurrencyToStorage(dbCurrency);
         }
 
@@ -30,7 +33,9 @@ export class CurrencyProxy {
   public switchCurrency(currency: CurrencyModel) {
     return from(
       this.utilsHelper.async(async () => {
-        const newCurrency = this.utilsHelper.currenciesJson.find((c) => c.symbol === currency.symbol);
+        const newCurrency = this.utilsHelper.currenciesJson.find(
+          (c) => c.symbol === currency.symbol
+        );
         await this.currencyService.saveSelectedCurrencyToStorage(newCurrency);
 
         return newCurrency;
@@ -38,7 +43,13 @@ export class CurrencyProxy {
     );
   }
 
-  public async getAllCurrencies(): Promise<CurrencyModel[]> {
-    return this.utilsHelper.currenciesJson;
+  public async getAllCurrencies(
+    currency: CurrencyModel
+  ): Promise<CurrencyModel[]> {
+    return this.utilsHelper.currenciesJson.map((c) =>
+      Object.assign({}, c, {
+        selected: c.symbol === currency?.symbol,
+      })
+    );
   }
 }

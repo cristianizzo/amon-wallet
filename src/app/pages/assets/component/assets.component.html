@@ -42,7 +42,11 @@
 
     <ng-container [ngSwitch]="selectedAssetType">
       <ion-row *ngSwitchCase="assetTypeEnum.tokens">
-        <app-tokens></app-tokens>
+        <app-tokens
+          [chain]="chain"
+          [wallet]="wallet"
+          [tokens]="tokens"
+        ></app-tokens>
       </ion-row>
       <ion-row *ngSwitchCase="assetTypeEnum.nfts"> Nfts </ion-row>
     </ng-container>

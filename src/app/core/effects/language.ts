@@ -1,10 +1,17 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import {
+  Actions,
+  createEffect,
+  ofType,
+  ROOT_EFFECTS_INIT,
+} from '@ngrx/effects';
 import { FormActions, LanguageActions } from '@app/core/actions';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import logger from '@app/app.logger';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
+import { Store } from '@ngrx/store';
+import { StateModel } from '@app/models';
 
 const logContent = logger.logContent('core:effects:language');
 
@@ -12,7 +19,7 @@ const logContent = logger.logContent('core:effects:language');
 export class LanguageEffects {
   initLanguage$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(LanguageActions.initLanguage),
+      ofType(ROOT_EFFECTS_INIT),
       switchMap((_) => this.languageProxy.initLanguage()),
       map((language) => LanguageActions.updateStateLanguage(language)),
       catchError((error) => {
@@ -30,8 +37,12 @@ export class LanguageEffects {
   switchLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LanguageActions.switchLanguage),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
       switchMap((action) => this.languageProxy.switchLanguage(action.language)),
       map((language) => LanguageActions.updateStateLanguage(language)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -46,6 +57,7 @@ export class LanguageEffects {
 
   constructor(
     private actions$: Actions,
-    private languageProxy: LanguageProxy
+    private languageProxy: LanguageProxy,
+    private store: Store<StateModel>
   ) {}
 }

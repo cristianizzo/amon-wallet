@@ -14,6 +14,6 @@ export class LoadingBarComponent {
   constructor(private readonly store: Store<StateModel>) {
     this.store
       .select(FormSelector.getLoading)
-      .subscribe((state) => (this.loading = state.loading));
+      .subscribe((state) => (this.loading = state.topLoading));
   }
 }

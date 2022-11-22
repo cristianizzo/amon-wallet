@@ -126,13 +126,21 @@ export class WalletProxy {
   public hasWallet(): Observable<boolean> {
     return from(
       this.utilsHelper.async(async () => {
-        const dbWallets = await this.getAllWallets();
+        const dbWallets = await this.walletService.getWalletsFromStorage();
         return dbWallets.length > 0;
       })
     );
   }
 
-  public async getAllWallets(): Promise<WalletModel[]> {
-    return await this.walletService.getWalletsFromStorage();
+  public async getAllWallets(
+    selectedWallets?: WalletModel
+  ): Promise<WalletModel[]> {
+    const dbWallets = await this.walletService.getWalletsFromStorage();
+    const wallets = await this.walletService.fetchBalances(dbWallets);
+
+    return wallets.map((w) => {
+      w.connected = w.address === selectedWallets?.address;
+      return w;
+    });
   }
 }

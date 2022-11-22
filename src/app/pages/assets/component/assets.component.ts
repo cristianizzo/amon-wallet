@@ -2,8 +2,12 @@ import { Component } from '@angular/core';
 import { Web3Services } from '@app/services/web3.service';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { ChainSelector, WalletSelector } from '@app/core/selectors';
-import { ChainModel, WalletModel } from '@app/models';
+import {
+  ChainSelector,
+  TokenSelector,
+  WalletSelector,
+} from '@app/core/selectors';
+import { ChainModel, TokenModel, WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 
 enum AssetTypeEnum {
@@ -20,13 +24,16 @@ export class AssetsComponent {
   public assetTypeEnum = AssetTypeEnum;
   public wallet: WalletModel;
   public chain: ChainModel;
+  public tokens: TokenModel[];
   public selectedAssetType: string;
 
   constructor(
     private store: Store<StateModel>,
     private web3Services: Web3Services,
     private router: Router
-  ) {
+  ) {}
+
+  async ionViewWillEnter() {
     this.selectedAssetType = this.assetTypeEnum.tokens;
     this.store
       .select(ChainSelector.getChain)
@@ -34,7 +41,9 @@ export class AssetsComponent {
     this.store
       .select(WalletSelector.getWallet)
       .subscribe((wallet) => (this.wallet = wallet));
-    this.web3Services.getBlockNumber();
+    this.store.select(TokenSelector.getSelectedTokens).subscribe((tokens) => {
+      this.tokens = tokens;
+    });
   }
 
   public onSelectAssetType = (asset: string) => {

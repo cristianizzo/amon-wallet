@@ -12,20 +12,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: '',
-    redirectTo: '/import-wallet/recovery-phrase',
-    pathMatch: 'full',
-  },
-
-  {
     path: 'private-key',
     component: PrivateKeyComponent,
     canActivate: [AuthGuard],
-  },
-  {
-    path: '',
-    redirectTo: '/import-wallet/private-key',
-    pathMatch: 'full',
   },
   {
     path: 'keystore-file',
@@ -34,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/import-wallet/keystore-file',
+    redirectTo: '/import-wallet/recovery-phrase',
     pathMatch: 'full',
   },
 ];

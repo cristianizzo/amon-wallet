@@ -14,28 +14,54 @@ const logContent = logger.logContent('core:effects:form');
 
 @Injectable()
 export class FormEffects {
+  start$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormActions.formStart),
+      map((action) => {
+        this.store.dispatch(
+          FormActions.setLoading({
+            loading: action.loading,
+            topLoading: action.topLoading,
+          })
+        );
+      }),
+      mergeMap(() => [])
+    )
+  );
+
+  end$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormActions.formEnd),
+      map(() => {
+        this.store.dispatch(
+          FormActions.setLoading({ loading: false, topLoading: false })
+        );
+      }),
+      mergeMap(() => [])
+    )
+  );
+
   success$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FormActions.formSuccess),
       map(({ msg }) => {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
+        this.store.dispatch(FormActions.formEnd());
         this.toastService.responseSuccess(msg);
       }),
       mergeMap(() => [])
     )
   );
 
-  error$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(FormActions.formError),
-        map(({ error }) => {
-          this.store.dispatch(FormActions.setLoading({ loading: false }));
-          this.toastService.responseError(this.errorService.parseError(error));
-        }),
-        mergeMap(() => [])
-      ),
-    { dispatch: false }
+  error$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FormActions.formError),
+      map(({ error }) => {
+        console.log(error);
+        this.store.dispatch(FormActions.formEnd());
+        this.toastService.responseError(this.errorService.parseError(error));
+      }),
+      mergeMap(() => [])
+    )
   );
 
   loader$ = createEffect(

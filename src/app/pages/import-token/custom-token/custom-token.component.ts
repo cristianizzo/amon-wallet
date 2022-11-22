@@ -24,10 +24,13 @@ export class CustomTokenComponent {
     public formBuilder: FormBuilder,
     private readonly store: Store<StateModel>
   ) {
-    this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
-      this.allTokens = tokens;
-    });
     this.initForm();
+  }
+
+  async ionViewWillEnter() {
+    // this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
+    //   this.allTokens = tokens;
+    // });
     this.goToStep(1);
   }
 
@@ -62,12 +65,8 @@ export class CustomTokenComponent {
   public async submit() {
     const rawForm = this.formObj.getRawValue();
 
-    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(TokenActions.addToken(rawForm.address));
-    await this.utilsHelper.wait(3000);
-
     this.store.select(TokenSelector.getSelectedTokens).subscribe((tokens) => {
-      this.store.dispatch(FormActions.setLoading({ loading: false }));
       const token = tokens.find((tk) => tk.address === rawForm.address);
       if (token) {
         this.goToStep(2);

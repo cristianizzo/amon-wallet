@@ -18,7 +18,11 @@ import { effects } from '@app/core/effects';
       // },
     }),
     EffectsModule.forRoot(effects),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    !environment.production
+      ? StoreDevtoolsModule.instrument({
+          maxAge: 25,
+        })
+      : [],
   ],
   declarations: [],
   exports: [],

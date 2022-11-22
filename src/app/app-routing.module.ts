@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: 'import-wallet',
     loadChildren: () =>
-      import('@pages/import-wallet/importWallet.module').then(
+      import('@pages/import-wallet/import-wallet.module').then(
         (m) => m.ImportWalletModule
       ),
   },
@@ -31,6 +31,7 @@ const routes: Routes = [
     redirectTo: '/',
   },
 ];
+
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),

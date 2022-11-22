@@ -14,11 +14,6 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
 import { NgAmonCoreModule } from '@core/index.module';
 import { NgAmonModuleModule } from '@app/modules/index.module';
 import { DEFAULT_CONFIG, Driver, NgForageOptions } from 'ngforage';
-import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from '@app/core/reducers';
-import { EffectsModule } from '@ngrx/effects';
-import { effects } from '@app/core/effects';
 import { LoadingBarModule } from '@components/loading-bar/loading-bar.module';
 
 @NgModule({

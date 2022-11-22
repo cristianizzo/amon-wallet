@@ -1,10 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { FormActions, ChainActions, TokenActions } from '@app/core/actions';
+import {
+  Actions,
+  createEffect,
+  ofType,
+  ROOT_EFFECTS_INIT,
+} from '@ngrx/effects';
+import { ChainActions, FormActions, TokenActions } from '@app/core/actions';
 import { ChainProxy } from '@services/proxy/chain.proxy';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  map,
+  mergeMap,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import logger from '@app/app.logger';
+import { ChainSelector } from '@core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@app/models';
 
@@ -14,9 +28,13 @@ const logContent = logger.logContent('core:effects:chain');
 export class ChainEffects {
   initChain$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ChainActions.initChain),
+      ofType(ROOT_EFFECTS_INIT),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
       switchMap((_) => this.chainProxy.initChain()),
       map((chain) => ChainActions.updateStateChain(chain)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -29,16 +47,44 @@ export class ChainEffects {
     )
   );
 
+  getAllChains$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ChainActions.getAllChains),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
+      withLatestFrom(this.store.select(ChainSelector.getChain)),
+      switchMap(([_, chain]) => this.chainProxy.getAllChains(chain)),
+      map((chains) => ChainActions.getAllChainsSuccess(chains)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error get all chains`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
   addChain$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ChainActions.addChain),
-      switchMap((action) =>
+      tap(() =>
+        this.store.dispatch(
+          FormActions.formStart({ topLoading: true, loading: true })
+        )
+      ),
+      concatMap((action) =>
         this.chainProxy.addCustomChain(action.chain).pipe(
           mergeMap((chain) => [
             TokenActions.resetState(),
             ChainActions.updateStateChain(chain),
             TokenActions.initTokens(),
           ]),
+          tap(() => this.store.dispatch(FormActions.formEnd())),
           catchError((error) => {
             logger.error(
               logContent.add({
@@ -56,13 +102,19 @@ export class ChainEffects {
   switchChain$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ChainActions.switchChain),
-      switchMap((action) =>
+      tap(() =>
+        this.store.dispatch(
+          FormActions.formStart({ topLoading: true, loading: true })
+        )
+      ),
+      concatMap((action) =>
         this.chainProxy.switchChain(action.chain).pipe(
           mergeMap((chain) => [
             TokenActions.resetState(),
             ChainActions.updateStateChain(chain),
             TokenActions.initTokens(),
           ]),
+          tap(() => this.store.dispatch(FormActions.formEnd())),
           catchError((error) => {
             logger.error(
               logContent.add({

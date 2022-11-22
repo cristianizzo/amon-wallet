@@ -16,9 +16,10 @@ import { WalletService } from '@services/wallet.service';
 import { WalletProxy } from '@services/proxy/wallet.proxy';
 import { ChainService } from '@services/chain.service';
 import { ChainProxy } from '@services/proxy/chain.proxy';
+import { TokenService } from '@services/token.service';
+import { TokenProxy } from '@services/proxy/token.proxy';
 
 import { CoinGeckoService } from '@services/coingecko.service';
-import { TokenService } from '@services/token.service';
 import { LocalForageService } from '@services/localforage.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -41,6 +42,7 @@ export {
   WalletService,
   WalletProxy,
   TokenService,
+  TokenProxy,
 };
 
 @NgModule({
@@ -81,6 +83,7 @@ export class NgAmonServicesModule {
         WalletService,
         WalletProxy,
         TokenService,
+        TokenProxy,
         ThemeService,
         LocalForageService,
         { provide: EnvService, useValue: environment },

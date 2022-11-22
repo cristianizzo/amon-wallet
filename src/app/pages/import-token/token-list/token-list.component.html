@@ -1,11 +1,13 @@
 <ion-row class="token-list">
-  <ion-searchbar
-    [(ngModel)]="searchQuery"
-    [debounce]="250"
-    [placeholder]="'search token name'"
-    animated
-    autocorrect="off"
-  ></ion-searchbar>
+  <div class="searchbar-box">
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      [debounce]="250"
+      [placeholder]="'search token name'"
+      animated
+      autocorrect="off"
+    ></ion-searchbar>
+  </div>
 </ion-row>
 
 <app-loader
@@ -14,11 +16,12 @@
   [loading]="loading"
 ></app-loader>
 
-<ion-row *ngIf="!loading">
+<ion-row>
   <ion-list>
     <ion-item
       *ngFor="
         let token of tokens
+          | appOrderByValue: 'selected':true
           | appFilter: searchQuery:['name', 'address', 'symbol']
       "
       class="list-item"

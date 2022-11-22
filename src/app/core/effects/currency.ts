@@ -1,10 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CurrencyActions, FormActions } from '@app/core/actions';
+import {
+  Actions,
+  createEffect,
+  ofType,
+  ROOT_EFFECTS_INIT,
+} from '@ngrx/effects';
+import { ChainActions, CurrencyActions, FormActions } from '@app/core/actions';
 import { CurrencyProxy } from '@services/proxy/currency.proxy';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  catchError,
+  map,
+  switchMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import logger from '@app/app.logger';
+import { Store } from '@ngrx/store';
+import { StateModel } from '@app/models';
+import { ChainSelector, CurrencySelector } from '@core/selectors';
 
 const logContent = logger.logContent('core:effects:currency');
 
@@ -12,7 +26,7 @@ const logContent = logger.logContent('core:effects:currency');
 export class CurrencyEffects {
   initCurrency$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(CurrencyActions.initCurrency),
+      ofType(ROOT_EFFECTS_INIT),
       switchMap((_) => this.currencyProxy.initCurrency()),
       map((currency) => CurrencyActions.updateStateCurrency(currency)),
       catchError((error) => {
@@ -27,13 +41,39 @@ export class CurrencyEffects {
     )
   );
 
+  getAllCurrencies$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CurrencyActions.getAllCurrencies),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
+      withLatestFrom(this.store.select(CurrencySelector.getCurrency)),
+      switchMap(([_, currency]) =>
+        this.currencyProxy.getAllCurrencies(currency)
+      ),
+      map((currencies) => CurrencyActions.getAllCurrenciesSuccess(currencies)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error get all currencies`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
   switchCurrency$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CurrencyActions.switchCurrency),
-      switchMap((action) =>
-        this.currencyProxy.switchCurrency(action.currency)
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
       ),
+      switchMap((action) => this.currencyProxy.switchCurrency(action.currency)),
       map((currency) => CurrencyActions.updateStateCurrency(currency)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -49,5 +89,6 @@ export class CurrencyEffects {
   constructor(
     private actions$: Actions,
     private currencyProxy: CurrencyProxy,
+    private store: Store<StateModel>
   ) {}
 }

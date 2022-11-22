@@ -100,13 +100,11 @@ export class PrivateKeyComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
       if (myWallet) {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.router.navigate(['/auth/assets']);
       }
     });
