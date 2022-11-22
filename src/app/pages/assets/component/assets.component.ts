@@ -9,6 +9,7 @@ import {
 } from '@app/core/selectors';
 import { ChainModel, TokenModel, WalletModel } from '@app/models';
 import { Router } from '@angular/router';
+import { UtilsHelper } from '@app/helpers/utils';
 
 enum AssetTypeEnum {
   tokens = 'tokens',
@@ -30,11 +31,13 @@ export class AssetsComponent {
   constructor(
     private store: Store<StateModel>,
     private web3Services: Web3Services,
-    private router: Router
+    private router: Router,
+    private utilsHelper: UtilsHelper
   ) {}
 
   async ionViewWillEnter() {
     this.selectedAssetType = this.assetTypeEnum.tokens;
+    await this.utilsHelper.wait(500);
     this.store
       .select(ChainSelector.getChain)
       .subscribe((chain) => (this.chain = chain));

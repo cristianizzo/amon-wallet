@@ -35,6 +35,7 @@
     >
       <ion-button class="coin-box qpass-flex between-xs" expand="full">
         <ion-img
+          *ngIf="token.image"
           class="token-img"
           [src]="token.image"
           [alt]="token.name"
