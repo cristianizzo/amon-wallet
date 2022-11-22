@@ -177,7 +177,7 @@ export class AccountMenuComponent {
         canDismiss: true,
         componentProps: {
           address: wallet.address,
-          decrypted,
+          decrypted: decrypted.phrase,
           walletType: wallet.walletType,
         },
       });
@@ -197,6 +197,7 @@ export class AccountMenuComponent {
       });
       let privateKey = decrypted.privateKey;
 
+      //TODO: we dont need this as its already checked on view
       if (wallet.walletType !== WalletType.privateKey) {
         const _wallet = await this.walletModule.exportWallet({
           name: wallet.name,
