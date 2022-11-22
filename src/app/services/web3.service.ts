@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { ChainModel } from '@models/chain.model';
-import { TokenModel, WalletModel, TypeToken } from '@app/models';
+import { TokenModel, WalletModel, TokenType } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
-import assert from 'assert';
 
 const logContent = logger.logContent('services:web3');
 
@@ -110,6 +109,7 @@ export class Web3Services {
     tokenAddress: string,
     walletAddress: string
   ): Promise<TokenModel> {
+    // TODO: check token type and fetch information and return
     try {
       const contract = new web3.Contract(
         tokenAddress,
@@ -181,7 +181,7 @@ export class Web3Services {
         decimals,
         chainId,
         address: tokenAddress,
-        type: TypeToken.ERC20,
+        type: TokenType.ERC20,
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {

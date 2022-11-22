@@ -10,7 +10,7 @@ export class TokenModel {
   chainSymbol?: string;
   symbol?: string;
   chainId?: number;
-  type?: TokenType;
+  type?: TokenType | string;
   address?: string;
   name?: string;
   decimals?: number;
