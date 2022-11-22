@@ -29,7 +29,7 @@ export class TokensComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
+    if (this.utilsHelper.objectHasValue(changes.wallet.currentValue)) {
       this.loading = false;
     }
   }

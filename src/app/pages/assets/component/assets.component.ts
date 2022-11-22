@@ -18,8 +18,8 @@ enum AssetTypeEnum {
 
 @Component({
   selector: 'app-assets',
-  templateUrl: 'assets.component.html',
-  styleUrls: ['assets.component.scss'],
+  templateUrl: './assets.component.html',
+  styleUrls: ['./assets.component.scss'],
 })
 export class AssetsComponent {
   public assetTypeEnum = AssetTypeEnum;
