@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { ChainModel } from '@models/chain.model';
-import { TokenModel, WalletModel, TokenType } from '@app/models';
+import { TokenModel, TokenType, WalletModel } from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
 
@@ -105,73 +105,83 @@ export class Web3Services {
     }
   }
 
+  public isValidPrivateKey(privateKey) {
+    try {
+      new web3.Wallet(privateKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  public async getTokenType(
+    tokenAddress,
+    walletAddress
+  ): Promise<TokenType | undefined> {
+    console.log('Hello World', tokenAddress);
+    const encodedData = this.web3.utils.hexConcat([
+      this.web3.utils.id('balanceOf(address)').slice(0, 10),
+      this.web3.utils.defaultAbiCoder.encode(['address'], [walletAddress]),
+    ]);
+
+    const isValidToken = await this.provider.call({
+      to: tokenAddress,
+      data: encodedData,
+    });
+
+    if (isValidToken !== '0x') {
+      const ifErc721encodedData = this.web3.utils.hexConcat([
+        this.web3.utils.id('isApprovedForAll(address,address)').slice(0, 10),
+        this.web3.utils.defaultAbiCoder.encode(
+          ['address', 'address'],
+          [tokenAddress, walletAddress]
+        ),
+      ]);
+
+      const isNftContract = await this.provider.call({
+        to: tokenAddress,
+        data: ifErc721encodedData,
+      });
+
+      if (isNftContract !== '0x') {
+        return TokenType.ERC721;
+      } else {
+        return TokenType.ERC20;
+      }
+    }
+  }
+
   public async getTokenInfo(
     tokenAddress: string,
     walletAddress: string
-  ): Promise<TokenModel> {
+  ): Promise<TokenModel | null> {
     // TODO: check token type and fetch information and return
     try {
-      const contract = new web3.Contract(
-        tokenAddress,
-        this.utilsHelper.abi.erc20,
-        this.provider
-      );
+      const tokenType = await this.getTokenType(tokenAddress, walletAddress);
 
-      let balance = '0x0';
-      try {
-        balance = await contract.balanceOf(walletAddress);
-      } catch (error) {
-        logger.warn(
-          logContent.add({
-            info: `error fetch token balance`,
-            tokenAddress,
-            walletAddress,
-            error,
-          })
+      let contract;
+
+      if (tokenType === TokenType.ERC20) {
+        contract = new web3.Contract(
+          tokenAddress,
+          this.utilsHelper.abi.erc20,
+          this.provider
         );
+      } else if (tokenType === TokenType.ERC721) {
+        contract = new web3.Contract(
+          tokenAddress,
+          this.utilsHelper.abi.erc721,
+          this.provider
+        );
+      } else {
+        return null;
       }
 
-      let name = 'unknown';
-      try {
-        name = await contract.name();
-      } catch (error) {
-        logger.warn(
-          logContent.add({
-            info: `error fetch token name`,
-            tokenAddress,
-            walletAddress,
-            error,
-          })
-        );
-      }
-
-      let symbol = 'UNKNOWN';
-      try {
-        symbol = await contract.symbol();
-      } catch (error) {
-        logger.warn(
-          logContent.add({
-            info: `error fetch token name`,
-            tokenAddress,
-            walletAddress,
-            error,
-          })
-        );
-      }
-
-      let decimals = 0;
-      try {
-        decimals = await contract.decimals();
-      } catch (error) {
-        logger.warn(
-          logContent.add({
-            info: `error fetch token decimals`,
-            tokenAddress,
-            walletAddress,
-            error,
-          })
-        );
-      }
+      const balance = await contract.balanceOf(walletAddress);
+      const name = await contract.name();
+      const decimals =
+        tokenType === TokenType.ERC721 ? 0 : await contract.decimals();
+      const symbol = await contract.symbol();
 
       const { chainId } = await this.provider.getNetwork();
 
@@ -181,7 +191,7 @@ export class Web3Services {
         decimals,
         chainId,
         address: tokenAddress,
-        type: TokenType.ERC20,
+        type: tokenType,
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {

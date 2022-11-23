@@ -2,7 +2,9 @@ import { Component, Injectable, Input } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { ErrorService } from '@services/error.service';
 import { UtilsHelper } from '@helpers/utils';
-import * as web3 from 'ethers';
+import { Web3Services } from '@services/web3.service';
+import { map } from 'rxjs/operators';
+import { from, pipe } from 'rxjs';
 
 @Injectable()
 @Component({
@@ -19,7 +21,8 @@ export class FormValidationHelper {
 
   constructor(
     private utilsHelper: UtilsHelper,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private web3Service: Web3Services
   ) {}
 
   /**
@@ -50,12 +53,8 @@ export class FormValidationHelper {
   }
 
   public privateKey(ac: FormControl): { [key: string]: boolean } | boolean {
-    try {
-      new web3.Wallet(ac.value);
-      return null;
-    } catch (e) {
-      return { privateKey: true };
-    }
+    const isValid = this.web3Service.isValidPrivateKey(ac.value);
+    return isValid ? null : { privateKey: true };
   }
 
   /**

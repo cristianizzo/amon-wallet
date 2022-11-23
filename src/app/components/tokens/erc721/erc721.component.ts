@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { UtilsHelper } from '@helpers/utils';
 
 @Component({
-  selector: 'app-tokens',
-  templateUrl: './tokens.component.html',
-  styleUrls: ['./tokens.component.scss'],
+  selector: 'app-erc721-tokens',
+  templateUrl: './erc721.component.html',
+  styleUrls: ['./erc721.component.scss'],
 })
-export class TokensComponent implements OnChanges {
+export class Erc721Component implements OnChanges {
   @Input() chain: ChainModel;
   @Input() wallet: WalletModel;
   @Input() tokens: TokenModel[];
@@ -29,7 +29,7 @@ export class TokensComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.objectHasValue(changes.wallet.currentValue)) {
+    if (this.utilsHelper.objectHasValue(changes.wallet?.currentValue)) {
       this.loading = false;
     }
   }

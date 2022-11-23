@@ -7,7 +7,7 @@ import {
   TokenSelector,
   WalletSelector,
 } from '@app/core/selectors';
-import { ChainModel, TokenModel, WalletModel } from '@app/models';
+import { ChainModel, TokenModel, TokenType, WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 import { UtilsHelper } from '@app/helpers/utils';
 
@@ -47,6 +47,14 @@ export class AssetsComponent {
     this.store.select(TokenSelector.getSelectedTokens).subscribe((tokens) => {
       this.tokens = tokens;
     });
+  }
+
+  public getErc20Tokens() {
+    return this.tokens?.filter((token) => token.type === TokenType.ERC20);
+  }
+
+  public getErc721Tokens() {
+    return this.tokens?.filter((token) => token.type === TokenType.ERC721);
   }
 
   public onSelectAssetType = (asset: string) => {
