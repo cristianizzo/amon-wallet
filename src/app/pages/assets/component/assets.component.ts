@@ -54,7 +54,10 @@ export class AssetsComponent {
   }
 
   public getErc721Tokens() {
-    return this.tokens?.filter((token) => token.type === TokenType.ERC721);
+    return this.tokens?.filter(
+      (token) =>
+        token.type === TokenType.ERC721 || token.type === TokenType.ERC1155
+    );
   }
 
   public onSelectAssetType = (asset: string) => {

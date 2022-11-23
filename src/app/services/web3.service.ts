@@ -140,40 +140,62 @@ export class Web3Services {
     return details;
   }
 
-  public async getTokenType(
-    tokenAddress,
-    walletAddress
-  ): Promise<TokenType | undefined> {
-    const encodedData = this.web3.utils.hexConcat([
-      this.web3.utils.id('balanceOf(address)').slice(0, 10),
-      this.web3.utils.defaultAbiCoder.encode(['address'], [walletAddress]),
-    ]);
+  public async getTokenType(tokenAddress): Promise<TokenType | undefined> {
+    const contractByteCode = await this.provider.getCode(tokenAddress);
+    if (contractByteCode === '0x') {
+      return;
+    }
 
-    const isValidToken = await this.provider.call({
-      to: tokenAddress,
-      data: encodedData,
-    });
+    const isNft = this.checkIfMethodExistOnContract(
+      contractByteCode,
+      'isApprovedForAll(address,address)'
+    );
 
-    if (isValidToken !== '0x') {
-      const ifErc721encodedData = this.web3.utils.hexConcat([
-        this.web3.utils.id('isApprovedForAll(address,address)').slice(0, 10),
-        this.web3.utils.defaultAbiCoder.encode(
-          ['address', 'address'],
-          [tokenAddress, walletAddress]
-        ),
-      ]);
+    if (
+      !isNft &&
+      this.checkIfMethodExistOnContract(contractByteCode, 'balanceOf(address)')
+    ) {
+      return TokenType.ERC20;
+    }
 
-      try {
-        await this.provider.call({
-          to: tokenAddress,
-          data: ifErc721encodedData,
-        });
+    if (
+      this.checkIfMethodExistOnContract(
+        contractByteCode,
+        'supportsInterface(bytes4)'
+      )
+    ) {
+      const erc721Contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc721,
+        this.provider
+      );
 
+      const ifErc721 = await erc721Contract.supportsInterface('0x80ac58cd');
+      const ifErc1155 = await erc721Contract.supportsInterface('0xd9b67a26');
+
+      if (ifErc1155) {
+        return TokenType.ERC1155;
+      }
+
+      if (ifErc721) {
         return TokenType.ERC721;
-      } catch (e) {
-        return TokenType.ERC20;
+      }
+
+      if (
+        this.checkIfMethodExistOnContract(contractByteCode, 'tokenURI(uint256)')
+      ) {
+        return TokenType.ERC721;
+      }
+
+      if (this.checkIfMethodExistOnContract(contractByteCode, 'uri(uint256)')) {
+        return TokenType.ERC1155;
       }
     }
+  }
+
+  public checkIfMethodExistOnContract(byteCode, method) {
+    const signature = this.web3.utils.id(method).slice(0, 10).slice(2);
+    return byteCode.indexOf(signature) !== -1;
   }
 
   public async getTokenInfo(
@@ -182,9 +204,10 @@ export class Web3Services {
   ): Promise<TokenModel | null> {
     // TODO: check token type and fetch information and return
     try {
-      const tokenType = await this.getTokenType(tokenAddress, walletAddress);
+      const tokenType = await this.getTokenType(tokenAddress);
 
       let contract;
+      let balance = '0';
 
       if (tokenType === TokenType.ERC20) {
         contract = new web3.Contract(
@@ -192,10 +215,18 @@ export class Web3Services {
           this.utilsHelper.abi.erc20,
           this.provider
         );
+        balance = await contract.balanceOf(walletAddress);
       } else if (tokenType === TokenType.ERC721) {
         contract = new web3.Contract(
           tokenAddress,
           this.utilsHelper.abi.erc721,
+          this.provider
+        );
+        balance = await contract.balanceOf(walletAddress);
+      } else if (tokenType === TokenType.ERC1155) {
+        contract = new web3.Contract(
+          tokenAddress,
+          this.utilsHelper.abi.erc1155,
           this.provider
         );
       } else {
@@ -203,8 +234,6 @@ export class Web3Services {
       }
 
       const { name, decimals, symbol } = await this.getTokenDetails(contract);
-
-      const balance = await contract.balanceOf(walletAddress);
 
       const { chainId } = await this.provider.getNetwork();
 
