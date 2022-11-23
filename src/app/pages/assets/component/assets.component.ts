@@ -7,14 +7,16 @@ import {
   TokenSelector,
   WalletSelector,
 } from '@app/core/selectors';
-import { ChainModel, TokenModel, TokenType, WalletModel } from '@app/models';
+import {
+  AssetTypeEnum,
+  ChainModel,
+  TokenModel,
+  TokenType,
+  WalletModel,
+} from '@app/models';
 import { Router } from '@angular/router';
 import { UtilsHelper } from '@app/helpers/utils';
-
-enum AssetTypeEnum {
-  tokens = 'tokens',
-  nfts = 'nfts',
-}
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-assets',
@@ -32,7 +34,8 @@ export class AssetsComponent {
     private store: Store<StateModel>,
     private web3Services: Web3Services,
     private router: Router,
-    private utilsHelper: UtilsHelper
+    private utilsHelper: UtilsHelper,
+    private navController: NavController
   ) {}
 
   async ionViewWillEnter() {
@@ -67,5 +70,11 @@ export class AssetsComponent {
 
   public goToChain() {
     this.router.navigate(['/auth/chains']);
+  }
+
+  public goToImportToken() {
+    this.navController.navigateForward('/auth/import-token', {
+      queryParams: { type: this.selectedAssetType },
+    });
   }
 }

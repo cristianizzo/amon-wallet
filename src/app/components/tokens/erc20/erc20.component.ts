@@ -37,8 +37,4 @@ export class Erc20Component implements OnChanges {
   public goToToken(symbol: string) {
     console.log(symbol);
   }
-
-  public goToImportToken() {
-    this.router.navigate(['/auth/import-token']);
-  }
 }

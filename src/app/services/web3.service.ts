@@ -192,7 +192,7 @@ export class Web3Services {
           this.utilsHelper.abi.erc20,
           this.provider
         );
-      } else if (tokenType === TokenType.ERC721) {
+      } else if (tokenType === TokenType.ERC721) { //ERC1155
         contract = new web3.Contract(
           tokenAddress,
           this.utilsHelper.abi.erc721,
