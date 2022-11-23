@@ -24,7 +24,7 @@ export class TokenListComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
+    if (changes && changes.tokens && this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
       this.loading = false;
     }
   }

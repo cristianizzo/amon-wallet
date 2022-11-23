@@ -4,6 +4,8 @@
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
+    "MAX_AMOUNT": "Max",
+    "REVIEW_PAYMENT": "Review Payment",
     "DOWNLOAD_BACKUP": "Download",
     "DEPOSIT": "Deposit",
     "WITHDRAW": "Send",
@@ -162,6 +164,16 @@
     "CHAINS": {
       "TITLE": "Chains",
       "SEARCH": "Search chain"
+    },
+    "WITHDRAW": {
+      "TITLE": {
+        "SEND": "Send"
+      },
+      "FORM": {
+        "QRCODE": "Scan QR Code",
+        "ADDRESS": "Address",
+        "AMOUNT": "Amount"
+      }
     }
   },
   "HEADER": {

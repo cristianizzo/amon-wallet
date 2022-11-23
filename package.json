@@ -45,6 +45,8 @@
     "@openzeppelin/contracts": "^4.8.0",
     "@sentry/angular": "^7.19.0",
     "@sentry/tracing": "^7.19.0",
+    "@zxing/browser": "^0.1.1",
+    "@zxing/library": "^0.19.1",
     "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
