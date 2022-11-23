@@ -114,11 +114,36 @@ export class Web3Services {
     }
   }
 
+  public async getTokenDetails(tokenContract) {
+    const details = {
+      name: 'Unknown',
+      decimals: 0,
+      symbol: 'Unknown',
+    };
+
+    for (const detail in details) {
+      if (details.hasOwnProperty(detail)) {
+        try {
+          details[detail] = await tokenContract[detail]();
+        } catch (e) {
+          logger.warn(
+            logContent.add({
+              info: `error fetch token ${detail}`,
+              tokenAddress: tokenContract.address,
+              e,
+            })
+          );
+        }
+      }
+    }
+
+    return details;
+  }
+
   public async getTokenType(
     tokenAddress,
     walletAddress
   ): Promise<TokenType | undefined> {
-    console.log('Hello World', tokenAddress);
     const encodedData = this.web3.utils.hexConcat([
       this.web3.utils.id('balanceOf(address)').slice(0, 10),
       this.web3.utils.defaultAbiCoder.encode(['address'], [walletAddress]),
@@ -138,14 +163,14 @@ export class Web3Services {
         ),
       ]);
 
-      const isNftContract = await this.provider.call({
-        to: tokenAddress,
-        data: ifErc721encodedData,
-      });
+      try {
+        await this.provider.call({
+          to: tokenAddress,
+          data: ifErc721encodedData,
+        });
 
-      if (isNftContract !== '0x') {
         return TokenType.ERC721;
-      } else {
+      } catch (e) {
         return TokenType.ERC20;
       }
     }
@@ -177,11 +202,9 @@ export class Web3Services {
         return null;
       }
 
+      const { name, decimals, symbol } = await this.getTokenDetails(contract);
+
       const balance = await contract.balanceOf(walletAddress);
-      const name = await contract.name();
-      const decimals =
-        tokenType === TokenType.ERC721 ? 0 : await contract.decimals();
-      const symbol = await contract.symbol();
 
       const { chainId } = await this.provider.getNetwork();
 
@@ -195,6 +218,7 @@ export class Web3Services {
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
+      console.log(error);
       logger.warn(
         logContent.add({
           info: `error fetch token info`,
