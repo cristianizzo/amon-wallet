@@ -14,17 +14,23 @@
   </ion-item>
 
   <ion-list class="form-item" [formGroup]="formObj">
-
     <ion-item lines="none">
       <ion-label position="floating">
-        {{'PAGE.WITHDRAW.FORM.ADDRESS' | translate}}
+        {{ 'PAGE.WITHDRAW.FORM.ADDRESS' | translate }}
       </ion-label>
-      <ion-input formControlName="toAddress" type="text" placeholder=""
-                 (paste)="onPaste('toAddress', false)"></ion-input>
+      <ion-input
+        formControlName="toAddress"
+        type="text"
+        placeholder="address or ENS"
+        (paste)="onPaste('toAddress', false)"
+      ></ion-input>
 
       <div slot="end">
-        <ion-button [ngClass]="{'qrcode_above': formObj?.controls?.toAddress?.value}"
-                    class="btn_qrcode" (click)="askScan()">
+        <ion-button
+          [ngClass]="{ qrcode_above: formObj?.controls?.toAddress?.value }"
+          class="btn_qrcode"
+          (click)="askScan()"
+        >
           <ion-icon class="qrcode-icon" name="qr-code-outline"></ion-icon>
         </ion-button>
       </div>
@@ -32,28 +38,37 @@
 
     <ion-item lines="none">
       <ion-label position="floating">
-        {{'PAGE.WITHDRAW.FORM.AMOUNT' | translate}}
+        {{ 'PAGE.WITHDRAW.FORM.AMOUNT' | translate }}
       </ion-label>
 
-      <ion-input #amount formControlName="amount" type="number" inputmode="decimal"
-                 (input)="calcFiatAmount(this.amount.value)"></ion-input>
+      <ion-input
+        #amount
+        formControlName="amount"
+        type="number"
+        inputmode="decimal"
+        (input)="calcFiatAmount(this.amount.value)"
+      ></ion-input>
 
       <div slot="end">
-        <ion-button class="btn-link"
-                    [ngClass]="{'top': formObj?.controls?.amount?.value}"
-                    (click)="setMaxAmount()">{{'BUTTON.MAX_AMOUNT' | translate}}</ion-button>
+        <ion-button
+          class="btn-link"
+          [ngClass]="{ top: formObj?.controls?.amount?.value }"
+          (click)="setMaxAmount()"
+          >{{ 'BUTTON.MAX_AMOUNT' | translate }}</ion-button
+        >
       </div>
     </ion-item>
 
     <ion-row class="btn-actions">
       <ion-col class="qpass-flex center-xs">
-        <ion-button class="btn-action"
-                    (click)="(!formObj.invalid) ? submit() : null"
-                    [disabled]="formObj.invalid">
-          {{'BUTTON.REVIEW_PAYMENT' | translate}}
+        <ion-button
+          class="btn-action"
+          (click)="!formObj.invalid ? submit() : null"
+          [disabled]="formObj.invalid"
+        >
+          {{ 'BUTTON.REVIEW_PAYMENT' | translate }}
         </ion-button>
       </ion-col>
     </ion-row>
-
   </ion-list>
 </ion-content>

@@ -1,4 +1,8 @@
-import { ChecksumException, FormatException, NotFoundException, } from '@zxing/library';
+import {
+  ChecksumException,
+  FormatException,
+  NotFoundException,
+} from '@zxing/library';
 import { BrowserMultiFormatReader, IScannerControls } from '@zxing/browser';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ResultAndError } from './ResultAndError';

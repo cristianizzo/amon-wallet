@@ -1,11 +1,11 @@
-import {NgModule} from '@angular/core';
-import {IonicModule} from '@ionic/angular';
-import {CommonModule} from '@angular/common';
-import {QrcodeScannerComponent} from '@components/qrcode-scanner/qrcode.component';
+import { NgModule } from '@angular/core';
+import { IonicModule } from '@ionic/angular';
+import { CommonModule } from '@angular/common';
+import { QrcodeScannerComponent } from '@components/qrcode-scanner/qrcode.component';
 // import {ZXingScannerModule} from '@zxing/ngx-scanner';
-import {ZXingScannerModule} from '@components/ngx-scanner/zxing-scanner.module';
-import {LoaderModule} from '@components/loader/loader.component.module';
-import {BackButtonModule} from '@components/back-button/back-button.module';
+import { ZXingScannerModule } from '@components/ngx-scanner/zxing-scanner.module';
+import { LoaderModule } from '@components/loader/loader.component.module';
+import { BackButtonModule } from '@components/back-button/back-button.module';
 
 @NgModule({
   imports: [
@@ -13,14 +13,10 @@ import {BackButtonModule} from '@components/back-button/back-button.module';
     CommonModule,
     ZXingScannerModule,
     LoaderModule,
-    BackButtonModule
+    BackButtonModule,
   ],
-  exports: [
-    QrcodeScannerComponent
-  ],
+  exports: [QrcodeScannerComponent],
   declarations: [QrcodeScannerComponent],
-  entryComponents: [QrcodeScannerComponent]
+  entryComponents: [QrcodeScannerComponent],
 })
-
-export class QrcodeScannerModule {
-}
+export class QrcodeScannerModule {}

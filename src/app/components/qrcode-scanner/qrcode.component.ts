@@ -1,16 +1,14 @@
-import {Component} from '@angular/core';
-import {ModalController} from '@ionic/angular';
-import {UtilsHelper} from '@helpers/utils';
-import {ToastService} from '@services/toast.service';
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { UtilsHelper } from '@helpers/utils';
+import { ToastService } from '@services/toast.service';
 
 @Component({
   selector: 'app-qrcode-scanner',
   templateUrl: './qrcode.component.html',
-  styleUrls: ['./qrcode.component.scss']
+  styleUrls: ['./qrcode.component.scss'],
 })
-
 export class QrcodeScannerComponent {
-
   public currentDevice: MediaDeviceInfo = null;
   public hasPermission: boolean;
   public loading: boolean;
@@ -18,7 +16,7 @@ export class QrcodeScannerComponent {
   constructor(
     public toastService: ToastService,
     private utilsHelper: UtilsHelper,
-    private modalController: ModalController,
+    private modalController: ModalController
   ) {
     this.loading = true;
   }
@@ -27,7 +25,6 @@ export class QrcodeScannerComponent {
    * stripeAddress function
    */
   public stripeAddress(barcodeData: string) {
-
     if (!this.utilsHelper.stringHasValue(barcodeData)) {
       return;
     }
@@ -36,12 +33,9 @@ export class QrcodeScannerComponent {
   }
 
   public async onCodeResult(value: string) {
-
     if (this.utilsHelper.stringHasValue(value)) {
-
       this.toastService.responseSuccess('Address scanned');
-      await this.modalController.dismiss({address: value});
-
+      await this.modalController.dismiss({ address: value });
     } else {
       this.toastService.responseError('Address not valid');
     }
@@ -71,8 +65,6 @@ export class QrcodeScannerComponent {
    * continue function
    */
   public async continue() {
-
     await this.modalController.dismiss();
   }
-
 }

@@ -46,15 +46,13 @@ export class WithdrawComponent {
     console.log(field, extra);
   }
 
-  openWalletsModal() {
-  }
+  openWalletsModal() {}
 
   public askScan() {
     this.scanWebQrCode();
   }
 
-  public submit() {
-  }
+  public submit() {}
 
   public calcFiatAmount(amount: string) {
     console.log(amount);

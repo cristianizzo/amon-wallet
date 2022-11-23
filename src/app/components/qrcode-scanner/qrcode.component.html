@@ -1,8 +1,10 @@
 <ion-content class="ion-no-padding">
   <div class="qr-scan-area">
-
     <div class="menu-scanner">
-      <app-back-button [delegate]="true" (clicked)="continue()"></app-back-button>
+      <app-back-button
+        [delegate]="true"
+        (clicked)="continue()"
+      ></app-back-button>
     </div>
 
     <div class="loadScreen" *ngIf="loading">
