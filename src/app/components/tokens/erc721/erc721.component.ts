@@ -2,7 +2,6 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ChainModel, TokenModel, WalletModel } from '@app/models';
-import { Router } from '@angular/router';
 import { UtilsHelper } from '@helpers/utils';
 
 @Component({
@@ -19,7 +18,6 @@ export class Erc721Component implements OnChanges {
 
   constructor(
     private store: Store<StateModel>,
-    private router: Router,
     private utilsHelper: UtilsHelper
   ) {
     this.loading = true;
@@ -36,9 +34,5 @@ export class Erc721Component implements OnChanges {
 
   public goToToken(symbol: string) {
     console.log(symbol);
-  }
-
-  public goToImportToken() {
-    this.router.navigate(['/auth/import-token']);
   }
 }
