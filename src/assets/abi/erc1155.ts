@@ -311,4 +311,30 @@ export const ERC1155 = [
     stateMutability: 'view',
     type: 'function',
   },
+  {
+    inputs: [],
+    name: 'name',
+    outputs: [
+      {
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: 'symbol',
+    outputs: [
+      {
+        name: '',
+        type: 'string',
+      },
+    ],
+    payable: false,
+    stateMutability: 'view',
+    type: 'function',
+  },
 ];

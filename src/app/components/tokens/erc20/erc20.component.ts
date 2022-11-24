@@ -6,11 +6,11 @@ import { Router } from '@angular/router';
 import { UtilsHelper } from '@helpers/utils';
 
 @Component({
-  selector: 'app-tokens',
-  templateUrl: './tokens.component.html',
-  styleUrls: ['./tokens.component.scss'],
+  selector: 'app-erc20-tokens',
+  templateUrl: './erc20.component.html',
+  styleUrls: ['./erc20.component.scss'],
 })
-export class TokensComponent implements OnChanges {
+export class Erc20Component implements OnChanges {
   @Input() chain: ChainModel;
   @Input() wallet: WalletModel;
   @Input() tokens: TokenModel[];
@@ -29,16 +29,12 @@ export class TokensComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.objectHasValue(changes.wallet.currentValue)) {
+    if (this.utilsHelper.objectHasValue(changes.wallet?.currentValue)) {
       this.loading = false;
     }
   }
 
   public goToToken(symbol: string) {
     console.log(symbol);
-  }
-
-  public goToImportToken() {
-    this.router.navigate(['/auth/import-token']);
   }
 }

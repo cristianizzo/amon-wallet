@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TokenActions } from '@app/core/actions';
 import { Store } from '@ngrx/store';
-import { StateModel, TokenModel } from '@app/models';
+import { AssetTypeEnum, StateModel, TokenModel } from '@app/models';
 import { TokenSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 
@@ -17,20 +17,24 @@ enum TabTypeEnum {
   styleUrls: ['./import-token.component.scss'],
 })
 export class ImportTokenComponent {
+  public assetTypeEnum = AssetTypeEnum;
   public tokens: TokenModel[];
   public selectedTokens: TokenModel[];
   public tabTypeEnum = TabTypeEnum;
   public selectedTabType: string;
+  public initTab: boolean;
 
   constructor(
     private utilsHelper: UtilsHelper,
     private router: Router,
+    public route: ActivatedRoute,
     private store: Store<StateModel>
   ) {
     this.selectedTabType = this.tabTypeEnum.list;
   }
 
   async ionViewWillEnter() {
+    this.checkType();
     await this.utilsHelper.wait(500);
     this.store.dispatch(TokenActions.getAllTokens());
     this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
@@ -46,6 +50,11 @@ export class ImportTokenComponent {
   }
 
   public onSelectTabType = (tab: string) => {
+    if (!this.initTab) {
+      console.log(tab);
+      return this.checkType();
+    }
+
     if (tab) {
       this.selectedTabType = tab;
     } else {
@@ -58,5 +67,18 @@ export class ImportTokenComponent {
    */
   public async close() {
     this.router.navigate(['/auth/assets']);
+  }
+
+  private checkType() {
+    const type = this.route.snapshot.queryParams.type;
+
+    if (type === this.assetTypeEnum.nfts) {
+      this.selectedTabType = this.tabTypeEnum.custom;
+    } else {
+      // token
+      this.selectedTabType = this.tabTypeEnum.list;
+    }
+    this.initTab = true;
+    // type not supported
   }
 }

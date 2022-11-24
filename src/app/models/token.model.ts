@@ -7,6 +7,11 @@ export enum TokenType {
   ERC1155 = 'ERC1155',
 }
 
+export enum AssetTypeEnum {
+  tokens = 'tokens',
+  nfts = 'nfts',
+}
+
 export class TokenModel {
   selected?: boolean;
   coinGeckoId?: string;

@@ -119,7 +119,7 @@ export class PrivateKeyComponent {
         '',
         Validators.compose([
           Validators.required,
-          this.formValidatorHelper.privateKey.bind(this),
+          this.formValidatorHelper.privateKey.bind(this.formValidatorHelper),
         ])
       ),
     });
