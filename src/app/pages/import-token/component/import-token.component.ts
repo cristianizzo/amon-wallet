@@ -50,8 +50,8 @@ export class ImportTokenComponent {
   }
 
   public onSelectTabType = (tab: string) => {
-    if(!this.initTab) {
-      console.log(tab)
+    if (!this.initTab) {
+      console.log(tab);
       return this.checkType();
     }
 
