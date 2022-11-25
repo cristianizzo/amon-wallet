@@ -1,0 +1,37 @@
+<div class="tokens">
+  <ion-list>
+    <app-loader
+      class="loading"
+      [class.active]="loading"
+      [loading]="loading"
+    ></app-loader>
+
+    <ion-item
+      *ngFor="let token of tokens"
+      (click)="goToToken(token.symbol)"
+      class="list-item"
+      lines="none"
+    >
+      <ion-button class="coin-box qpass-flex between-xs" expand="full">
+        <ion-img
+          *ngIf="token.image"
+          class="token-img"
+          [src]="token.image"
+          [alt]="token.name"
+        ></ion-img>
+        <span class="coinCode">{{ token?.symbol }}</span>
+        <span class="coinName">{{ token?.name }}</span>
+
+        <div class="col-xs ion-text-right coinBalance">
+          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
+          <ng-container *ngIf="!loading && showBalance">
+            <span [innerHTML]="token?.balance" class="symbol"></span>
+          </ng-container>
+          <ng-container *ngIf="!loading && !showBalance">
+            <small>{{ '****' }}</small>
+          </ng-container>
+        </div>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</div>

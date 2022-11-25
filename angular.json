@@ -32,7 +32,10 @@
               "moment",
               "web3-utils",
               "ethereum-cryptography/scrypt",
-              "crypto"
+              "crypto",
+              "qs",
+              "easyqrcodejs",
+              "pino"
             ],
             "assets": [
               {
@@ -49,7 +52,8 @@
                 "glob": "**/*.svg",
                 "input": "src/assets/ionic-icons",
                 "output": "./svg"
-              }
+              },
+              "src/netlify.toml"
             ],
             "styles": [
               "src/theme/variables.scss",
@@ -70,12 +74,7 @@
           },
           "configurations": {
             "development": {
-              "fileReplacements": [
-                {
-                  "replace": "capacitor.config.ts",
-                  "with": "capacitor.config.dev.ts"
-                }
-              ],
+              "fileReplacements": [],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,

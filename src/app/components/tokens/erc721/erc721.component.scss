@@ -1,8 +1,13 @@
 @import 'media';
 @import 'theme';
 
-ion-searchbar {
-  --background: #f2f2f2;
+:host {
+  display: block;
+  width: 100%;
+}
+
+.tokens {
+  padding-bottom: 40px;
 }
 
 .loading {
@@ -10,11 +15,6 @@ ion-searchbar {
     margin: 40px auto 30px;
     display: block;
   }
-}
-
-ion-row {
-  display: block;
-  width: 100%;
 }
 
 ion-list {
@@ -65,6 +65,20 @@ ion-list {
         vertical-align: middle;
       }
 
+      ion-icon {
+        width: 28px;
+        height: 28px;
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        display: inline-block;
+        vertical-align: middle;
+        min-width: 28px;
+
+        @include isDarkTheme {
+          filter: grayscale(0.3);
+        }
+      }
+
       .coinName {
         font-size: 14px;
         color: #333;
@@ -80,17 +94,6 @@ ion-list {
         @include mobile-xs {
           font-size: 12px;
         }
-      }
-
-      span.type {
-        position: relative;
-        top: 3px;
-        right: -12px;
-        font-size: 10px;
-        background: #002c61;
-        padding: 3px 4px;
-        border-radius: 5px;
-        color: #fff;
       }
 
       .coinCode {
@@ -192,27 +195,5 @@ ion-list {
         }
       }
     }
-  }
-}
-
-.searchbar-box {
-  background: #fff;
-  border-bottom: 1px solid #ecf0f1;
-}
-
-ion-searchbar {
-  --color: #333;
-  --icon-color: #a5a3a3;
-  --box-shadow: none;
-  --border-radius: 10px;
-  --background: #f2f2f2;
-
-  @include isDarkTheme {
-    --background: #fff;
-    --color: #252525;
-  }
-
-  ::ng-deep input.searchbar-input {
-    font-size: 14px !important;
   }
 }

@@ -77,6 +77,8 @@ export class TokenProxy {
           wallet.address
         );
 
+        assert(tokenInfo, 'tokenNotFound');
+
         const newToken = this.tokenService.parseToken(tokenInfo, chain);
 
         const balance = await this.web3Services.getTokenBalance(

@@ -21,7 +21,7 @@ export class UtilsHelper {
     password: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
     passwordStrong:
       '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[?.,=-£$%^*!@#$&*~]).{8,}$',
-    address: '^[a-zA-Z0-9 ]*$',
+    address: '^0x[a-fA-F0-9]{40}$',
     // eslint-disable-next-line id-blacklist
     number: '^[0-9]*$', // only numbers
     // eslint-disable-next-line id-blacklist
