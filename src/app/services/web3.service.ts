@@ -202,7 +202,6 @@ export class Web3Services {
     tokenAddress: string,
     walletAddress: string
   ): Promise<TokenModel | null> {
-    // TODO: check token type and fetch information and return
     try {
       const tokenType = await this.getTokenType(tokenAddress);
 
@@ -216,6 +215,7 @@ export class Web3Services {
           this.provider
         );
         balance = await contract.balanceOf(walletAddress);
+        // TODO: find a way to fetch image somewhere
       } else if (tokenType === TokenType.ERC721) {
         contract = new web3.Contract(
           tokenAddress,
@@ -223,12 +223,14 @@ export class Web3Services {
           this.provider
         );
         balance = await contract.balanceOf(walletAddress);
+        // TODO: fetch image
       } else if (tokenType === TokenType.ERC1155) {
         contract = new web3.Contract(
           tokenAddress,
           this.utilsHelper.abi.erc1155,
           this.provider
         );
+        // TODO: fetch image
       } else {
         return null;
       }
@@ -247,7 +249,6 @@ export class Web3Services {
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
-      console.log(error);
       logger.warn(
         logContent.add({
           info: `error fetch token info`,

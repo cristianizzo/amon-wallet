@@ -82,6 +82,17 @@ ion-list {
         }
       }
 
+      span.type {
+        position: relative;
+        top: 3px;
+        right: -12px;
+        font-size: 10px;
+        background: #002c61;
+        padding: 3px 4px;
+        border-radius: 5px;
+        color: #fff;
+      }
+
       .coinCode {
         margin: 0 12px;
         font-size: 18px;
