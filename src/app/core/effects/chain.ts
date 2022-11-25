@@ -56,9 +56,7 @@ export class ChainEffects {
       withLatestFrom(this.store.select(ChainSelector.getChain)),
       switchMap(([_, chain]) => this.chainProxy.getAllChains(chain)),
       map((chains) => ChainActions.getAllChainsSuccess(chains)),
-      tap(() => [
-        this.store.dispatch(FormActions.formEnd()),
-      ]),
+      tap(() => [this.store.dispatch(FormActions.formEnd())]),
       catchError((error) => {
         logger.error(
           logContent.add({
