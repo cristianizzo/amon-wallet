@@ -32,7 +32,10 @@
               "moment",
               "web3-utils",
               "ethereum-cryptography/scrypt",
-              "crypto"
+              "crypto",
+              "qs",
+              "easyqrcodejs",
+              "pino"
             ],
             "assets": [
               {
@@ -70,8 +73,7 @@
           },
           "configurations": {
             "development": {
-              "fileReplacements": [
-              ],
+              "fileReplacements": [],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
