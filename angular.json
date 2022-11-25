@@ -71,10 +71,6 @@
           "configurations": {
             "development": {
               "fileReplacements": [
-                {
-                  "replace": "capacitor.config.ts",
-                  "with": "capacitor.config.dev.ts"
-                }
               ],
               "optimization": true,
               "outputHashing": "all",

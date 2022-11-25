@@ -22,8 +22,8 @@ const logContent = (data) =>
 
 @Component({
   selector: 'app-setting-change-password',
-  templateUrl: 'change-password.component.html',
-  styleUrls: ['change-password.component.scss'],
+  templateUrl: './change-password.component.html',
+  styleUrls: ['./change-password.component.scss'],
 })
 export class ChangePasswordComponent {
   @ViewChild(IonBackButtonDelegate, { static: false })
@@ -57,7 +57,43 @@ export class ChangePasswordComponent {
     );
   }
 
-  initForm() {
+  /**
+   * changePassword function
+   */
+  public async changePassword() {}
+
+  public submit() {}
+
+  /**
+   * alertEnabled function
+   */
+  public async alert() {
+    const alert = await this.alertController.create({
+      mode: 'md',
+      header: this.languageProxy.getTranslate('ALERT.header.success'),
+      message: this.languageProxy.getTranslate('ALERT.message.updatePassword'),
+      buttons: [
+        {
+          text: this.languageProxy.getTranslate('BUTTON.return'),
+          handler: () => {
+            this.continue();
+            // this.appEvents.sendEvent({action: 'logout', opts: {clear: true}});
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  /**
+   * Continue Function
+   */
+  public async continue() {
+    await this.modalCtrl.dismiss();
+  }
+
+  private initForm() {
     // TODO add static values as constants in constants file (like 8 for maxLength)
     this.formObj = this.formBuilder.group(
       {
@@ -92,37 +128,4 @@ export class ChangePasswordComponent {
     );
   }
 
-  /**
-   * changePassword function
-   */
-  async changePassword() {}
-
-  /**
-   * alertEnabled function
-   */
-  async alert() {
-    const alert = await this.alertController.create({
-      mode: 'md',
-      header: this.languageProxy.getTranslate('ALERT.header.success'),
-      message: this.languageProxy.getTranslate('ALERT.message.updatePassword'),
-      buttons: [
-        {
-          text: this.languageProxy.getTranslate('BUTTON.return'),
-          handler: () => {
-            this.continue();
-            // this.appEvents.sendEvent({action: 'logout', opts: {clear: true}});
-          },
-        },
-      ],
-    });
-
-    await alert.present();
-  }
-
-  /**
-   * Continue Function
-   */
-  async continue() {
-    await this.modalCtrl.dismiss();
-  }
 }

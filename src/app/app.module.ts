@@ -27,7 +27,7 @@ import { LoadingBarModule } from '@components/loading-bar/loading-bar.module';
     NgAmonHelpersModule,
     NgAmonPipesModule,
     NgAmonDirectivesModule,
-    NgAmonCoreModule,
+    NgAmonCoreModule.forRoot(),
     LoadingBarModule,
   ],
   providers: [

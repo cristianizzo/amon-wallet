@@ -7,9 +7,13 @@ import { metaReducers, reducers } from '@app/core/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@app/core/effects';
 
+const extModules = !environment.production ? [
+  StoreDevtoolsModule.instrument({
+    maxAge: 25
+  })] : [];
+
 @NgModule({
   imports: [
-    CommonModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       // runtimeChecks: {
@@ -18,14 +22,10 @@ import { effects } from '@app/core/effects';
       // },
     }),
     EffectsModule.forRoot(effects),
-    !environment.production
-      ? StoreDevtoolsModule.instrument({
-          maxAge: 25,
-        })
-      : [],
+    // ...extModules
   ],
   declarations: [],
-  exports: [],
+  exports: [StoreModule, EffectsModule],
 })
 export class NgAmonCoreModule {
   public static forRoot(): ModuleWithProviders<NgAmonCoreModule> {
