@@ -35,7 +35,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'string',
     'NG_APP_TERMS_WALLET_VERSION',
-    '1.1.0'
+    '1.0.0'
   ),
   languages: configParser(sourceConfig, 'array', 'NG_APP_LANGUAGES', [
     'en',

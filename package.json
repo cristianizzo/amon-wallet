@@ -6,7 +6,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build:dev": "ng build --configuration=development",
+    "build:prod": "ng build --configuration=production",
     "test": "ng test",
     "lint": "ng lint",
     "lint:languages": "node ./test/checkLanguages.js",
@@ -14,7 +15,11 @@
     "format:check": "prettier --check .",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "netlify:dev": "rm -f netlify.toml && cp ./config/netlify/netlify-dev.toml ./netlify.toml",
+    "netlify:prod": "rm -f netlify.toml && cp ./config/netlify/netlify-prod.toml ./netlify.toml",
+    "deploy:web:dev": "npm run netlify:dev && npm run build:dev",
+    "deploy:web:prod": "npm run netlify:prod && npm run build:prod"
   },
   "private": true,
   "dependencies": {
