@@ -249,7 +249,6 @@ export class Web3Services {
         balance: this.formatEther(balance, decimals),
       };
     } catch (error) {
-      console.log(error);
       logger.warn(
         logContent.add({
           info: `error fetch token info`,
