@@ -132,6 +132,10 @@ export class WalletProxy {
     );
   }
 
+  public async loadBalance(wallet: WalletModel) {
+    return await this.walletService.fetchBalance(wallet);
+  }
+
   public async getAllWallets(
     selectedWallets?: WalletModel
   ): Promise<WalletModel[]> {

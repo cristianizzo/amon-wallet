@@ -41,6 +41,14 @@
       </ion-segment-button>
     </ion-segment>
 
+    <ion-refresher
+      class="amn-loader refresh"
+      slot="fixed"
+      (ionRefresh)="doRefresh($event)"
+    >
+      <ion-img src="/assets/img/loader.svg"></ion-img>
+    </ion-refresher>
+
     <ng-container [ngSwitch]="selectedAssetType">
       <ion-row *ngSwitchCase="assetTypeEnum.tokens">
         <app-erc20-tokens

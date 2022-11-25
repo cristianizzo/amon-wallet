@@ -13,12 +13,16 @@ export const tokenActionTypes = {
   updateStateTokens: type('[Token] update state tokens'),
   resetState: type('[Token] reset state'),
 
+  loadBalances: type('[Token] load balances'),
+  setLoading: type('[Token] set loading'),
   getAllTokens: type('[Token] get all tokens'),
   getAllTokensSuccess: type('[Token] get all tokens success'),
   resetTokens: type('[Token] reset tokens'),
 };
 
 export const initTokens = createAction(tokenActionTypes.initTokens);
+
+export const loadBalances = createAction(tokenActionTypes.loadBalances);
 
 export const getAllTokens = createAction(tokenActionTypes.getAllTokens);
 
@@ -70,3 +74,8 @@ export const updateStateTokens = createAction(
 );
 
 export const resetState = createAction(tokenActionTypes.resetState);
+
+export const setLoading = createAction(
+  tokenActionTypes.setLoading,
+  (loading: boolean, loadingBalances: boolean) => ({ loading, loadingBalances })
+);

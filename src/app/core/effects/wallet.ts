@@ -52,6 +52,17 @@ export class WalletEffects {
     )
   );
 
+  loadBalance$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.loadBalance),
+      tap(() => [this.store.dispatch(WalletActions.setLoading(false, true))]),
+      concatLatestFrom(() => [this.store.select(WalletSelector.getWallet)]),
+      exhaustMap(([_, wallet]) => this.walletProxy.loadBalance(wallet)),
+      map((wallets) => WalletActions.updateStateWallet(wallets)),
+      tap(() => [this.store.dispatch(WalletActions.setLoading(false, false))])
+    )
+  );
+
   addWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.addWallet),

@@ -8,6 +8,9 @@ export const chainActionTypes = {
   switchChain: type('[Chain] switch chain'),
   getAllChains: type('[Chain] get all chains'),
   getAllChainsSuccess: type('[Chain] get all chains success'),
+
+  setLoading: type('[Chain] set loading'),
+
   resetChains: type('[Chain] reset chains'),
 };
 
@@ -37,4 +40,9 @@ export const switchChain = createAction(
   (chain: ChainModel) => ({
     chain,
   })
+);
+
+export const setLoading = createAction(
+  chainActionTypes.setLoading,
+  (loading: boolean) => ({ loading })
 );

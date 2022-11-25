@@ -25,7 +25,7 @@ const extModules = !environment.production
       // },
     }),
     EffectsModule.forRoot(effects),
-    // ...extModules
+    ...extModules,
   ],
   declarations: [],
   exports: [StoreModule, EffectsModule],
