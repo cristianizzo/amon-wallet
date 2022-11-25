@@ -1,19 +1,19 @@
 import { environment } from '@env/environment';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from '@app/core/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@app/core/effects';
 
-const extModules = !environment.production
-  ? [
-      StoreDevtoolsModule.instrument({
-        maxAge: 25,
-      }),
-    ]
-  : [];
+const instrument = [];
+if (!environment.production) {
+  instrument.push(
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+    })
+  );
+}
 
 @NgModule({
   imports: [
@@ -25,7 +25,7 @@ const extModules = !environment.production
       // },
     }),
     EffectsModule.forRoot(effects),
-    ...extModules,
+    instrument,
   ],
   declarations: [],
   exports: [StoreModule, EffectsModule],
