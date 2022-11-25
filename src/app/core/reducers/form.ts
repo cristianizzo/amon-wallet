@@ -1,17 +1,11 @@
+import { FormStateModel } from '@core/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { FormActions } from '@app/core/actions';
 
 export const featureKey = 'form';
-const initialState: {
-  loading: boolean;
-  start: boolean;
-  end: boolean;
-  topLoading: boolean;
-} = {
+const initialState: FormStateModel = {
   loading: false,
   topLoading: false,
-  start: false,
-  end: false,
 };
 
 export const formReducer = createReducer(
@@ -22,19 +16,6 @@ export const formReducer = createReducer(
       topLoading: status.topLoading,
     })
   )
-  // on(FormActions.formStart, (state = initialState) => {
-  //   return Object.assign({}, state, {
-  //     start: true,
-  //     end: false,
-  //     loading: true,
-  //   });
-  // }),
-  // on(FormActions.formEnd, (state = initialState) => {
-  //   return Object.assign({}, state, {
-  //     end: true,
-  //     loading: false,
-  //   });
-  // }),
 );
 
 export const reducer = (state = initialState, action: Action): any =>

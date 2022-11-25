@@ -1,29 +1,18 @@
 import {
-  ChainModel,
-  CurrencyModel,
-  LanguageModel,
-  TokenModel,
-  WalletModel,
-} from '@models/index';
+  ChainStateModel,
+  CurrencyStateModel,
+  FormStateModel,
+  TokenStateModel,
+  WalletStateModel,
+} from '@app/core/models';
+import { LanguageModel } from '@models/index';
 
 export interface StateModel {
   theme?: string;
-  tokens?: {
-    current: TokenModel[];
-    all: TokenModel[];
-  };
-  chain?: {
-    current: ChainModel;
-    all: ChainModel[];
-  };
-  wallet?: {
-    current: WalletModel;
-    all: WalletModel[];
-  };
-  currency?: {
-    current: CurrencyModel;
-    all: CurrencyModel[];
-  };
+  tokens?: TokenStateModel;
+  chain?: ChainStateModel;
+  wallet?: WalletStateModel;
+  currency?: CurrencyStateModel;
   language?: LanguageModel;
-  form?: { loading: boolean; topLoading: boolean };
+  form?: FormStateModel;
 }

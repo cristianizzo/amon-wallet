@@ -3,6 +3,7 @@ import { StateModel, TokenModel } from '@app/models';
 import { Store } from '@ngrx/store';
 import { UtilsHelper } from '@helpers/utils';
 import { TokenActions } from '@core/actions';
+import { TokenSelector } from '@core/selectors';
 
 @Component({
   selector: 'app-token-list',
@@ -21,10 +22,17 @@ export class TokenListComponent implements OnChanges {
     private store: Store<StateModel>
   ) {
     this.loading = true;
+    this.store.select(TokenSelector.getLoading).subscribe(({ loading }) => {
+      this.loading = loading;
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
+    this.loading = true;
+    if (
+      changes.tokens &&
+      this.utilsHelper.arrayHasValue(changes.tokens.currentValue)
+    ) {
       this.loading = false;
     }
   }

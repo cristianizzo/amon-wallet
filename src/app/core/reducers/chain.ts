@@ -1,9 +1,10 @@
-import { ChainModel } from '@app/models';
+import { ChainStateModel } from '@core/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { ChainActions } from '@app/core/actions';
 
 export const featureKey = 'chain';
-const initialState: { current: ChainModel; all: ChainModel[] } = {
+const initialState: ChainStateModel = {
+  loading: false,
   current: null,
   all: [],
 };
@@ -28,6 +29,12 @@ export const chainReducer = createReducer(
   on(ChainActions.resetChains, (state = initialState) => ({
     ...state,
     ...{ all: [] },
+  })),
+  on(ChainActions.setLoading, (state = initialState, { loading }) => ({
+    ...state,
+    ...{
+      loading,
+    },
   }))
 );
 

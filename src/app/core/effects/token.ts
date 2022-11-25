@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
-import { ChainSelector, WalletSelector } from '@core/selectors';
+import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
 import { FormActions, TokenActions } from '@app/core/actions';
 import { TokenProxy } from '@services/proxy/token.proxy';
 import { Store } from '@ngrx/store';
@@ -40,9 +40,11 @@ export class TokenEffects {
   getAllTokens$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.getAllTokens),
+      tap(() => [this.store.dispatch(TokenActions.setLoading(true, false))]),
       concatLatestFrom(() => [this.store.select(ChainSelector.getChain)]),
       exhaustMap(([_, chain]) => this.tokenProxy.getAllTokens(chain)),
       map((tokens) => TokenActions.getAllTokensSuccess(tokens)),
+      tap(() => [this.store.dispatch(TokenActions.setLoading(false, false))]),
       catchError((error) => {
         logger.error(
           logContent.add({
@@ -52,6 +54,22 @@ export class TokenEffects {
         );
         return of(FormActions.formError(error));
       })
+    )
+  );
+
+  loadBalances$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(TokenActions.loadBalances),
+      tap(() => [this.store.dispatch(TokenActions.setLoading(false, true))]),
+      concatLatestFrom(() => [
+        this.store.select(WalletSelector.getWallet),
+        this.store.select(TokenSelector.getSelectedTokens),
+      ]),
+      exhaustMap(([_, wallet, tokens]) =>
+        this.tokenProxy.loadBalances(tokens, wallet)
+      ),
+      map((tokens) => TokenActions.updateStateTokens(tokens)),
+      tap(() => [this.store.dispatch(TokenActions.setLoading(false, false))])
     )
   );
 
@@ -123,9 +141,9 @@ export class TokenEffects {
   selectToken$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TokenActions.selectToken),
-      tap(() =>
-        this.store.dispatch(FormActions.formStart({ topLoading: true }))
-      ),
+      tap(() => [
+        this.store.dispatch(FormActions.formStart({ topLoading: true })),
+      ]),
       concatLatestFrom(() => [
         this.store.select(ChainSelector.getChain),
         this.store.select(WalletSelector.getWallet),
@@ -134,7 +152,7 @@ export class TokenEffects {
         this.tokenProxy.selectToken(action.address, wallet, chain)
       ),
       map((token) => TokenActions.updateTokenToState(token)),
-      tap(() => this.store.dispatch(FormActions.formEnd())),
+      tap(() => [this.store.dispatch(FormActions.formEnd())]),
       catchError((error) => {
         logger.error(
           logContent.add({
