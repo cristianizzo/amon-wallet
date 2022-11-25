@@ -7,12 +7,19 @@ import { Store } from '@ngrx/store';
 import { ChainModel, StateModel, TokenModel, WalletModel } from '@app/models';
 import { QrcodeScannerComponent } from '@app/components/qrcode-scanner/qrcode.component';
 
+export enum COIN_SELECTOR_SHAPES {
+  VERTICAL,
+  HORIZONTAL,
+  HORIZONTAL_SMALL,
+}
+
 @Component({
   selector: 'app-withdraw',
   templateUrl: 'withdraw.component.html',
   styleUrls: ['withdraw.component.scss'],
 })
 export class WithdrawComponent {
+  public shapes = COIN_SELECTOR_SHAPES;
   public chain: ChainModel;
   public wallet: WalletModel;
   public tokens: TokenModel[];
@@ -46,7 +53,7 @@ export class WithdrawComponent {
     console.log(field, extra);
   }
 
-  openWalletsModal() {}
+  public onSelectedWallet() {}
 
   public askScan() {
     this.scanWebQrCode();

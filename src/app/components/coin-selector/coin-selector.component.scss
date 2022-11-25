@@ -1,0 +1,58 @@
+@import 'media';
+@import 'theme';
+
+.coin-selector {
+
+  &__coin-icon {
+    width: 43px;
+    height: 43px;
+    margin-right: 12px;
+  }
+
+  &__coin-icon--horizontal {
+    width: 32px;
+    height: 32px;
+    margin-right: 15px;
+  }
+
+  &__coin-icon--horizontal-small {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+
+  &__name-container {
+    margin-top: 15px;
+  }
+
+  &__coin-name {
+    font-size: 14px;
+    text-transform: capitalize;
+    color: #333;
+    font-weight: 400;
+
+    @include isDarkTheme {
+      color: white;
+    }
+  }
+
+  &__coin-name--horizontal {
+    font-size: 16px;
+    margin-right: 5px;
+  }
+
+  &__coin-name--horizontal-small {
+    font-size: 14px;
+    margin-right: 1px;
+  }
+
+  &__arrow-down--horizontal-small {
+    font-size: 15px;
+  }
+
+  &__arrow {
+    @include isDarkTheme {
+      color: white;
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { LoaderModule } from '@components/loader/loader.component.module';
 import { QrcodeScannerModule } from '@app/components/qrcode-scanner/qrcode.module';
+import { CoinSelectorModule } from "@components/coin-selector/coin-selector.module";
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { QrcodeScannerModule } from '@app/components/qrcode-scanner/qrcode.modul
     ReactiveFormsModule,
     LoaderModule,
     QrcodeScannerModule,
+    CoinSelectorModule,
   ],
   declarations: [WithdrawComponent],
 })
