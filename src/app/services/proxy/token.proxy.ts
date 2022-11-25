@@ -215,7 +215,13 @@ export class TokenProxy {
           token.loadBalance = true;
           token.balance = balance;
           return token;
-        } catch () {
+        } catch (error) {
+          logger.warn(
+            logContent.add({
+              info: `error load token balance`,
+              error,
+            })
+          );
           return token;
         }
       })
