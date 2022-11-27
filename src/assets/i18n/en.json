@@ -1,6 +1,6 @@
 {
   "APP": {
-    "title": "Multiple Chain One Wallet",
+    "title": "Manage your crypto assets",
     "slogan": "Define Your Freedom"
   },
   "BUTTON": {
@@ -19,15 +19,18 @@
     "CANCEL": "Cancel",
     "JSON_FILE": "Json File",
     "PRIVATE_KEY": "Private Key",
-    "RECOVER_PHRASE": "Recover Phrase"
+    "RECOVER_PHRASE": "Recover Phrase",
+    "CHANGE_PASSWORD": "Change Password"
   },
   "PLACEHOLDER": {
     "NAME": "token name",
     "SYMBOL": "token symbol",
     "DECIMALS": "token decimals",
-    "ADDRESS": "token address",
+    "ADDRESS": "token contract address",
     "PASSWORD": "Password",
-    "CONFIRM_PASSWORD": "Confirm Password"
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "OLD_PASSWORD": "Old Password",
+    "NEW_PASSWORD": "New Password"
   },
   "LANGUAGE": {
     "IT": "Italian",
@@ -136,7 +139,6 @@
         "CHANGE_PASSWORD": "Change Password",
         "PRIVACY": "Privacy Policy",
         "TERMS": "Terms and Conditions",
-        "LICENSE": "Our Licenses",
         "NETWORK": "Network",
         "WEBSITE": "Website",
         "NEWS": "News",
@@ -157,9 +159,9 @@
     "EXCHANGE": {
       "TITLE": "Swap"
     },
-    "NETWORKS": {
-      "TITLE": "Networks",
-      "SEARCH": "Search network"
+    "CHAINS": {
+      "TITLE": "Chains",
+      "SEARCH": "Search chain"
     }
   },
   "HEADER": {
@@ -175,7 +177,10 @@
   "ERRORS": {
     "SELECT_TOKEN": "Error select token",
     "CONTRACT_NOT_FOUND": "Error smart contract not found",
-    "CONNECTION_ERROR": "Error connect to the network",
+    "CONNECTION_ERROR": "Error connect to the chain",
+    "TOKEN_NOT_SELECTED": "Token not selected.",
+    "TOKEN_ALREADY_SELECTED": "Token already selected.",
+    "TOKEN_NOT_FOUND": "Token not fund.",
     "TOKEN_ALREADY_EXISTS": "Token already exists.",
     "WALLET_ALREADY_EXISTS": "Wallet already exists.",
     "FAIL_ENCRYPT": "Error encrypt seed phrase.",
@@ -187,5 +192,20 @@
     "INVALID_SECRET": "Invalid password.",
     "SEED_PHRASE": "Invalid seed phrase.",
     "PRIVATE_KEY": "Invalid Private Key"
+  },
+  "CURRENCY_SELECTOR": {
+    "TITLE": "Change Currency",
+    "SEARCH": "Search Currency"
+  },
+  "ALERT": {
+    "HEADER": {
+      "CURRENCY": "Change Currency"
+    },
+    "MESSAGE": {
+      "CURRENCY": "Do you want change to {{symbol}}?"
+    }
+  },
+  "INFO": {
+    "PASSWORD": "At least 8 characters, must include lowercase/uppercase letters and numbers"
   }
 }

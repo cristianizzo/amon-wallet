@@ -6,14 +6,14 @@ import { StateModel } from '@models/state.model';
 import {
   CurrencyActions,
   LanguageActions,
-  NetworkActions,
+  ChainActions,
   ThemeActions,
   TokenActions,
   WalletActions,
 } from '@app/core/actions';
 import {
   CurrencySelector,
-  NetworkSelector,
+  ChainSelector,
   WalletSelector,
 } from '@app/core/selectors';
 
@@ -26,26 +26,21 @@ export class AppConfig {
   ) {}
 
   public async loadConfiguration() {
-    this.store.dispatch(NetworkActions.initNetworks());
-    this.store.dispatch(CurrencyActions.initCurrencies());
-    this.store.dispatch(ThemeActions.initTheme());
-    this.store.dispatch(LanguageActions.initLanguage());
-
     await this.utilsHelper.wait(500);
-    this.store.dispatch(WalletActions.initWallets());
+    this.store.dispatch(WalletActions.initWallet());
     this.initTokens();
   }
 
   private async initTokens() {
     await this.utilsHelper.combine(
       [
-        this.store.select(NetworkSelector.getNetwork),
+        this.store.select(ChainSelector.getChain),
         this.store.select(CurrencySelector.getCurrency),
         this.store.select(WalletSelector.getWallet),
       ],
-      ([network, currency, wallet]) => {
+      ([chain, currency, wallet]) => {
         if (
-          this.utilsHelper.objectHasValue(network) &&
+          this.utilsHelper.objectHasValue(chain) &&
           this.utilsHelper.objectHasValue(currency) &&
           this.utilsHelper.objectHasValue(wallet)
         ) {

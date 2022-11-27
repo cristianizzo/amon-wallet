@@ -1,19 +1,48 @@
-import { CurrencyModel } from '@app/models';
+import { CurrencyStateModel } from '@core/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { CurrencyActions } from '@app/core/actions';
 
-export const featureKey = 'currencies';
-const initialState: CurrencyModel[] = [];
+export const featureKey = 'currency';
+const initialState: CurrencyStateModel = {
+  loading: false,
+  current: null,
+  all: [],
+};
 
 export const currencyReducer = createReducer(
   initialState,
   on(
-    CurrencyActions.updateStateCurrencies,
-    (_: CurrencyModel[] = initialState, { currencies }) => currencies
-  )
+    CurrencyActions.updateStateCurrency,
+    (state = initialState, { currency }) => ({
+      ...state,
+      ...{
+        current: currency,
+        all: state.all.map((c) =>
+          Object.assign({}, c, {
+            selected: c.symbol === currency.symbol,
+          })
+        ),
+      },
+    })
+  ),
+  on(
+    CurrencyActions.getAllCurrenciesSuccess,
+    (state = initialState, { currencies }) => ({
+      ...state,
+      ...{ all: currencies },
+    })
+  ),
+  on(CurrencyActions.resetCurrencies, (state = initialState) => ({
+    ...state,
+    ...{ all: [] },
+  })),
+  on(CurrencyActions.setLoading, (state = initialState, { loading }) => ({
+    ...state,
+    ...{
+      loading,
+    },
+  }))
 );
 
-export const reducer = (
-  state: CurrencyModel[] | undefined,
-  action: Action
-): any => currencyReducer(state, action);
+export const reducer = (state = initialState, action: Action): any =>
+  currencyReducer(state, action);

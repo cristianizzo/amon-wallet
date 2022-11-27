@@ -1,15 +1,22 @@
 import { environment } from '@env/environment';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { metaReducers, reducers } from '@app/core/reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from '@app/core/effects';
 
+const instrument = [];
+if (!environment.production) {
+  instrument.push(
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+    })
+  );
+}
+
 @NgModule({
   imports: [
-    CommonModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       // runtimeChecks: {
@@ -18,10 +25,10 @@ import { effects } from '@app/core/effects';
       // },
     }),
     EffectsModule.forRoot(effects),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    instrument,
   ],
   declarations: [],
-  exports: [],
+  exports: [StoreModule, EffectsModule],
 })
 export class NgAmonCoreModule {
   public static forRoot(): ModuleWithProviders<NgAmonCoreModule> {

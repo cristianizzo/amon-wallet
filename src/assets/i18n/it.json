@@ -1,0 +1,211 @@
+{
+  "APP": {
+    "title": "Gestisci le tue criptovalute",
+    "slogan": "Definisci la tua libertà"
+  },
+  "BUTTON": {
+    "DOWNLOAD_BACKUP": "Download",
+    "DEPOSIT": "Depositare",
+    "WITHDRAW": "Invia",
+    "SWAP": "Barattare",
+    "NEXT": "prossimo",
+    "COPY": "copiare",
+    "CLOSE": "chiudi",
+    "SHARE": "condividi",
+    "IMPORT_TOKEN": "importa token",
+    "CONTINUE": "continuare",
+    "CREATE_WALLET": "crea un portafoglio",
+    "RESTORE_WALLET": "Ripristina il portafoglio",
+    "CANCEL": "Annulla",
+    "JSON_FILE": "File Json",
+    "PRIVATE_KEY": "Chiave privata",
+    "RECOVER_PHRASE": "Recupera Seed Phrase",
+    "CHANGE_PASSWORD": "Change Password"
+  },
+  "PLACEHOLDER": {
+    "NAME": "nome token",
+    "SYMBOL": "simbolo token",
+    "DECIMALS": "decimali token",
+    "ADDRESS": "indirizzo Smart Contract token",
+    "PASSWORD": "password",
+    "CONFIRM_PASSWORD": "Conferma password",
+    "OLD_PASSWORD": "Vecchia Password",
+    "NEW_PASSWORD": "Nuova Password"
+  },
+  "LANGUAGE": {
+    "IT": "Italiano",
+    "EN": "Inglese",
+    "ES": "Spagnolo",
+    "PT": "Portoghese",
+    "FR": "Francese"
+  },
+  "ACTION_SHEET": {
+    "IMPORT_ACCOUNT": "Importa portafoglio"
+  },
+  "COMP": {
+    "RECOVERY_PHRASE": {
+      "TITLE": "Inserisci la tua frase di recupero",
+      "DESCRIPTION": "Usa una frase di recupero da 12 a 24 parole per ripristinare il tuo portafoglio.",
+      "PLACEHOLDER": {
+        "SEED_PHRASE": "Seed Phrase"
+      }
+    },
+    "PRIVATE_KEY": {
+      "TITLE": "Inserisci la tua chiave privata",
+      "DESCRIPTION": "Usa la tua chiave privata di backup per ripristinare il tuo portafoglio.",
+      "PLACEHOLDER": {
+        "PRIVATE_KEY": "Chiave privata"
+      }
+    },
+    "KEYSTORE_FILE": {
+      "TITLE": "Carica il tuo file keystore",
+      "DESCRIPTION": "Carica il file del tuo keystore per ripristinare il tuo portafoglio",
+      "PLACEHOLDER": {
+        "KEYSTORE_FILE": "File Keystore"
+      }
+    },
+    "WALLET_MENU": {
+      "CONNECT": "Connettersi",
+      "RENAME": "Rinominare",
+      "EXPORT_PK": "Esporta Chiave Privata",
+      "EXPORT_SEED": "Esporta Seed Phrase",
+      "COPY_ADDRESS": "Copia indirizzo",
+      "DELETE": "Cancellare"
+    },
+    "IMPORT_TOKENS": {
+      "MENU": {
+        "TOKENS": "Token",
+        "CUSTOM": "Aggiungi"
+      }
+    },
+    "TOKENS": {
+      "INFO": "Non visualizzi i tokens?"
+    },
+    "EXPORT_WALLET": {
+      "TITLE_PK": "Mostra Chiave Privata",
+      "TITLE_SEED": "Mostra Seed Phrase",
+      "DESCRIPTION": "Attenzione: non rivelare mai questa chiave. Chiunque sia in possesso della tua chiave privata o Seed Phrase può rubare qualsiasi risorsa detenuta nel tuo account."
+    }
+  },
+  "PAGE": {
+    "START": {
+      "WELCOME": {
+        "TITLE": "Gestisci le tue criptovalute"
+      },
+      "LANGUAGE": {
+        "TITLE": "Portafoglio crittografico decentralizzato",
+        "SELECT_LANG": "Seleziona lingua"
+      }
+    },
+    "CREATE_WALLET": {
+      "PICK_PASSWORD": {
+        "TITLE_STEP_1": "Scegli una password",
+        "SUBTITLE_STEP_1": "Questo verrà utilizzato per sbloccare il tuo portafoglio",
+        "TITLE_STEP_2": "Conferma la tua password",
+        "SUBTITLE_STEP_2": "Amon e non-custodial. Non possiamo ripristinare o reimpostare la tua password",
+        "PASSWORD_INFO": "Le migliori password sono lunghe e contengono lettere, numeri e caratteri speciali"
+      },
+      "RECOVER_PHRASE": {
+        "TITLE_STEP_1": "Frase di recupero segreta",
+        "SUBTITLE_STEP_1": "Questa è la fase di recupero per il tuo portafoglio. Tu e solo tu hai accesso ad esso. Può essere utilizzato per ripristinare il tuo portafoglio",
+        "SUBTITLE_2_STEP_1": "Le migliori pratiche per la tua frase di recupero sono scriverla su carta e conservarla in un posto sicuro",
+        "TITLE_STEP_2": "Conferma la tua frase segreta",
+        "SUBTITLE_STEP_2": "Seleziona le parole corrette in base ai loro numeri"
+      }
+    },
+    "ASSETS": {
+      "TAB": {
+        "TOKENS": "Tokens",
+        "NFTS": "NFTs"
+      }
+    },
+    "DEPOSIT": {
+      "TITLE": "Depositare",
+      "ADDRESS": "address",
+      "INFO": "You can send ETH to this address using Ethereum network."
+    },
+    "SETTING": {
+      "TITLE": "Impostazioni",
+      "SUBTITLES": {
+        "PREFERENCES": "Preferenze",
+        "SECURITY": "Sicurezza",
+        "LEGAL": "Legale",
+        "PLATFORM": "Piattaforma"
+      },
+      "CONFIG": {
+        "LANGUAGE": "Lingua",
+        "CURRENCY": "Valuta",
+        "THEME": "Tema",
+        "CHANGE_PASSWORD": "Cambia password",
+        "PRIVACY": "Informativa sulla privacy",
+        "TERMS": "Termini e condizioni",
+        "NETWORK": "Rete",
+        "WEBSITE": "Sito web",
+        "NEWS": "Notizie",
+        "VERSION": "Versione"
+      },
+      "THEME": {
+        "LIGHT": "Chiaro",
+        "DARK": "Scuro"
+      },
+      "ACTION_SHEET": {
+        "SELECT_LANG": "Cambia lingua",
+        "SELECT_THEME": "Cambia tema"
+      }
+    },
+    "PROFILE": {
+      "TITLE": "Profilo"
+    },
+    "EXCHANGE": {
+      "TITLE": "Cambio"
+    },
+    "CHAINS": {
+      "TITLE": "Reti",
+      "SEARCH": "Cerca Rete"
+    }
+  },
+  "HEADER": {
+    "ACCOUNT_MENU": {
+      "PLACEHOLDER": "Wallet",
+      "SETTINGS": {
+        "ADD_WALLET": "Crea Account",
+        "IMPORT_WALLET": "Importa Account",
+        "ADD_HARDWARE_WALLET": "Importa Hardware Wallet"
+      }
+    }
+  },
+  "ERRORS": {
+    "SELECT_TOKEN": "Errore nel selezionare il token",
+    "CONTRACT_NOT_FOUND": "Errore smart contract non trovato",
+    "CONNECTION_ERROR": "Errore di connessione alla rete",
+    "TOKEN_NOT_SELECTED": "Token non selezionato.",
+    "TOKEN_ALREADY_SELECTED": "Token già selezionato.",
+    "TOKEN_NOT_FOUND": "Token non trovato.",
+    "TOKEN_ALREADY_EXISTS": "Token gia esiste.",
+    "WALLET_ALREADY_EXISTS": "Wallet gia esiste.",
+    "FAIL_ENCRYPT": "Errore nel crittografare il Seed Phrase.",
+    "FAIL_DECRYPT": "Errore nel decriptare il Seed Phrase.",
+    "FAIL_VERIFY_ENCRYPTION": "Errore verifica crittografia.",
+    "WRONG_PASSWORD": "Derivazione della chiave non riuscita - forse la password è errata.",
+    "WALLET_NAME": "Il nome deve essere di almeno 3 caratteri.",
+    "NOT_FOUND": "Non trovato.",
+    "INVALID_SECRET": "Password errata",
+    "SEED_PHRASE": "Seed Phrase errato",
+    "PRIVATE_KEY": "Chive Privata errata"
+  },
+  "CURRENCY_SELECTOR": {
+    "TITLE": "Cambia Valuta",
+    "SEARCH": "Cerca valuta"
+  },
+  "ALERT": {
+    "HEADER": {
+      "CURRENCY": "Cambia valuta"
+    },
+    "MESSAGE": {
+      "CURRENCY": "Vuoi cambiare valuta {{symbol}}?"
+    }
+  },
+  "INFO": {
+    "PASSWORD": "Almeno 8 caratteri, devono includere lettere minuscole/maiuscole e numeri"
+  }
+}

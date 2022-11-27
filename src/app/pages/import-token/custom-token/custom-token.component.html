@@ -1,0 +1,69 @@
+<form
+  (keydown.enter)="
+    !formObj.invalid ? (step === 2 ? updateToken() : askSubmit()) : null
+  "
+  [formGroup]="formObj"
+  autocomplete="off"
+>
+  <ion-list class="form-item">
+    <ion-item-group>
+      <ion-item>
+        <ion-input
+          id="address"
+          [placeholder]="'PLACEHOLDER.ADDRESS' | translate"
+          formControlName="address"
+          type="text"
+          [disabled]="step === 2"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="step === 2">
+      <ion-item>
+        <ion-input
+          id="name"
+          [placeholder]="'PLACEHOLDER.NAME' | translate"
+          formControlName="name"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="step === 2">
+      <ion-item>
+        <ion-input
+          id="symbol"
+          [placeholder]="'PLACEHOLDER.SYMBOL' | translate"
+          formControlName="symbol"
+          type="text"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+
+    <ion-item-group *ngIf="step === 2">
+      <ion-item>
+        <ion-input
+          id="decimals"
+          [placeholder]="'PLACEHOLDER.DECIMALS' | translate"
+          formControlName="decimals"
+          type="number"
+        ></ion-input>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+  <ion-row class="btn-actions">
+    <ion-col>
+      <ion-button
+        id="submit"
+        [disabled]="formObj.invalid"
+        (click)="
+          !formObj.invalid ? (step === 2 ? updateToken() : askSubmit()) : null
+        "
+        class="btn-action"
+      >
+        {{ 'BUTTON.CONTINUE' | translate }}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</form>

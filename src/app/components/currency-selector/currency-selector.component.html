@@ -1,0 +1,49 @@
+<ion-header class="no-border">
+  <ion-toolbar class="default">
+    <ion-title [innerHTML]="'CURRENCY_SELECTOR.TITLE' | translate"></ion-title>
+  </ion-toolbar>
+
+  <div class="searchbar-box">
+    <ion-searchbar
+      animated
+      [debounce]="250"
+      [(ngModel)]="search"
+      autocorrect="off"
+      [placeholder]="'CURRENCY_SELECTOR.SEARCH' | translate"
+    ></ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-list>
+    <ion-item
+      class="currency selected"
+      lines="none"
+      *ngIf="!search || search?.length === 0"
+    >
+      <ion-label
+        ><span>{{ selectedCurrency?.symbol }}</span> -
+        {{ selectedCurrency?.name }}</ion-label
+      >
+      <div slot="end">
+        <ion-icon name="checkmark"></ion-icon>
+      </div>
+    </ion-item>
+
+    <ion-item
+      class="currency"
+      lines="none"
+      [hidden]="currency?.symbol === selectedCurrency?.symbol"
+      *ngFor="
+        let currency of currencies
+          | appOrderBy: 'symbol'
+          | appFilter: search:['name', 'symbol', 'native']
+      "
+      (click)="askChangeCurrency(currency)"
+    >
+      <ion-label
+        ><span>{{ currency?.symbol }}</span> - {{ currency?.name }}</ion-label
+      >
+    </ion-item>
+  </ion-list>
+</ion-content>

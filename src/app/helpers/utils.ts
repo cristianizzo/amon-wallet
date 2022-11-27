@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core';
 import {
   CurrencyModel,
   MenuModel,
-  NetworkModel,
+  ChainModel,
   TokenModel,
   WalletModel,
 } from '@app/models';
-import {
-  CurrenciesJson,
-  MenuJson,
-  NetworksJson,
-  TokensJson,
-} from '@assets/data';
+import { CurrenciesJson, MenuJson, ChainsJson, TokensJson } from '@assets/data';
 import { ERC20, ERC1155, ERC721 } from '@assets/abi';
 import { chunk, sample, shuffle } from 'lodash';
 import qs from 'qs';
@@ -26,7 +21,7 @@ export class UtilsHelper {
     password: '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$',
     passwordStrong:
       '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[?.,=-£$%^*!@#$&*~]).{8,}$',
-    address: '^[a-zA-Z0-9 ]*$',
+    address: '^0x[a-fA-F0-9]{40}$',
     // eslint-disable-next-line id-blacklist
     number: '^[0-9]*$', // only numbers
     // eslint-disable-next-line id-blacklist
@@ -40,7 +35,7 @@ export class UtilsHelper {
   };
 
   public menuJson: MenuModel[] = MenuJson;
-  public networksJson: NetworkModel[] = NetworksJson;
+  public chainsJson: ChainModel[] = ChainsJson;
   public currenciesJson: CurrencyModel[] = CurrenciesJson;
   public tokensJson: { [key: string]: TokenModel[] } = TokensJson;
   public noop: () => 0;
@@ -265,6 +260,13 @@ export class UtilsHelper {
       uri += query;
     }
     return uri;
+  }
+
+  public capitalizeFirstLetter(txt: string): string {
+    if (!this.stringHasValue(txt)) {
+      return txt;
+    }
+    return txt.charAt(0).toUpperCase() + txt.slice(1);
   }
 
   private _parseBalance(value) {

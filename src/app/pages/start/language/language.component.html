@@ -28,7 +28,9 @@
                   [id]="language.lang"
                   (click)="switchLanguage(language)"
                   *ngFor="let language of languages"
-                  [ngClass]="{ selected: language?.selected }"
+                  [ngClass]="{
+                    selected: language?.lang === selectedLanguage?.lang
+                  }"
                   lines="none"
                 >
                   <img [src]="language.flag" class="country-flag" />

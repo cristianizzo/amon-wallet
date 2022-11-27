@@ -60,3 +60,10 @@ ion-footer {
     background: #352c2c;
   }
 }
+
+.loading {
+  &.active {
+    margin: 40px auto 30px;
+    display: block;
+  }
+}

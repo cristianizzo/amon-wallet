@@ -1,43 +1,85 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { FormActions, WalletActions } from '@app/core/actions';
-import { WalletService } from '@services/wallet.service';
+import { WalletProxy } from '@services/proxy/wallet.proxy';
 import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import { catchError, exhaustMap, map, switchMap, tap } from 'rxjs/operators';
 import logger from '@app/app.logger';
+import { WalletSelector } from '@core/selectors';
+import { Store } from '@ngrx/store';
+import { StateModel } from '@app/models';
 
 const logContent = logger.logContent('core:effects:wallet');
 
 @Injectable()
 export class WalletEffects {
-  initWallets$ = createEffect(() =>
+  initWallet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(WalletActions.initWallets),
-      switchMap(() => this.walletService.initWallets()),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      ofType(WalletActions.initWallet),
+      switchMap(() => this.walletProxy.initWallet()),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error init wallet`,
             error,
           })
         );
         return of(FormActions.formError(error));
       })
+    )
+  );
+
+  getAllWallets$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.getAllWallets),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
+      concatLatestFrom(() => [this.store.select(WalletSelector.getWallet)]),
+      exhaustMap(([_, wallet]) => this.walletProxy.getAllWallets(wallet)),
+      map((wallets) => WalletActions.getAllWalletsSuccess(wallets)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error get all wallets`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
+  loadBalance$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.loadBalance),
+      tap(() => [this.store.dispatch(WalletActions.setLoading(false, true))]),
+      concatLatestFrom(() => [this.store.select(WalletSelector.getWallet)]),
+      exhaustMap(([_, wallet]) => this.walletProxy.loadBalance(wallet)),
+      map((wallets) => WalletActions.updateStateWallet(wallets)),
+      tap(() => [this.store.dispatch(WalletActions.setLoading(false, false))])
     )
   );
 
   addWallet$ = createEffect(() =>
     this.actions$.pipe(
       ofType(WalletActions.addWallet),
-      switchMap(({ wallet, secret }) =>
-        this.walletService.addWallet({ wallet, secret })
+      tap(() =>
+        this.store.dispatch(
+          FormActions.formStart({ loading: true, topLoading: true })
+        )
       ),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      switchMap(({ wallet, secret }) =>
+        this.walletProxy.addWallet({ wallet, secret })
+      ),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error add wallet`,
             error,
           })
         );
@@ -46,17 +88,68 @@ export class WalletEffects {
     )
   );
 
-  renameWallet$ = createEffect(() =>
+  connectWallet$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(WalletActions.renameWallet),
-      switchMap(({ address, name }) =>
-        this.walletService.renameWallet({ address, name })
+      ofType(WalletActions.connectWallet),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
       ),
-      map((wallets) => WalletActions.updateStateWallets(wallets)),
+      switchMap(({ address }) =>
+        this.walletProxy.switchWalletAndFetchBalance({ address })
+      ),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({
-            info: `error init wallets`,
+            info: `error connect wallet`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
+  );
+
+  deleteWallet$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(WalletActions.deleteWallet),
+        tap(() =>
+          this.store.dispatch(
+            FormActions.formStart({ loading: true, topLoading: true })
+          )
+        ),
+        switchMap(({ address }) => this.walletProxy.deleteWallet({ address })),
+        tap(() => this.store.dispatch(FormActions.formEnd())),
+        catchError((error) => {
+          logger.error(
+            logContent.add({
+              info: `error init wallet`,
+              error,
+            })
+          );
+          return of(FormActions.formError(error));
+        })
+      ),
+    { dispatch: false }
+  );
+
+  renameWallet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.renameWallet),
+      tap(() =>
+        this.store.dispatch(FormActions.formStart({ topLoading: true }))
+      ),
+      switchMap(({ address, name }) =>
+        this.walletProxy.renameWallet({ address, name })
+      ),
+      map((wallet) => WalletActions.updateStateWallet(wallet)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error rename wallets`,
             error,
           })
         );
@@ -67,6 +160,7 @@ export class WalletEffects {
 
   constructor(
     private actions$: Actions,
-    private walletService: WalletService
+    private walletProxy: WalletProxy,
+    private store: Store<StateModel>
   ) {}
 }

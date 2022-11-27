@@ -17,7 +17,7 @@ import { TempStorageService } from '@services/tempStorage.service';
 import { WalletSelector } from '@app/core/selectors';
 import { FormActions, WalletActions } from '@app/core/actions';
 import { ToastService } from '@services/toast.service';
-import { LanguageService } from '@services/languages.service';
+import { LanguageProxy } from '@services/proxy/languages.proxy';
 
 @Component({
   selector: 'app-recovery-phrase',
@@ -25,9 +25,7 @@ import { LanguageService } from '@services/languages.service';
   styleUrls: ['./recovery-phrase.component.scss'],
 })
 export class RecoveryPhraseComponent {
-  public selectedTheme: string;
   public formObj: FormGroup;
-  public wallets: WalletModel[];
 
   constructor(
     private readonly store: Store<StateModel>,
@@ -38,16 +36,12 @@ export class RecoveryPhraseComponent {
     private walletModule: WalletModule,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
-    private langService: LanguageService
+    public languageProxy: LanguageProxy
   ) {
     this.initForm();
   }
 
-  ionViewWillEnter(): void {
-    this.store
-      .select(WalletSelector.getWallets)
-      .subscribe((wallets) => (this.wallets = wallets));
-  }
+  ionViewWillEnter(): void {}
 
   ionViewDidLeave(): void {
     this.formObj.reset();
@@ -78,7 +72,7 @@ export class RecoveryPhraseComponent {
 
     if (!newWallet) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.SEED_PHRASE')
+        this.languageProxy.getTranslate('ERRORS.SEED_PHRASE')
       );
       return;
     }
@@ -89,7 +83,7 @@ export class RecoveryPhraseComponent {
 
     if (existingWallet) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
+        this.languageProxy.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
       );
       return;
     }
@@ -101,7 +95,7 @@ export class RecoveryPhraseComponent {
 
     if (!secret || !isValidSecret) {
       this.toastService.responseError(
-        this.langService.getTranslate('ERRORS.INVALID_SECRET')
+        this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
       );
       return;
     }
@@ -110,13 +104,11 @@ export class RecoveryPhraseComponent {
   }
 
   public async addWallet(wallet: WalletModel, secret: string) {
-    this.store.dispatch(FormActions.setLoading({ loading: true }));
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
       if (myWallet) {
-        this.store.dispatch(FormActions.setLoading({ loading: false }));
         this.router.navigate(['/auth/assets']);
       }
     });

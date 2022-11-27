@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NetworkSelector, WalletSelector } from '@app/core/selectors';
+import { ChainSelector, WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { NetworkModel, WalletModel, WalletType } from '@app/models';
+import { ChainModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
 import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
@@ -14,6 +14,7 @@ import { WalletMenuComponent } from '@components/account/wallet-menu/wallet-menu
 import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-menu',
@@ -21,9 +22,8 @@ import { ExportWalletComponent } from '@components/export-wallet/export-wallet.c
   styleUrls: ['./account-menu.component.scss'],
 })
 export class AccountMenuComponent {
-  public network: NetworkModel;
-  public wallet: WalletModel;
-  public wallets: WalletModel[];
+  public chain$: Observable<ChainModel>;
+  public wallets$: Observable<WalletModel[]>;
   public searchInputText: string;
 
   constructor(
@@ -36,13 +36,16 @@ export class AccountMenuComponent {
     private modalCtrl: ModalController,
     private router: Router,
     private popoverController: PopoverController
-  ) {
-    this.store
-      .select(NetworkSelector.getNetwork)
-      .subscribe((network) => (this.network = network));
-    this.store
-      .select(WalletSelector.getWallets)
-      .subscribe((wallets) => (this.wallets = wallets));
+  ) {}
+
+  async ionViewWillEnter() {
+    this.store.dispatch(WalletActions.getAllWallets());
+    this.wallets$ = this.store.select(WalletSelector.getAllWallets);
+    this.chain$ = this.store.select(ChainSelector.getChain);
+  }
+
+  ionViewWillLeave() {
+    this.store.dispatch(WalletActions.resetWallets());
   }
 
   /**
@@ -158,7 +161,7 @@ export class AccountMenuComponent {
    * Switch Wallet Function
    */
   private switchWallet(wallet: WalletModel) {
-    this.store.dispatch(WalletActions.switchDefaultWallet(wallet.address));
+    this.store.dispatch(WalletActions.connectWallet(wallet.address));
   }
 
   private async exportSeedPhrase(wallet: WalletModel) {
@@ -250,7 +253,17 @@ export class AccountMenuComponent {
   /**
    * Delete Wallet Function
    */
-  private deleteWallet(wallet: WalletModel) {
-    console.log(wallet);
+  private async deleteWallet(wallet: WalletModel) {
+    const deleteWallet = await this.walletModule.askDeleteWallet();
+
+    if (!deleteWallet) {
+      return;
+    }
+
+    try {
+      this.store.dispatch(WalletActions.deleteWallet(wallet.address));
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
   }
 }

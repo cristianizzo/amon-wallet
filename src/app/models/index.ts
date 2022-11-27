@@ -2,7 +2,7 @@ export * from '@models/env.model';
 export * from '@models/state.model';
 export * from '@models/currency.model';
 export * from '@models/language.model';
-export * from '@models/network.model';
+export * from '@models/chain.model';
 export * from '@models/wallet.model';
 export * from '@models/encryptedData.model';
 export * from '@models/error.model';

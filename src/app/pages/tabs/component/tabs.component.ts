@@ -17,7 +17,8 @@ export class TabsComponent {
     '/auth/setting',
     '/auth/deposit',
     '/auth/withdraw',
-    '/auth/networks',
+    '/auth/chains',
+    '/auth/import-token',
   ];
 
   constructor(private utilsHelper: UtilsHelper, public router: Router) {

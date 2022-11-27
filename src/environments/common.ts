@@ -35,7 +35,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'string',
     'NG_APP_TERMS_WALLET_VERSION',
-    '1.1.0'
+    '1.0.0'
   ),
   languages: configParser(sourceConfig, 'array', 'NG_APP_LANGUAGES', [
     'en',
@@ -53,10 +53,10 @@ const getConfigObject = (sourceConfig) => ({
     'NG_APP_COINGECKO_URI',
     'https://api.coingecko.com/api/v3'
   ),
-  defaultNetwork: configParser(
+  defaultChain: configParser(
     sourceConfig,
     'string',
-    'NG_APP_DEFAULT_NETWORK',
+    'NG_APP_DEFAULT_CHAIN',
     'ETH'
   ),
   defaultChainId: configParser(
