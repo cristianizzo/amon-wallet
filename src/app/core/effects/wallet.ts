@@ -121,6 +121,7 @@ export class WalletEffects {
           )
         ),
         switchMap(({ address }) => this.walletProxy.deleteWallet({ address })),
+        map((wallet) => WalletActions.deleteWalletFromState(wallet.address)),
         tap(() => this.store.dispatch(FormActions.formEnd())),
         catchError((error) => {
           logger.error(

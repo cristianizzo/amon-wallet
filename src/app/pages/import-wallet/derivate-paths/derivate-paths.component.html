@@ -1,0 +1,40 @@
+<ion-header class="no-border">
+  <ion-toolbar class="default">
+    <ion-title [innerHTML]="'CURRENCY_SELECTOR.TITLE' | translate"></ion-title>
+  </ion-toolbar>
+
+  <div class="searchbar-box">
+    <ion-searchbar
+      animated
+      [debounce]="250"
+      [(ngModel)]="search"
+      autocorrect="off"
+      [placeholder]="'CURRENCY_SELECTOR.SEARCH' | translate"
+    ></ion-searchbar>
+  </div>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <ion-list>
+    <ion-item button
+      class="currency"
+      lines="none"
+      *ngFor="
+        let wallet of wallets
+          | appOrderBy: 'symbol'
+          | appFilter: search:['name', 'symbol', 'native']
+      "
+      (click)="selectWallet(wallet)"
+    >
+      <ion-label
+      ><span>{{ wallet?.name }}</span> - {{ wallet?.address }}
+      </ion-label>
+      <div slot="end">
+        <span
+          [innerHTML]="wallet?.balance | cryptoBalance"
+          class="symbol"
+        ></span>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>

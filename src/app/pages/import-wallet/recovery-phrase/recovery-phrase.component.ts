@@ -8,16 +8,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormValidationHelper } from '@helpers/validation-form';
-import { WalletModule } from '@app/modules/index.module';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 import { TempStorageService } from '@services/tempStorage.service';
 import { WalletSelector } from '@app/core/selectors';
-import { FormActions, WalletActions } from '@app/core/actions';
+import { WalletActions } from '@app/core/actions';
 import { ToastService } from '@services/toast.service';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
+import { WalletHelper } from "@helpers/wallet";
 
 @Component({
   selector: 'app-recovery-phrase',
@@ -33,7 +33,7 @@ export class RecoveryPhraseComponent {
     private formBuilder: FormBuilder,
     private utilsHelper: UtilsHelper,
     private formValidationHelper: FormValidationHelper,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
     public languageProxy: LanguageProxy
@@ -54,7 +54,7 @@ export class RecoveryPhraseComponent {
         : environment.defaultWalletName;
       const rawForm = this.formObj.getRawValue();
 
-      const newWallet = await this.walletModule.importWalletFromMnemonic(
+      const newWallet = await this.walletHelper.importWalletFromMnemonic(
         walletName,
         rawForm.seedPhrase
       );
@@ -77,7 +77,7 @@ export class RecoveryPhraseComponent {
       return;
     }
 
-    const existingWallet = await this.walletModule.walletAlreadyExists(
+    const existingWallet = await this.walletHelper.walletAlreadyExists(
       newWallet.address
     );
 
@@ -88,8 +88,8 @@ export class RecoveryPhraseComponent {
       return;
     }
 
-    const secret = await this.walletModule.askWalletSecret();
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+    const secret = await this.walletHelper.askWalletSecret();
+    const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
       secret
     );
 
@@ -103,13 +103,13 @@ export class RecoveryPhraseComponent {
     await this.addWallet(newWallet, secret);
   }
 
-  public async addWallet(wallet: WalletModel, secret: string) {
+  private async addWallet(wallet: WalletModel, secret: string) {
     this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
     this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
       if (myWallet) {
-        this.router.navigate(['/auth/assets']);
+        this.router.navigate(['/auth/derivate-paths']);
       }
     });
   }

@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormValidationHelper } from '@helpers/validation-form';
-import { WalletModule } from '@app/modules/wallet.module';
 import { TempStorageService } from '@services/tempStorage.service';
 import { Router } from '@angular/router';
 import { LoadingController, NavController } from '@ionic/angular';
@@ -14,10 +13,11 @@ import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
 import { LanguageProxy } from '@services/index.module';
 import { WalletModel } from '@app/models';
-import { FormActions, WalletActions } from '@app/core/actions';
+import { WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
+import { WalletHelper } from '@helpers/wallet';
 
 @Component({
   selector: 'app-keystore-file',
@@ -32,7 +32,7 @@ export class KeystoreFileComponent {
     public navController: NavController,
     private formBuilder: FormBuilder,
     private formValidatorHelper: FormValidationHelper,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
     private languageProxy: LanguageProxy,
@@ -57,16 +57,16 @@ export class KeystoreFileComponent {
     try {
       const walletName = this.tempStorageService.data
         ? this.tempStorageService.data.walletName
-        : environment.defaultWalletName;
+        : `Account ${Math.floor(Math.random() * 100)}`;
 
       const rawForm = this.formObj.getRawValue();
       const file = await this.file.text();
 
-      const newWallet = await this.walletModule.importWalletFromEncryptedJson(
-        walletName,
-        file,
-        rawForm.password
-      );
+      const newWallet = await this.walletHelper.importWalletFromEncryptedJson({
+        name:  walletName,
+        walletJson: file,
+        password: rawForm.password,
+      });
 
       return newWallet;
     } catch (_) {
@@ -75,7 +75,7 @@ export class KeystoreFileComponent {
   }
 
   public async submit() {
-    const newWallet = await this.importWallet();
+    const newWallet: any = await this.importWallet();
     if (!newWallet) {
       this.toastService.responseError(
         this.languageProxy.getTranslate('ERRORS.PRIVATE_KEY')
@@ -83,7 +83,7 @@ export class KeystoreFileComponent {
       return;
     }
 
-    const existingWallet = await this.walletModule.walletAlreadyExists(
+    const existingWallet = await this.walletHelper.walletAlreadyExists(
       newWallet.address
     );
 
@@ -94,8 +94,8 @@ export class KeystoreFileComponent {
       return;
     }
 
-    const secret = await this.walletModule.askWalletSecret();
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+    const secret = await this.walletHelper.askWalletSecret();
+    const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
       secret
     );
 

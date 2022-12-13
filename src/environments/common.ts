@@ -63,7 +63,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'number',
     'NG_APP_DEFAULT_CHAIN_ID',
-    5
+    1 // 5
   ),
 });
 

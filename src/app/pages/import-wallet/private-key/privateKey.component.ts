@@ -6,18 +6,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { FormValidationHelper } from '@helpers/validation-form';
-import { WalletModule } from '@app/modules/wallet.module';
 import { TempStorageService } from '@services/tempStorage.service';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { environment } from '@env/environment';
 import { ToastService } from '@services/toast.service';
 import { WalletModel } from '@app/models';
-import { FormActions, WalletActions } from '@app/core/actions';
+import { WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
+import { WalletHelper } from "@helpers/wallet";
+import { WalletProxy } from "@services/proxy/wallet.proxy";
 
 @Component({
   selector: 'app-private-key',
@@ -32,10 +33,11 @@ export class PrivateKeyComponent {
     public navController: NavController,
     private formBuilder: FormBuilder,
     private formValidatorHelper: FormValidationHelper,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
     public languageProxy: LanguageProxy,
+    private walletProxy: WalletProxy,
     private utilsHelper: UtilsHelper,
     private store: Store
   ) {
@@ -51,13 +53,14 @@ export class PrivateKeyComponent {
     try {
       const walletName = this.tempStorageService.data
         ? this.tempStorageService.data.walletName
-        : environment.defaultWalletName;
+        : `Account ${Math.floor(Math.random() * 100)}`;
+
       const rawForm = this.formObj.getRawValue();
 
-      const newWallet = await this.walletModule.importWalletFromPrivateKey(
-        walletName,
-        rawForm.privateKey
-      );
+      const newWallet = await this.walletProxy.importWalletFromPrivateKey({
+        name: walletName,
+        privateKey: rawForm.privateKey
+      });
       return newWallet;
     } catch (_) {
       return false;
@@ -73,7 +76,7 @@ export class PrivateKeyComponent {
       return;
     }
 
-    const existingWallet = await this.walletModule.walletAlreadyExists(
+    const existingWallet = await this.walletHelper.walletAlreadyExists(
       newWallet.address
     );
 
@@ -84,8 +87,8 @@ export class PrivateKeyComponent {
       return;
     }
 
-    const secret = await this.walletModule.askWalletSecret();
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+    const secret = await this.walletHelper.askWalletSecret();
+    const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
       secret
     );
 

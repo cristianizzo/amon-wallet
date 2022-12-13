@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ThemeSelector } from '@app/core/selectors';
-import { WalletModule } from '@app/modules/wallet.module';
+import { WalletHelper } from '@helpers/wallet';
 
 @Component({
   selector: 'app-welcome',
@@ -14,7 +14,7 @@ export class WelcomeComponent {
 
   constructor(
     private readonly store: Store<StateModel>,
-    private walletModule: WalletModule
+    private walletHelper: WalletHelper
   ) {
     this.store
       .select(ThemeSelector.getTheme)
@@ -25,6 +25,9 @@ export class WelcomeComponent {
    * Ask Restore Wallet function
    */
   public async askRestoreWallet() {
-    await this.walletModule.askRestoreWallet();
+    await this.walletHelper.askRestoreWallet({
+      seed: true,
+      json: true
+    });
   }
 }

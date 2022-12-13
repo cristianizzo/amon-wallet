@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ChainModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
-import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
 import { ToastService } from '@services/toast.service';
 import { Router } from '@angular/router';
@@ -15,6 +14,9 @@ import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 import { Observable } from 'rxjs';
+import { WalletHelper } from '@helpers/wallet';
+import { LanguageProxy, WalletProxy } from '@app/services/index.module';
+import { UtilsHelper } from '@helpers/utils';
 
 @Component({
   selector: 'app-account-menu',
@@ -29,14 +31,18 @@ export class AccountMenuComponent {
   constructor(
     private readonly store: Store<StateModel>,
     private walletService: WalletService,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
     private toastService: ToastService,
     private errorService: ErrorService,
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController
-  ) {}
+    private popoverController: PopoverController,
+    private walletProxy: WalletProxy,
+    private utilsHelper: UtilsHelper,
+    private languageProxy: LanguageProxy
+  ) {
+  }
 
   async ionViewWillEnter() {
     this.store.dispatch(WalletActions.getAllWallets());
@@ -53,7 +59,7 @@ export class AccountMenuComponent {
    */
   public async addNewWallet() {
     try {
-      const walletName = await this.walletModule.askWalletName();
+      const walletName = await this.walletHelper.askWalletName();
 
       if (!walletName) {
         return;
@@ -61,12 +67,29 @@ export class AccountMenuComponent {
 
       assert(walletName && walletName.length >= 3, 'walletName');
 
-      this.tempStorageService.data = {
-        walletName,
-      };
+      const wallet = await this.walletProxy.createWallet(walletName);
 
-      await this.close();
-      await this.router.navigate(['/seed-phrase']);
+      const secret = await this.walletHelper.askWalletSecret();
+      const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
+        secret
+      );
+
+      if (!secret || !isValidSecret) {
+        this.toastService.responseError(
+          this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
+        );
+        return false;
+      }
+
+      this.store.dispatch(WalletActions.addWallet(wallet, secret));
+
+      await this.utilsHelper.wait(3000);
+
+      this.store.select(WalletSelector.getWallet).subscribe((w) => {
+        if (w) {
+          this.close();
+        }
+      });
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
@@ -77,7 +100,10 @@ export class AccountMenuComponent {
    */
 
   public async importWallet() {
-    await this.walletModule.askRestoreWallet();
+    await this.walletHelper.askRestoreWallet({
+      privateKey: true,
+      json: true,
+    });
 
     await this.modalCtrl.dismiss();
   }
@@ -108,7 +134,7 @@ export class AccountMenuComponent {
 
     await popover.present();
 
-    const { data } = await popover.onDidDismiss();
+    const {data} = await popover.onDidDismiss();
 
     if (data) {
       this.switchAction(data);
@@ -126,13 +152,13 @@ export class AccountMenuComponent {
    * Copy Address Function
    */
   public copyAddress(wallet: WalletModel) {
-    this.walletModule.copyAddress(wallet.address);
+    this.walletHelper.copyAddress(wallet.address);
   }
 
   /**
    * Switch Action Function
    */
-  private switchAction({ action, wallet }) {
+  private switchAction({action, wallet}) {
     switch (action) {
       case 'connect':
         this.switchWallet(wallet);
@@ -157,6 +183,9 @@ export class AccountMenuComponent {
     }
   }
 
+  private addDerivatePath() {
+  }
+
   /**
    * Switch Wallet Function
    */
@@ -166,7 +195,7 @@ export class AccountMenuComponent {
 
   private async exportSeedPhrase(wallet: WalletModel) {
     try {
-      const walletSecret = await this.walletModule.askWalletSecret();
+      const walletSecret = await this.walletHelper.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
         wallet,
         secret: walletSecret,
@@ -193,7 +222,7 @@ export class AccountMenuComponent {
 
   private async exportPrivateKey(wallet: WalletModel) {
     try {
-      const walletSecret = await this.walletModule.askWalletSecret();
+      const walletSecret = await this.walletHelper.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
         wallet,
         secret: walletSecret,
@@ -202,7 +231,7 @@ export class AccountMenuComponent {
 
       //TODO: we dont need this as its already checked on view
       if (wallet.walletType !== WalletType.privateKey) {
-        const _wallet = await this.walletModule.exportWallet({
+        const _wallet = await this.walletHelper.exportWallet({
           name: wallet.name,
           mnemonic: decrypted.phrase,
           privateKey: decrypted.privateKey,
@@ -234,7 +263,7 @@ export class AccountMenuComponent {
    */
   private async renameWallet(wallet: WalletModel) {
     try {
-      const walletName = await this.walletModule.askWalletName();
+      const walletName = await this.walletHelper.askWalletName();
 
       if (!walletName) {
         return;
@@ -254,7 +283,7 @@ export class AccountMenuComponent {
    * Delete Wallet Function
    */
   private async deleteWallet(wallet: WalletModel) {
-    const deleteWallet = await this.walletModule.askDeleteWallet();
+    const deleteWallet = await this.walletHelper.askDeleteWallet();
 
     if (!deleteWallet) {
       return;

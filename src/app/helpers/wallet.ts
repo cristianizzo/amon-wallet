@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { WalletService } from '@services/wallet.service';
 import { ErrorService } from '@services/error.service';
 import { ToastService } from '@app/services/toast.service';
-import { AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController } from '@ionic/angular';
 import { Web3Services } from '@app/services/web3.service';
 import { UtilsHelper } from '@helpers/utils';
 import { WalletProxy } from '@services/proxy/wallet.proxy';
-import { ActionSheetController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LanguageProxy } from '@app/services/index.module';
+import { WalletModel } from '@app/models';
 
 declare const navigator: any;
 
 @Injectable()
-export class WalletModule {
+export class WalletHelper {
   constructor(
     private walletProxy: WalletProxy,
     private walletService: WalletService,
@@ -27,67 +27,23 @@ export class WalletModule {
     private router: Router
   ) {}
 
-  public async createWalletFromMnemonic(name: string) {
-    const dbWallets = await this.walletProxy.getAllWallets();
-    return this.web3Services.getWallet({
-      name,
-      main: !this.utilsHelper.arrayHasValue(dbWallets),
-    });
-  }
-
-  public async importWalletFromMnemonic(name: string, mnemonic): Promise<any> {
-    try {
-      const dbWallets = await this.walletProxy.getAllWallets();
-      return this.web3Services.getWallet({
-        name,
-        mnemonic,
-        main: !this.utilsHelper.arrayHasValue(dbWallets),
-      });
-    } catch (_) {
-      return false;
-    }
-  }
-
-  public async importWalletFromPrivateKey(
-    name: string,
-    privateKey: string
-  ): Promise<any> {
-    try {
-      const dbWallets = await this.walletProxy.getAllWallets();
-      return this.web3Services.getWalletFromPrivateKey({
-        name,
-        privateKey,
-        main: !this.utilsHelper.arrayHasValue(dbWallets),
-      });
-    } catch (_) {
-      return false;
-    }
-  }
-
-  public async importWalletFromEncryptedJson(
-    name: string,
-    walletJson: string,
-    password: string
-  ): Promise<any> {
-    try {
-      const dbWallets = await this.walletProxy.getAllWallets();
-      return this.web3Services.getWalletFromKeyStoreJSON({
-        name,
-        walletJson,
-        password,
-        main: !this.utilsHelper.arrayHasValue(dbWallets),
-      });
-    } catch (_) {
-      return false;
-    }
-  }
-
-  public async exportWallet({ name, mnemonic, privateKey }): Promise<any> {
+  public async exportWallet({
+    name,
+    mnemonic,
+    privateKey,
+    derivationPath,
+  }: {
+    name: string;
+    mnemonic?: string;
+    privateKey: string;
+    derivationPath?: string;
+  }): Promise<any> {
     try {
       if (mnemonic) {
         return this.web3Services.getWallet({
           name,
           mnemonic,
+          derivationPath,
         });
       } else {
         return this.web3Services.getWalletFromPrivateKey({
@@ -157,9 +113,10 @@ export class WalletModule {
     });
   }
 
-  public async askWalletSecret(opts?: {
-    canCancel?: boolean;
-  }): Promise<string> {
+  /**
+   * Ask Wallet Secret function
+   */
+  public async askWalletSecret(opts?: { canCancel?: boolean }): Promise<string> {
     return new Promise(async (resolve) => {
       const buttons = [
         {
@@ -193,6 +150,94 @@ export class WalletModule {
     });
   }
 
+  /**
+   * Ask Restore Wallet function
+   */
+  public async askRestoreWallet({
+    seed = false,
+    privateKey = false,
+    json = false,
+  }) {
+    const buttons = [];
+
+    if (seed) {
+      buttons.push({
+        text: this.languageProxy.getTranslate('BUTTON.RECOVER_PHRASE'),
+        role: 'recovery-phrase',
+        cssClass: 'recovery-phrase',
+        handler: () => this.router.navigate(['/import-wallet/recovery-phrase']),
+      });
+    }
+
+    if (privateKey) {
+      buttons.push({
+        text: this.languageProxy.getTranslate('BUTTON.PRIVATE_KEY'),
+        role: 'private-key',
+        cssClass: 'private-key',
+        handler: () => this.router.navigate(['/import-wallet/private-key']),
+      });
+    }
+
+    if (json) {
+      buttons.push({
+        text: this.languageProxy.getTranslate('BUTTON.JSON_FILE'),
+        role: 'json-file',
+        cssClass: 'json-file',
+        handler: () => this.router.navigate(['/import-wallet/keystore-file']),
+      });
+    }
+
+    buttons.push({
+      text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
+      icon: 'close',
+      role: 'cancel',
+      handler: () => {},
+    });
+
+    const actionSheet = await this.actionSheetController.create({
+      header: this.languageProxy.getTranslate('ACTION_SHEET.IMPORT_ACCOUNT'),
+      buttons,
+    });
+
+    await actionSheet.present();
+
+    return await actionSheet.onDidDismiss();
+  }
+
+  public async importWalletFromMnemonic(name: string, mnemonic: string, derivationPath?: string): Promise<WalletModel | boolean> {
+    try {
+      return this.walletProxy.importMainWalletFromMnemonic({
+        name,
+        mnemonic,
+        derivationPath
+      });
+    } catch (_) {
+      return false;
+    }
+  }
+
+  public async importWalletFromEncryptedJson({
+    name,
+    walletJson,
+    password,
+  }): Promise<WalletModel | boolean> {
+    try {
+      const dbWallets = await this.walletProxy.getAllWallets();
+      return this.web3Services.getWalletFromKeyStoreJSON({
+        name,
+        walletJson,
+        password,
+        main: !this.utilsHelper.arrayHasValue(dbWallets),
+        derivationPath: undefined,
+      });
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /**
+   * Verify Main Wallet Secret function
+   */
   public async verifyMainWalletSecret(secret: string): Promise<boolean> {
     if (!secret) {
       return false;
@@ -228,46 +273,5 @@ export class WalletModule {
   public copyAddress(address: string) {
     navigator.clipboard.writeText(address);
     this.toastService.responseSuccess('Copied');
-  }
-
-  /**
-   * Ask Restore Wallet function
-   */
-  public async askRestoreWallet() {
-    const buttons = [
-      {
-        text: this.languageProxy.getTranslate('BUTTON.RECOVER_PHRASE'),
-        role: 'recovery-phrase',
-        cssClass: 'recovery-phrase',
-        handler: () => this.router.navigate(['/import-wallet/recovery-phrase']),
-      },
-      {
-        text: this.languageProxy.getTranslate('BUTTON.PRIVATE_KEY'),
-        role: 'private-key',
-        cssClass: 'private-key',
-        handler: () => this.router.navigate(['/import-wallet/private-key']),
-      },
-      {
-        text: this.languageProxy.getTranslate('BUTTON.JSON_FILE'),
-        role: 'json-file',
-        cssClass: 'json-file',
-        handler: () => this.router.navigate(['/import-wallet/keystore-file']),
-      },
-      {
-        text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
-        icon: 'close',
-        role: 'cancel',
-        handler: () => {},
-      },
-    ];
-
-    const actionSheet = await this.actionSheetController.create({
-      header: this.languageProxy.getTranslate('ACTION_SHEET.IMPORT_ACCOUNT'),
-      buttons,
-    });
-
-    await actionSheet.present();
-
-    return await actionSheet.onDidDismiss();
   }
 }
