@@ -27,7 +27,7 @@ export class WelcomeComponent {
   public async askRestoreWallet() {
     await this.walletHelper.askRestoreWallet({
       seed: true,
-      json: true,
+      json: false, // TODO
     });
   }
 }

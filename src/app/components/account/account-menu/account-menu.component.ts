@@ -103,7 +103,7 @@ export class AccountMenuComponent {
   public async importWallet() {
     await this.walletHelper.askRestoreWallet({
       privateKey: true,
-      json: true,
+      json: false, // TODO
     });
 
     await this.modalCtrl.dismiss();
