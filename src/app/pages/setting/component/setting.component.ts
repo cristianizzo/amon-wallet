@@ -1,11 +1,21 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { CurrencyModel, LanguageModel, StateModel, WalletModel } from '@app/models';
+import {
+  CurrencyModel,
+  LanguageModel,
+  StateModel,
+  WalletModel,
+} from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
 import * as packageJson from '../../../../../package.json';
-import { CurrencySelector, LanguageSelector, ThemeSelector, WalletSelector, } from '@app/core/selectors';
+import {
+  CurrencySelector,
+  LanguageSelector,
+  ThemeSelector,
+  WalletSelector,
+} from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
@@ -21,7 +31,7 @@ import { ToastService } from '@services/toast.service';
 import { ExportWalletComponent } from '@app/components/export-wallet/export-wallet.component';
 
 // @ts-ignore
-const logContent = (data) => Object.assign({service: 'setting'}, data);
+const logContent = (data) => Object.assign({ service: 'setting' }, data);
 
 @Component({
   selector: 'app-setting',
@@ -48,7 +58,7 @@ export class SettingComponent implements OnInit {
     private walletService: WalletService,
     private errorService: ErrorService,
     private toastService: ToastService,
-    private walletHelper: WalletHelper,
+    private walletHelper: WalletHelper
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -64,7 +74,9 @@ export class SettingComponent implements OnInit {
       .subscribe((lang) => (this.language = lang));
     this.languages = this.languageProxy.getAllLanguages();
     this.theme$ = this.store.select(ThemeSelector.getTheme);
-    this.store.select(WalletSelector.getAllWallets).subscribe((wallets) => this.wallets = wallets);
+    this.store
+      .select(WalletSelector.getAllWallets)
+      .subscribe((wallets) => (this.wallets = wallets));
   }
 
   ionViewWillLeave() {
@@ -103,8 +115,7 @@ export class SettingComponent implements OnInit {
       text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
       icon: 'close',
       role: 'cancel',
-      handler: () => {
-      },
+      handler: () => {},
     });
 
     const actionSheet = await this.actionSheetController.create({
@@ -144,8 +155,7 @@ export class SettingComponent implements OnInit {
           text: this.languageProxy.getTranslate('BUTTON.CANCEL'),
           icon: 'close',
           role: 'cancel',
-          handler: () => {
-          },
+          handler: () => {},
         },
       ];
 
@@ -180,14 +190,14 @@ export class SettingComponent implements OnInit {
    * goToWebsite Function
    */
   async goToWebsite() {
-    await Browser.open({url: 'https://amon.tech'});
+    await Browser.open({ url: 'https://amon.tech' });
   }
 
   /**
    * goToWebsite Function
    */
   async goToWebsiteNews() {
-    await Browser.open({url: 'https://amon.tech/blog/amon-news'});
+    await Browser.open({ url: 'https://amon.tech/blog/amon-news' });
   }
 
   public getThemeTranslation(theme) {
@@ -210,7 +220,7 @@ export class SettingComponent implements OnInit {
    */
   public async exportSeedPhrase() {
     try {
-      const wallet = this.wallets.find(w => w.main);
+      const wallet = this.wallets.find((w) => w.main);
       const walletSecret = await this.walletHelper.askWalletSecret();
 
       const decrypted = await this.walletService.decryptWallet({

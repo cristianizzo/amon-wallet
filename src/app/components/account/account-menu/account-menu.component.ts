@@ -15,7 +15,11 @@ import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 import { Observable } from 'rxjs';
 import { WalletHelper } from '@helpers/wallet';
-import { LanguageProxy, WalletProxy, Web3Services } from '@app/services/index.module';
+import {
+  LanguageProxy,
+  WalletProxy,
+  Web3Services,
+} from '@app/services/index.module';
 import { UtilsHelper } from '@helpers/utils';
 
 @Component({
@@ -224,7 +228,6 @@ export class AccountMenuComponent {
   }
 
   private async exportPrivateKeyFromSeed(wallet: WalletModel) {
-
     try {
       const walletSecret = await this.walletHelper.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
