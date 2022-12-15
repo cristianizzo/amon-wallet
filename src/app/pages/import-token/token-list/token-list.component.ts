@@ -24,10 +24,15 @@ export class TokenListComponent implements OnChanges {
     this.loading = true;
     this.store.select(TokenSelector.getLoading).subscribe(({ loading }) => {
       this.loading = loading;
+      this.loading = false;
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.selectedTokens) {
+      return;
+    }
+
     this.loading = true;
     if (
       changes.tokens &&

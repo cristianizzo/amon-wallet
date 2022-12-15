@@ -5,10 +5,10 @@ import { LanguageService } from '@services/language.service';
 import { ThemeService } from '@services/theme.service';
 import { ToastService } from '@services/toast.service';
 import { WalletModel } from '@app/models';
-import { WalletModule } from '@app/modules/wallet.module';
 import { WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
+import { WalletHelper } from '@helpers/wallet';
 
 const logContent = (data) =>
   Object.assign({ service: 'app:wallet:receive' }, data);
@@ -30,7 +30,7 @@ export class DepositComponent {
     private langService: LanguageService,
     private themeService: ThemeService,
     public toastService: ToastService,
-    private walletModule: WalletModule
+    private walletHelper: WalletHelper
   ) {
     this.themeService.theme.subscribe((theme) => (this.selectedTheme = theme));
     this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
@@ -65,7 +65,7 @@ export class DepositComponent {
    * Copy Address Function
    */
   public copyAddress(wallet: WalletModel) {
-    this.walletModule.copyAddress(wallet.address);
+    this.walletHelper.copyAddress(wallet.address);
   }
 
   /**

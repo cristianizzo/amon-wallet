@@ -12,7 +12,6 @@ import { NgAmonHelpersModule } from '@helpers/index.module';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
 import { NgAmonCoreModule } from '@core/index.module';
-import { NgAmonModuleModule } from '@app/modules/index.module';
 import { DEFAULT_CONFIG, Driver, NgForageOptions } from 'ngforage';
 import { LoadingBarModule } from '@components/loading-bar/loading-bar.module';
 
@@ -23,7 +22,6 @@ import { LoadingBarModule } from '@components/loading-bar/loading-bar.module';
     IonicModule.forRoot(),
     AppRoutingModule,
     NgAmonServicesModule.forRoot(environment),
-    NgAmonModuleModule.forRoot(),
     NgAmonHelpersModule,
     NgAmonPipesModule,
     NgAmonDirectivesModule,

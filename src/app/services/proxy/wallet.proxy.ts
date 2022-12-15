@@ -5,13 +5,18 @@ import { from, Observable } from 'rxjs';
 import assert from 'assert';
 import { WalletService } from '../wallet.service';
 import { CryptoHelper } from '@helpers/crypto';
+import { Web3Services } from '../web3.service';
+import { HDPathsHelper } from '@helpers/hdPaths';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class WalletProxy {
   constructor(
     private utilsHelper: UtilsHelper,
     private walletService: WalletService,
-    private cryptoHelper: CryptoHelper
+    private cryptoHelper: CryptoHelper,
+    private web3Services: Web3Services,
+    private hdPathsHelper: HDPathsHelper
   ) {}
 
   public initWallet(): Observable<WalletModel> {
@@ -41,6 +46,95 @@ export class WalletProxy {
         return await this.walletService.fetchBalance(connectedWallet);
       })
     );
+  }
+
+  public async getWalletWithDerivatePaths(
+    offset = 0,
+    limit = 10,
+    mainWallet
+  ): Promise<any> {
+    if (!mainWallet) {
+      const dbWallets = await this.walletService.getWalletsFromStorage();
+      mainWallet = dbWallets.find((w) => w.main);
+    }
+
+    assert(mainWallet, 'notFound');
+
+    const pathObject = this.hdPathsHelper.pathToObject(mainWallet.basePath);
+    delete pathObject.index;
+    const hdPaths = this.hdPathsHelper.getHdIndexPaths(
+      pathObject,
+      offset,
+      limit
+    );
+
+    return Promise.all(
+      hdPaths.map(async (path, ii) => {
+        const wallet = this.web3Services.getWallet({
+          name: `${environment.defaultWalletName} ${ii}`,
+          mnemonic: mainWallet.phrase,
+          derivationPath: path,
+          main: true,
+        });
+
+        return await this.walletService.fetchBalance(wallet);
+      })
+    );
+  }
+
+  public async createWallet(
+    name: string,
+    derivationPath?: string
+  ): Promise<WalletModel> {
+    const dbWallets = await this.walletService.getWalletsFromStorage();
+
+    if (!this.utilsHelper.arrayHasValue(dbWallets)) {
+      return this.web3Services.getWallet({
+        name,
+        derivationPath: derivationPath
+          ? derivationPath
+          : this.hdPathsHelper.getHdMainPath(),
+        main: true,
+      });
+    } else {
+      return this.web3Services.getWallet({
+        name,
+        derivationPath: derivationPath
+          ? derivationPath
+          : this.hdPathsHelper.getNextPath(dbWallets),
+        main: false,
+      });
+    }
+  }
+
+  public async importMainWalletFromMnemonic({
+    name,
+    mnemonic,
+    derivationPath,
+  }): Promise<WalletModel> {
+    const dbWallets = await this.walletService.getWalletsFromStorage();
+
+    assert(dbWallets.length === 0, 'mainWalletAlreadyExists');
+
+    return this.web3Services.getWallet({
+      name,
+      mnemonic,
+      derivationPath: derivationPath
+        ? derivationPath
+        : this.hdPathsHelper.getHdMainPath(),
+      main: true,
+    });
+  }
+
+  public async importWalletFromPrivateKey({
+    name,
+    privateKey,
+  }): Promise<WalletModel> {
+    return this.web3Services.getWalletFromPrivateKey({
+      name,
+      privateKey,
+      main: false,
+    });
   }
 
   public addWallet({ wallet, secret }): Observable<WalletModel> {
@@ -108,17 +202,15 @@ export class WalletProxy {
     );
   }
 
-  public deleteWallet({ address }): Observable<WalletModel[]> {
+  public deleteWallet({ address }): Observable<WalletModel> {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallets = await this.walletService.getWalletsFromStorage();
-        assert(
-          dbWallets.find((w) => w.address === address),
-          'notFound'
-        );
+        const wallet = dbWallets.find((w) => w.address === address);
+        assert(wallet, 'notFound');
 
         await this.walletService.deleteWalletFromStorage(address);
-        return true;
+        return wallet;
       })
     );
   }

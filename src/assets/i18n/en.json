@@ -8,6 +8,7 @@
     "DEPOSIT": "Deposit",
     "WITHDRAW": "Send",
     "SWAP": "Swap",
+    "PREV": "previous",
     "NEXT": "next",
     "COPY": "copy",
     "CLOSE": "close",
@@ -196,6 +197,9 @@
   "CURRENCY_SELECTOR": {
     "TITLE": "Change Currency",
     "SEARCH": "Search Currency"
+  },
+  "DERIVATE_PATH": {
+    "TITLE": "Select Address"
   },
   "ALERT": {
     "HEADER": {

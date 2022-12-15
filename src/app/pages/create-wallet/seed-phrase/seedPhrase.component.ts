@@ -6,10 +6,14 @@ import { Router } from '@angular/router';
 import { ToastService } from '@app/services/toast.service';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { FormActions, WalletActions } from '@app/core/actions';
+import { WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
-import { WalletModule } from '@app/modules/index.module';
-import { LanguageProxy, TempStorageService } from '@app/services/index.module';
+import { WalletHelper } from '@helpers/wallet';
+import {
+  LanguageProxy,
+  TempStorageService,
+  WalletProxy,
+} from '@app/services/index.module';
 import { Location } from '@angular/common';
 
 @Component({
@@ -34,7 +38,8 @@ export class SeedPhraseComponent {
     private utilsHelper: UtilsHelper,
     private toastService: ToastService,
     private tempStorageService: TempStorageService,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
+    private walletProxy: WalletProxy,
     private languageProxy: LanguageProxy,
     private location: Location
   ) {
@@ -54,8 +59,8 @@ export class SeedPhraseComponent {
   public async submit() {
     const secret =
       this.tempStorageService.data.secret ||
-      (await this.walletModule.askWalletSecret());
-    const isValidSecret = await this.walletModule.verifyMainWalletSecret(
+      (await this.walletHelper.askWalletSecret());
+    const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
       secret
     );
 
@@ -132,7 +137,7 @@ export class SeedPhraseComponent {
    * initWallet function
    */
   private async initWallet(walletName: string) {
-    this.wallet = await this.walletModule.createWalletFromMnemonic(walletName);
+    this.wallet = await this.walletProxy.createWallet(walletName);
     this.phrases = this.wallet.phrase.split(' ');
     this.verifyPhrases = this.utilsHelper
       .phraseItems(this.phrases.slice(0, 9))

@@ -6,6 +6,7 @@
     <ion-title
       [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate"
     ></ion-title>
+    <ion-buttons slot="end"> </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -13,10 +14,6 @@
   <ion-grid class="ion-no-padding">
     <ion-row class="header">
       <div>
-        <h1
-          [innerHTML]="'COMP.RECOVERY_PHRASE.TITLE' | translate"
-          class="subtitle"
-        ></h1>
         <p
           [innerHTML]="'COMP.RECOVERY_PHRASE.DESCRIPTION' | translate"
           class="description"
@@ -37,7 +34,7 @@
                 'COMP.RECOVERY_PHRASE.PLACEHOLDER.SEED_PHRASE' | translate
               "
               formControlName="seedPhrase"
-              rows="5"
+              rows="8"
             ></ion-textarea>
           </ion-item>
         </ion-item-group>

@@ -61,6 +61,11 @@
           [innerHTML]="'PAGE.SETTING.CONFIG.CHANGE_PASSWORD' | translate"
         ></ion-label>
       </ion-item>
+      <ion-item [mode]="'ios'" button (click)="exportSeedPhrase()">
+        <ion-label
+          [innerHTML]="'COMP.WALLET_MENU.EXPORT_SEED' | translate"
+        ></ion-label>
+      </ion-item>
 
       <ion-item-divider mode="ios">
         <!--//Legal-->

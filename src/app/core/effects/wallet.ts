@@ -111,28 +111,27 @@ export class WalletEffects {
     )
   );
 
-  deleteWallet$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(WalletActions.deleteWallet),
-        tap(() =>
-          this.store.dispatch(
-            FormActions.formStart({ loading: true, topLoading: true })
-          )
-        ),
-        switchMap(({ address }) => this.walletProxy.deleteWallet({ address })),
-        tap(() => this.store.dispatch(FormActions.formEnd())),
-        catchError((error) => {
-          logger.error(
-            logContent.add({
-              info: `error init wallet`,
-              error,
-            })
-          );
-          return of(FormActions.formError(error));
-        })
+  deleteWallet$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(WalletActions.deleteWallet),
+      tap(() =>
+        this.store.dispatch(
+          FormActions.formStart({ loading: true, topLoading: true })
+        )
       ),
-    { dispatch: false }
+      switchMap(({ address }) => this.walletProxy.deleteWallet({ address })),
+      map((wallet) => WalletActions.deleteWalletFromState(wallet.address)),
+      tap(() => this.store.dispatch(FormActions.formEnd())),
+      catchError((error) => {
+        logger.error(
+          logContent.add({
+            info: `error init wallet`,
+            error,
+          })
+        );
+        return of(FormActions.formError(error));
+      })
+    )
   );
 
   renameWallet$ = createEffect(() =>

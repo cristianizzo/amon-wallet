@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
 import { ChainModel, WalletModel, WalletType } from '@app/models';
 import { WalletService } from '@services/wallet.service';
-import { WalletModule } from '@app/modules/index.module';
 import { ErrorService } from '@services/error.service';
 import { ToastService } from '@services/toast.service';
 import { Router } from '@angular/router';
@@ -15,6 +14,13 @@ import assert from 'assert';
 import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 import { Observable } from 'rxjs';
+import { WalletHelper } from '@helpers/wallet';
+import {
+  LanguageProxy,
+  WalletProxy,
+  Web3Services,
+} from '@app/services/index.module';
+import { UtilsHelper } from '@helpers/utils';
 
 @Component({
   selector: 'app-account-menu',
@@ -29,13 +35,17 @@ export class AccountMenuComponent {
   constructor(
     private readonly store: Store<StateModel>,
     private walletService: WalletService,
-    private walletModule: WalletModule,
+    private walletHelper: WalletHelper,
     private toastService: ToastService,
     private errorService: ErrorService,
     private tempStorageService: TempStorageService,
     private modalCtrl: ModalController,
     private router: Router,
-    private popoverController: PopoverController
+    private popoverController: PopoverController,
+    private walletProxy: WalletProxy,
+    private web3Services: Web3Services,
+    private utilsHelper: UtilsHelper,
+    private languageProxy: LanguageProxy
   ) {}
 
   async ionViewWillEnter() {
@@ -53,7 +63,7 @@ export class AccountMenuComponent {
    */
   public async addNewWallet() {
     try {
-      const walletName = await this.walletModule.askWalletName();
+      const walletName = await this.walletHelper.askWalletName();
 
       if (!walletName) {
         return;
@@ -61,12 +71,30 @@ export class AccountMenuComponent {
 
       assert(walletName && walletName.length >= 3, 'walletName');
 
-      this.tempStorageService.data = {
-        walletName,
-      };
+      const wallet = await this.walletProxy.createWallet(walletName);
+      wallet.walletType = 'privateKey';
 
-      await this.close();
-      await this.router.navigate(['/seed-phrase']);
+      const secret = await this.walletHelper.askWalletSecret();
+      const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
+        secret
+      );
+
+      if (!secret || !isValidSecret) {
+        this.toastService.responseError(
+          this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
+        );
+        return false;
+      }
+
+      this.store.dispatch(WalletActions.addWallet(wallet, secret));
+
+      await this.utilsHelper.wait(3000);
+
+      this.store.select(WalletSelector.getWallet).subscribe((w) => {
+        if (w) {
+          this.close();
+        }
+      });
     } catch (error) {
       this.toastService.responseError(this.errorService.parseError(error));
     }
@@ -75,25 +103,14 @@ export class AccountMenuComponent {
   /**
    * importWallet Function
    */
+
   public async importWallet() {
-    try {
-      const walletName = await this.walletModule.askWalletName();
+    await this.walletHelper.askRestoreWallet({
+      privateKey: true,
+      json: false, // TODO
+    });
 
-      if (!walletName) {
-        return;
-      }
-
-      assert(walletName && walletName.length >= 3, 'walletName');
-
-      this.tempStorageService.data = {
-        walletName,
-      };
-
-      await this.close();
-      await this.router.navigate(['/import-wallet/recovery-phrase']);
-    } catch (error) {
-      this.toastService.responseError(this.errorService.parseError(error));
-    }
+    await this.modalCtrl.dismiss();
   }
 
   /**
@@ -113,7 +130,7 @@ export class AccountMenuComponent {
       component: WalletMenuComponent,
       event,
       side: 'bottom',
-      alignment: 'end',
+      alignment: 'start',
       componentProps: {
         wallet,
       },
@@ -140,7 +157,7 @@ export class AccountMenuComponent {
    * Copy Address Function
    */
   public copyAddress(wallet: WalletModel) {
-    this.walletModule.copyAddress(wallet.address);
+    this.walletHelper.copyAddress(wallet.address);
   }
 
   /**
@@ -163,6 +180,9 @@ export class AccountMenuComponent {
       case 'privateKey':
         this.exportPrivateKey(wallet);
         break;
+      case 'privateKeyFromMnemonic':
+        this.exportPrivateKeyFromSeed(wallet);
+        break;
       case 'mnemonic':
         this.exportSeedPhrase(wallet);
         break;
@@ -170,6 +190,8 @@ export class AccountMenuComponent {
         return;
     }
   }
+
+  private addDerivatePath() {}
 
   /**
    * Switch Wallet Function
@@ -180,7 +202,7 @@ export class AccountMenuComponent {
 
   private async exportSeedPhrase(wallet: WalletModel) {
     try {
-      const walletSecret = await this.walletModule.askWalletSecret();
+      const walletSecret = await this.walletHelper.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
         wallet,
         secret: walletSecret,
@@ -205,17 +227,51 @@ export class AccountMenuComponent {
     }
   }
 
+  private async exportPrivateKeyFromSeed(wallet: WalletModel) {
+    try {
+      const walletSecret = await this.walletHelper.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+
+      const walletWithPK = this.web3Services.getWallet({
+        name: wallet.name,
+        mnemonic: decrypted.phrase,
+        main: wallet.main,
+        derivationPath: wallet.basePath,
+      });
+
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: walletWithPK.address,
+          decrypted: walletWithPK.privateKey,
+          walletType: 'privateKey',
+        },
+      });
+
+      await exportWalletModal.present();
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
+  }
   private async exportPrivateKey(wallet: WalletModel) {
     try {
-      const walletSecret = await this.walletModule.askWalletSecret();
+      const walletSecret = await this.walletHelper.askWalletSecret();
       const decrypted = await this.walletService.decryptWallet({
         wallet,
         secret: walletSecret,
       });
       let privateKey = decrypted.privateKey;
 
+      //TODO: we dont need this as its already checked on view
       if (wallet.walletType !== WalletType.privateKey) {
-        const _wallet = await this.walletModule.exportWallet({
+        const _wallet = await this.walletHelper.exportWallet({
           name: wallet.name,
           mnemonic: decrypted.phrase,
           privateKey: decrypted.privateKey,
@@ -247,7 +303,7 @@ export class AccountMenuComponent {
    */
   private async renameWallet(wallet: WalletModel) {
     try {
-      const walletName = await this.walletModule.askWalletName();
+      const walletName = await this.walletHelper.askWalletName();
 
       if (!walletName) {
         return;
@@ -267,7 +323,7 @@ export class AccountMenuComponent {
    * Delete Wallet Function
    */
   private async deleteWallet(wallet: WalletModel) {
-    const deleteWallet = await this.walletModule.askDeleteWallet();
+    const deleteWallet = await this.walletHelper.askDeleteWallet();
 
     if (!deleteWallet) {
       return;
