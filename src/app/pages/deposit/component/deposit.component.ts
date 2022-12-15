@@ -8,7 +8,7 @@ import { WalletModel } from '@app/models';
 import { WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { WalletHelper } from "@helpers/wallet";
+import { WalletHelper } from '@helpers/wallet';
 
 const logContent = (data) =>
   Object.assign({ service: 'app:wallet:receive' }, data);

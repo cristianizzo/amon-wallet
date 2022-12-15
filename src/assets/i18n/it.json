@@ -8,7 +8,8 @@
     "DEPOSIT": "Depositare",
     "WITHDRAW": "Invia",
     "SWAP": "Barattare",
-    "NEXT": "prossimo",
+    "PREV": "indietro",
+    "NEXT": "avanti",
     "COPY": "copiare",
     "CLOSE": "chiudi",
     "SHARE": "condividi",
@@ -196,6 +197,9 @@
   "CURRENCY_SELECTOR": {
     "TITLE": "Cambia Valuta",
     "SEARCH": "Cerca valuta"
+  },
+  "DERIVATE_PATH": {
+    "TITLE": "Seleziona Indirizzo"
   },
   "ALERT": {
     "HEADER": {

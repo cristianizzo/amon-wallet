@@ -4,7 +4,12 @@ import { AlertController } from '@ionic/angular';
 import { WalletSelector } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { WalletActions } from '@core/actions';
-import { LanguageProxy, ToastService, WalletProxy } from '@app/services/index.module';
+import {
+  LanguageProxy,
+  TempStorageService,
+  ToastService,
+  WalletProxy,
+} from '@app/services/index.module';
 import { UtilsHelper } from '@helpers/utils';
 import { WalletHelper } from '@helpers/wallet';
 import { Router } from '@angular/router';
@@ -17,7 +22,8 @@ import { Router } from '@angular/router';
 export class DerivatePathsComponent {
   public offset: number;
   public limit: number;
-  public search: string;
+  public perPage: number;
+  public loading: boolean;
   public wallet: WalletModel;
   public wallets: WalletModel[];
 
@@ -30,33 +36,46 @@ export class DerivatePathsComponent {
     private toastService: ToastService,
     private utilsHelper: UtilsHelper,
     private router: Router,
+    private tempStorageService: TempStorageService
   ) {
     this.offset = 0;
     this.limit = 10;
+    this.perPage = 10;
   }
 
   async ionViewWillEnter() {
-    this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
-      this.wallet = wallet;
-      if (wallet) {
-        this.getWallets();
-      }
-    });
+    this.offset = 0;
+    this.limit = 10;
+    this.perPage = 10;
+    this.loading = true;
+
+    this.wallet = this.tempStorageService.data;
+
+    if (this.wallet) {
+      this.getWallets();
+    } else {
+      this.store.select(WalletSelector.getWallet).subscribe((wallet) => {
+        this.wallet = wallet;
+        if (wallet) {
+          this.getWallets();
+        }
+      });
+    }
   }
 
   async getWallets() {
     this.wallets = await this.walletProxy.getWalletWithDerivatePaths(
       this.offset,
-      this.limit
+      this.limit,
+      this.wallet
     );
-    console.log(this.wallets);
+    this.loading = false;
   }
 
   /**
    * selectWallet function
    */
   public async selectWallet(wallet: WalletModel) {
-
     const existingWallet = await this.walletHelper.walletAlreadyExists(
       wallet.address
     );
@@ -80,6 +99,29 @@ export class DerivatePathsComponent {
       return;
     }
     await this.addWallet(wallet, secret);
+  }
+
+  /**
+   * parseAddress Function
+   */
+  public parseAddress(address: string) {
+    if (address) {
+      return `${address.slice(0, 18)}...${address.slice(address.length - 4)}`;
+    }
+  }
+
+  public prev() {
+    this.loading = true;
+    this.offset = this.offset - this.perPage;
+    this.limit = this.limit - this.perPage;
+    this.getWallets();
+  }
+
+  public next() {
+    this.loading = true;
+    this.offset = this.offset + this.perPage;
+    this.limit = this.limit + this.perPage;
+    this.getWallets();
   }
 
   private async addWallet(wallet: WalletModel, secret: string) {

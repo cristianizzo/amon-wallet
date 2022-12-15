@@ -7,6 +7,7 @@ import { WalletService } from '../wallet.service';
 import { CryptoHelper } from '@helpers/crypto';
 import { Web3Services } from '../web3.service';
 import { HDPathsHelper } from '@helpers/hdPaths';
+import { environment } from '@env/environment';
 
 @Injectable()
 export class WalletProxy {
@@ -16,8 +17,7 @@ export class WalletProxy {
     private cryptoHelper: CryptoHelper,
     private web3Services: Web3Services,
     private hdPathsHelper: HDPathsHelper
-  ) {
-  }
+  ) {}
 
   public initWallet(): Observable<WalletModel> {
     return from(
@@ -34,7 +34,7 @@ export class WalletProxy {
     );
   }
 
-  public switchWalletAndFetchBalance({address}): Observable<WalletModel> {
+  public switchWalletAndFetchBalance({ address }): Observable<WalletModel> {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallet = await this.walletService.getWalletFromStorage(address);
@@ -50,10 +50,13 @@ export class WalletProxy {
 
   public async getWalletWithDerivatePaths(
     offset = 0,
-    limit = 10
+    limit = 10,
+    mainWallet
   ): Promise<any> {
-    const dbWallets = await this.walletService.getWalletsFromStorage();
-    const mainWallet = dbWallets.find((w) => w.main);
+    if (!mainWallet) {
+      const dbWallets = await this.walletService.getWalletsFromStorage();
+      mainWallet = dbWallets.find((w) => w.main);
+    }
 
     assert(mainWallet, 'notFound');
 
@@ -66,9 +69,9 @@ export class WalletProxy {
     );
 
     return Promise.all(
-      hdPaths.map(async (path, index) => {
+      hdPaths.map(async (path, ii) => {
         const wallet = this.web3Services.getWallet({
-          name: `Wallet ${index}`,
+          name: `${environment.defaultWalletName} ${ii}`,
           mnemonic: mainWallet.phrase,
           derivationPath: path,
           main: true,
@@ -105,10 +108,10 @@ export class WalletProxy {
   }
 
   public async importMainWalletFromMnemonic({
-                                              name,
-                                              mnemonic,
-                                              derivationPath,
-                                            }): Promise<WalletModel> {
+    name,
+    mnemonic,
+    derivationPath,
+  }): Promise<WalletModel> {
     const dbWallets = await this.walletService.getWalletsFromStorage();
 
     assert(dbWallets.length === 0, 'mainWalletAlreadyExists');
@@ -124,9 +127,9 @@ export class WalletProxy {
   }
 
   public async importWalletFromPrivateKey({
-                                            name,
-                                            privateKey,
-                                          }): Promise<WalletModel> {
+    name,
+    privateKey,
+  }): Promise<WalletModel> {
     return this.web3Services.getWalletFromPrivateKey({
       name,
       privateKey,
@@ -134,7 +137,7 @@ export class WalletProxy {
     });
   }
 
-  public addWallet({wallet, secret}): Observable<WalletModel> {
+  public addWallet({ wallet, secret }): Observable<WalletModel> {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallet = await this.walletService.getWalletFromStorage(
@@ -183,7 +186,7 @@ export class WalletProxy {
     );
   }
 
-  public renameWallet({address, name}): Observable<WalletModel> {
+  public renameWallet({ address, name }): Observable<WalletModel> {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallet = await this.walletService.getWalletFromStorage(address);
@@ -199,7 +202,7 @@ export class WalletProxy {
     );
   }
 
-  public deleteWallet({address}): Observable<WalletModel> {
+  public deleteWallet({ address }): Observable<WalletModel> {
     return from(
       this.utilsHelper.async(async () => {
         const dbWallets = await this.walletService.getWalletsFromStorage();

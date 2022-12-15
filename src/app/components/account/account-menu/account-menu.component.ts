@@ -41,8 +41,7 @@ export class AccountMenuComponent {
     private walletProxy: WalletProxy,
     private utilsHelper: UtilsHelper,
     private languageProxy: LanguageProxy
-  ) {
-  }
+  ) {}
 
   async ionViewWillEnter() {
     this.store.dispatch(WalletActions.getAllWallets());
@@ -134,7 +133,7 @@ export class AccountMenuComponent {
 
     await popover.present();
 
-    const {data} = await popover.onDidDismiss();
+    const { data } = await popover.onDidDismiss();
 
     if (data) {
       this.switchAction(data);
@@ -158,7 +157,7 @@ export class AccountMenuComponent {
   /**
    * Switch Action Function
    */
-  private switchAction({action, wallet}) {
+  private switchAction({ action, wallet }) {
     switch (action) {
       case 'connect':
         this.switchWallet(wallet);
@@ -183,8 +182,7 @@ export class AccountMenuComponent {
     }
   }
 
-  private addDerivatePath() {
-  }
+  private addDerivatePath() {}
 
   /**
    * Switch Wallet Function

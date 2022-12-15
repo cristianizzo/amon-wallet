@@ -12,6 +12,7 @@ import { DerivatePathsComponent } from '@pages/import-wallet/derivate-paths/deri
 import { BackButtonModule } from '@components/back-button/back-button.module';
 import { NgAmonPipesModule } from '@pipes/index.module';
 import { NgAmonDirectivesModule } from '@directives/index.module';
+import { LoaderModule } from '@components/loader/loader.component.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
     BackButtonModule,
     NgAmonPipesModule,
     NgAmonDirectivesModule,
+    LoaderModule,
   ],
   declarations: [
     RecoveryPhraseComponent,

@@ -9,7 +9,11 @@ import { StateModel } from '@models/state.model';
 import { WalletActions } from '@app/core/actions';
 import { WalletSelector } from '@app/core/selectors';
 import { WalletHelper } from '@helpers/wallet';
-import { LanguageProxy, TempStorageService, WalletProxy } from '@app/services/index.module';
+import {
+  LanguageProxy,
+  TempStorageService,
+  WalletProxy,
+} from '@app/services/index.module';
 import { Location } from '@angular/common';
 
 @Component({

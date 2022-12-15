@@ -63,7 +63,7 @@ export class KeystoreFileComponent {
       const file = await this.file.text();
 
       const newWallet = await this.walletHelper.importWalletFromEncryptedJson({
-        name:  walletName,
+        name: walletName,
         walletJson: file,
         password: rawForm.password,
       });

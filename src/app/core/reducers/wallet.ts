@@ -27,11 +27,13 @@ export const walletReducer = createReducer(
     WalletActions.getAllWalletsSuccess,
     (state = initialState, { wallets }) => ({ ...state, ...{ all: wallets } })
   ),
-  on(WalletActions.deleteWalletFromState, (state = initialState, {address}) => ({
-    ...state,
-    ...{ all: state.all.filter((w) => w.address !== address),
-    },
-  })),
+  on(
+    WalletActions.deleteWalletFromState,
+    (state = initialState, { address }) => ({
+      ...state,
+      ...{ all: state.all.filter((w) => w.address !== address) },
+    })
+  ),
   on(WalletActions.resetWallets, (state = initialState) => ({
     ...state,
     ...{ all: [] },

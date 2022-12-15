@@ -9,7 +9,13 @@ import { WalletHelper } from '@helpers/wallet';
 @NgModule({
   imports: [CommonModule],
   declarations: [FormValidationHelper],
-  providers: [FormValidationHelper, UtilsHelper, WalletHelper, CryptoHelper, HDPathsHelper],
+  providers: [
+    FormValidationHelper,
+    UtilsHelper,
+    WalletHelper,
+    CryptoHelper,
+    HDPathsHelper,
+  ],
   exports: [FormValidationHelper],
 })
 export class NgAmonHelpersModule {}

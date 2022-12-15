@@ -17,8 +17,8 @@ import { WalletSelector } from '@app/core/selectors';
 import { UtilsHelper } from '@helpers/utils';
 import { Store } from '@ngrx/store';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
-import { WalletHelper } from "@helpers/wallet";
-import { WalletProxy } from "@services/proxy/wallet.proxy";
+import { WalletHelper } from '@helpers/wallet';
+import { WalletProxy } from '@services/proxy/wallet.proxy';
 
 @Component({
   selector: 'app-private-key',
@@ -59,7 +59,7 @@ export class PrivateKeyComponent {
 
       const newWallet = await this.walletProxy.importWalletFromPrivateKey({
         name: walletName,
-        privateKey: rawForm.privateKey
+        privateKey: rawForm.privateKey,
       });
       return newWallet;
     } catch (_) {

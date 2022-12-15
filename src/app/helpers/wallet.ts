@@ -116,7 +116,9 @@ export class WalletHelper {
   /**
    * Ask Wallet Secret function
    */
-  public async askWalletSecret(opts?: { canCancel?: boolean }): Promise<string> {
+  public async askWalletSecret(opts?: {
+    canCancel?: boolean;
+  }): Promise<string> {
     return new Promise(async (resolve) => {
       const buttons = [
         {
@@ -204,12 +206,16 @@ export class WalletHelper {
     return await actionSheet.onDidDismiss();
   }
 
-  public async importWalletFromMnemonic(name: string, mnemonic: string, derivationPath?: string): Promise<WalletModel | boolean> {
+  public async importWalletFromMnemonic(
+    name: string,
+    mnemonic: string,
+    derivationPath?: string
+  ): Promise<WalletModel | boolean> {
     try {
       return this.walletProxy.importMainWalletFromMnemonic({
         name,
         mnemonic,
-        derivationPath
+        derivationPath,
       });
     } catch (_) {
       return false;

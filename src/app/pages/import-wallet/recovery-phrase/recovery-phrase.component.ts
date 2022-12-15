@@ -10,14 +10,12 @@ import {
 import { FormValidationHelper } from '@helpers/validation-form';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@models/state.model';
-import { WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 import { TempStorageService } from '@services/tempStorage.service';
-import { WalletSelector } from '@app/core/selectors';
-import { WalletActions } from '@app/core/actions';
 import { ToastService } from '@services/toast.service';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
-import { WalletHelper } from "@helpers/wallet";
+import { WalletHelper } from '@helpers/wallet';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-recovery-phrase',
@@ -36,6 +34,7 @@ export class RecoveryPhraseComponent {
     private walletHelper: WalletHelper,
     private tempStorageService: TempStorageService,
     private toastService: ToastService,
+    private loadingController: LoadingController,
     public languageProxy: LanguageProxy
   ) {
     this.initForm();
@@ -68,50 +67,26 @@ export class RecoveryPhraseComponent {
    * submit function
    */
   public async submit() {
+    const loader = await this.loadingController.create(
+      this.utilsHelper.loaderOption()
+    );
+    await loader.present();
+
     const newWallet = await this.importWallet();
 
     if (!newWallet) {
+      await loader.dismiss();
       this.toastService.responseError(
         this.languageProxy.getTranslate('ERRORS.SEED_PHRASE')
       );
       return;
     }
 
-    const existingWallet = await this.walletHelper.walletAlreadyExists(
-      newWallet.address
-    );
-
-    if (existingWallet) {
-      this.toastService.responseError(
-        this.languageProxy.getTranslate('ERRORS.WALLET_ALREADY_EXISTS')
-      );
-      return;
-    }
-
-    const secret = await this.walletHelper.askWalletSecret();
-    const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
-      secret
-    );
-
-    if (!secret || !isValidSecret) {
-      this.toastService.responseError(
-        this.languageProxy.getTranslate('ERRORS.INVALID_SECRET')
-      );
-      return;
-    }
-
-    await this.addWallet(newWallet, secret);
-  }
-
-  private async addWallet(wallet: WalletModel, secret: string) {
-    this.store.dispatch(WalletActions.addWallet(wallet, secret));
     await this.utilsHelper.wait(3000);
 
-    this.store.select(WalletSelector.getWallet).subscribe((myWallet) => {
-      if (myWallet) {
-        this.router.navigate(['/auth/derivate-paths']);
-      }
-    });
+    this.tempStorageService.data = newWallet;
+    this.router.navigate(['/import-wallet/derivate-paths']);
+    loader.dismiss();
   }
 
   /**
