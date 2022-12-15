@@ -151,7 +151,7 @@ export class TokenEffects {
       exhaustMap(([action, chain, wallet]) =>
         this.tokenProxy.selectToken(action.address, wallet, chain)
       ),
-      map((token) => TokenActions.updateTokenToState(token)),
+      map((token) => TokenActions.addTokenToState(token)),
       tap(() => [this.store.dispatch(FormActions.formEnd())]),
       catchError((error) => {
         logger.error(
@@ -175,7 +175,7 @@ export class TokenEffects {
       exhaustMap(([action, chain]) =>
         this.tokenProxy.unselectToken(action.address, chain)
       ),
-      map((token) => TokenActions.updateTokenToState(token)),
+      map((token) => TokenActions.removeTokenToState(token)),
       tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
