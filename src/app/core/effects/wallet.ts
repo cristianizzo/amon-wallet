@@ -132,8 +132,7 @@ export class WalletEffects {
           );
           return of(FormActions.formError(error));
         })
-      ),
-    { dispatch: false }
+      )
   );
 
   renameWallet$ = createEffect(() =>

@@ -38,7 +38,7 @@ export const tokenReducer = createReducer(
       current: [...state.current, token],
     },
   })),
-  on(TokenActions.removeTokenToState, (state = initialState, { token }) => ({
+  on(TokenActions.deleteTokenToState, (state = initialState, { token }) => ({
     ...state,
     ...{
       current: [...state.current.filter((tk) => tk.address !== token.address)],

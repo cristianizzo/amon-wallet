@@ -15,7 +15,7 @@ import { WalletActions } from '@app/core/actions';
 import { ExportWalletComponent } from '@components/export-wallet/export-wallet.component';
 import { Observable } from 'rxjs';
 import { WalletHelper } from '@helpers/wallet';
-import { LanguageProxy, WalletProxy } from '@app/services/index.module';
+import { LanguageProxy, WalletProxy, Web3Services } from '@app/services/index.module';
 import { UtilsHelper } from '@helpers/utils';
 
 @Component({
@@ -39,6 +39,7 @@ export class AccountMenuComponent {
     private router: Router,
     private popoverController: PopoverController,
     private walletProxy: WalletProxy,
+    private web3Services: Web3Services,
     private utilsHelper: UtilsHelper,
     private languageProxy: LanguageProxy
   ) {}
@@ -67,6 +68,7 @@ export class AccountMenuComponent {
       assert(walletName && walletName.length >= 3, 'walletName');
 
       const wallet = await this.walletProxy.createWallet(walletName);
+      wallet.walletType = 'privateKey';
 
       const secret = await this.walletHelper.askWalletSecret();
       const isValidSecret = await this.walletHelper.verifyMainWalletSecret(
@@ -124,7 +126,7 @@ export class AccountMenuComponent {
       component: WalletMenuComponent,
       event,
       side: 'bottom',
-      alignment: 'end',
+      alignment: 'start',
       componentProps: {
         wallet,
       },
@@ -174,6 +176,9 @@ export class AccountMenuComponent {
       case 'privateKey':
         this.exportPrivateKey(wallet);
         break;
+      case 'privateKeyFromMnemonic':
+        this.exportPrivateKeyFromSeed(wallet);
+        break;
       case 'mnemonic':
         this.exportSeedPhrase(wallet);
         break;
@@ -218,6 +223,40 @@ export class AccountMenuComponent {
     }
   }
 
+  private async exportPrivateKeyFromSeed(wallet: WalletModel) {
+
+    try {
+      const walletSecret = await this.walletHelper.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+
+      const walletWithPK = this.web3Services.getWallet({
+        name: wallet.name,
+        mnemonic: decrypted.phrase,
+        main: wallet.main,
+        derivationPath: wallet.basePath,
+      });
+
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: walletWithPK.address,
+          decrypted: walletWithPK.privateKey,
+          walletType: 'privateKey',
+        },
+      });
+
+      await exportWalletModal.present();
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
+  }
   private async exportPrivateKey(wallet: WalletModel) {
     try {
       const walletSecret = await this.walletHelper.askWalletSecret();

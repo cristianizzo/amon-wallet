@@ -9,7 +9,7 @@ export const tokenActionTypes = {
   selectToken: type('[Token] select token'),
   unselectToken: type('[Token] unselect token'),
   addTokenToState: type('[Token] add token state'),
-  removeTokenToState: type('[Token] remove token state'),
+  deleteTokenToState: type('[Token] delete token state'),
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
   resetState: type('[Token] reset state'),
@@ -64,8 +64,8 @@ export const addTokenToState = createAction(
   (token: TokenModel) => ({ token })
 );
 
-export const removeTokenToState = createAction(
-  tokenActionTypes.removeTokenToState,
+export const deleteTokenToState = createAction(
+  tokenActionTypes.deleteTokenToState,
   (token: TokenModel) => ({ token })
 );
 

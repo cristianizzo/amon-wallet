@@ -175,7 +175,7 @@ export class TokenEffects {
       exhaustMap(([action, chain]) =>
         this.tokenProxy.unselectToken(action.address, chain)
       ),
-      map((token) => TokenActions.removeTokenToState(token)),
+      map((token) => TokenActions.deleteTokenToState(token)),
       tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
