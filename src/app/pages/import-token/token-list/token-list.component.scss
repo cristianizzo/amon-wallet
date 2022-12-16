@@ -1,10 +1,6 @@
 @import 'media';
 @import 'theme';
 
-ion-searchbar {
-  --background: #f2f2f2;
-}
-
 .loading {
   &.active {
     margin: 40px auto 30px;
@@ -200,19 +196,3 @@ ion-list {
   border-bottom: 1px solid #ecf0f1;
 }
 
-ion-searchbar {
-  --color: #333;
-  --icon-color: #a5a3a3;
-  --box-shadow: none;
-  --border-radius: 10px;
-  --background: #f2f2f2;
-
-  @include isDarkTheme {
-    --background: #fff;
-    --color: #252525;
-  }
-
-  ::ng-deep input.searchbar-input {
-    font-size: 14px !important;
-  }
-}

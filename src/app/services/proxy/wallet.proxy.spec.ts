@@ -58,12 +58,12 @@ describe('Service: ProxyWallet', () => {
     const wallets = await walletProxy.getWalletWithDerivatePaths(0, 2);
 
     expect(wallets.length).toEqual(2);
-    expect(wallets[0].basePath).toEqual(`m/44'/0'/0'/0/0`);
-    expect(wallets[1].basePath).toEqual(`m/44'/0'/0'/0/1`);
+    expect(wallets[0].basePath).toEqual(`m/44'/60'/0'/0/0`);
+    expect(wallets[1].basePath).toEqual(`m/44'/60'/0'/0/1`);
 
     const wallets2 = await walletProxy.getWalletWithDerivatePaths(10, 2);
-    expect(wallets2[0].basePath).toEqual(`m/44'/0'/0'/0/10`);
-    expect(wallets2[1].basePath).toEqual(`m/44'/0'/0'/0/11`);
+    expect(wallets2[0].basePath).toEqual(`m/44'/60'/0'/0/10`);
+    expect(wallets2[1].basePath).toEqual(`m/44'/60'/0'/0/11`);
   });
 
   // it('should add wallet', async () => {

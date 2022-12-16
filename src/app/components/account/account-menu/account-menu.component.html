@@ -1,17 +1,20 @@
 <ion-header [translucent]="true" class="no-border">
-  <ion-toolbar class="default">
+  <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
     </ion-buttons>
+    <ion-title></ion-title>
+    <ion-buttons slot="end"></ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="account-menu">
+<ion-content class="account-menu" [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
   <ion-searchbar
     [(ngModel)]="searchInputText"
     [debounce]="250"
     [placeholder]="'HEADER.ACCOUNT_MENU.PLACEHOLDER' | translate"
     animated="true"
+    class="search"
     autocorrect="off"
   >
   </ion-searchbar>

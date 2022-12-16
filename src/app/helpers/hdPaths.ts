@@ -24,7 +24,7 @@ export class HDPathsHelper {
   path = {
     m: 'm',
     purpose: '44', // 44'
-    coinType: '0', // 0'
+    coinType: '60', // 60'
     account: '0', // 0'
     change: '0',
     index: '0',

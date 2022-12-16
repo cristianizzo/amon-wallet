@@ -22,16 +22,20 @@
     [(ngModel)]="search"
     autocorrect="off"
     [placeholder]="'PAGE.CHAINS.SEARCH' | translate"
+    class="search"
   ></ion-searchbar>
 
-  <div class="filters">
-    <ion-label>Only Test Chains</ion-label>
-    <ion-toggle
-      (ionChange)="toggleTestChains()"
-      [checked]="isChecked()"
-      class="toggle"
-    ></ion-toggle>
+  <div class="box-filters">
+    <div class="filters">
+      <ion-label>Only Test Chains</ion-label>
+      <ion-toggle
+        (ionChange)="toggleTestChains()"
+        [checked]="isChecked()"
+        class="toggle"
+      ></ion-toggle>
+    </div>
   </div>
+
   <ion-list class="chains">
     <ion-item
       button
