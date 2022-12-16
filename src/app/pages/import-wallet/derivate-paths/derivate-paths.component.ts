@@ -106,7 +106,7 @@ export class DerivatePathsComponent {
    */
   public parseAddress(address: string) {
     if (address) {
-      return `${address.slice(0, 18)}...${address.slice(address.length - 4)}`;
+      return `${address.slice(0, 7)}...${address.slice(address.length - 4)}`;
     }
   }
 

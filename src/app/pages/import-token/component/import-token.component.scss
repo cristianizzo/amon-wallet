@@ -1,6 +1,11 @@
 @import 'media';
 @import 'theme';
 
+.tabs {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
 .segment {
   box-shadow: none;
   max-width: 280px;

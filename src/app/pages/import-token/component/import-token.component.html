@@ -1,16 +1,14 @@
-<ion-header class="no-border">
+<ion-header [translucent]="true" class="no-border">
   <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <app-back-button (clicked)="close()" [delegate]="true"></app-back-button>
     </ion-buttons>
     <ion-title>Import Token</ion-title>
-    <ion-buttons slot="end">
-      <ion-button></ion-button>
-    </ion-buttons>
+    <ion-buttons slot="end"></ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-no-padding">
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
   <div class="tabs">
     <ion-segment
       [(ngModel)]="selectedTabType"
