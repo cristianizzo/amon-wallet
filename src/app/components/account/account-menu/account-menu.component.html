@@ -8,7 +8,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="account-menu" [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
+<ion-content
+  class="account-menu"
+  [fullscreen]="true"
+  scrollEvents="true"
+  [appHideHeader]="toolbar"
+>
   <ion-searchbar
     [(ngModel)]="searchInputText"
     [debounce]="250"

@@ -65,21 +65,27 @@ describe('Helpers: hdPaths', () => {
     expect(hdPaths.length).toEqual(10);
 
     Array.from(Array(10).keys()).map((index) => {
-      expect(hdPaths[index]).toEqual(`m/44'/60'/0'/${index + 10}/${index + 10}`);
+      expect(hdPaths[index]).toEqual(
+        `m/44'/60'/0'/${index + 10}/${index + 10}`
+      );
     });
 
     hdPaths = hdPathsHelper.getHdIndexPaths({ change: '0' }, 10);
     expect(hdPaths.length).toEqual(10);
 
     Array.from(Array(10).keys()).map((index) => {
-      expect(hdPaths[index]).toEqual(`m/44'/60'/${index + 10}'/0/${index + 10}`);
+      expect(hdPaths[index]).toEqual(
+        `m/44'/60'/${index + 10}'/0/${index + 10}`
+      );
     });
 
     hdPaths = hdPathsHelper.getHdIndexPaths({ index: '0' }, 10);
     expect(hdPaths.length).toEqual(10);
 
     Array.from(Array(10).keys()).map((index) => {
-      expect(hdPaths[index]).toEqual(`m/44'/60'/${index + 10}'/${index + 10}/0`);
+      expect(hdPaths[index]).toEqual(
+        `m/44'/60'/${index + 10}'/${index + 10}/0`
+      );
     });
   });
 
