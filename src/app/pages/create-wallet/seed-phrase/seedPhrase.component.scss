@@ -77,6 +77,11 @@ ion-footer {
   margin-top: 18px;
   font-size: 14px;
   line-height: 19px;
+  color: #000;
+
+  @include isDarkTheme {
+    color: #fff;
+  }
 }
 
 .btn-actions {
@@ -131,8 +136,7 @@ ion-list.list-container {
           --color: #fff;
 
           @include isDarkTheme {
-            background: #fff;
-            --color: #000;
+            background: #000;
           }
         }
       }

@@ -1,0 +1,44 @@
+<ion-header class="no-border">
+  <ion-toolbar class="default">
+    <ion-title [innerHTML]="'DERIVATE_PATH.TITLE' | translate"></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <app-loader
+    class="loading"
+    [class.active]="loading"
+    [loading]="loading"
+  ></app-loader>
+
+  <ion-list class="wallet-list" *ngIf="!loading">
+    <ion-item
+      button
+      [mode]="'ios'"
+      class="wallet border"
+      lines="none"
+      *ngFor="let wallet of wallets | appOrderBy: 'symbol'; let i = index"
+      (click)="selectWallet(wallet)"
+    >
+      <ion-label>
+        <span class="index">{{ i + offset }}</span>
+        <span class="address">{{ parseAddress(wallet?.address) }}</span>
+      </ion-label>
+      <div slot="end">
+        <span
+          [innerHTML]="wallet?.balance | cryptoBalance"
+          class="balance"
+        ></span>
+      </div>
+    </ion-item>
+  </ion-list>
+
+  <div class="pagination" *ngIf="!loading">
+    <ion-button (click)="prev()" [disabled]="offset === 0" class="btn-action">
+      {{ 'BUTTON.PREV' | translate }}
+    </ion-button>
+    <ion-button (click)="next()" class="btn-action">
+      {{ 'BUTTON.NEXT' | translate }}
+    </ion-button>
+  </div>
+</ion-content>

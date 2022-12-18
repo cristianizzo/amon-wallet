@@ -1,7 +1,8 @@
 // @typescript-eslint/naming-convention
 import { createAction } from '@ngrx/store';
-import { WalletModel } from '@app/models';
+import { TokenModel, WalletModel } from '@app/models';
 import { type } from '@app/core/util';
+import { tokenActionTypes } from '@core/actions/token';
 
 export const walletActionTypes = {
   initWallet: type('[Wallet] init wallet'),
@@ -11,12 +12,17 @@ export const walletActionTypes = {
   connectWallet: type('[Wallet] connect wallet'),
   renameWallet: type('[Wallet] rename wallet'),
   deleteWallet: type('[Wallet] delete wallet'),
+  deleteWalletFromState: type('[Wallet] delete wallet from state'),
   getAllWallets: type('[Wallet] get all wallets'),
   getAllWalletsSuccess: type('[Wallet] get all wallets success'),
+  loadBalance: type('[Wallet] load balances'),
+  setLoading: type('[Wallet] set loading'),
   resetWallets: type('[Wallet] reset wallets'),
 };
 
 export const initWallet = createAction(walletActionTypes.initWallet);
+
+export const loadBalance = createAction(walletActionTypes.loadBalance);
 
 export const getAllWallets = createAction(walletActionTypes.getAllWallets);
 
@@ -42,6 +48,11 @@ export const connectWallet = createAction(
   (address: string) => ({ address })
 );
 
+export const deleteWalletFromState = createAction(
+  walletActionTypes.deleteWalletFromState,
+  (address: string) => ({ address })
+);
+
 export const renameWallet = createAction(
   walletActionTypes.renameWallet,
   (address: string, name: string) => ({ address, name })
@@ -50,4 +61,9 @@ export const renameWallet = createAction(
 export const deleteWallet = createAction(
   walletActionTypes.deleteWallet,
   (address: string) => ({ address })
+);
+
+export const setLoading = createAction(
+  walletActionTypes.setLoading,
+  (loading: boolean, loadingBalance: boolean) => ({ loading, loadingBalance })
 );

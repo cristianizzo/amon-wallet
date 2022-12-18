@@ -1,17 +1,20 @@
 @import 'media';
 @import 'theme';
 
+.box-filters {
+  width: 100%;
+  text-align: right;
+}
+
 .filters {
   align-items: center;
   font-size: 13px;
-  background-color: #e5e5e5;
   display: inline-flex;
   margin-left: 8px;
   border-radius: 6px;
   padding: 0px 7px;
 
   ion-toggle.toggle {
-    --background: #fafafa;
   }
 }
 

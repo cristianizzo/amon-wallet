@@ -1,9 +1,11 @@
-import { TokenModel } from '@app/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { TokenActions } from '@app/core/actions';
+import { TokenStateModel } from '@core/models';
 
 export const featureKey = 'tokens';
-const initialState: { current: TokenModel[]; all: TokenModel[] } = {
+const initialState: TokenStateModel = {
+  loadingBalances: false,
+  loading: false,
   current: [],
   all: [],
 };
@@ -30,11 +32,16 @@ export const tokenReducer = createReducer(
     ...state,
     ...{ all: [] },
   })),
-
   on(TokenActions.addTokenToState, (state = initialState, { token }) => ({
     ...state,
     ...{
       current: [...state.current, token],
+    },
+  })),
+  on(TokenActions.deleteTokenToState, (state = initialState, { token }) => ({
+    ...state,
+    ...{
+      current: [...state.current.filter((tk) => tk.address !== token.address)],
     },
   })),
   on(TokenActions.updateTokenToState, (state = initialState, { token }) => ({
@@ -60,7 +67,17 @@ export const tokenReducer = createReducer(
       current: [],
       all: [],
     },
-  }))
+  })),
+  on(
+    TokenActions.setLoading,
+    (state = initialState, { loading, loadingBalances }) => ({
+      ...state,
+      ...{
+        loading,
+        loadingBalances,
+      },
+    })
+  )
 );
 
 export const reducer = (state = initialState, action: Action): any =>

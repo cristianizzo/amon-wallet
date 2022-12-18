@@ -27,4 +27,5 @@ export class TokenModel {
   priceChange24h?: number;
   fiatPrice?: number;
   cryptoPrice?: number; // price of the main coin chain
+  loadBalance?: boolean;
 }

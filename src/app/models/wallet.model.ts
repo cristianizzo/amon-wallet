@@ -13,6 +13,7 @@ enum SignerType {
 }
 
 export interface WalletModel {
+  index?: number;
   main?: boolean;
   connected?: boolean;
   name: string;

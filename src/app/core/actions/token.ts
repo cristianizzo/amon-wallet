@@ -9,16 +9,21 @@ export const tokenActionTypes = {
   selectToken: type('[Token] select token'),
   unselectToken: type('[Token] unselect token'),
   addTokenToState: type('[Token] add token state'),
+  deleteTokenToState: type('[Token] delete token state'),
   updateTokenToState: type('[Token] update token state'),
   updateStateTokens: type('[Token] update state tokens'),
   resetState: type('[Token] reset state'),
 
+  loadBalances: type('[Token] load balances'),
+  setLoading: type('[Token] set loading'),
   getAllTokens: type('[Token] get all tokens'),
   getAllTokensSuccess: type('[Token] get all tokens success'),
   resetTokens: type('[Token] reset tokens'),
 };
 
 export const initTokens = createAction(tokenActionTypes.initTokens);
+
+export const loadBalances = createAction(tokenActionTypes.loadBalances);
 
 export const getAllTokens = createAction(tokenActionTypes.getAllTokens);
 
@@ -59,6 +64,11 @@ export const addTokenToState = createAction(
   (token: TokenModel) => ({ token })
 );
 
+export const deleteTokenToState = createAction(
+  tokenActionTypes.deleteTokenToState,
+  (token: TokenModel) => ({ token })
+);
+
 export const updateTokenToState = createAction(
   tokenActionTypes.updateTokenToState,
   (token: TokenModel) => ({ token })
@@ -70,3 +80,8 @@ export const updateStateTokens = createAction(
 );
 
 export const resetState = createAction(tokenActionTypes.resetState);
+
+export const setLoading = createAction(
+  tokenActionTypes.setLoading,
+  (loading: boolean, loadingBalances: boolean) => ({ loading, loadingBalances })
+);

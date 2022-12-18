@@ -7,14 +7,14 @@
         <span class="coinName">{{ chain?.name }}</span>
 
         <div class="col-xs ion-text-right coinBalance">
-          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-          <ng-container *ngIf="!loading && showBalance">
+          <ion-spinner *ngIf="loadingWalletBalance" name="dots"></ion-spinner>
+          <ng-container *ngIf="!loadingWalletBalance && showBalance">
             <span
               [innerHTML]="wallet?.balance | cryptoBalance"
               class="symbol"
             ></span>
           </ng-container>
-          <ng-container *ngIf="!loading && !showBalance">
+          <ng-container *ngIf="!loadingWalletBalance && !showBalance">
             <small>{{ '****' }}</small>
           </ng-container>
         </div>
@@ -44,14 +44,14 @@
         <span class="coinName">{{ token?.name }}</span>
 
         <div class="col-xs ion-text-right coinBalance">
-          <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-          <ng-container *ngIf="!loading && showBalance">
+          <ion-spinner *ngIf="loadingTokenBalances" name="dots"></ion-spinner>
+          <ng-container *ngIf="!loadingTokenBalances && showBalance">
             <span
               [innerHTML]="token?.balance | cryptoBalance"
               class="symbol"
             ></span>
           </ng-container>
-          <ng-container *ngIf="!loading && !showBalance">
+          <ng-container *ngIf="!loadingTokenBalances && !showBalance">
             <small>{{ '****' }}</small>
           </ng-container>
         </div>

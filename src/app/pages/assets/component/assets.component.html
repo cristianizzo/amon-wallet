@@ -21,7 +21,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
   <app-account></app-account>
   <app-total-balance></app-total-balance>
   <app-wallet-address></app-wallet-address>
@@ -40,6 +40,14 @@
         {{ 'PAGE.ASSETS.TAB.NFTS' | translate }}
       </ion-segment-button>
     </ion-segment>
+
+    <ion-refresher
+      class="amn-loader refresh"
+      slot="fixed"
+      (ionRefresh)="doRefresh($event)"
+    >
+      <ion-img src="/assets/img/loader.svg"></ion-img>
+    </ion-refresher>
 
     <ng-container [ngSwitch]="selectedAssetType">
       <ion-row *ngSwitchCase="assetTypeEnum.tokens">

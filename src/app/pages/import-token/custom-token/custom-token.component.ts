@@ -12,8 +12,6 @@ import { Store } from '@ngrx/store';
 import { UtilsHelper } from '@helpers/utils';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FormActions, TokenActions } from '@app/core/actions';
-import { FormValidationHelper } from '@helpers/validation-form';
-import { Web3Services } from '@services/web3.service';
 
 @Component({
   selector: 'app-custom-token',
@@ -32,8 +30,7 @@ export class CustomTokenComponent implements OnChanges {
   constructor(
     private utilsHelper: UtilsHelper,
     public formBuilder: FormBuilder,
-    private readonly store: Store<StateModel>,
-    private formValidationHelper: FormValidationHelper
+    private readonly store: Store<StateModel>
   ) {
     this.initForm();
   }
