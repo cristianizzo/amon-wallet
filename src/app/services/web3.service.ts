@@ -51,7 +51,7 @@ export class Web3Services {
     name,
     mnemonic = null,
     main = false,
-    derivationPath = `m/44'/60'/0'/0/0`,
+    derivationPath,
   }): WalletModel {
     if (!mnemonic) {
       const generateMnemonic = this.generateMnemonic();
@@ -272,7 +272,7 @@ export class Web3Services {
     name,
     privateKey,
     main = false,
-    derivationPath = `m/44'/60'/0'/0/0`,
+    derivationPath = undefined,
   }): WalletModel {
     const buffer = this.cryptoHelper.hexToBuffer(privateKey);
     const wallet = new this.web3.Wallet(buffer);
@@ -294,7 +294,7 @@ export class Web3Services {
     walletJson,
     password,
     main = false,
-    derivationPath = `m/44'/60'/0'/0/0`,
+    derivationPath,
   }): WalletModel {
     const wallet = this.web3.Wallet.fromEncryptedJsonSync(walletJson, password);
 

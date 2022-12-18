@@ -4,6 +4,7 @@ import { AuthGuard } from '@app/app.auth.guard';
 import { RecoveryPhraseComponent } from '@pages/import-wallet/recovery-phrase/recovery-phrase.component';
 import { PrivateKeyComponent } from '@pages/import-wallet/private-key/privateKey.component';
 import { KeystoreFileComponent } from '@pages/import-wallet/keystore-file/keystoreFile.component';
+import { DerivatePathsComponent } from '@pages/import-wallet/derivate-paths/derivate-paths.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: 'keystore-file',
     component: KeystoreFileComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'derivate-paths',
+    component: DerivatePathsComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,7 +1,12 @@
 import { environment } from '@env/environment';
 import { Component, OnInit } from '@angular/core';
 import { Browser } from '@capacitor/browser';
-import { CurrencyModel, LanguageModel, StateModel } from '@app/models';
+import {
+  CurrencyModel,
+  LanguageModel,
+  StateModel,
+  WalletModel,
+} from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { Router } from '@angular/router';
 import * as packageJson from '../../../../../package.json';
@@ -9,15 +14,21 @@ import {
   CurrencySelector,
   LanguageSelector,
   ThemeSelector,
+  WalletSelector,
 } from '@app/core/selectors';
 import { Store } from '@ngrx/store';
 import { ActionSheetController, ModalController } from '@ionic/angular';
 import { CurrencySelectorComponent } from '@components/currency-selector/currency-selector.component';
-import { from, Observable } from 'rxjs';
-import { LanguageActions, ThemeActions } from '@core/actions';
+import { Observable } from 'rxjs';
+import { LanguageActions, ThemeActions, WalletActions } from '@core/actions';
 import { take } from 'rxjs/operators';
 import { ChangePasswordComponent } from '@components/change-password/change-password.component';
 import { LanguageProxy } from '@services/proxy/languages.proxy';
+import { WalletService } from '@services/wallet.service';
+import { WalletHelper } from '@helpers/wallet';
+import { ErrorService } from '@services/error.service';
+import { ToastService } from '@services/toast.service';
+import { ExportWalletComponent } from '@app/components/export-wallet/export-wallet.component';
 
 // @ts-ignore
 const logContent = (data) => Object.assign({ service: 'setting' }, data);
@@ -32,6 +43,7 @@ export class SettingComponent implements OnInit {
   public version: string;
   public network: string;
   public currency$: Observable<CurrencyModel>;
+  public wallets: WalletModel[];
   public language: LanguageModel;
   public languages: LanguageModel[];
   public theme$: Observable<string>;
@@ -42,7 +54,11 @@ export class SettingComponent implements OnInit {
     private router: Router,
     private store: Store<StateModel>,
     private modalCtrl: ModalController,
-    public actionSheetController: ActionSheetController
+    public actionSheetController: ActionSheetController,
+    private walletService: WalletService,
+    private errorService: ErrorService,
+    private toastService: ToastService,
+    private walletHelper: WalletHelper
   ) {
     // eslint-disable-next-line @typescript-eslint/dot-notation
     this.version = packageJson['default'].version;
@@ -51,12 +67,20 @@ export class SettingComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.store.dispatch(WalletActions.getAllWallets());
     this.currency$ = this.store.select(CurrencySelector.getCurrency);
     this.store
       .select(LanguageSelector.getLanguage)
       .subscribe((lang) => (this.language = lang));
     this.languages = this.languageProxy.getAllLanguages();
     this.theme$ = this.store.select(ThemeSelector.getTheme);
+    this.store
+      .select(WalletSelector.getAllWallets)
+      .subscribe((wallets) => (this.wallets = wallets));
+  }
+
+  ionViewWillLeave() {
+    this.store.dispatch(WalletActions.resetWallets());
   }
 
   public async askChangeCurrency() {
@@ -189,5 +213,37 @@ export class SettingComponent implements OnInit {
    */
   public goBack() {
     this.router.navigate(['/auth/assets']);
+  }
+
+  /**
+   * export SeedPhrase function
+   */
+  public async exportSeedPhrase() {
+    try {
+      const wallet = this.wallets.find((w) => w.main);
+      const walletSecret = await this.walletHelper.askWalletSecret();
+
+      const decrypted = await this.walletService.decryptWallet({
+        wallet,
+        secret: walletSecret,
+      });
+
+      const exportWalletModal = await this.modalCtrl.create({
+        id: 'account-menu',
+        component: ExportWalletComponent,
+        cssClass: ['export-wallet'],
+        backdropDismiss: true,
+        canDismiss: true,
+        componentProps: {
+          address: wallet.address,
+          decrypted: decrypted.phrase,
+          walletType: wallet.walletType,
+        },
+      });
+
+      await exportWalletModal.present();
+    } catch (error) {
+      this.toastService.responseError(this.errorService.parseError(error));
+    }
   }
 }

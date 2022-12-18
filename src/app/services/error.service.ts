@@ -17,6 +17,7 @@ export class ErrorService {
     tokenNotFound: 'ERRORS.TOKEN_NOT_FOUND',
     tokenAlreadyExists: 'ERRORS.TOKEN_ALREADY_EXISTS',
     walletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',
+    mainWalletAlreadyExists: 'ERRORS.WALLET_ALREADY_EXISTS',
     failEncrypt: 'ERRORS.FAIL_ENCRYPT',
     failDecrypt: 'ERRORS.FAIL_DECRYPT',
     failVerifyEncryption: 'ERRORS.FAIL_VERIFY_ENCRYPTION',

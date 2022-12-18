@@ -5,7 +5,7 @@ import {
   ofType,
   ROOT_EFFECTS_INIT,
 } from '@ngrx/effects';
-import { ChainActions, CurrencyActions, FormActions } from '@app/core/actions';
+import { CurrencyActions, FormActions } from '@app/core/actions';
 import { CurrencyProxy } from '@services/proxy/currency.proxy';
 import { of } from 'rxjs';
 import {
@@ -18,7 +18,7 @@ import {
 import logger from '@app/app.logger';
 import { Store } from '@ngrx/store';
 import { StateModel } from '@app/models';
-import { ChainSelector, CurrencySelector } from '@core/selectors';
+import { CurrencySelector } from '@core/selectors';
 
 const logContent = logger.logContent('core:effects:currency');
 
@@ -44,15 +44,11 @@ export class CurrencyEffects {
   getAllCurrencies$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CurrencyActions.getAllCurrencies),
-      tap(() =>
-        this.store.dispatch(FormActions.formStart({ topLoading: true }))
-      ),
       withLatestFrom(this.store.select(CurrencySelector.getCurrency)),
       switchMap(([_, currency]) =>
         this.currencyProxy.getAllCurrencies(currency)
       ),
       map((currencies) => CurrencyActions.getAllCurrenciesSuccess(currencies)),
-      tap(() => this.store.dispatch(FormActions.formEnd())),
       catchError((error) => {
         logger.error(
           logContent.add({

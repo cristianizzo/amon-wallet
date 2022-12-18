@@ -1,9 +1,11 @@
-import { WalletModel } from '@app/models';
+import { WalletStateModel } from '@core/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { WalletActions } from '@app/core/actions';
 
 export const featureKey = 'wallet';
-const initialState: { current: WalletModel; all: WalletModel[] } = {
+const initialState: WalletStateModel = {
+  loadingBalance: false,
+  loading: false,
   current: null,
   all: [],
 };
@@ -25,10 +27,27 @@ export const walletReducer = createReducer(
     WalletActions.getAllWalletsSuccess,
     (state = initialState, { wallets }) => ({ ...state, ...{ all: wallets } })
   ),
+  on(
+    WalletActions.deleteWalletFromState,
+    (state = initialState, { address }) => ({
+      ...state,
+      ...{ all: state.all.filter((w) => w.address !== address) },
+    })
+  ),
   on(WalletActions.resetWallets, (state = initialState) => ({
     ...state,
     ...{ all: [] },
-  }))
+  })),
+  on(
+    WalletActions.setLoading,
+    (state = initialState, { loading, loadingBalance }) => ({
+      ...state,
+      ...{
+        loading,
+        loadingBalance,
+      },
+    })
+  )
 );
 
 export const reducer = (state = initialState, action: Action): any =>

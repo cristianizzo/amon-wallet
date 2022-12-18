@@ -45,7 +45,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'string',
     'NG_APP_DEFAULT_WALLET_NAME',
-    'EVM Account 1'
+    'EVM Account'
   ),
   coinGeckoUri: configParser(
     sourceConfig,
@@ -63,7 +63,7 @@ const getConfigObject = (sourceConfig) => ({
     sourceConfig,
     'number',
     'NG_APP_DEFAULT_CHAIN_ID',
-    5
+    1 // 5
   ),
 });
 

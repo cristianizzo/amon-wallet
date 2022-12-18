@@ -50,13 +50,13 @@ export class ChainEffects {
   getAllChains$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ChainActions.getAllChains),
-      tap(() =>
-        this.store.dispatch(FormActions.formStart({ topLoading: true }))
-      ),
+      tap(() => [
+        this.store.dispatch(FormActions.formStart({ topLoading: true })),
+      ]),
       withLatestFrom(this.store.select(ChainSelector.getChain)),
       switchMap(([_, chain]) => this.chainProxy.getAllChains(chain)),
       map((chains) => ChainActions.getAllChainsSuccess(chains)),
-      tap(() => this.store.dispatch(FormActions.formEnd())),
+      tap(() => [this.store.dispatch(FormActions.formEnd())]),
       catchError((error) => {
         logger.error(
           logContent.add({

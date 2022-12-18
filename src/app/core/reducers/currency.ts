@@ -1,9 +1,10 @@
-import { CurrencyModel } from '@app/models';
+import { CurrencyStateModel } from '@core/models';
 import { Action, createReducer, on } from '@ngrx/store';
 import { CurrencyActions } from '@app/core/actions';
 
 export const featureKey = 'currency';
-const initialState: { current: CurrencyModel; all: CurrencyModel[] } = {
+const initialState: CurrencyStateModel = {
+  loading: false,
   current: null,
   all: [],
 };
@@ -34,6 +35,12 @@ export const currencyReducer = createReducer(
   on(CurrencyActions.resetCurrencies, (state = initialState) => ({
     ...state,
     ...{ all: [] },
+  })),
+  on(CurrencyActions.setLoading, (state = initialState, { loading }) => ({
+    ...state,
+    ...{
+      loading,
+    },
   }))
 );
 

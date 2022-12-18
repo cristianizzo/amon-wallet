@@ -202,6 +202,32 @@ export class TokenProxy {
     );
   }
 
+  public async loadBalances(tokens: TokenModel[], wallet: WalletModel) {
+    return await Promise.all(
+      tokens.map(async (token) => {
+        try {
+          const balance = await this.web3Services.getTokenBalance(
+            token.address,
+            wallet.address,
+            token.decimals
+          );
+
+          token.loadBalance = true;
+          token.balance = balance;
+          return token;
+        } catch (error) {
+          logger.warn(
+            logContent.add({
+              info: `error load token balance`,
+              error,
+            })
+          );
+          return token;
+        }
+      })
+    );
+  }
+
   public async getAllTokens(chain: ChainModel): Promise<TokenModel[]> {
     const dbTokens = await this.tokenService.getTokensFromStorage(chain);
     const defaultChainTokens = (this.utilsHelper.tokensJson[chain.symbol] || [])

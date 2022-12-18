@@ -2,7 +2,8 @@
 export const ChainsJson = [
   {
     name: 'Ethereum',
-    rpc: 'https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7',
+    // rpc: 'https://eth-mainnet.nodereal.io/v1/1659dfb40aa24bbb8153a677b98064d7',
+    rpc: 'https://cloudflare-eth.com/',
     chainId: 1,
     symbol: 'ETH',
     explorer: 'https://etherscan.io/',
