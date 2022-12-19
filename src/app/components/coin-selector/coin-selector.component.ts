@@ -11,7 +11,7 @@ import { ChainModel, TokenModel, WalletModel } from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { ThemeService } from '@services/theme.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ChainSelector, TokenSelector, WalletSelector } from "@core/selectors";
+import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
 
 export enum COIN_SELECTOR_SHAPES {
   VERTICAL,

@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { UtilsHelper } from '@helpers/utils';
 import { CryptoHelper } from '@helpers/crypto';
 import { ChainModel } from '@models/chain.model';
-import { TokenModel, TokenType, WalletModel } from '@app/models';
+import {
+  TokenModel,
+  TokenType,
+  Transaction,
+  TransferAsset,
+  WalletModel,
+  WalletType,
+} from '@app/models';
 import * as web3 from 'ethers';
 import logger from '@app/app.logger';
 
@@ -198,6 +205,31 @@ export class Web3Services {
     return byteCode.indexOf(signature) !== -1;
   }
 
+  public _getTokenContract(tokenType: TokenType, tokenAddress): any {
+    let contract;
+    if (tokenType === TokenType.ERC20) {
+      contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc20,
+        this.provider
+      );
+    } else if (tokenType === TokenType.ERC721) {
+      contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc721,
+        this.provider
+      );
+    } else if (tokenType === TokenType.ERC1155) {
+      contract = new web3.Contract(
+        tokenAddress,
+        this.utilsHelper.abi.erc1155,
+        this.provider
+      );
+    } else {
+      return null;
+    }
+    return contract;
+  }
   public async getTokenInfo(
     tokenAddress: string,
     walletAddress: string
@@ -307,6 +339,75 @@ export class Web3Services {
       walletType: 'privateKey',
       isHardware: false,
       signerType: 'secp256k1',
+    };
+  }
+
+  public async sendTransaction(wallet: WalletModel, transaction: Transaction) {
+    let web3Wallet;
+    if (wallet.walletType === WalletType.privateKey) {
+      web3Wallet = new this.web3.Wallet(wallet.privateKey, this.provider);
+    } else if (wallet.walletType === WalletType.mnemonic) {
+      web3Wallet = new this.web3.Wallet(
+        this.web3.Wallet.fromMnemonic(
+          wallet.phrase,
+          wallet.basePath
+        ).privateKey,
+        this.provider
+      );
+    }
+
+    const tx = await web3Wallet.sendTransaction(transaction);
+    return await tx.wait();
+  }
+
+  public async transferAssets(wallet: WalletModel, request: TransferAsset) {
+    const tokenContract = this._getTokenContract(
+      request.tokenType,
+      request.token?.address
+    );
+    const amountToSend = this.web3.utils.parseUnits(
+      `${request.amount}`,
+      request.token?.decimals || 18
+    );
+
+    let tx: Transaction;
+
+    if (request.tokenType === TokenType.ETH) {
+      tx = {
+        to: request.toAddress,
+        from: wallet.address,
+        value: amountToSend,
+      };
+    } else if (request.tokenType === TokenType.ERC20) {
+      const args = [request.toAddress, amountToSend];
+      tx = await tokenContract.populateTransaction.transfer(...args);
+      tx.gasLimit = tx.gasLimit.add(10e3);
+    } else if (request.tokenType === TokenType.ERC721) {
+      const args = [request.toAddress, request.tokenId];
+      tx = await tokenContract.populateTransaction.transfer(...args);
+      tx.gasLimit = tx.gasLimit.add(10e3);
+    }
+
+    try {
+      const preparedTx = await this._estimateGas(tx);
+      return preparedTx;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  private async _estimateGas(tx: Transaction) {
+    const gasLimit = await this.provider.estimateGas(tx);
+    tx.gasLimit = gasLimit;
+    const feeData = await this.provider.getFeeData();
+
+    tx.maxFeePerGas = feeData.maxFeePerGas;
+    tx.maxPriorityFeePerGas = feeData.maxPriorityFeePerGas;
+
+    const estimatedCost = gasLimit * tx.maxFeePerGas;
+    return {
+      tx,
+      estimatedCost,
     };
   }
 

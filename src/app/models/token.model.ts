@@ -5,6 +5,8 @@ export enum TokenType {
   ERC721 = 'ERC721',
   // eslint-disable-next-line @typescript-eslint/naming-convention
   ERC1155 = 'ERC1155',
+
+  ETH = 'ETH',
 }
 
 export enum AssetTypeEnum {

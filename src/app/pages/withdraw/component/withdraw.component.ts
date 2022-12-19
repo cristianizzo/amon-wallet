@@ -4,8 +4,18 @@ import { ModalController } from '@ionic/angular';
 import { UtilsHelper } from '@helpers/utils';
 import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
 import { Store } from '@ngrx/store';
-import { ChainModel, StateModel, TokenModel, WalletModel } from '@app/models';
+import {
+  ChainModel,
+  StateModel,
+  TokenModel,
+  TokenType,
+  TransferAsset,
+  WalletModel,
+} from '@app/models';
 import { QrcodeScannerComponent } from '@app/components/qrcode-scanner/qrcode.component';
+import { Web3Services } from '@services/web3.service';
+import { WalletService } from '@services/wallet.service';
+import { WalletHelper } from '@helpers/wallet';
 
 export enum COIN_SELECTOR_SHAPES {
   VERTICAL,
@@ -29,7 +39,10 @@ export class WithdrawComponent {
     private formBuilder: FormBuilder,
     private utilsHelper: UtilsHelper,
     private store: Store<StateModel>,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    public web3Service: Web3Services,
+    public walletHelper: WalletHelper,
+    public walletService: WalletService
   ) {
     this.initForm();
   }
@@ -59,7 +72,26 @@ export class WithdrawComponent {
     this.scanWebQrCode();
   }
 
-  public submit() {}
+  public async submit() {
+    const rawForm = this.formObj.getRawValue();
+    rawForm.tokenType = TokenType.ETH;
+    rawForm.address = '0xEEEEEEE'; // TODO: if its token then pass the address
+    const rawTx = await this.web3Service.transferAssets(this.wallet, rawForm);
+    //TODO: show the estimated cost on popup
+    if (rawTx) {
+      const walletSecret = await this.walletHelper.askWalletSecret();
+      const decrypted = await this.walletService.decryptWallet({
+        wallet: this.wallet,
+        secret: walletSecret,
+      });
+
+      const receipt = await this.web3Service.sendTransaction(
+        decrypted,
+        rawTx.tx
+      );
+      console.log(receipt);
+    }
+  }
 
   public calcFiatAmount(amount: string) {
     console.log(amount);

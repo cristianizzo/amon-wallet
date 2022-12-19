@@ -10,5 +10,4 @@ import { CoinSelectorComponent } from '@components/coin-selector/coin-selector.c
   entryComponents: [CoinSelectorComponent],
   declarations: [CoinSelectorComponent],
 })
-export class CoinSelectorModule {
-}
+export class CoinSelectorModule {}

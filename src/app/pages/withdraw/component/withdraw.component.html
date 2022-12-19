@@ -21,11 +21,12 @@
       <!--                               [type]="type"></app-slide-wallets>-->
 
       <app-coin-selector
-                         [shape]="1"
-                         [chain]="chain"
-                         [wallet]="wallet"
-                         [tokens]="tokens"
-                         (selectWalletEmitter)="onSelectedWallet($event)">
+        [shape]="1"
+        [chain]="chain"
+        [wallet]="wallet"
+        [tokens]="tokens"
+        (selectWalletEmitter)="onSelectedWallet($event)"
+      >
       </app-coin-selector>
 
       <div class="sub-content">
@@ -43,7 +44,9 @@
 
             <div slot="end">
               <ion-button
-                [ngClass]="{ qrcode_above: formObj?.controls?.toAddress?.value }"
+                [ngClass]="{
+                  qrcode_above: formObj?.controls?.toAddress?.value
+                }"
                 class="btn_qrcode"
                 (click)="askScan()"
               >
@@ -70,7 +73,7 @@
                 class="btn-link"
                 [ngClass]="{ top: formObj?.controls?.amount?.value }"
                 (click)="setMaxAmount()"
-              >{{ 'BUTTON.MAX_AMOUNT' | translate }}</ion-button
+                >{{ 'BUTTON.MAX_AMOUNT' | translate }}</ion-button
               >
             </div>
           </ion-item>
@@ -88,7 +91,6 @@
           </ion-row>
         </ion-list>
       </div>
-
     </ion-row>
   </ion-grid>
 </ion-content>

@@ -1,29 +1,55 @@
-<div class="coin-selector" *ngIf="wallet"
-     (click)="showWalletsModal()">
-
-  <div class="col-xs-12 coin-selector__vertical" *ngIf="shape === shapes.VERTICAL">
+<div class="coin-selector" *ngIf="wallet" (click)="showWalletsModal()">
+  <div
+    class="col-xs-12 coin-selector__vertical"
+    *ngIf="shape === shapes.VERTICAL"
+  >
     <ion-row class="ion-align-items-center">
-      <ion-icon class="coin-selector__coin-icon"
-                [name]="chain?.symbol?.toLowerCase()"></ion-icon>
-      <ion-icon class="coin-selector__arrow" name="chevron-down-outline"></ion-icon>
+      <ion-icon
+        class="coin-selector__coin-icon"
+        [name]="chain?.symbol?.toLowerCase()"
+      ></ion-icon>
+      <ion-icon
+        class="coin-selector__arrow"
+        name="chevron-down-outline"
+      ></ion-icon>
     </ion-row>
     <div class="col-xs-12 coin-selector__name-container">
-      <ion-label class="coin-selector__coin-name">{{ chain?.symbol }}</ion-label>
+      <ion-label class="coin-selector__coin-name">{{
+        chain?.symbol
+      }}</ion-label>
     </div>
   </div>
 
-  <div class="col-xs-12 coin-selector__horizontal"
-       *ngIf="shape === shapes.HORIZONTAL || shape === shapes.HORIZONTAL_SMALL">
+  <div
+    class="col-xs-12 coin-selector__horizontal"
+    *ngIf="shape === shapes.HORIZONTAL || shape === shapes.HORIZONTAL_SMALL"
+  >
     <ion-row class="ion-align-items-center">
-      <ion-icon class="coin-selector__coin-icon coin-selector__coin-icon--horizontal"
-                [ngClass]="{'coin-selector__coin-icon--horizontal-small' : shape === shapes.HORIZONTAL_SMALL}"
-                [name]="chain?.symbol?.toLowerCase()"></ion-icon>
-      <ion-label class="coin-selector__coin-name coin-selector__coin-name--horizontal"
-                 [ngClass]="{'coin-selector__coin-name--horizontal-small' : shape === shapes.HORIZONTAL_SMALL}">
+      <ion-icon
+        class="coin-selector__coin-icon coin-selector__coin-icon--horizontal"
+        [ngClass]="{
+          'coin-selector__coin-icon--horizontal-small':
+            shape === shapes.HORIZONTAL_SMALL
+        }"
+        [name]="chain?.symbol?.toLowerCase()"
+      ></ion-icon>
+      <ion-label
+        class="coin-selector__coin-name coin-selector__coin-name--horizontal"
+        [ngClass]="{
+          'coin-selector__coin-name--horizontal-small':
+            shape === shapes.HORIZONTAL_SMALL
+        }"
+      >
         {{ chain?.symbol }}
       </ion-label>
-      <ion-icon name="chevron-down-outline" class="coin-selector__arrow"
-                [ngClass]="{'coin-selector__arrow-down--horizontal-small' : shape === shapes.HORIZONTAL_SMALL}"></ion-icon>
+      <ion-icon
+        name="chevron-down-outline"
+        class="coin-selector__arrow"
+        [ngClass]="{
+          'coin-selector__arrow-down--horizontal-small':
+            shape === shapes.HORIZONTAL_SMALL
+        }"
+      ></ion-icon>
     </ion-row>
   </div>
 
