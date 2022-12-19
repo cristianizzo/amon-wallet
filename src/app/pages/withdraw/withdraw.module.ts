@@ -10,6 +10,7 @@ import { NgAmonDirectivesModule } from '@directives/index.module';
 import { LoaderModule } from '@components/loader/loader.component.module';
 import { QrcodeScannerModule } from '@app/components/qrcode-scanner/qrcode.module';
 import { CoinSelectorModule } from '@components/coin-selector/coin-selector.module';
+import { SummaryModule } from '@components/summary/summary.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { CoinSelectorModule } from '@components/coin-selector/coin-selector.modu
     LoaderModule,
     QrcodeScannerModule,
     CoinSelectorModule,
+    SummaryModule,
   ],
   declarations: [WithdrawComponent],
 })

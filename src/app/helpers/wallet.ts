@@ -2,13 +2,18 @@ import { Injectable } from '@angular/core';
 import { WalletService } from '@services/wallet.service';
 import { ErrorService } from '@services/error.service';
 import { ToastService } from '@app/services/toast.service';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import {
+  ActionSheetController,
+  AlertController,
+  ModalController,
+} from '@ionic/angular';
 import { Web3Services } from '@app/services/web3.service';
 import { UtilsHelper } from '@helpers/utils';
 import { WalletProxy } from '@services/proxy/wallet.proxy';
 import { Router } from '@angular/router';
 import { LanguageProxy } from '@app/services/index.module';
 import { WalletModel } from '@app/models';
+import { SummaryModalComponent } from '@components/summary/summary.component';
 
 declare const navigator: any;
 
@@ -24,7 +29,8 @@ export class WalletHelper {
     private utilsHelper: UtilsHelper,
     private actionSheetController: ActionSheetController,
     private languageProxy: LanguageProxy,
-    private router: Router
+    private router: Router,
+    private modalCtrl: ModalController
   ) {}
 
   public async exportWallet({
@@ -279,5 +285,26 @@ export class WalletHelper {
   public copyAddress(address: string) {
     navigator.clipboard.writeText(address);
     this.toastService.responseSuccess('Copied');
+  }
+
+  public async openSummary(): Promise<any> {
+    return new Promise(async (resolve) => {
+      const reviewWithdrawModal = await this.modalCtrl.create({
+        id: 'summary-modal',
+        component: SummaryModalComponent,
+        cssClass: ['account-menu'],
+        backdropDismiss: true,
+        canDismiss: true,
+      });
+
+      reviewWithdrawModal.onDidDismiss().then(async (params) => {
+        if (params.data && params.data.next) {
+          resolve(params.data);
+        }
+        resolve(false);
+      });
+
+      await reviewWithdrawModal.present();
+    });
   }
 }

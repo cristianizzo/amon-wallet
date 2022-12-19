@@ -1,0 +1,131 @@
+<ion-header class="no-border">
+  <ion-toolbar class="default">
+    <ion-buttons slot="start">
+      <app-back-button [delegate]="true" (clicked)="close()"></app-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+  <!--  <ng-container *ngIf="(step === 0)">-->
+  <!--    <ion-item lines="none" class="titlePage">-->
+  <!--      <div class="centerSide">-->
+  <!--        <strong>{{ 'WALLET.title.summary' | translate }}</strong>-->
+  <!--      </div>-->
+  <!--    </ion-item>-->
+
+  <!--    <ion-list class="summary">-->
+  <!--      <ion-item *ngIf="wallet?.isFiat">-->
+  <!--        <ion-label class="label-text" slot="start">{{'WALLET.form.account_name' | translate}}</ion-label>-->
+  <!--        <div class="label-val" *ngIf="!loading" slot="end">{{ user?.firstName }} {{user?.lastName}}</div>-->
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+  <!--      <ion-item>-->
+  <!--        <ion-label class="label-text" slot="start">{{'WALLET.summary.from' | translate}}</ion-label>-->
+  <!--        <div class="label-val" *ngIf="!loading"-->
+  <!--             slot="end">{{ wallet?.coin?.code }} {{'WALLET.summary.wallet' | translate}}</div>-->
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+
+  <!--      <ion-item>-->
+  <!--        <ion-label class="label-text mini" slot="start">{{'WALLET.summary.to' | translate}}</ion-label>-->
+
+  <!--        <ng-container *ngIf="!loading && wallet?.coin?.code === 'GBP'">-->
+  <!--          <div class="label-val label-address" slot="end">-->
+  <!--            {{ payment?.extra?.accountNumber}}<br/>-->
+  <!--            {{ payment?.extra?.sortCode}}-->
+  <!--          </div>-->
+  <!--        </ng-container>-->
+  <!--        <ng-container *ngIf="!loading && wallet?.coin?.code !== 'GBP'">-->
+  <!--          <div class="label-val label-address" slot="end">{{ payment?.toAddress}}</div>-->
+  <!--        </ng-container>-->
+
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+
+  <!--      <ion-item *ngIf="payment?.extra?.tag">-->
+  <!--        <ion-label class="label-text mini" slot="start">Tag</ion-label>-->
+  <!--        <div class="label-val label-address" *ngIf="!loading" slot="end">{{ payment?.extra.tag }}</div>-->
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+  <!--      <ion-item>-->
+  <!--        <ion-label class="label-text" slot="start">{{'WALLET.form.amount' | translate}}</ion-label>-->
+  <!--        <div class="label-val" *ngIf="!loading" slot="end">{{ getAmount() }}</div>-->
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+
+  <!--      <ion-item class="noBorder">-->
+  <!--        <ion-label class="label-text" slot="start">{{'WALLET.summary.fee' | translate}}</ion-label>-->
+  <!--        <div class="label-val" *ngIf="!loading" slot="end">{{ getFee() }}</div>-->
+  <!--        <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--      </ion-item>-->
+  <!--      <ion-item class="feeInfo" lines="none">-->
+  <!--        <ion-icon name="alert-circle-outline"></ion-icon>-->
+  <!--        <div [innerHTML]="'WALLET.summary.feeInfo' | translate"></div>-->
+  <!--      </ion-item>-->
+
+  <!--      <ion-item class="noBorder last">-->
+  <!--        <ion-label class="label-text" slot="start">{{'WALLET.summary.total' | translate}}</ion-label>-->
+  <!--        <div class="label-val" slot="end">-->
+  <!--          <ion-spinner slot="end" *ngIf="loading" name="dots"></ion-spinner>-->
+  <!--          <strong class="total" *ngIf="!loading">{{ wallet?.coin?.code }} {{ totAmount() }}</strong>-->
+  <!--          <small *ngIf="currency?.symbol && !wallet?.isFiat && !loading" class="total-fiat">-->
+  <!--            {{currency?.symbol_native}} {{ totFiatAmount() }}-->
+  <!--          </small>-->
+  <!--        </div>-->
+  <!--      </ion-item>-->
+
+  <!--    </ion-list>-->
+
+  <!--    <div class="space"></div>-->
+
+  <!--    <ion-list class="qpass-flex center-xs" *ngIf="!loading">-->
+  <!--      <ion-button class="btn-action" (click)="askWithdraw()"> {{'BUTTON.sendPayment' | translate}}</ion-button>-->
+  <!--    </ion-list>-->
+
+  <!--  </ng-container>-->
+
+  <!--  <ng-container *ngIf="(step === 1)">-->
+  <!--    <div class="step1">-->
+  <!--      <ion-item lines="none" class="titlePage">-->
+  <!--        <div class="centerSide">-->
+  <!--          <strong>{{ (withdrawType === 'email' ? 'AUTH.title.pinCode' : 'AUTH.title.otpCode') | translate }}</strong>-->
+  <!--        </div>-->
+  <!--      </ion-item>-->
+
+  <!--      &lt;!&ndash;    // form 2fa&ndash;&gt;-->
+  <!--      <form [formGroup]="formObj" autocomplete="off" (keydown.enter)="(!formObj?.invalid) ? withdraw() : null">-->
+
+  <!--        <ion-list class="form-item">-->
+  <!--          <ion-item lines="none">-->
+  <!--            <div class="form-input&#45;&#45;pass" slot="start"></div>-->
+  <!--            <ion-input formControlName="twoFaCode" type="tel" [placeholder]="'PLACEHOLDER.twoFaCode' | translate"-->
+  <!--                       (paste)="onPaste()"></ion-input>-->
+  <!--            <ion-icon *ngIf="formObj.controls.twoFaCode?.value?.length > 0 && formObj.controls.twoFaCode.valid"-->
+  <!--                      class="icon-valid" name="checkmark" slot="end"></ion-icon>-->
+  <!--            <ion-icon *ngIf="formObj.controls.twoFaCode?.value?.length > 0 && formObj.controls.twoFaCode.invalid"-->
+  <!--                      class="icon-invalid" name="close" slot="end"></ion-icon>-->
+  <!--          </ion-item>-->
+  <!--        </ion-list>-->
+  <!--        <ion-list class="qpass-flex center-xs" *ngIf="!loading">-->
+  <!--          <ion-button class="btn-action" [disabled]="formObj?.invalid"-->
+  <!--                      (click)="withdraw()"> {{'BUTTON.continue' | translate}}</ion-button>-->
+  <!--        </ion-list>-->
+  <!--      </form>-->
+  <!--    </div>-->
+
+  <!--    <ion-row class="footer">-->
+  <!--      <ng-container *ngIf="step === 1 && !keyboardOn && !hideFooter">-->
+  <!--        <ion-button class="btn-link no-border" (click)="openModalSupport()">-->
+  <!--          {{'BUTTON.lost2FA' | translate}}-->
+  <!--        </ion-button>-->
+  <!--        <br/><br/>-->
+  <!--        <ion-button *ngIf="withdrawType === 'email'" [disabled]="hiddenResendEmailBtn" class="btn-link no-border"-->
+  <!--                    (click)="resendEmail()">-->
+  <!--          {{'BUTTON.resendEmail' | translate}}-->
+  <!--        </ion-button>-->
+  <!--      </ng-container>-->
+
+  <!--    </ion-row>-->
+  <!--  </ng-container>-->
+</ion-content>

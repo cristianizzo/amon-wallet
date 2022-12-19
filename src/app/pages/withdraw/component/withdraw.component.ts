@@ -10,7 +10,6 @@ import {
   StateModel,
   TokenModel,
   TokenType,
-  TransferAsset,
   WalletModel,
 } from '@app/models';
 import { QrcodeScannerComponent } from '@app/components/qrcode-scanner/qrcode.component';
@@ -72,6 +71,13 @@ export class WithdrawComponent {
     rawForm.tokenType = TokenType.ETH;
     rawForm.address = '0xEEEEEEE'; // TODO: if its token then pass the address
     const rawTx = await this.web3Service.transferAssets(this.wallet, rawForm);
+
+    const isConfirm = await this.walletHelper.openSummary();
+
+    if (!isConfirm) {
+      return;
+    }
+
     //TODO: show the estimated cost on popup
     if (rawTx) {
       const walletSecret = await this.walletHelper.askWalletSecret();
