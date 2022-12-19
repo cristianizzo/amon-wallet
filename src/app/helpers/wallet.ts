@@ -287,7 +287,7 @@ export class WalletHelper {
     this.toastService.responseSuccess('Copied');
   }
 
-  public async openSummary(): Promise<any> {
+  public async openSummary(rawTx: any): Promise<any> {
     return new Promise(async (resolve) => {
       const reviewWithdrawModal = await this.modalCtrl.create({
         id: 'summary-modal',
@@ -295,11 +295,14 @@ export class WalletHelper {
         cssClass: ['account-menu'],
         backdropDismiss: true,
         canDismiss: true,
+        componentProps: {
+          rawTx
+        }
       });
 
       reviewWithdrawModal.onDidDismiss().then(async (params) => {
-        if (params.data && params.data.next) {
-          resolve(params.data);
+        if (params.data && params.data.tx) {
+          resolve(params.data.tx);
         }
         resolve(false);
       });

@@ -70,13 +70,9 @@ export class WithdrawComponent {
     const rawForm = this.formObj.getRawValue();
     rawForm.tokenType = TokenType.ETH;
     rawForm.address = '0xEEEEEEE'; // TODO: if its token then pass the address
-    const rawTx = await this.web3Service.transferAssets(this.wallet, rawForm);
+    let rawTx: any = await this.web3Service.transferAssets(this.wallet, rawForm);
 
-    const isConfirm = await this.walletHelper.openSummary();
-
-    if (!isConfirm) {
-      return;
-    }
+    rawTx = await this.walletHelper.openSummary(rawTx);
 
     //TODO: show the estimated cost on popup
     if (rawTx) {
