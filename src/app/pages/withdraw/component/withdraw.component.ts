@@ -6,6 +6,7 @@ import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
 import { Store } from '@ngrx/store';
 import {
   ChainModel,
+  CoinShapeModel,
   StateModel,
   TokenModel,
   TokenType,
@@ -17,19 +18,13 @@ import { Web3Services } from '@services/web3.service';
 import { WalletService } from '@services/wallet.service';
 import { WalletHelper } from '@helpers/wallet';
 
-export enum COIN_SELECTOR_SHAPES {
-  VERTICAL,
-  HORIZONTAL,
-  HORIZONTAL_SMALL,
-}
-
 @Component({
   selector: 'app-withdraw',
   templateUrl: 'withdraw.component.html',
   styleUrls: ['withdraw.component.scss'],
 })
 export class WithdrawComponent {
-  public shapes = COIN_SELECTOR_SHAPES;
+  public shapes = CoinShapeModel;
   public chain: ChainModel;
   public wallet: WalletModel;
   public tokens: TokenModel[];

@@ -3,7 +3,6 @@ import { Platform } from '@ionic/angular';
 import { AppConfig } from './app.config';
 import { environment } from '@env/environment';
 import logger from '@app/app.logger';
-import { Web3Services } from '@services/web3.service';
 
 const logContent = logger.logContent('app:root');
 

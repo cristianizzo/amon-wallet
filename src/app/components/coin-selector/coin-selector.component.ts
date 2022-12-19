@@ -7,17 +7,15 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { ChainModel, TokenModel, WalletModel } from '@app/models';
+import {
+  ChainModel,
+  CoinShapeModel,
+  TokenModel,
+  WalletModel,
+} from '@app/models';
 import { UtilsHelper } from '@helpers/utils';
 import { ThemeService } from '@services/theme.service';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
-
-export enum COIN_SELECTOR_SHAPES {
-  VERTICAL,
-  HORIZONTAL,
-  HORIZONTAL_SMALL,
-}
 
 @Component({
   selector: 'app-coin-selector',
@@ -35,9 +33,9 @@ export class CoinSelectorComponent implements AfterViewInit, OnChanges {
   @Input() wallet: WalletModel;
   @Input() chain: ChainModel;
   @Input() tokens: TokenModel[];
-  @Input() public shape: COIN_SELECTOR_SHAPES;
+  @Input() public shape: CoinShapeModel;
   @Output() switchCoinWallet: EventEmitter<string> = new EventEmitter<string>();
-  public shapes = COIN_SELECTOR_SHAPES;
+  public shapes = CoinShapeModel;
   public selectedTheme: string;
   private _selectedWallet: string;
 
@@ -62,7 +60,6 @@ export class CoinSelectorComponent implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (
       changes &&
       changes.chain &&

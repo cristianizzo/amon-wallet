@@ -260,6 +260,7 @@ export class AccountMenuComponent {
       this.toastService.responseError(this.errorService.parseError(error));
     }
   }
+
   private async exportPrivateKey(wallet: WalletModel) {
     try {
       const walletSecret = await this.walletHelper.askWalletSecret();

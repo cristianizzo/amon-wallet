@@ -52,7 +52,7 @@ ion-list.wallet-list {
   font-size: 14px;
   max-width: 480px;
   padding: 12px;
-  margin: 22px 7px;
+  margin: 24px auto;
 
   ion-item.border {
     border-bottom: 1px solid #ecf0f1;
@@ -76,8 +76,15 @@ ion-list.wallet-list {
       font-size: 14px;
     }
 
+    &:after {
+      background: transparent !important;
+    }
+
     &:last-child {
       border-bottom: 0 !important;
+
+      &:after {
+      }
     }
   }
 }

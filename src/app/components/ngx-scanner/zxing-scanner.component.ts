@@ -19,6 +19,9 @@ import {
 import { Subscription } from 'rxjs';
 import { BrowserMultiFormatContinuousReader } from './browser-multi-format-continuous-reader';
 import { ResultAndError } from './ResultAndError';
+import logger from '@app/app.logger';
+
+const logContent = logger.logContent('zxing:scanner');
 
 @Component({
   selector: 'app-zxing-scanner',
@@ -141,6 +144,12 @@ export class ZXingScannerComponent implements OnInit, OnDestroy {
   private _devicePreStart: MediaDeviceInfo;
 
   /**
+   * Supported Hints map.
+   */
+  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
+  private _hints: Map<DecodeHintType, any> | null;
+
+  /**
    * Constructor to build the object and do some DI.
    */
   constructor() {
@@ -169,12 +178,6 @@ export class ZXingScannerComponent implements OnInit, OnDestroy {
     this.isMediaDevicesSupported =
       this.hasNavigator && !!navigator.mediaDevices;
   }
-
-  /**
-   * Supported Hints map.
-   */
-  // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle,id-blacklist,id-match
-  private _hints: Map<DecodeHintType, any> | null;
 
   /**
    * Returns all the registered hints.
@@ -402,18 +405,21 @@ export class ZXingScannerComponent implements OnInit, OnDestroy {
    */
   async askForPermission(): Promise<boolean> {
     if (!this.hasNavigator) {
-      console.error(
-        '@zxing/ngx-scanner',
-        "Can't ask permission, navigator is not present."
+      logger.warn(
+        logContent.add({
+          info: `Can't ask permission, navigator is not present`,
+        })
       );
+
       this.setPermission(null);
       return this.hasPermission;
     }
 
     if (!this.isMediaDevicesSupported) {
-      console.error(
-        '@zxing/ngx-scanner',
-        "Can't get user media, this is not supported."
+      logger.warn(
+        logContent.add({
+          info: `Can't get user media, this is not supported`,
+        })
       );
       this.setPermission(null);
       return this.hasPermission;
@@ -551,8 +557,10 @@ export class ZXingScannerComponent implements OnInit, OnDestroy {
 
   private async init() {
     if (!this.autostart) {
-      console.warn(
-        "Feature 'autostart' disabled. Permissions and devices recovery has to be run manually."
+      logger.warn(
+        logContent.add({
+          info: `Feature 'autostart' disabled. Permissions and devices recovery has to be run manually`,
+        })
       );
 
       // does the necessary configuration without autostarting
@@ -715,10 +723,12 @@ export class ZXingScannerComponent implements OnInit, OnDestroy {
         break;
 
       case 'NotReadableError':
-        console.warn(
-          '@zxing/ngx-scanner',
-          "Couldn't read the device(s)'s stream, it's probably in use by another app."
+        logger.warn(
+          logContent.add({
+            info: `Couldn't read the device(s)'s stream, it's probably in use by another app`,
+          })
         );
+
         // no permissions claimed
         permission = null;
         // there are devices, which I couldn't use

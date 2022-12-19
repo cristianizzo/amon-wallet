@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import {
-  ModalController,
-  IonBackButtonDelegate,
   AlertController,
+  IonBackButtonDelegate,
+  ModalController,
 } from '@ionic/angular';
 import {
   FormBuilder,

@@ -12,3 +12,4 @@ export * from '@models/token.model';
 export * from '@models/coingeckoCoin.model';
 export * from '@models/coingeckoTicker.model';
 export * from '@models/transaction.model';
+export * from '@models/coinShape.model';

@@ -21,7 +21,13 @@ export class AuthGuard implements CanActivate {
 
   private authRouter(isInit: boolean, route: ActivatedRouteSnapshot): boolean {
     if (['', 'welcome', 'pick-password'].includes(route.routeConfig.path)) {
-      if (isInit) {
+      if (
+        ['welcome', 'pick-password'].includes(route.routeConfig.path) &&
+        !this.languageProxy.isSelected()
+      ) {
+        this.router.navigate(['/']);
+        return true;
+      } else if (isInit) {
         this.router.navigate(['/auth/assets']);
         return false;
       }

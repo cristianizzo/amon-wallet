@@ -6,6 +6,7 @@ export enum TokenType {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   ERC1155 = 'ERC1155',
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   ETH = 'ETH',
 }
 
