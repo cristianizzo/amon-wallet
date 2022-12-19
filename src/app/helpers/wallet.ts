@@ -301,8 +301,8 @@ export class WalletHelper {
       });
 
       reviewWithdrawModal.onDidDismiss().then(async (params) => {
-        if (params.data && params.data.tx) {
-          resolve(params.data.tx);
+        if (params.data && this.utilsHelper.objectHasValue(params.data.rawTx)) {
+          resolve(params.data.rawTx);
         }
         resolve(false);
       });

@@ -25,7 +25,7 @@ export class SummaryModalComponent {
   /**
    * continue Function
    */
-  close(tx: any) {
-    this.modalCtrl.dismiss({tx}, null, 'summary-modal');
+  close(rawTx?: any) {
+    this.modalCtrl.dismiss({rawTx}, null, 'summary-modal');
   }
 }
