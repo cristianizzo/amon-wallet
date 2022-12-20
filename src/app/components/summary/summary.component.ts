@@ -1,8 +1,8 @@
-import {Component, Input} from '@angular/core';
-import {ModalController, NavParams} from '@ionic/angular';
+import { Component, Input } from '@angular/core';
+import { ModalController, NavParams } from '@ionic/angular';
 
 const logContent = (data) =>
-  Object.assign({service: 'component:summary'}, data);
+  Object.assign({ service: 'component:summary' }, data);
 
 @Component({
   selector: 'app-summary',
@@ -14,9 +14,8 @@ export class SummaryModalComponent {
 
   constructor(
     private modalCtrl: ModalController,
-    private navParams: NavParams,
-  ) {
-  }
+    private navParams: NavParams
+  ) {}
 
   ionViewWillEnter() {
     this.rawTx = this.navParams.get('rawTx');
@@ -26,6 +25,6 @@ export class SummaryModalComponent {
    * continue Function
    */
   close(rawTx?: any) {
-    this.modalCtrl.dismiss({rawTx}, null, 'summary-modal');
+    this.modalCtrl.dismiss({ rawTx }, null, 'summary-modal');
   }
 }

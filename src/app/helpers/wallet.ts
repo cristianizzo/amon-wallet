@@ -296,8 +296,8 @@ export class WalletHelper {
         backdropDismiss: true,
         canDismiss: true,
         componentProps: {
-          rawTx
-        }
+          rawTx,
+        },
       });
 
       reviewWithdrawModal.onDidDismiss().then(async (params) => {
