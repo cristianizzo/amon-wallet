@@ -190,6 +190,7 @@ ion-list {
     &:last-child {
       ion-button.coin-box {
         border-bottom: 0;
+
         &:after {
           all: unset !important;
         }

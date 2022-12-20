@@ -36,7 +36,11 @@ export class CustomTokenComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.utilsHelper.arrayHasValue(changes.tokens.currentValue)) {
+    if (
+      changes &&
+      changes.tokens &&
+      this.utilsHelper.arrayHasValue(changes.tokens.currentValue)
+    ) {
       this.store.select(TokenSelector.getAllTokens).subscribe((tokens) => {
         this.allTokens = tokens;
       });

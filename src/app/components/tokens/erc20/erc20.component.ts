@@ -4,8 +4,7 @@ import { StateModel } from '@models/state.model';
 import { ChainModel, TokenModel, WalletModel } from '@app/models';
 import { Router } from '@angular/router';
 import { UtilsHelper } from '@helpers/utils';
-import { ChainSelector, TokenSelector, WalletSelector } from '@core/selectors';
-import { getLoading } from '@core/selectors/token';
+import { TokenSelector, WalletSelector } from '@core/selectors';
 
 @Component({
   selector: 'app-erc20-tokens',
@@ -53,5 +52,9 @@ export class Erc20Component implements OnChanges {
 
   public goToToken(symbol: string) {
     console.log(symbol);
+  }
+
+  public goToImportToken() {
+    this.router.navigate(['/auth/import-token']);
   }
 }

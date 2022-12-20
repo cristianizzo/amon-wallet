@@ -1,0 +1,24 @@
+<ion-content class="ion-no-padding">
+  <div class="qr-scan-area">
+    <div class="menu-scanner">
+      <app-back-button
+        [delegate]="true"
+        (clicked)="continue()"
+      ></app-back-button>
+    </div>
+
+    <div class="loadScreen" *ngIf="loading">
+      <app-loader [loading]="true"></app-loader>
+    </div>
+
+    <app-zxing-scanner
+      [(device)]="currentDevice"
+      (camerasNotFound)="onCameraNotFound()"
+      (autostarting)="onCameraStart($event)"
+      (scanError)="onErrorScan()"
+      (scanSuccess)="onCodeResult($event)"
+      (permissionResponse)="onHasPermission($event)"
+    ></app-zxing-scanner>
+    <div *ngIf="!loading" class="qr-area"></div>
+  </div>
+</ion-content>

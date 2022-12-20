@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar class="default">
+  <ion-toolbar #toolbar class="default">
     <ion-buttons slot="start">
       <app-back-button></app-back-button>
     </ion-buttons>
@@ -8,12 +8,89 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" scrollEvents="true" [appHideHeader]="toolbar">
+  <ion-item lines="none" class="titlePage">
+    <div class="centerSide">
+      <strong>{{ 'PAGE.WITHDRAW.TITLE.SEND' | translate }}</strong>
+    </div>
+  </ion-item>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="header">
+      <!--            <app-slide-wallets [coinCode]="coinCode" (changeEvent)="onSelectedWallet($event)"-->
+      <!--                               [type]="type"></app-slide-wallets>-->
+
+      <app-coin-selector
+        [shape]="1"
+        [chain]="chain"
+        [wallet]="wallet"
+        [tokens]="tokens"
+        (selectWalletEmitter)="onSelectedWallet($event)"
+      >
+      </app-coin-selector>
+
+      <div class="sub-content">
+        <ion-list class="form-item" [formGroup]="formObj">
+          <ion-item lines="none">
+            <ion-label position="floating">
+              {{ 'PAGE.WITHDRAW.FORM.ADDRESS' | translate }}
+            </ion-label>
+            <ion-input
+              formControlName="toAddress"
+              type="text"
+              placeholder="address or ENS"
+              (paste)="onPaste('toAddress', false)"
+            ></ion-input>
+
+            <div slot="end">
+              <ion-button
+                [ngClass]="{
+                  qrcode_above: formObj?.controls?.toAddress?.value
+                }"
+                class="btn_qrcode"
+                (click)="askScan()"
+              >
+                <ion-icon class="qrcode-icon" name="qr-code-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-item>
+
+          <ion-item lines="none">
+            <ion-label position="floating">
+              {{ 'PAGE.WITHDRAW.FORM.AMOUNT' | translate }}
+            </ion-label>
+
+            <ion-input
+              #amount
+              formControlName="amount"
+              type="number"
+              inputmode="decimal"
+              (input)="calcFiatAmount(this.amount.value)"
+            ></ion-input>
+
+            <div slot="end">
+              <ion-button
+                class="btn-link"
+                [ngClass]="{ top: formObj?.controls?.amount?.value }"
+                (click)="setMaxAmount()"
+                >{{ 'BUTTON.MAX_AMOUNT' | translate }}</ion-button
+              >
+            </div>
+          </ion-item>
+
+          <ion-row class="btn-actions">
+            <ion-col class="qpass-flex center-xs">
+              <ion-button
+                class="btn-action"
+                (click)="!formObj.invalid ? submit() : null"
+                [disabled]="formObj.invalid"
+              >
+                {{ 'BUTTON.REVIEW_PAYMENT' | translate }}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </div>
+    </ion-row>
+  </ion-grid>
 </ion-content>

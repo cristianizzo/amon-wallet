@@ -1,0 +1,166 @@
+@import 'media';
+@import 'theme';
+
+:host,
+ion-content {
+  height: 100%;
+  @include isDarkTheme {
+    background-color: transparent;
+  }
+}
+
+ion-toolbar.default {
+  border-bottom: 0;
+}
+
+ion-list.summary {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --inner-padding-start: 0;
+  --inner-padding-end: 0;
+  --background: #fff;
+  background: #fff;
+  border: 0;
+  box-shadow: none;
+
+  @include isDarkTheme {
+    --ion-item-background: transparent;
+    --background: transparent;
+    background: transparent;
+  }
+
+  ion-label {
+    min-width: 100px;
+    max-width: 120px;
+    margin: 0;
+    font-size: 14px;
+    color: #635959;
+    font-family: 'Gotham', sans-serif;
+    font-weight: 500;
+
+    &.mini {
+      max-width: 100px;
+    }
+
+    @include isDarkTheme {
+      color: #fff;
+    }
+  }
+
+  div.label-val {
+    font-size: 15px;
+    text-align: right;
+    line-height: 22px;
+    color: #000;
+
+    @include isDarkTheme {
+      color: #fff;
+    }
+
+    @include mobile-xs {
+      font-size: 14px;
+    }
+
+    strong.total {
+      color: #0b2448;
+      font-size: 16px;
+      white-space: pre;
+
+      @include mobile-xs {
+        font-size: 14px;
+      }
+
+      @include isDarkTheme {
+        color: #fff;
+      }
+    }
+
+    small.total-fiat {
+      color: #4caf4f;
+      display: block;
+      font-size: 14px;
+      margin: 2px 0;
+
+      @include isDarkTheme {
+        color: #fff;
+      }
+    }
+  }
+
+  div.label-address {
+    overflow: hidden;
+    text-align: right;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-size: 13px;
+    line-height: 17px;
+  }
+
+  ion-item {
+    --border-color: transparent;
+    --border-width: 0px;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
+    border-bottom: 1px solid #ecf0f1;
+    padding: 6px 0;
+
+    @include isDarkTheme {
+      background: transparent;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    &.last {
+      margin-top: 5px;
+      border-bottom: 0;
+    }
+
+    &.feeInfo {
+      div {
+        width: calc(100% - 40px);
+        color: #827a7a;
+        font-size: 14px;
+        line-height: 18px;
+
+        @include isDarkTheme {
+          color: #888;
+        }
+      }
+
+      ion-icon {
+        color: #827a7a;
+        width: 40px;
+
+        @include isDarkTheme {
+          color: #888;
+        }
+      }
+    }
+
+    &.noBorder {
+      border-bottom: 0 !important;
+    }
+  }
+}
+
+.space {
+  margin-top: 45px;
+}
+
+ion-row.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+}
+
+.step1 {
+  max-width: 480px;
+  margin: 25px auto;
+}
+
+ion-button.btn-action {
+  margin-top: 6vh;
+}
